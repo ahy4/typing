@@ -21,7 +21,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 					TYPE{"//"}DARK
 				</div>
 				<div className="text-gray-600 text-sm tracking-widest uppercase font-mono">
-					Romaji Typing · Analytics · Ghost
+					ローマ字タイピング · 統計 · ゴースト
 				</div>
 			</div>
 
@@ -33,7 +33,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 							{bestWpm.toFixed(1)}
 						</div>
 						<div className="text-xs text-gray-600 uppercase tracking-widest">
-							Best KPS
+							最高打/秒
 						</div>
 					</div>
 					<div>
@@ -41,7 +41,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 							{sessionCount}
 						</div>
 						<div className="text-xs text-gray-600 uppercase tracking-widest">
-							Sessions
+							回数
 						</div>
 					</div>
 				</div>
@@ -58,7 +58,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						boxShadow: "0 0 20px #00ffff44",
 					}}
 				>
-					START GAME
+					ゲームスタート
 				</div>
 				<div className="flex gap-3">
 					<button
@@ -66,14 +66,14 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						onClick={onStats}
 						className="px-6 py-2 font-mono text-sm text-gray-500 hover:text-gray-300 border border-gray-800 hover:border-gray-600 rounded transition-all"
 					>
-						STATISTICS
+						統計
 					</button>
 					<button
 						type="button"
 						onClick={onHelp}
 						className="px-6 py-2 font-mono text-sm text-gray-500 hover:text-gray-300 border border-gray-800 hover:border-gray-600 rounded transition-all"
 					>
-						HOW TO PLAY
+						遊び方
 					</button>
 				</div>
 			</div>

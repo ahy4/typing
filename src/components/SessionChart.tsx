@@ -8,7 +8,7 @@ export function SessionChart({ sessions }: Props) {
 	if (sessions.length < 2) {
 		return (
 			<p className="text-gray-600 text-sm text-center">
-				Play 2+ sessions to see trends.
+				2回以上プレイするとトレンドが表示されます。
 			</p>
 		);
 	}
@@ -33,7 +33,7 @@ export function SessionChart({ sessions }: Props) {
 	return (
 		<div className="flex flex-col gap-2">
 			<h3 className="text-sm uppercase tracking-widest text-gray-500">
-				Speed Trend (last 30 sessions)
+				速度推移（直近30回）
 			</h3>
 			<svg
 				width={w}

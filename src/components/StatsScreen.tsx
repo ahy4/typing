@@ -47,29 +47,29 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
 					onClick={onBack}
 					className="text-gray-500 hover:text-gray-200 font-mono text-sm transition-colors flex items-center gap-2"
 				>
-					← BACK
+					← 戻る
 				</button>
 				<h1 className="font-mono text-lg text-gray-300 uppercase tracking-widest">
-					Statistics
+					統計
 				</h1>
 				<button
 					type="button"
 					onClick={() => {
-						if (confirm("Clear all data?")) onClear();
+						if (confirm("全データを消去しますか？")) onClear();
 					}}
 					className="text-red-800 hover:text-red-400 font-mono text-xs transition-colors"
 				>
-					RESET DATA
+					データリセット
 				</button>
 			</div>
 
 			{/* Summary row */}
 			<div className="flex gap-8 px-8 py-4 border-b border-gray-900">
 				{[
-					{ label: "Sessions", value: sessions.length, color: "#888" },
+					{ label: "回数", value: sessions.length, color: "#888" },
 					{ label: "平均 打/秒", value: avgWpm.toFixed(1), color: "#00ff88" },
 					{
-						label: "Avg Acc",
+						label: "平均精度",
 						value: `${Math.round(avgAcc * 100)}%`,
 						color: "#ffaa00",
 					},
@@ -104,7 +104,7 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
 							color: tab === t ? "#00ffff" : "#555",
 						}}
 					>
-						{t}
+						{t === "heatmap" ? "ヒートマップ" : "リプレイ"}
 					</button>
 				))}
 			</div>
@@ -156,10 +156,10 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
 				{tab === "replays" && (
 					<div className="flex flex-col gap-2">
 						<h3 className="text-sm uppercase tracking-widest text-gray-500 mb-3">
-							Saved Replays
+							保存済みリプレイ
 						</h3>
 						{replays.length === 0 && (
-							<p className="text-gray-600 text-sm">No replays yet.</p>
+							<p className="text-gray-600 text-sm">リプレイがありません。</p>
 						)}
 						{[...replays].reverse().map((r) => (
 							<div
@@ -184,14 +184,14 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
 										}}
 										className="text-xs font-mono text-purple-500 hover:text-purple-300 border border-purple-900 hover:border-purple-600 rounded px-2 py-1 transition-colors"
 									>
-										HEATMAP
+										ヒートマップ
 									</button>
 									<button
 										type="button"
 										onClick={() => setWatchingReplayId(r.id)}
 										className="text-xs font-mono text-gray-500 hover:text-gray-200 border border-gray-700 hover:border-gray-500 rounded px-2 py-1 transition-colors"
 									>
-										▶ WATCH
+										▶ 再生
 									</button>
 								</div>
 							</div>

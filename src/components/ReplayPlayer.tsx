@@ -278,7 +278,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 							className="text-[9px] font-mono uppercase tracking-widest select-none"
 							style={{ writingMode: "vertical-rl", color: lc, opacity: 0.75 }}
 						>
-							LIFE {Math.round(lifePct)}%
+							HP {Math.round(lifePct)}%
 						</span>
 					</div>
 				</div>
@@ -293,7 +293,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 									className="text-[11px] font-mono w-14 text-right uppercase tracking-wider shrink-0"
 									style={{ color: "#cc44ff" }}
 								>
-									REPLAY
+									リプレイ
 								</span>
 								<div
 									className="flex-1 h-4 rounded overflow-hidden"
@@ -329,33 +329,33 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 								lastWrong={false}
 							/>
 						) : (
-							<div className="text-gray-500 font-mono">Loading...</div>
+							<div className="text-gray-500 font-mono">読み込み中...</div>
 						)}
 
 						<div className="flex items-center gap-8">
 							<SpeedMeter
 								wpm={displayState.speed}
-								label="REPLAY"
+								label="リプレイ"
 								color="#cc44ff"
 							/>
 						</div>
 
 						<div className="flex gap-6 text-xs text-gray-600 font-mono">
 							<span>
-								COMBO <span style={{ color: cc }}>{displayState.combo}x</span>
+								コンボ <span style={{ color: cc }}>{displayState.combo}x</span>
 							</span>
 							<span>
-								OK{" "}
+								正解{" "}
 								<span className="text-green-400">
 									{displayState.totalCorrect}
 								</span>
 							</span>
 							<span>
-								ERR{" "}
+								ミス{" "}
 								<span className="text-red-400">{displayState.totalErrors}</span>
 							</span>
 							<span>
-								ACC <span className="text-yellow-400">{acc}%</span>
+								精度 <span className="text-yellow-400">{acc}%</span>
 							</span>
 							<span className="text-gray-700">{currentTimeSec}s</span>
 						</div>
@@ -393,7 +393,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 								className="px-4 py-1 border rounded transition-all font-mono text-xs"
 								style={{ borderColor: "#444", color: "#888" }}
 							>
-								← BACK
+								← 戻る
 							</button>
 							<button
 								type="button"
@@ -407,7 +407,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 										: "0 0 6px #cc44ff44",
 								}}
 							>
-								{playing ? "PAUSE" : "PLAY"}
+								{playing ? "一時停止" : "再生"}
 							</button>
 							<span>
 								{currentTimeSec}s / {totalTimeSec}s
