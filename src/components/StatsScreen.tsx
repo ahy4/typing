@@ -8,14 +8,22 @@ interface Props {
 	sessions: SessionRecord[];
 	onBack: () => void;
 	onClear: () => void;
+	onStartWithGhost: (replayId: string) => void;
+	onDeleteReplay: (replayId: string) => void;
 }
 
-export function StatsScreen({ sessions, onBack, onClear }: Props) {
+export function StatsScreen({
+	sessions,
+	onBack,
+	onClear,
+	onStartWithGhost,
+	onDeleteReplay,
+}: Props) {
 	const [tab, setTab] = useState<"heatmap" | "replays">("heatmap");
 	const [watchingReplayId, setWatchingReplayId] = useState<string | null>(null);
 	const [heatmapReplay, setHeatmapReplay] = useState<ReplayData | null>(null);
+	const [replays, setReplays] = useState<ReplayData[]>(() => loadReplays());
 
-	const replays = loadReplays();
 	const watchingReplay = watchingReplayId
 		? replays.find((r) => r.id === watchingReplayId)
 		: null;
@@ -37,6 +45,13 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
 		sessions.length > 0
 			? sessions.reduce((a, s) => a + s.accuracy, 0) / sessions.length
 			: 0;
+
+	function handleDeleteReplay(id: string) {
+		if (!confirm("この履歴を削除しますか？")) return;
+		onDeleteReplay(id);
+		setReplays((prev) => prev.filter((r) => r.id !== id));
+		if (heatmapReplay?.id === id) setHeatmapReplay(null);
+	}
 
 	return (
 		<div className="flex flex-col h-screen bg-[#0a0a0a] overflow-hidden">
@@ -104,7 +119,7 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
 							color: tab === t ? "#00ffff" : "#555",
 						}}
 					>
-						{t === "heatmap" ? "ヒートマップ" : "リプレイ"}
+						{t === "heatmap" ? "ヒートマップ" : "履歴"}
 					</button>
 				))}
 			</div>
@@ -156,10 +171,10 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
 				{tab === "replays" && (
 					<div className="flex flex-col gap-2">
 						<h3 className="text-sm uppercase tracking-widest text-gray-500 mb-3">
-							保存済みリプレイ
+							履歴一覧
 						</h3>
 						{replays.length === 0 && (
-							<p className="text-gray-600 text-sm">リプレイがありません。</p>
+							<p className="text-gray-600 text-sm">履歴がありません。</p>
 						)}
 						{[...replays].reverse().map((r) => (
 							<div
@@ -192,6 +207,20 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
 										className="text-xs font-mono text-gray-500 hover:text-gray-200 border border-gray-700 hover:border-gray-500 rounded px-2 py-1 transition-colors"
 									>
 										▶ 再生
+									</button>
+									<button
+										type="button"
+										onClick={() => onStartWithGhost(r.id)}
+										className="text-xs font-mono text-cyan-600 hover:text-cyan-300 border border-cyan-900 hover:border-cyan-600 rounded px-2 py-1 transition-colors"
+									>
+										⚔ 対戦
+									</button>
+									<button
+										type="button"
+										onClick={() => handleDeleteReplay(r.id)}
+										className="text-xs font-mono text-red-800 hover:text-red-400 border border-red-900 hover:border-red-700 rounded px-2 py-1 transition-colors"
+									>
+										削除
 									</button>
 								</div>
 							</div>

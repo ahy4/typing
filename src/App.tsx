@@ -6,6 +6,7 @@ import { IdleScreen } from "./components/IdleScreen";
 import { ReadyScreen } from "./components/ReadyScreen";
 import { StatsScreen } from "./components/StatsScreen";
 import { useGameEngine } from "./hooks/useGameEngine";
+import { deleteReplay } from "./lib/storage";
 
 export default function App() {
 	const { state, startGame, beginPlaying, setPhase, clearData } =
@@ -63,6 +64,10 @@ export default function App() {
 				sessions={state.sessions}
 				onBack={() => setPhase("idle")}
 				onClear={clearData}
+				onStartWithGhost={(replayId) => {
+					startGame(replayId);
+				}}
+				onDeleteReplay={deleteReplay}
 			/>
 		);
 	}

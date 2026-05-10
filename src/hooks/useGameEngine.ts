@@ -301,7 +301,7 @@ export function useGameEngine() {
 	const preparedSentencesRef = useRef<ReturnType<typeof getSentenceQueue>>([]);
 	const preparedHasGhostRef = useRef(false);
 
-	const startGame = useCallback(() => {
+	const startGame = useCallback((ghostReplayId?: string) => {
 		cancelAnimationFrame(rafRef.current);
 		kpsWindowRef.current.reset();
 		streakRef.current = 0;
@@ -312,15 +312,20 @@ export function useGameEngine() {
 		bigramRef.current = new Map();
 		prevKeyRef.current = "";
 
-		// Load ghost from best replay
 		const replays = loadReplays();
-		const bestReplay =
-			replays.length > 0
-				? replays.reduce((best, r) => (r.wpm > best.wpm ? r : best))
-				: null;
+		let ghostReplay: ReplayData | null = null;
+		if (ghostReplayId) {
+			ghostReplay = replays.find((r) => r.id === ghostReplayId) ?? null;
+		}
+		if (!ghostReplay) {
+			ghostReplay =
+				replays.length > 0
+					? replays.reduce((best, r) => (r.wpm > best.wpm ? r : best))
+					: null;
+		}
 
-		if (bestReplay) {
-			ghostTimelineRef.current = precomputeGhostTimeline(bestReplay);
+		if (ghostReplay) {
+			ghostTimelineRef.current = precomputeGhostTimeline(ghostReplay);
 		} else {
 			ghostTimelineRef.current = [];
 		}
@@ -328,7 +333,7 @@ export function useGameEngine() {
 		const sentences = getSentenceQueue(10);
 		totalSentencesRef.current = sentences.length;
 		preparedSentencesRef.current = sentences;
-		preparedHasGhostRef.current = bestReplay !== null;
+		preparedHasGhostRef.current = ghostReplay !== null;
 
 		setState((prev) => ({
 			...prev,
