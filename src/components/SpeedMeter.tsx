@@ -5,7 +5,7 @@ interface Props {
   maxWpm?: number;
 }
 
-export function SpeedMeter({ wpm, label = "打/秒", color = "#00ffff", maxWpm = 20 }: Props) {
+export function SpeedMeter({ wpm, label = "打/秒", color = "#00ffff", maxWpm = 12 }: Props) {
   const pct = Math.min(1, wpm / maxWpm);
   const r = 36;
   const cx = 44;

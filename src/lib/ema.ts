@@ -1,29 +1,30 @@
-// Exponential Moving Average for speed computation
-export class EMA {
-  private value: number;
-  private readonly alpha: number;
+// Sliding window KPS: counts keystrokes within the last windowMs milliseconds
+export class SlidingWindowKPS {
+  private readonly windowMs: number;
+  private timestamps: number[] = [];
 
-  constructor(alpha = 0.3, initial = 0) {
-    this.alpha = alpha;
-    this.value = initial;
+  constructor(windowMs = 2000) {
+    this.windowMs = windowMs;
   }
 
-  update(sample: number): number {
-    this.value = this.alpha * sample + (1 - this.alpha) * this.value;
-    return this.value;
+  update(timestamp: number): void {
+    this.timestamps.push(timestamp);
+    const cutoff = timestamp - this.windowMs;
+    let i = 0;
+    while (i < this.timestamps.length && this.timestamps[i]! < cutoff) i++;
+    if (i > 0) this.timestamps.splice(0, i);
   }
 
-  get(): number {
-    return this.value;
+  get(now: number): number {
+    const cutoff = now - this.windowMs;
+    let count = 0;
+    for (const ts of this.timestamps) {
+      if (ts >= cutoff) count++;
+    }
+    return count / (this.windowMs / 1000);
   }
 
-  reset(initial = 0): void {
-    this.value = initial;
+  reset(): void {
+    this.timestamps = [];
   }
-}
-
-// Compute instantaneous KPS (keystrokes per second) from key interval (ms)
-export function intervalToWpm(ms: number): number {
-  if (ms <= 0) return 0;
-  return 1000 / ms;
 }
