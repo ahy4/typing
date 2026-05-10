@@ -30,7 +30,7 @@ const LIFE_DRAIN_BASE = 0.04;
 const LIFE_DRAIN_COMBO_FACTOR = 0.6;
 const LIFE_RECOVER_CORRECT = 0.03;
 export const LIFE_DRAIN_MISS = 5;
-// combo increments by 1 on each correct key; HP heals every KEYS_PER_COMBO keys
+// combo increments by 1 on each correct key; HP heals at growing intervals
 const KEYS_PER_COMBO = 10;
 const REFILL_AT = 3; // add more sentences when this many remain
 
@@ -147,6 +147,8 @@ export interface GameState {
 	lastHealAmount: number;
 	lastHealId: number;
 	lastWrong: boolean;
+	nextHealAt: number;
+	nextHealInterval: number;
 }
 
 export function useGameEngine() {
@@ -186,6 +188,8 @@ export function useGameEngine() {
 		lastHealAmount: 0,
 		lastHealId: 0,
 		lastWrong: false,
+		nextHealAt: KEYS_PER_COMBO,
+		nextHealInterval: KEYS_PER_COMBO,
 	}));
 
 	const stateRef = useRef(state);
@@ -347,6 +351,8 @@ export function useGameEngine() {
 			lastHealAmount: 0,
 			lastHealId: 0,
 			lastWrong: false,
+			nextHealAt: KEYS_PER_COMBO,
+			nextHealInterval: KEYS_PER_COMBO,
 		});
 
 		rafRef.current = requestAnimationFrame(tick);
@@ -409,6 +415,8 @@ export function useGameEngine() {
 					combo: 0,
 					totalErrors: prev.totalErrors + 1,
 					lastWrong: true,
+					nextHealAt: KEYS_PER_COMBO,
+					nextHealInterval: KEYS_PER_COMBO,
 				}));
 			} else {
 				setState((prev) => ({
@@ -416,6 +424,8 @@ export function useGameEngine() {
 					combo: 0,
 					totalErrors: prev.totalErrors + 1,
 					lastWrong: true,
+					nextHealAt: KEYS_PER_COMBO,
+					nextHealInterval: KEYS_PER_COMBO,
 				}));
 			}
 			return;
@@ -454,11 +464,9 @@ export function useGameEngine() {
 			playKeyTap(newCombo);
 		}
 
-		// Heal on every KEYS_PER_COMBO consecutive correct keys
+		// Heal when combo reaches the next threshold; each interval grows by KEYS_PER_COMBO
 		const healTick =
-			newStreak % KEYS_PER_COMBO === 0
-				? Math.floor(newCombo / KEYS_PER_COMBO)
-				: 0;
+			newStreak === s.nextHealAt ? s.nextHealInterval / KEYS_PER_COMBO : 0;
 
 		if (result === "all_complete") {
 			const nextSentenceIdx = s.sentenceIdx + 1;
@@ -480,6 +488,14 @@ export function useGameEngine() {
 				lastHealAmount: healTick,
 				lastHealId: healTick > 0 ? prev.lastHealId + 1 : prev.lastHealId,
 				lastWrong: false,
+				nextHealInterval:
+					healTick > 0
+						? prev.nextHealInterval + KEYS_PER_COMBO
+						: prev.nextHealInterval,
+				nextHealAt:
+					healTick > 0
+						? prev.nextHealAt + prev.nextHealInterval + KEYS_PER_COMBO
+						: prev.nextHealAt,
 			}));
 		} else {
 			setState((prev) => ({
@@ -491,6 +507,14 @@ export function useGameEngine() {
 				lastHealAmount: healTick,
 				lastHealId: healTick > 0 ? prev.lastHealId + 1 : prev.lastHealId,
 				lastWrong: false,
+				nextHealInterval:
+					healTick > 0
+						? prev.nextHealInterval + KEYS_PER_COMBO
+						: prev.nextHealInterval,
+				nextHealAt:
+					healTick > 0
+						? prev.nextHealAt + prev.nextHealInterval + KEYS_PER_COMBO
+						: prev.nextHealAt,
 			}));
 		}
 	}, []);
