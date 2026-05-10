@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import type { GameState } from "../hooks/useGameEngine";
 import { KeyboardDisplay } from "./KeyboardDisplay";
 import { SpeedMeter } from "./SpeedMeter";
@@ -25,6 +26,16 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
   const lifePct = Math.max(0, Math.min(100, state.life));
   const lc = lifeColor(lifePct);
   const cc = comboColor(state.combo);
+
+  // Heal animation: re-mount the element each time lastHealId changes
+  const prevHealId = useRef(state.lastHealId);
+  const [healAnim, setHealAnim] = useState<{ id: number; amount: number } | null>(null);
+  useEffect(() => {
+    if (state.lastHealId !== prevHealId.current && state.lastHealAmount > 0) {
+      prevHealId.current = state.lastHealId;
+      setHealAnim({ id: state.lastHealId, amount: state.lastHealAmount });
+    }
+  }, [state.lastHealId, state.lastHealAmount]);
   const ghostLifePct = Math.max(0, Math.min(100, state.ghostLife));
   const acc =
     state.totalCorrect + state.totalErrors > 0
@@ -74,6 +85,23 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
               LIFE {Math.round(lifePct)}%
             </span>
           </div>
+          {/* Heal float indicator */}
+          {healAnim && (
+            <span
+              key={healAnim.id}
+              className="absolute text-[11px] font-mono font-bold pointer-events-none select-none"
+              style={{
+                bottom: `${lifePct}%`,
+                left: "50%",
+                color: "#00ff88",
+                textShadow: "0 0 10px #00ff88",
+                animation: "healFloat 0.9s ease-out forwards",
+              }}
+              onAnimationEnd={() => setHealAnim(null)}
+            >
+              +{healAnim.amount}
+            </span>
+          )}
         </div>
 
         {/* ── Main content ── */}

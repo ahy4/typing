@@ -12,6 +12,10 @@ const LIFE_DRAIN_COMBO_FACTOR = 0.6;
 const LIFE_RECOVER_CORRECT = 0.03; // per correct key — reduced
 export const LIFE_DRAIN_MISS = 5;
 const COMBO_MILESTONE = 10;
+
+function comboHealAmount(combo: number): number {
+  return Math.max(2, Math.min(20, Math.floor(combo / 5) + 2));
+}
 const REFILL_AT = 3; // add more sentences when this many remain
 
 interface GhostTimelineEntry {
@@ -96,6 +100,8 @@ export interface GameState {
   ghostSpeed: number;
   ghostLife: number;
   hasGhost: boolean;
+  lastHealAmount: number;
+  lastHealId: number;
 }
 
 export function useGameEngine() {
@@ -129,6 +135,8 @@ export function useGameEngine() {
     ghostSpeed: 0,
     ghostLife: LIFE_MAX,
     hasGhost: false,
+    lastHealAmount: 0,
+    lastHealId: 0,
   }));
 
   const stateRef = useRef(state);
@@ -252,6 +260,8 @@ export function useGameEngine() {
       ghostSpeed: 0,
       ghostLife: LIFE_MAX,
       hasGhost: bestReplay !== null,
+      lastHealAmount: 0,
+      lastHealId: 0,
     });
 
     rafRef.current = requestAnimationFrame(tick);
@@ -301,12 +311,16 @@ export function useGameEngine() {
       const newCombo = s.combo + 1;
       if (newCombo % COMBO_MILESTONE === 0) playComboMilestone(newCombo);
 
+      const isSegmentEnd = segmentCompleted || result === "segment_complete" || result === "all_complete";
+
       // Sound: segment complete if implicit or explicit completion happened
-      if (segmentCompleted || result === "segment_complete" || result === "all_complete") {
+      if (isSegmentEnd) {
         playSegmentComplete(s.combo);
       } else {
         playKeyTap(s.combo);
       }
+
+      const segHeal = isSegmentEnd ? comboHealAmount(newCombo) : 0;
 
       if (result === "all_complete") {
         const nextSentenceIdx = s.sentenceIdx + 1;
@@ -322,18 +336,22 @@ export function useGameEngine() {
           sentences: newSentences,
           typingState: nextTypingState,
           speed: wpm,
-          life: Math.min(LIFE_MAX, prev.life + LIFE_RECOVER_CORRECT),
+          life: Math.min(LIFE_MAX, prev.life + LIFE_RECOVER_CORRECT + segHeal),
           combo: newCombo,
           totalCorrect: prev.totalCorrect + 1,
+          lastHealAmount: segHeal,
+          lastHealId: segHeal > 0 ? prev.lastHealId + 1 : prev.lastHealId,
         }));
       } else {
         setState((prev) => ({
           ...prev,
           typingState: next,
           speed: wpm,
-          life: Math.min(LIFE_MAX, prev.life + LIFE_RECOVER_CORRECT),
+          life: Math.min(LIFE_MAX, prev.life + LIFE_RECOVER_CORRECT + segHeal),
           combo: newCombo,
           totalCorrect: prev.totalCorrect + 1,
+          lastHealAmount: segHeal,
+          lastHealId: segHeal > 0 ? prev.lastHealId + 1 : prev.lastHealId,
         }));
       }
     },
