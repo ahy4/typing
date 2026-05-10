@@ -255,7 +255,11 @@ export function useGameEngine() {
 			}
 			isPopstateRef.current = true;
 			const phase = pathToPhase(location.pathname);
-			if (!phase || (phase === "gameover" && !stateRef.current.lastSession) || phase === "playing") {
+			if (
+				!phase ||
+				(phase === "gameover" && !stateRef.current.lastSession) ||
+				phase === "playing"
+			) {
 				setState((p) => ({ ...p, phase: "idle" }));
 				history.replaceState(null, "", phaseToPath("idle"));
 			} else {
