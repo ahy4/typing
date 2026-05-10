@@ -59,7 +59,9 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 					}}
 				>
 					<span className="text-xl font-bold tracking-widest">START GAME</span>
-					<span className="text-xs tracking-widest opacity-70">[ SPACE ] を押してスタート</span>
+					<span className="text-xs tracking-widest opacity-70">
+						[ SPACE ] を押してスタート
+					</span>
 				</div>
 				<div className="flex gap-3">
 					<button
@@ -78,7 +80,6 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 					</button>
 				</div>
 			</div>
-
 		</div>
 	);
 }
