@@ -29,6 +29,22 @@ function playTone(
 	}
 }
 
+// Call once on a user-gesture to unlock AudioContext before the game starts
+export function unlockAudio(): void {
+	try {
+		const ac = getCtx();
+		if (ac.state === "suspended") ac.resume();
+		// Play a zero-gain buffer so the context is truly unlocked
+		const buf = ac.createBuffer(1, 1, 22050);
+		const src = ac.createBufferSource();
+		src.buffer = buf;
+		src.connect(ac.destination);
+		src.start(0);
+	} catch {
+		// audio not available
+	}
+}
+
 export function playKeyTap(combo: number): void {
 	const base = 800 + Math.min(combo, 20) * 10;
 	playTone(base, 0.04, 0.08, "square");

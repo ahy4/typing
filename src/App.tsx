@@ -3,11 +3,13 @@ import { GameOverScreen } from "./components/GameOverScreen";
 import { GameScreen } from "./components/GameScreen";
 import { HelpScreen } from "./components/HelpScreen";
 import { IdleScreen } from "./components/IdleScreen";
+import { ReadyScreen } from "./components/ReadyScreen";
 import { StatsScreen } from "./components/StatsScreen";
 import { useGameEngine } from "./hooks/useGameEngine";
 
 export default function App() {
-	const { state, startGame, setPhase, clearData } = useGameEngine();
+	const { state, startGame, beginPlaying, setPhase, clearData } =
+		useGameEngine();
 	const [showKeyboard, setShowKeyboard] = useState(true);
 
 	const bestWpm =
@@ -29,6 +31,10 @@ export default function App() {
 
 	if (state.phase === "help") {
 		return <HelpScreen onBack={() => setPhase("idle")} />;
+	}
+
+	if (state.phase === "ready") {
+		return <ReadyScreen onReady={beginPlaying} />;
 	}
 
 	if (state.phase === "playing") {
