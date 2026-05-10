@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { GameOverScreen } from "./components/GameOverScreen";
 import { GameScreen } from "./components/GameScreen";
 import { HelpScreen } from "./components/HelpScreen";
@@ -6,66 +7,100 @@ import { IdleScreen } from "./components/IdleScreen";
 import { ReadyScreen } from "./components/ReadyScreen";
 import { StatsScreen } from "./components/StatsScreen";
 import { useGameEngine } from "./hooks/useGameEngine";
+import type { GamePhase } from "./lib/types";
+
+const PHASE_TO_PATH: Record<GamePhase, string> = {
+	idle: "/",
+	help: "/help",
+	ready: "/ready",
+	playing: "/play",
+	gameover: "/gameover",
+	stats: "/stats",
+	replay: "/replay",
+};
 
 export default function App() {
 	const { state, startGame, beginPlaying, setPhase, clearData } =
 		useGameEngine();
 	const [showKeyboard, setShowKeyboard] = useState(true);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		navigate(PHASE_TO_PATH[state.phase]);
+	}, [state.phase, navigate]);
 
 	const bestWpm =
 		state.sessions.length > 0
 			? Math.max(...state.sessions.map((s) => s.wpm))
 			: 0;
 
-	if (state.phase === "idle") {
-		return (
-			<IdleScreen
-				onStart={startGame}
-				onStats={() => setPhase("stats")}
-				onHelp={() => setPhase("help")}
-				bestWpm={bestWpm}
-				sessionCount={state.sessions.length}
+	return (
+		<Routes>
+			<Route
+				path="/"
+				element={
+					<IdleScreen
+						onStart={startGame}
+						onStats={() => setPhase("stats")}
+						onHelp={() => setPhase("help")}
+						bestWpm={bestWpm}
+						sessionCount={state.sessions.length}
+					/>
+				}
 			/>
-		);
-	}
-
-	if (state.phase === "help") {
-		return <HelpScreen onBack={() => setPhase("idle")} />;
-	}
-
-	if (state.phase === "ready") {
-		return <ReadyScreen onReady={beginPlaying} />;
-	}
-
-	if (state.phase === "playing") {
-		return (
-			<GameScreen
-				state={state}
-				showKeyboard={showKeyboard}
-				onToggleKeyboard={() => setShowKeyboard((v) => !v)}
+			<Route
+				path="/help"
+				element={<HelpScreen onBack={() => setPhase("idle")} />}
 			/>
-		);
-	}
-
-	if (state.phase === "gameover" && state.lastSession) {
-		return (
-			<GameOverScreen
-				session={state.lastSession}
-				onRestart={startGame}
-				onStats={() => setPhase("stats")}
+			<Route
+				path="/stats"
+				element={
+					<StatsScreen
+						sessions={state.sessions}
+						onBack={() => setPhase("idle")}
+						onClear={clearData}
+					/>
+				}
 			/>
-		);
-	}
-
-	if (state.phase === "stats") {
-		return (
-			<StatsScreen
-				sessions={state.sessions}
-				onBack={() => setPhase("idle")}
-				onClear={clearData}
+			<Route
+				path="/ready"
+				element={
+					state.phase === "ready" ? (
+						<ReadyScreen onReady={beginPlaying} />
+					) : (
+						<Navigate to="/" replace />
+					)
+				}
 			/>
-		);
-	}
-
-	return null;
+			<Route
+				path="/play"
+				element={
+					state.phase === "playing" ? (
+						<GameScreen
+							state={state}
+							showKeyboard={showKeyboard}
+							onToggleKeyboard={() => setShowKeyboard((v) => !v)}
+						/>
+					) : (
+						<Navigate to="/" replace />
+					)
+				}
+			/>
+			<Route
+				path="/gameover"
+				element={
+					state.phase === "gameover" && state.lastSession ? (
+						<GameOverScreen
+							session={state.lastSession}
+							onRestart={startGame}
+							onStats={() => setPhase("stats")}
+						/>
+					) : (
+						<Navigate to="/" replace />
+					)
+				}
+			/>
+			<Route path="*" element={<Navigate to="/" replace />} />
+		</Routes>
+	);
 }
