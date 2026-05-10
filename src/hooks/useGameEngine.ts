@@ -488,8 +488,14 @@ export function useGameEngine() {
 				lastHealAmount: healTick,
 				lastHealId: healTick > 0 ? prev.lastHealId + 1 : prev.lastHealId,
 				lastWrong: false,
-				nextHealInterval: healTick > 0 ? prev.nextHealInterval + KEYS_PER_COMBO : prev.nextHealInterval,
-				nextHealAt: healTick > 0 ? prev.nextHealAt + prev.nextHealInterval + KEYS_PER_COMBO : prev.nextHealAt,
+				nextHealInterval:
+					healTick > 0
+						? prev.nextHealInterval + KEYS_PER_COMBO
+						: prev.nextHealInterval,
+				nextHealAt:
+					healTick > 0
+						? prev.nextHealAt + prev.nextHealInterval + KEYS_PER_COMBO
+						: prev.nextHealAt,
 			}));
 		} else {
 			setState((prev) => ({
@@ -501,8 +507,14 @@ export function useGameEngine() {
 				lastHealAmount: healTick,
 				lastHealId: healTick > 0 ? prev.lastHealId + 1 : prev.lastHealId,
 				lastWrong: false,
-				nextHealInterval: healTick > 0 ? prev.nextHealInterval + KEYS_PER_COMBO : prev.nextHealInterval,
-				nextHealAt: healTick > 0 ? prev.nextHealAt + prev.nextHealInterval + KEYS_PER_COMBO : prev.nextHealAt,
+				nextHealInterval:
+					healTick > 0
+						? prev.nextHealInterval + KEYS_PER_COMBO
+						: prev.nextHealInterval,
+				nextHealAt:
+					healTick > 0
+						? prev.nextHealAt + prev.nextHealInterval + KEYS_PER_COMBO
+						: prev.nextHealAt,
 			}));
 		}
 	}, []);
