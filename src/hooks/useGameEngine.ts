@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { EMA, intervalToWpm } from "../lib/ema";
 import { createTypingState, feedKey } from "../lib/romaji";
 import { getSentenceQueue } from "../lib/sentences";
-import { playComboMilestone, playGameOver, playKeyTap, playMiss, playSegmentComplete } from "../lib/sound";
+import { playComboMilestone, playKeyTap, playMiss, playSegmentComplete } from "../lib/sound";
 import { clearAll, loadReplays, loadSessions, saveReplay, saveSessions } from "../lib/storage";
 import type { BigramStats, GamePhase, InputEvent, KeyStats, ReplayData, Sentence, SessionRecord } from "../lib/types";
 
@@ -102,11 +102,14 @@ export interface GameState {
   hasGhost: boolean;
   lastHealAmount: number;
   lastHealId: number;
+  lastWrong: boolean;
 }
 
 export function useGameEngine() {
   const emaRef = useRef(new EMA(0.25, 0));
   const lastKeyTimeRef = useRef<number>(0);
+  const lastCorrectKeyTimeRef = useRef<number>(0);
+  const lastWasWrongRef = useRef<boolean>(false);
   const rafRef = useRef<number>(0);
   const lastFrameTimeRef = useRef<number>(0);
   const eventsRef = useRef<InputEvent[]>([]);
@@ -137,6 +140,7 @@ export function useGameEngine() {
     hasGhost: false,
     lastHealAmount: 0,
     lastHealId: 0,
+    lastWrong: false,
   }));
 
   const stateRef = useRef(state);
@@ -181,7 +185,6 @@ export function useGameEngine() {
     saveSessions(existing.slice(-100));
 
     setState((prev) => ({ ...prev, phase: "gameover", sessions: existing.slice(-100), lastSession: session }));
-    playGameOver();
   }, []);
 
   const tick = useCallback(
@@ -217,6 +220,8 @@ export function useGameEngine() {
     cancelAnimationFrame(rafRef.current);
     emaRef.current.reset(0);
     lastKeyTimeRef.current = 0;
+    lastCorrectKeyTimeRef.current = 0;
+    lastWasWrongRef.current = false;
     eventsRef.current = [];
     keyStatsRef.current = new Map();
     bigramRef.current = new Map();
@@ -262,6 +267,7 @@ export function useGameEngine() {
       hasGhost: bestReplay !== null,
       lastHealAmount: 0,
       lastHealId: 0,
+      lastWrong: false,
     });
 
     rafRef.current = requestAnimationFrame(tick);
@@ -277,6 +283,7 @@ export function useGameEngine() {
 
       const keyData = keyStatsRef.current.get(key) ?? { key, count: 0, errors: 0, totalMs: 0 };
       const interval = lastKeyTimeRef.current > 0 ? now - lastKeyTimeRef.current : 0;
+      const correctInterval = lastCorrectKeyTimeRef.current > 0 ? now - lastCorrectKeyTimeRef.current : 0;
 
       if (prevKeyRef.current !== "") {
         const bg = prevKeyRef.current + key;
@@ -287,26 +294,36 @@ export function useGameEngine() {
       const { next, result, segmentCompleted } = feedKey(s.typingState, key);
 
       if (result === "wrong") {
+        const consecutiveMiss = lastWasWrongRef.current;
         eventsRef.current.push({ time: elapsed, key, correct: false, segmentIdx: s.typingState.segIdx });
         keyStatsRef.current.set(key, { ...keyData, count: keyData.count + 1, errors: keyData.errors + 1 });
         prevKeyRef.current = key;
         lastKeyTimeRef.current = now;
+        lastWasWrongRef.current = true;
         playMiss();
-        setState((prev) => ({
-          ...prev,
-          life: Math.max(0, prev.life - LIFE_DRAIN_MISS),
-          combo: 0,
-          totalErrors: prev.totalErrors + 1,
-        }));
+        if (!consecutiveMiss) {
+          setState((prev) => ({
+            ...prev,
+            life: Math.max(0, prev.life - LIFE_DRAIN_MISS),
+            combo: 0,
+            totalErrors: prev.totalErrors + 1,
+            lastWrong: true,
+          }));
+        } else {
+          // consecutive miss: only count the error, no life penalty
+          setState((prev) => ({ ...prev, totalErrors: prev.totalErrors + 1, lastWrong: true }));
+        }
         return;
       }
 
       // Correct key
-      const wpm = interval > 0 ? emaRef.current.update(intervalToWpm(interval)) : emaRef.current.get();
+      const wpm = correctInterval > 0 ? emaRef.current.update(intervalToWpm(correctInterval)) : emaRef.current.get();
       keyStatsRef.current.set(key, { ...keyData, count: keyData.count + 1, totalMs: keyData.totalMs + interval });
       eventsRef.current.push({ time: elapsed, key, correct: true, segmentIdx: s.typingState.segIdx });
       prevKeyRef.current = key;
       lastKeyTimeRef.current = now;
+      lastCorrectKeyTimeRef.current = now;
+      lastWasWrongRef.current = false;
 
       const newCombo = s.combo + 1;
       if (newCombo % COMBO_MILESTONE === 0) playComboMilestone(newCombo);
@@ -341,6 +358,7 @@ export function useGameEngine() {
           totalCorrect: prev.totalCorrect + 1,
           lastHealAmount: segHeal,
           lastHealId: segHeal > 0 ? prev.lastHealId + 1 : prev.lastHealId,
+          lastWrong: false,
         }));
       } else {
         setState((prev) => ({
@@ -352,6 +370,7 @@ export function useGameEngine() {
           totalCorrect: prev.totalCorrect + 1,
           lastHealAmount: segHeal,
           lastHealId: segHeal > 0 ? prev.lastHealId + 1 : prev.lastHealId,
+          lastWrong: false,
         }));
       }
     },

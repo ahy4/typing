@@ -127,17 +127,22 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     // Play sounds for newly processed events (skip if catching up too many)
     const fromIdx = lastSoundIdxRef.current;
     if (newIdx > fromIdx && newIdx - fromIdx < 20) {
+      const stateAtFrom = reconstructAt(replay, fromIdx);
+      let soundCombo = stateAtFrom.combo;
       let prevSegIdx = replay.events[fromIdx - 1]?.segmentIdx ?? -1;
       for (let i = fromIdx; i < newIdx; i++) {
         const ev = replay.events[i];
         if (!ev) continue;
         if (!ev.correct) {
           playMiss();
+          soundCombo = 0;
         } else if (prevSegIdx !== -1 && ev.segmentIdx !== prevSegIdx) {
-          playSegmentComplete(0);
+          playSegmentComplete(soundCombo);
+          soundCombo++;
           prevSegIdx = ev.segmentIdx;
         } else {
-          playKeyTap(0);
+          playKeyTap(soundCombo);
+          soundCombo++;
           prevSegIdx = ev.segmentIdx;
         }
       }
@@ -164,6 +169,15 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 
   useEffect(() => () => cancelAnimationFrame(rafRef.current), []);
 
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === " ") { e.preventDefault(); playing ? stop() : play(); }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [onClose, playing, stop, play]);
+
   function handleSeek(e: React.ChangeEvent<HTMLInputElement>) {
     stop();
     const pct = Number(e.target.value);
@@ -182,13 +196,20 @@ export function ReplayPlayer({ replay, onClose }: Props) {
   const cc = comboColor(displayState.combo);
   const sentenceProgress = displayState.sentenceIdx;
   const progressMax = Math.max(sentenceProgress, 10);
-  const sentencePct = (sentenceProgress / progressMax) * 100;
   const acc =
     displayState.totalCorrect + displayState.totalErrors > 0
       ? Math.round((displayState.totalCorrect / (displayState.totalCorrect + displayState.totalErrors)) * 100)
       : 100;
   const currentTimeSec = Math.round((seekPct / 100) * replay.totalTime / 1000);
   const totalTimeSec = Math.round(replay.totalTime / 1000);
+
+  // Compute next valid keys for keyboard highlight
+  const nextKeys: string[] = (() => {
+    const ts = displayState.typingState;
+    const pos = ts.typed.length;
+    const fromCurrent = ts.validOptions.map((o) => o[pos]).filter((c): c is string => !!c);
+    return [...new Set(fromCurrent)];
+  })();
 
   return (
     <div className="h-screen overflow-hidden flex justify-center" style={{ background: "#050508" }}>
@@ -215,26 +236,26 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 
           {/* Progress bar */}
           <div className="pt-4 pb-3 flex justify-center">
-          <div className="w-full max-w-xl px-4 flex flex-col gap-2">
-            <div className="flex items-center gap-3">
-              <span className="text-[11px] font-mono w-14 text-right uppercase tracking-wider shrink-0" style={{ color: "#cc44ff" }}>
-                REPLAY
-              </span>
-              <div className="flex-1 h-4 rounded overflow-hidden" style={{ background: "#111" }}>
-                <div
-                  className="h-full rounded transition-all duration-300"
-                  style={{
-                    width: `${sentencePct}%`,
-                    background: "linear-gradient(90deg, #cc44ff, #8800ff)",
-                    boxShadow: "0 0 8px #cc44ff44",
-                  }}
-                />
+            <div className="w-full max-w-xl px-4 flex flex-col gap-2">
+              <div className="flex items-center gap-3">
+                <span className="text-[11px] font-mono w-14 text-right uppercase tracking-wider shrink-0" style={{ color: "#cc44ff" }}>
+                  REPLAY
+                </span>
+                <div className="flex-1 h-4 rounded overflow-hidden" style={{ background: "#111" }}>
+                  <div
+                    className="h-full rounded transition-all duration-300"
+                    style={{
+                      width: `${(sentenceProgress / progressMax) * 100}%`,
+                      background: "linear-gradient(90deg, #cc44ff, #8800ff)",
+                      boxShadow: "0 0 8px #cc44ff44",
+                    }}
+                  />
+                </div>
+                <span className="text-[11px] font-mono w-16 shrink-0" style={{ color: "#cc44ff" }}>
+                  {sentenceProgress} 文
+                </span>
               </div>
-              <span className="text-[11px] font-mono w-16 shrink-0" style={{ color: "#cc44ff" }}>
-                {sentenceProgress} 文
-              </span>
             </div>
-          </div>
           </div>
 
           <div className="h-px" style={{ background: "#111" }} />
@@ -252,25 +273,17 @@ export function ReplayPlayer({ replay, onClose }: Props) {
             </div>
 
             <div className="flex gap-6 text-xs text-gray-600 font-mono">
-              <span>
-                COMBO <span style={{ color: cc }}>{displayState.combo}x</span>
-              </span>
-              <span>
-                OK <span className="text-green-400">{displayState.totalCorrect}</span>
-              </span>
-              <span>
-                ERR <span className="text-red-400">{displayState.totalErrors}</span>
-              </span>
-              <span>
-                ACC <span className="text-yellow-400">{acc}%</span>
-              </span>
+              <span>COMBO <span style={{ color: cc }}>{displayState.combo}x</span></span>
+              <span>OK <span className="text-green-400">{displayState.totalCorrect}</span></span>
+              <span>ERR <span className="text-red-400">{displayState.totalErrors}</span></span>
+              <span>ACC <span className="text-yellow-400">{acc}%</span></span>
               <span className="text-gray-700">{currentTimeSec}s</span>
             </div>
           </div>
 
-          {/* Keyboard showing last pressed key */}
+          {/* Keyboard showing next expected keys */}
           <div className="border-t border-gray-900 pb-1 flex justify-center">
-            <KeyboardDisplay keyStats={[]} highlight={displayState.lastKey ? [displayState.lastKey] : []} />
+            <KeyboardDisplay keyStats={[]} highlight={nextKeys.length > 0 ? nextKeys : (displayState.lastKey ? [displayState.lastKey] : [])} />
           </div>
 
           {/* Seek + controls */}
@@ -282,7 +295,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
               step="0.1"
               value={seekPct}
               onChange={handleSeek}
-              className="w-full accent-cyan-400 mb-2"
+              className="w-full accent-purple-400 mb-2"
             />
             <div className="flex items-center justify-between text-[10px] text-gray-700 font-mono">
               <button onClick={onClose} className="hover:text-gray-400 transition-colors">ESC — 閉じる</button>
@@ -290,9 +303,9 @@ export function ReplayPlayer({ replay, onClose }: Props) {
                 onClick={playing ? stop : play}
                 className="px-4 py-1 border rounded transition-all font-mono text-xs"
                 style={{
-                  borderColor: playing ? "#ff3333" : "#00ffff",
-                  color: playing ? "#ff3333" : "#00ffff",
-                  boxShadow: playing ? "0 0 6px #ff333344" : "0 0 6px #00ffff44",
+                  borderColor: playing ? "#ff3333" : "#cc44ff",
+                  color: playing ? "#ff3333" : "#cc44ff",
+                  boxShadow: playing ? "0 0 6px #ff333344" : "0 0 6px #cc44ff44",
                 }}
               >
                 {playing ? "PAUSE" : "PLAY"}
@@ -302,18 +315,23 @@ export function ReplayPlayer({ replay, onClose }: Props) {
           </div>
         </div>
 
-        {/* ── REPLAY progress bar — right ── */}
+        {/* ── Replay progress — right ── */}
         <div className="w-16 shrink-0 flex flex-col justify-end relative" style={{ background: "#080808" }}>
           <div
             className="w-full transition-all duration-100"
-            style={{ height: `${sentencePct}%`, background: "#cc44ff", opacity: 0.45, boxShadow: "0 0 18px #cc44ff88" }}
+            style={{
+              height: `${seekPct}%`,
+              background: "#cc44ff",
+              opacity: 0.45,
+              boxShadow: "0 0 18px #cc44ff88",
+            }}
           />
           <div className="absolute inset-0 flex items-center justify-center">
             <span
               className="text-[9px] font-mono uppercase tracking-widest select-none"
               style={{ writingMode: "vertical-rl", color: "#cc44ff", opacity: 0.75 }}
             >
-              REPLAY {sentenceProgress}文
+              {currentTimeSec}s / {totalTimeSec}s
             </span>
           </div>
         </div>

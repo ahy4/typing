@@ -16,7 +16,10 @@ export function TypingDisplay({ sentence, typingState, lastWrong = false }: Prop
   return (
     <div className="flex flex-col gap-3 items-center select-none">
       {/* Japanese */}
-      <div className="text-2xl font-bold tracking-wider text-gray-200">
+      <div
+        className="text-2xl font-bold tracking-wider transition-colors duration-100"
+        style={{ color: lastWrong ? "#ff6666" : "#e5e7eb", textShadow: lastWrong ? "0 0 12px #ff333388" : "none" }}
+      >
         {sentence.japanese}
       </div>
 
@@ -28,10 +31,14 @@ export function TypingDisplay({ sentence, typingState, lastWrong = false }: Prop
         </span>
         {/* current segment: typed part */}
         <span className="text-cyan-300">{typed}</span>
-        {/* current segment: remaining */}
+        {/* current segment: remaining — shake + red when wrong */}
         <span
-          className={`border-b-2 ${lastWrong ? "border-red-500 text-red-400" : "border-cyan-600 text-gray-400"}`}
-          style={{ minWidth: "1ch" }}
+          className={`border-b-2 ${lastWrong ? "border-red-400 text-red-400" : "border-cyan-600 text-gray-400"}`}
+          style={{
+            minWidth: "1ch",
+            textShadow: lastWrong ? "0 0 8px #ff444488" : "none",
+            animation: lastWrong ? "wrongShake 0.18s ease" : "none",
+          }}
         >
           {remainingInCurrent}
         </span>

@@ -163,7 +163,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
           {/* Typing area */}
           <div className="flex-1 flex flex-col items-center justify-center gap-8">
             {sentence ? (
-              <TypingDisplay sentence={sentence} typingState={state.typingState} lastWrong={false} />
+              <TypingDisplay sentence={sentence} typingState={state.typingState} lastWrong={state.lastWrong} />
             ) : (
               <div className="text-gray-500 font-mono">Loading...</div>
             )}

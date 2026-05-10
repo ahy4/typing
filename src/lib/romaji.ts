@@ -1,5 +1,19 @@
+// Small compound kana → l/x prefix alternatives (for decomposed input e.g. ki+lyo for きょ)
+const SMALL_COMPOUND_ALTS: Record<string, string[]> = {
+  ゃ: ["lya", "xya"],
+  ゅ: ["lyu", "xyu"],
+  ょ: ["lyo", "xyo"],
+};
+
+// Single-kana options used to build decomposed compound alternatives
+const SINGLE_KANA_OPTIONS: Record<string, string[]> = {
+  き: ["ki"], し: ["shi", "si"], ち: ["chi", "ti"], に: ["ni"],
+  ひ: ["hi"], み: ["mi"], り: ["ri"], ぎ: ["gi"],
+  じ: ["ji", "zi"], び: ["bi"], ぴ: ["pi"], で: ["de"], て: ["te"],
+};
+
 // Kana → romaji mappings (compound first)
-const KANA_MAP: Record<string, string[]> = {
+const KANA_MAP_RAW: Record<string, string[]> = {
   きゃ: ["kya"], きゅ: ["kyu"], きょ: ["kyo"],
   しゃ: ["sha", "sya"], しゅ: ["shu", "syu"], しょ: ["sho", "syo"],
   ちゃ: ["cha", "tya", "cya"], ちゅ: ["chu", "tyu", "cyu"], ちょ: ["cho", "tyo", "cyo"],
@@ -32,10 +46,31 @@ const KANA_MAP: Record<string, string[]> = {
   ば: ["ba"], び: ["bi"], ぶ: ["bu"], べ: ["be"], ぼ: ["bo"],
   ぱ: ["pa"], ぴ: ["pi"], ぷ: ["pu"], ぺ: ["pe"], ぽ: ["po"],
   ぁ: ["xa", "la"], ぃ: ["xi", "li"], ぅ: ["xu", "lu"], ぇ: ["xe", "le"], ぉ: ["xo", "lo"],
+  // small compound vowels reachable by l/x prefix alone
+  ゃ: ["lya", "xya"], ゅ: ["lyu", "xyu"], ょ: ["lyo", "xyo"],
   っ: ["xtu", "xtsu", "ltu"],
   ー: ["-"],
   " ": [" "],
 };
+
+// Build KANA_MAP by expanding compound kana with l/x decomposed alternatives
+const KANA_MAP: Record<string, string[]> = {};
+for (const [kana, opts] of Object.entries(KANA_MAP_RAW)) {
+  const small = kana.length === 2 ? kana[1] : undefined;
+  const smallAlts = small ? SMALL_COMPOUND_ALTS[small] : undefined;
+  if (smallAlts) {
+    const largeOpts = SINGLE_KANA_OPTIONS[kana[0] ?? ""] ?? [];
+    const decomposed: string[] = [];
+    for (const l of largeOpts) {
+      for (const s of smallAlts) {
+        decomposed.push(l + s);
+      }
+    }
+    KANA_MAP[kana] = [...opts, ...decomposed];
+  } else {
+    KANA_MAP[kana] = opts;
+  }
+}
 
 const SMALL_KANA = new Set("ぁぃぅぇぉっゃゅょ");
 
