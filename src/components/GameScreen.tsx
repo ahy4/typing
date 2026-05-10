@@ -30,6 +30,24 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
       ? Math.round((state.totalCorrect / (state.totalCorrect + state.totalErrors)) * 100)
       : 100;
 
+  // Compute the set of valid next keystrokes from current typing state
+  const nextKeys: string[] = (() => {
+    const ts = state.typingState;
+    const pos = ts.typed.length;
+    const fromCurrent = ts.validOptions
+      .map((o) => o[pos])
+      .filter((c): c is string => !!c);
+    if (ts.pendingComplete) {
+      // "n" typed for ん: also show first char of next segment
+      const fromNext =
+        ts.segments[ts.segIdx + 1]?.options
+          .map((o) => o[0])
+          .filter((c): c is string => !!c) ?? [];
+      return [...new Set([...fromCurrent, ...fromNext])];
+    }
+    return [...new Set(fromCurrent)];
+  })();
+
   const myProgress = state.sentenceIdx;
   const ghostProgress = state.hasGhost ? state.ghostSentenceIdx : 0;
   // Scale so that both bars are visible and meaningful
@@ -176,10 +194,10 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
           </div>
         </div>
 
-        {/* Keyboard */}
+        {/* Keyboard — highlights next key(s) to press */}
         {showKeyboard && (
-          <div className="border-t border-gray-900 pb-3">
-            <KeyboardDisplay keyStats={[]} highlight={state.typingState.typed.slice(-1)} />
+          <div className="border-t border-gray-900 pb-1">
+            <KeyboardDisplay keyStats={[]} highlight={nextKeys} />
           </div>
         )}
 

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createTypingState, feedKey } from "../lib/romaji";
 import type { ReplayData } from "../lib/types";
+import { KeyboardDisplay } from "./KeyboardDisplay";
 import { SpeedMeter } from "./SpeedMeter";
 import { TypingDisplay } from "./TypingDisplay";
 
@@ -180,6 +181,8 @@ export function ReplayPlayer({ replay, onClose }: Props) {
           <div className="text-xs text-gray-700 font-mono">
             {displayState.sentenceIdx + 1} / {replay.sentences.length} sentences
           </div>
+          {/* Keyboard showing the last pressed key */}
+          <KeyboardDisplay keyStats={[]} highlight={ev?.key ? [ev.key] : []} />
         </div>
 
         {/* Controls */}
