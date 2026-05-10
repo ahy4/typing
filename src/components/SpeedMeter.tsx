@@ -5,7 +5,7 @@ interface Props {
   maxWpm?: number;
 }
 
-export function SpeedMeter({ wpm, label = "KPM", color = "#00ffff", maxWpm = 800 }: Props) {
+export function SpeedMeter({ wpm, label = "KPS", color = "#00ffff", maxWpm = 12 }: Props) {
   const pct = Math.min(1, wpm / maxWpm);
   const r = 36;
   const cx = 44;
@@ -57,7 +57,7 @@ export function SpeedMeter({ wpm, label = "KPM", color = "#00ffff", maxWpm = 800
           fontFamily="monospace"
           fontWeight="bold"
         >
-          {Math.round(wpm)}
+          {wpm.toFixed(1)}
         </text>
         <text
           x={cx}
@@ -67,7 +67,7 @@ export function SpeedMeter({ wpm, label = "KPM", color = "#00ffff", maxWpm = 800
           fontSize="8"
           fontFamily="monospace"
         >
-          KPM
+          KPS
         </text>
         <text
           x={cx}

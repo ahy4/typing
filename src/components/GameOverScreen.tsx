@@ -35,9 +35,9 @@ export function GameOverScreen({ session, onRestart, onStats }: Props) {
         <div>
           <div className="text-5xl font-mono font-bold text-cyan-400"
             style={{ textShadow: "0 0 20px #00ffff88" }}>
-            {Math.round(session.wpm)}
+            {session.wpm.toFixed(1)}
           </div>
-          <div className="text-xs text-gray-600 uppercase tracking-widest mt-1">KPM</div>
+          <div className="text-xs text-gray-600 uppercase tracking-widest mt-1">KPS</div>
         </div>
         <div>
           <div className="text-5xl font-mono font-bold text-green-400"

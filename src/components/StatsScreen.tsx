@@ -53,8 +53,8 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
       <div className="flex gap-8 px-8 py-4 border-b border-gray-900">
         {[
           { label: "Sessions", value: sessions.length, color: "#888" },
-          { label: "Best KPM", value: Math.round(bestWpm), color: "#00ffff" },
-          { label: "Avg KPM", value: Math.round(avgWpm), color: "#00ff88" },
+          { label: "Best KPS", value: bestWpm.toFixed(1), color: "#00ffff" },
+          { label: "Avg KPS", value: avgWpm.toFixed(1), color: "#00ff88" },
           { label: "Avg Acc", value: `${Math.round(avgAcc * 100)}%`, color: "#ffaa00" },
         ].map((item) => (
           <div key={item.label}>
@@ -99,7 +99,7 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
                     <span className="text-gray-600">
                       {new Date(s.timestamp).toLocaleDateString()}
                     </span>
-                    <span className="text-cyan-400">{Math.round(s.wpm)} KPM</span>
+                    <span className="text-cyan-400">{s.wpm.toFixed(1)} KPS</span>
                     <span className="text-green-400">{Math.round(s.accuracy * 100)}%</span>
                     <span className="text-gray-600">{s.sentences} sent</span>
                   </div>
@@ -124,7 +124,7 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
                 <span className="text-gray-500 text-xs font-mono">
                   {new Date(r.timestamp).toLocaleString()}
                 </span>
-                <span className="text-cyan-400 font-mono">{Math.round(r.wpm)} KPM</span>
+                <span className="text-cyan-400 font-mono">{r.wpm.toFixed(1)} KPS</span>
                 <span className="text-green-400 font-mono">{Math.round(r.accuracy * 100)}%</span>
                 <span className="text-gray-500 text-xs font-mono">▶ WATCH</span>
               </div>

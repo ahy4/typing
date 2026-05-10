@@ -22,8 +22,8 @@ export class EMA {
   }
 }
 
-// Compute instantaneous KPM (keystrokes per minute) from key interval (ms)
+// Compute instantaneous KPS (keystrokes per second) from key interval (ms)
 export function intervalToWpm(ms: number): number {
   if (ms <= 0) return 0;
-  return (1000 / ms) * 60;
+  return 1000 / ms;
 }
