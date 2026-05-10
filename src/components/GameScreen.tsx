@@ -1,5 +1,6 @@
 import type { GameState } from "../hooks/useGameEngine";
 import { KeyboardDisplay } from "./KeyboardDisplay";
+import { SpeedMeter } from "./SpeedMeter";
 import { TypingDisplay } from "./TypingDisplay";
 
 interface Props {
@@ -145,20 +146,14 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
             <div className="text-gray-500 font-mono">Loading...</div>
           )}
 
-          {/* Speed display — large, clearly labeled */}
-          <div className="flex items-end gap-16">
-            <div className="flex flex-col items-center gap-1">
-              <span className="text-5xl font-mono font-bold leading-none" style={{ color: "#00ffff" }}>
-                {Math.round(state.speed)}
-              </span>
-              <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">WPM / YOU</span>
+          {/* Speed meters */}
+          <div className="flex items-center gap-8">
+            <div className="flex flex-col items-center">
+              <SpeedMeter wpm={state.speed} label="YOU" color="#00ffff" />
             </div>
             {state.hasGhost && (
-              <div className="flex flex-col items-center gap-1">
-                <span className="text-5xl font-mono font-bold leading-none" style={{ color: "#cc44ff" }}>
-                  {Math.round(state.ghostSpeed)}
-                </span>
-                <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">WPM / GHOST</span>
+              <div className="flex flex-col items-center">
+                <SpeedMeter wpm={state.ghostSpeed} label="GHOST" color="#cc44ff" />
               </div>
             )}
           </div>
