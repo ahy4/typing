@@ -60,7 +60,8 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 
   const myProgress = state.sentenceIdx;
   const ghostProgress = state.hasGhost ? state.ghostSentenceIdx : 0;
-  const progressMax = Math.max(myProgress, ghostProgress, 1);
+
+  const PX_PER_CLEAR = 6;
 
   return (
     <div className="h-screen overflow-hidden flex justify-center" style={{ background: "#050508" }}>
@@ -117,19 +118,19 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
               <span className="text-[11px] font-mono text-cyan-400 w-14 text-right uppercase tracking-wider shrink-0">
                 YOU
               </span>
+              <span className="text-[11px] font-mono text-cyan-400 w-16 shrink-0">
+                {myProgress} クリア
+              </span>
               <div className="flex-1 h-4 rounded overflow-hidden" style={{ background: "#111" }}>
                 <div
                   className="h-full rounded transition-all duration-300"
                   style={{
-                    width: `${(myProgress / progressMax) * 100}%`,
+                    width: `${myProgress * PX_PER_CLEAR}px`,
                     background: "linear-gradient(90deg, #00ffff, #0088ff)",
                     boxShadow: "0 0 8px #00ffff44",
                   }}
                 />
               </div>
-              <span className="text-[11px] font-mono text-cyan-400 w-16 shrink-0">
-                {myProgress} クリア
-              </span>
             </div>
 
             <div className="flex items-center gap-3">
@@ -139,24 +140,24 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
               >
                 GHOST
               </span>
-              <div className="flex-1 h-4 rounded overflow-hidden" style={{ background: "#111" }}>
-                {state.hasGhost && (
-                  <div
-                    className="h-full rounded transition-all duration-100"
-                    style={{
-                      width: `${(ghostProgress / progressMax) * 100}%`,
-                      background: "linear-gradient(90deg, #cc44ff, #8800ff)",
-                      boxShadow: "0 0 8px #cc44ff44",
-                    }}
-                  />
-                )}
-              </div>
               <span
                 className="text-[11px] font-mono w-16 shrink-0"
                 style={{ color: state.hasGhost ? "#cc44ff" : "#333" }}
               >
                 {state.hasGhost ? `${ghostProgress} クリア` : "— なし"}
               </span>
+              <div className="flex-1 h-4 rounded overflow-hidden" style={{ background: "#111" }}>
+                {state.hasGhost && (
+                  <div
+                    className="h-full rounded transition-all duration-100"
+                    style={{
+                      width: `${ghostProgress * PX_PER_CLEAR}px`,
+                      background: "linear-gradient(90deg, #cc44ff, #8800ff)",
+                      boxShadow: "0 0 8px #cc44ff44",
+                    }}
+                  />
+                )}
+              </div>
             </div>
           </div>
           </div>
