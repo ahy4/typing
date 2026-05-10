@@ -294,6 +294,9 @@ export function useGameEngine() {
 		tickRef.current = tick;
 	}, [tick]);
 
+	const preparedSentencesRef = useRef<ReturnType<typeof getSentenceQueue>>([]);
+	const preparedHasGhostRef = useRef(false);
+
 	const startGame = useCallback(() => {
 		cancelAnimationFrame(rafRef.current);
 		kpsWindowRef.current.reset();
@@ -320,6 +323,18 @@ export function useGameEngine() {
 
 		const sentences = getSentenceQueue(10);
 		totalSentencesRef.current = sentences.length;
+		preparedSentencesRef.current = sentences;
+		preparedHasGhostRef.current = bestReplay !== null;
+
+		setState((prev) => ({
+			...prev,
+			phase: "ready",
+			sessions: loadSessions(),
+		}));
+	}, []);
+
+	const beginPlaying = useCallback(() => {
+		const sentences = preparedSentencesRef.current;
 		const first = sentences[0];
 		const typingState = createTypingState(first?.kana ?? "");
 		const startTime = Date.now();
@@ -343,7 +358,7 @@ export function useGameEngine() {
 			ghostSentenceIdx: 0,
 			ghostSpeed: 0,
 			ghostLife: LIFE_MAX,
-			hasGhost: bestReplay !== null,
+			hasGhost: preparedHasGhostRef.current,
 			lastHealAmount: 0,
 			lastHealId: 0,
 			lastWrong: false,
@@ -529,5 +544,5 @@ export function useGameEngine() {
 		setState((p) => ({ ...p, sessions: [], lastSession: null }));
 	}, []);
 
-	return { state, startGame, setPhase, clearData };
+	return { state, startGame, beginPlaying, setPhase, clearData };
 }

@@ -49,6 +49,7 @@ export interface SessionRecord {
 
 export type GamePhase =
 	| "idle"
+	| "ready"
 	| "playing"
 	| "gameover"
 	| "replay"
