@@ -8,7 +8,8 @@ import { StatsScreen } from "./components/StatsScreen";
 import { useGameEngine } from "./hooks/useGameEngine";
 
 export default function App() {
-	const { state, startGame, beginPlaying, setPhase, clearData } = useGameEngine();
+	const { state, startGame, beginPlaying, setPhase, clearData } =
+		useGameEngine();
 	const [showKeyboard, setShowKeyboard] = useState(true);
 
 	const bestWpm =
