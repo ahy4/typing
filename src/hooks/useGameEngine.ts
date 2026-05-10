@@ -14,7 +14,7 @@ export const LIFE_DRAIN_MISS = 5;
 const COMBO_MILESTONE = 10;
 
 function comboHealAmount(combo: number): number {
-  return Math.max(2, Math.min(20, Math.floor(combo / 5) + 2));
+  return Math.max(1, Math.min(6, Math.floor(combo / 15) + 1));
 }
 const REFILL_AT = 3; // add more sentences when this many remain
 

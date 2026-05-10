@@ -60,7 +60,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 
   const myProgress = state.sentenceIdx;
   const ghostProgress = state.hasGhost ? state.ghostSentenceIdx : 0;
-  const progressMax = Math.max(myProgress, ghostProgress, 10);
+  const progressMax = Math.max(myProgress, ghostProgress, 1);
 
   return (
     <div className="h-screen overflow-hidden flex justify-center" style={{ background: "#050508" }}>
@@ -128,7 +128,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
                 />
               </div>
               <span className="text-[11px] font-mono text-cyan-400 w-16 shrink-0">
-                {myProgress} 文
+                {myProgress} クリア
               </span>
             </div>
 
@@ -155,7 +155,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
                 className="text-[11px] font-mono w-16 shrink-0"
                 style={{ color: state.hasGhost ? "#cc44ff" : "#333" }}
               >
-                {state.hasGhost ? `${ghostProgress} 文` : "— なし"}
+                {state.hasGhost ? `${ghostProgress} クリア` : "— なし"}
               </span>
             </div>
           </div>

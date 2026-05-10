@@ -271,7 +271,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
             )}
 
             <div className="flex items-center gap-8">
-              <SpeedMeter wpm={displayState.speed} label="KPS" color="#cc44ff" />
+              <SpeedMeter wpm={displayState.speed} label="REPLAY" color="#cc44ff" />
             </div>
 
             <div className="flex gap-6 text-xs text-gray-600 font-mono">

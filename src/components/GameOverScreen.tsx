@@ -33,7 +33,7 @@ export function GameOverScreen({ session, onStats }: Props) {
             style={{ textShadow: "0 0 20px #00ffff88" }}>
             {session.wpm.toFixed(1)}
           </div>
-          <div className="text-xs text-gray-600 uppercase tracking-widest mt-1">KPS</div>
+          <div className="text-xs text-gray-600 uppercase tracking-widest mt-1">打/秒</div>
         </div>
         <div>
           <div className="text-5xl font-mono font-bold text-green-400"

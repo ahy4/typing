@@ -48,7 +48,7 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
       <div className="flex gap-8 px-8 py-4 border-b border-gray-900">
         {[
           { label: "Sessions", value: sessions.length, color: "#888" },
-          { label: "Avg KPS", value: avgWpm.toFixed(1), color: "#00ff88" },
+          { label: "平均 打/秒", value: avgWpm.toFixed(1), color: "#00ff88" },
           { label: "Avg Acc", value: `${Math.round(avgAcc * 100)}%`, color: "#ffaa00" },
         ].map((item) => (
           <div key={item.label}>
@@ -103,7 +103,7 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
                     color: heatmapReplay?.id === r.id ? "#cc44ff" : "#555",
                   }}
                 >
-                  {new Date(r.timestamp).toLocaleDateString()} {r.wpm.toFixed(1)}KPS
+                  {new Date(r.timestamp).toLocaleDateString()} {r.wpm.toFixed(1)}打/秒
                 </button>
               ))}
             </div>
@@ -127,7 +127,7 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
                 <span className="text-gray-500 text-xs font-mono">
                   {new Date(r.timestamp).toLocaleString()}
                 </span>
-                <span className="text-cyan-400 font-mono">{r.wpm.toFixed(1)} KPS</span>
+                <span className="text-cyan-400 font-mono">{r.wpm.toFixed(1)} 打/秒</span>
                 <span className="text-green-400 font-mono">{Math.round(r.accuracy * 100)}%</span>
                 <div className="flex gap-2">
                   <button
