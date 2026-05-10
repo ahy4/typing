@@ -25,6 +25,43 @@ import type {
 	SessionRecord,
 } from "../lib/types";
 
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+function phaseToPath(phase: GamePhase): string {
+	const map: Partial<Record<GamePhase, string>> = {
+		idle: "/",
+		help: "/help",
+		playing: "/game",
+		gameover: "/gameover",
+		stats: "/stats",
+	};
+	return BASE + (map[phase] ?? "/");
+}
+
+function pathToPhase(pathname: string): GamePhase | null {
+	const path = pathname.slice(BASE.length) || "/";
+	switch (path) {
+		case "/":
+			return "idle";
+		case "/help":
+			return "help";
+		case "/stats":
+			return "stats";
+		case "/gameover":
+			return "gameover";
+		case "/game":
+			return "playing";
+		default:
+			return null;
+	}
+}
+
+function getInitialPhase(): GamePhase {
+	const phase = pathToPhase(location.pathname);
+	if (phase === "help" || phase === "stats") return phase;
+	return "idle";
+}
+
 const LIFE_MAX = 100;
 const LIFE_DRAIN_BASE = 0.04;
 const LIFE_DRAIN_COMBO_FACTOR = 0.6;
@@ -164,8 +201,11 @@ export function useGameEngine() {
 	const totalSentencesRef = useRef<number>(0);
 	const tickRef = useRef<(now: number) => void>(() => {});
 
+	const isPopstateRef = useRef(false);
+	const isInitialRender = useRef(true);
+
 	const [state, setState] = useState<GameState>(() => ({
-		phase: "idle",
+		phase: getInitialPhase(),
 		sentences: [],
 		sentenceIdx: 0,
 		typingState: createTypingState(""),
@@ -192,6 +232,39 @@ export function useGameEngine() {
 	useEffect(() => {
 		stateRef.current = state;
 	});
+
+	// Sync phase → URL
+	useEffect(() => {
+		if (isPopstateRef.current) {
+			isPopstateRef.current = false;
+			return;
+		}
+		if (isInitialRender.current) {
+			isInitialRender.current = false;
+			history.replaceState(null, "", phaseToPath(state.phase));
+			return;
+		}
+		history.pushState(null, "", phaseToPath(state.phase));
+	}, [state.phase]);
+
+	// Sync URL → phase (browser back/forward)
+	useEffect(() => {
+		const onPopState = () => {
+			if (stateRef.current.phase === "playing") {
+				cancelAnimationFrame(rafRef.current);
+			}
+			isPopstateRef.current = true;
+			const phase = pathToPhase(location.pathname);
+			if (!phase || (phase === "gameover" && !stateRef.current.lastSession) || phase === "playing") {
+				setState((p) => ({ ...p, phase: "idle" }));
+				history.replaceState(null, "", phaseToPath("idle"));
+			} else {
+				setState((p) => ({ ...p, phase }));
+			}
+		};
+		window.addEventListener("popstate", onPopState);
+		return () => window.removeEventListener("popstate", onPopState);
+	}, []);
 
 	const endGame = useCallback((saveResult = true) => {
 		cancelAnimationFrame(rafRef.current);
