@@ -243,7 +243,20 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 						className="flex items-center justify-between px-4 py-1.5 text-[10px] text-gray-700 font-mono"
 						style={{ borderTop: "1px solid #111" }}
 					>
-						<span>ESC — 終了</span>
+						<span className="flex items-center gap-1.5">
+							<kbd
+								className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold"
+								style={{
+									background: "#222",
+									border: "1px solid #444",
+									color: "#aaa",
+									boxShadow: "0 1px 0 #555",
+								}}
+							>
+								ESC
+							</kbd>
+							<span>ゲーム終了</span>
+						</span>
 						<button
 							type="button"
 							onClick={onToggleKeyboard}
