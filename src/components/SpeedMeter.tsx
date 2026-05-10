@@ -50,7 +50,7 @@ export function SpeedMeter({ wpm, label = "WPM", color = "#00ffff", maxWpm = 200
         {/* center text */}
         <text
           x={cx}
-          y={cy - 4}
+          y={cy - 6}
           textAnchor="middle"
           fill={color}
           fontSize="14"
@@ -61,10 +61,20 @@ export function SpeedMeter({ wpm, label = "WPM", color = "#00ffff", maxWpm = 200
         </text>
         <text
           x={cx}
-          y={cy + 11}
+          y={cy + 7}
           textAnchor="middle"
-          fill="#555"
+          fill="#666"
           fontSize="8"
+          fontFamily="monospace"
+        >
+          WPM
+        </text>
+        <text
+          x={cx}
+          y={cy + 18}
+          textAnchor="middle"
+          fill="#444"
+          fontSize="7"
           fontFamily="monospace"
         >
           {label}
