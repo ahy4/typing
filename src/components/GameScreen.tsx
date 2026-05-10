@@ -103,7 +103,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							className="text-[9px] font-mono uppercase tracking-widest select-none"
 							style={{ writingMode: "vertical-rl", color: lc, opacity: 0.75 }}
 						>
-							LIFE {Math.round(lifePct)}%
+							HP {Math.round(lifePct)}%
 						</span>
 					</div>
 					{/* Heal float indicator */}
@@ -132,7 +132,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 						<div className="w-full max-w-xl px-4 flex flex-col gap-2">
 							<div className="flex items-center gap-3">
 								<span className="text-[11px] font-mono text-cyan-400 w-14 text-right uppercase tracking-wider shrink-0">
-									YOU
+									自分
 								</span>
 								<span className="text-[11px] font-mono text-cyan-400 w-16 shrink-0">
 									{myProgress} クリア
@@ -157,7 +157,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 									className="text-[11px] font-mono w-14 text-right uppercase tracking-wider shrink-0"
 									style={{ color: state.hasGhost ? "#cc44ff" : "#333" }}
 								>
-									GHOST
+									ゴースト
 								</span>
 								<span
 									className="text-[11px] font-mono w-16 shrink-0"
@@ -195,18 +195,18 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								lastWrong={state.lastWrong}
 							/>
 						) : (
-							<div className="text-gray-500 font-mono">Loading...</div>
+							<div className="text-gray-500 font-mono">読み込み中...</div>
 						)}
 
 						<div className="flex items-center gap-8">
 							<div className="flex flex-col items-center">
-								<SpeedMeter wpm={state.speed} label="YOU" color="#00ffff" />
+								<SpeedMeter wpm={state.speed} label="自分" color="#00ffff" />
 							</div>
 							{state.hasGhost && (
 								<div className="flex flex-col items-center">
 									<SpeedMeter
 										wpm={state.ghostSpeed}
-										label="GHOST"
+										label="ゴースト"
 										color="#cc44ff"
 									/>
 								</div>
@@ -215,16 +215,17 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 
 						<div className="flex gap-6 text-xs text-gray-600 font-mono">
 							<span>
-								COMBO <span style={{ color: cc }}>{state.combo}x</span>
+								コンボ <span style={{ color: cc }}>{state.combo}x</span>
 							</span>
 							<span>
-								OK <span className="text-green-400">{state.totalCorrect}</span>
+								正解{" "}
+								<span className="text-green-400">{state.totalCorrect}</span>
 							</span>
 							<span>
-								ERR <span className="text-red-400">{state.totalErrors}</span>
+								ミス <span className="text-red-400">{state.totalErrors}</span>
 							</span>
 							<span>
-								ACC <span className="text-yellow-400">{acc}%</span>
+								精度 <span className="text-yellow-400">{acc}%</span>
 							</span>
 							<span className="text-gray-700">
 								{Math.round(state.elapsed / 1000)}s
@@ -261,9 +262,9 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							onClick={onToggleKeyboard}
 							className="hover:text-gray-400 transition-colors"
 						>
-							KB: {showKeyboard ? "ON" : "OFF"}
+							KB: {showKeyboard ? "表示" : "非表示"}
 						</button>
-						<span style={{ color: lc }}>LIFE {Math.round(lifePct)}%</span>
+						<span style={{ color: lc }}>HP {Math.round(lifePct)}%</span>
 					</div>
 				</div>
 
@@ -295,8 +296,8 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							}}
 						>
 							{state.hasGhost
-								? `GHOST ${Math.round(ghostLifePct)}%`
-								: "NO GHOST"}
+								? `ゴースト ${Math.round(ghostLifePct)}%`
+								: "ゴーストなし"}
 						</span>
 					</div>
 				</div>

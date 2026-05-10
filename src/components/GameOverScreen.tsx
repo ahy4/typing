@@ -30,7 +30,7 @@ export function GameOverScreen({ session, onStats }: Props) {
 				className="text-4xl font-black font-mono tracking-widest"
 				style={{ color: "#00ffcc", textShadow: "0 0 20px #00ffcc88" }}
 			>
-				RESULT
+				リザルト
 			</div>
 
 			{/* Results */}
@@ -54,7 +54,7 @@ export function GameOverScreen({ session, onStats }: Props) {
 						{acc}%
 					</div>
 					<div className="text-xs text-gray-600 uppercase tracking-widest mt-1">
-						ACCURACY
+						正確率
 					</div>
 				</div>
 				<div>
@@ -62,7 +62,7 @@ export function GameOverScreen({ session, onStats }: Props) {
 						{session.sentences}
 					</div>
 					<div className="text-xs text-gray-600 uppercase tracking-widest mt-1">
-						SENTENCES
+						文章数
 					</div>
 				</div>
 				<div>
@@ -70,7 +70,7 @@ export function GameOverScreen({ session, onStats }: Props) {
 						{mins}:{secs.toString().padStart(2, "0")}
 					</div>
 					<div className="text-xs text-gray-600 uppercase tracking-widest mt-1">
-						TIME
+						タイム
 					</div>
 				</div>
 			</div>
@@ -84,7 +84,7 @@ export function GameOverScreen({ session, onStats }: Props) {
 						boxShadow: "0 0 16px #00ffff44",
 					}}
 				>
-					PLAY AGAIN
+					もう一度
 				</div>
 				<div className="text-gray-500 text-sm font-mono tracking-widest">
 					[ SPACE ] でもう一度
@@ -95,14 +95,14 @@ export function GameOverScreen({ session, onStats }: Props) {
 						onClick={() => setShowReplay(true)}
 						className="px-6 py-2 font-mono text-sm text-gray-400 border border-gray-700 rounded hover:border-gray-500 hover:text-gray-200 transition-all"
 					>
-						VIEW REPLAY
+						リプレイ再生
 					</button>
 					<button
 						type="button"
 						onClick={onStats}
 						className="px-6 py-2 font-mono text-sm text-gray-400 border border-gray-700 rounded hover:border-gray-500 hover:text-gray-200 transition-all"
 					>
-						STATISTICS
+						統計
 					</button>
 				</div>
 			</div>

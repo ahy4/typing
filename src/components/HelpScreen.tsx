@@ -19,7 +19,7 @@ export function HelpScreen({ onBack }: Props) {
 							TYPE{"//"}DARK
 						</div>
 						<div className="text-xs text-gray-600 tracking-widest uppercase mt-1">
-							HELP &amp; RULES
+							ルール &amp; ヘルプ
 						</div>
 					</div>
 					<button
@@ -36,7 +36,7 @@ export function HelpScreen({ onBack }: Props) {
 							e.currentTarget.style.color = "#888";
 						}}
 					>
-						← BACK
+						← 戻る
 					</button>
 				</div>
 
@@ -200,11 +200,10 @@ export function HelpScreen({ onBack }: Props) {
 								ゲーム終了後、KPS・正確率・文章数・タイムが表示される。KPSはセッション全体の平均値。
 							</p>
 							<p>
-								STATISTICS
-								でセッション履歴・キー別エラー率・ヒートマップを確認できる。
+								「統計」でセッション履歴・キー別エラー率・ヒートマップを確認できる。
 							</p>
 							<p>
-								VIEW REPLAY でリプレイ再生。シークバーで任意の時点に移動できる。
+								「リプレイ再生」でリプレイ再生。シークバーで任意の時点に移動できる。
 							</p>
 						</div>
 					</section>
@@ -227,7 +226,7 @@ export function HelpScreen({ onBack }: Props) {
 							e.currentTarget.style.background = "transparent";
 						}}
 					>
-						BACK TO TITLE
+						タイトルへ戻る
 					</button>
 				</div>
 			</div>
