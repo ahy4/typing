@@ -1,0 +1,16 @@
+{
+	"hooks": {
+		"Stop": [
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "/home/user/typing/.claude/stop-lint-build-check.sh",
+						"timeout": 120,
+						"statusMessage": "ESLint / Biome / Build チェック中..."
+					}
+				]
+			}
+		]
+	}
+}
