@@ -3,7 +3,7 @@ interface Props {
 }
 
 export function ComboGauge({ combo }: Props) {
-  const milestone = 10;
+  const milestone = 100;
   const pct = ((combo % milestone) / milestone) * 100;
   const level = Math.floor(combo / milestone);
   const colors = ["#00ffff", "#00ff88", "#ffaa00", "#ff6600", "#ff3366", "#cc00ff"];

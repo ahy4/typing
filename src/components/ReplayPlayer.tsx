@@ -37,7 +37,7 @@ function lifeColor(life: number): string {
 
 function comboColor(combo: number): string {
   const colors = ["#00ffff", "#00ff88", "#ffaa00", "#ff6600", "#ff3366", "#cc00ff"];
-  return colors[Math.floor(combo / 3) % colors.length] ?? "#00ffff";
+  return colors[Math.floor(combo / 30) % colors.length] ?? "#00ffff";
 }
 
 function reconstructAt(replay: ReplayData, idx: number, currentTime?: number): DisplayState {
@@ -73,8 +73,8 @@ function reconstructAt(replay: ReplayData, idx: number, currentTime?: number): D
 
     kps.update(ev.time);
     streak++;
-    combo = Math.floor(streak / KEYS_PER_COMBO);
-    const healTick = streak % KEYS_PER_COMBO === 0 ? Math.max(2, Math.min(20, Math.floor(combo / 5) + 2)) : 0;
+    combo = streak;
+    const healTick = streak % KEYS_PER_COMBO === 0 ? Math.floor(combo / KEYS_PER_COMBO) : 0;
     life = Math.min(100, life + LIFE_RECOVER_CORRECT + healTick);
     totalCorrect++;
 
