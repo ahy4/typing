@@ -1,7 +1,8 @@
-import type { SessionRecord } from "../lib/types";
+import type { InputEvent, SessionRecord } from "../lib/types";
 
 interface Props {
-  sessions: SessionRecord[];
+  sessions?: SessionRecord[];
+  replayEvents?: InputEvent[];
 }
 
 const ROWS = [
@@ -10,8 +11,10 @@ const ROWS = [
   ["z", "x", "c", "v", "b", "n", "m"],
 ];
 
-export function HeatmapView({ sessions }: Props) {
-  const combined = new Map<string, { count: number; errors: number; totalMs: number }>();
+type KeyData = { count: number; errors: number; totalMs: number };
+
+function buildFromSessions(sessions: SessionRecord[]): Map<string, KeyData> {
+  const combined = new Map<string, KeyData>();
   for (const s of sessions) {
     for (const ks of s.keyStats) {
       const existing = combined.get(ks.key) ?? { count: 0, errors: 0, totalMs: 0 };
@@ -22,6 +25,29 @@ export function HeatmapView({ sessions }: Props) {
       });
     }
   }
+  return combined;
+}
+
+function buildFromEvents(events: InputEvent[]): Map<string, KeyData> {
+  const combined = new Map<string, KeyData>();
+  let lastTime = 0;
+  for (const ev of events) {
+    const interval = lastTime > 0 ? ev.time - lastTime : 0;
+    lastTime = ev.time;
+    const existing = combined.get(ev.key) ?? { count: 0, errors: 0, totalMs: 0 };
+    combined.set(ev.key, {
+      count: existing.count + 1,
+      errors: existing.errors + (ev.correct ? 0 : 1),
+      totalMs: existing.totalMs + interval,
+    });
+  }
+  return combined;
+}
+
+export function HeatmapView({ sessions, replayEvents }: Props) {
+  const combined = replayEvents
+    ? buildFromEvents(replayEvents)
+    : buildFromSessions(sessions ?? []);
 
   function getColor(key: string) {
     const d = combined.get(key);
@@ -44,6 +70,8 @@ export function HeatmapView({ sessions }: Props) {
     const errPct = d.count > 0 ? Math.round((d.errors / d.count) * 100) : 0;
     return `${key}: ${d.count}回, エラー率${errPct}%, 平均${avg}ms`;
   }
+
+  const isEmpty = replayEvents ? replayEvents.length === 0 : (sessions ?? []).length === 0;
 
   return (
     <div className="flex flex-col gap-4">
@@ -133,7 +161,7 @@ export function HeatmapView({ sessions }: Props) {
         <p className="text-[10px] text-gray-600">各キーにカーソルを当てると詳細 (回数・エラー率・平均ms) を表示</p>
       </div>
 
-      {sessions.length === 0 && (
+      {isEmpty && (
         <p className="text-gray-600 text-sm text-center">まだデータがありません。ゲームをプレイしてください。</p>
       )}
     </div>

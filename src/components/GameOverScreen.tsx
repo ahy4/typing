@@ -8,7 +8,7 @@ interface Props {
   onStats: () => void;
 }
 
-export function GameOverScreen({ session, onRestart, onStats }: Props) {
+export function GameOverScreen({ session, onRestart: _, onStats }: Props) {
   const [showReplay, setShowReplay] = useState(false);
 
   if (showReplay) {
@@ -21,11 +21,6 @@ export function GameOverScreen({ session, onRestart, onStats }: Props) {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-[#0a0a0a] gap-8 select-none">
-      <div className="text-4xl font-black font-mono tracking-widest"
-        style={{ color: "#ff3366", textShadow: "0 0 20px #ff336688" }}>
-        GAME OVER
-      </div>
-
       {/* Results */}
       <div className="grid grid-cols-2 gap-6 text-center">
         <div>
@@ -57,20 +52,19 @@ export function GameOverScreen({ session, onRestart, onStats }: Props) {
       </div>
 
       <div className="flex flex-col gap-3 items-center mt-4">
-        <button
-          onClick={onRestart}
-          className="px-10 py-3 font-mono text-lg font-bold rounded border-2 transition-all"
+        <div
+          className="px-10 py-3 font-mono text-lg font-bold rounded border-2 select-none cursor-default"
           style={{
-            borderColor: "#00ffff",
-            color: "#00ffff",
-            boxShadow: "0 0 16px #00ffff44",
+            borderColor: "#00ffff44",
+            color: "#00ffff88",
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = "#00ffff18"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
         >
           PLAY AGAIN
-        </button>
-        <div className="flex gap-3">
+        </div>
+        <div className="text-xs font-mono" style={{ color: "#00ffff" }}>
+          SPACE — もう一度
+        </div>
+        <div className="flex gap-3 mt-1">
           <button
             onClick={() => setShowReplay(true)}
             className="px-6 py-2 font-mono text-sm text-gray-400 border border-gray-700 rounded hover:border-gray-500 hover:text-gray-200 transition-all"

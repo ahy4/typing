@@ -3,6 +3,7 @@ import { EMA, intervalToWpm } from "../lib/ema";
 import { createTypingState, feedKey } from "../lib/romaji";
 import { playKeyTap, playMiss, playSegmentComplete } from "../lib/sound";
 import type { ReplayData } from "../lib/types";
+import { HeatmapView } from "./HeatmapView";
 import { KeyboardDisplay } from "./KeyboardDisplay";
 import { SpeedMeter } from "./SpeedMeter";
 import { TypingDisplay } from "./TypingDisplay";
@@ -76,7 +77,6 @@ function reconstructAt(replay: ReplayData, idx: number): DisplayState {
     totalCorrect++;
 
     const { next, result } = feedKey(typingState, ev.key);
-    if (result === "segment_complete" || result === "all_complete") combo++;
     if (result === "all_complete") {
       sentenceIdx++;
       const nextSentence = replay.sentences[sentenceIdx];
@@ -84,6 +84,7 @@ function reconstructAt(replay: ReplayData, idx: number): DisplayState {
     } else {
       typingState = next;
     }
+    combo++;
   }
 
   return {
@@ -101,10 +102,12 @@ function reconstructAt(replay: ReplayData, idx: number): DisplayState {
 export function ReplayPlayer({ replay, onClose }: Props) {
   const [seekPct, setSeekPct] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [showHeatmap, setShowHeatmap] = useState(false);
   const rafRef = useRef<number>(0);
   const startWallRef = useRef(0);
   const startGameRef = useRef(0);
   const lastSoundIdxRef = useRef(0);
+  const comboRef = useRef(0);
 
   const [displayState, setDisplayState] = useState<DisplayState>(() => reconstructAt(replay, 0));
 
@@ -128,23 +131,29 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     const fromIdx = lastSoundIdxRef.current;
     if (newIdx > fromIdx && newIdx - fromIdx < 20) {
       let prevSegIdx = replay.events[fromIdx - 1]?.segmentIdx ?? -1;
+      let comboForSound = comboRef.current;
       for (let i = fromIdx; i < newIdx; i++) {
         const ev = replay.events[i];
         if (!ev) continue;
         if (!ev.correct) {
+          comboForSound = 0;
           playMiss();
         } else if (prevSegIdx !== -1 && ev.segmentIdx !== prevSegIdx) {
-          playSegmentComplete(0);
+          playSegmentComplete(comboForSound);
+          comboForSound++;
           prevSegIdx = ev.segmentIdx;
         } else {
-          playKeyTap(0);
+          playKeyTap(comboForSound);
+          comboForSound++;
           prevSegIdx = ev.segmentIdx;
         }
       }
     }
     lastSoundIdxRef.current = newIdx;
 
-    setDisplayState(reconstructAt(replay, newIdx));
+    const newState = reconstructAt(replay, newIdx);
+    comboRef.current = newState.combo;
+    setDisplayState(newState);
 
     if (elapsed >= replay.totalTime) {
       stop();
@@ -173,7 +182,30 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     let idx = 0;
     while (idx < events.length && (events[idx]?.time ?? Infinity) <= gameTime) idx++;
     lastSoundIdxRef.current = idx;
-    setDisplayState(reconstructAt(replay, idx));
+    const newState = reconstructAt(replay, idx);
+    comboRef.current = newState.combo;
+    setDisplayState(newState);
+  }
+
+  if (showHeatmap) {
+    return (
+      <div className="h-screen overflow-y-auto flex flex-col" style={{ background: "#050508" }}>
+        <div className="flex items-center gap-4 px-6 py-3 border-b border-gray-900">
+          <button
+            onClick={() => setShowHeatmap(false)}
+            className="text-gray-500 hover:text-gray-200 font-mono text-sm transition-colors"
+          >
+            ← REPLAY
+          </button>
+          <span className="font-mono text-xs text-gray-600 uppercase tracking-widest">
+            {new Date(replay.timestamp).toLocaleString()} — {replay.wpm.toFixed(1)} KPS
+          </span>
+        </div>
+        <div className="px-8 py-6">
+          <HeatmapView replayEvents={replay.events} />
+        </div>
+      </div>
+    );
   }
 
   const sentence = replay.sentences[displayState.sentenceIdx];
@@ -296,6 +328,12 @@ export function ReplayPlayer({ replay, onClose }: Props) {
                 }}
               >
                 {playing ? "PAUSE" : "PLAY"}
+              </button>
+              <button
+                onClick={() => setShowHeatmap(true)}
+                className="hover:text-gray-400 transition-colors"
+              >
+                HEATMAP
               </button>
               <span>{currentTimeSec}s / {totalTimeSec}s</span>
             </div>

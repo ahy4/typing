@@ -12,7 +12,7 @@ interface Props {
 }
 
 export function StatsScreen({ sessions, onBack, onClear }: Props) {
-  const [tab, setTab] = useState<"overview" | "heatmap" | "replays">("overview");
+  const [tab, setTab] = useState<"heatmap" | "replays">("replays");
   const [selectedReplayId, setSelectedReplayId] = useState<string | null>(null);
 
   const replays = loadReplays();
@@ -26,7 +26,6 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
     );
   }
 
-  const bestWpm = sessions.length > 0 ? Math.max(...sessions.map((s) => s.wpm)) : 0;
   const avgWpm = sessions.length > 0 ? sessions.reduce((a, s) => a + s.wpm, 0) / sessions.length : 0;
   const avgAcc = sessions.length > 0 ? sessions.reduce((a, s) => a + s.accuracy, 0) / sessions.length : 0;
 
@@ -53,7 +52,6 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
       <div className="flex gap-8 px-8 py-4 border-b border-gray-900">
         {[
           { label: "Sessions", value: sessions.length, color: "#888" },
-          { label: "Best KPS", value: bestWpm.toFixed(1), color: "#00ffff" },
           { label: "Avg KPS", value: avgWpm.toFixed(1), color: "#00ff88" },
           { label: "Avg Acc", value: `${Math.round(avgAcc * 100)}%`, color: "#ffaa00" },
         ].map((item) => (
@@ -66,9 +64,14 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
         ))}
       </div>
 
+      {/* KPS chart */}
+      <div className="px-8 py-4 border-b border-gray-900">
+        <SessionChart sessions={sessions} />
+      </div>
+
       {/* Tabs */}
       <div className="flex gap-0 border-b border-gray-900">
-        {(["overview", "heatmap", "replays"] as const).map((t) => (
+        {(["replays", "heatmap"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -85,33 +88,8 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-8 py-6">
-        {tab === "overview" && (
-          <div className="max-w-lg">
-            <SessionChart sessions={sessions} />
-            {sessions.length > 0 && (
-              <div className="mt-8 flex flex-col gap-2">
-                <h3 className="text-sm uppercase tracking-widest text-gray-500 mb-3">Recent Sessions</h3>
-                {[...sessions].reverse().slice(0, 10).map((s) => (
-                  <div
-                    key={s.id}
-                    className="flex justify-between items-center py-2 border-b border-gray-900 text-sm font-mono"
-                  >
-                    <span className="text-gray-600">
-                      {new Date(s.timestamp).toLocaleDateString()}
-                    </span>
-                    <span className="text-cyan-400">{s.wpm.toFixed(1)} KPS</span>
-                    <span className="text-green-400">{Math.round(s.accuracy * 100)}%</span>
-                    <span className="text-gray-600">{s.sentences} sent</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-        {tab === "heatmap" && <HeatmapView sessions={sessions} />}
         {tab === "replays" && (
           <div className="flex flex-col gap-2">
-            <h3 className="text-sm uppercase tracking-widest text-gray-500 mb-3">Saved Replays</h3>
             {replays.length === 0 && (
               <p className="text-gray-600 text-sm">No replays yet.</p>
             )}
@@ -131,6 +109,7 @@ export function StatsScreen({ sessions, onBack, onClear }: Props) {
             ))}
           </div>
         )}
+        {tab === "heatmap" && <HeatmapView sessions={sessions} />}
       </div>
     </div>
   );

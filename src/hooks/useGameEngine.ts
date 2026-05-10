@@ -102,11 +102,14 @@ export interface GameState {
   hasGhost: boolean;
   lastHealAmount: number;
   lastHealId: number;
+  lastWrong: boolean;
 }
 
 export function useGameEngine() {
   const emaRef = useRef(new EMA(0.25, 0));
   const lastKeyTimeRef = useRef<number>(0);
+  const lastCorrectKeyTimeRef = useRef<number>(0);
+  const lastWasWrongRef = useRef<boolean>(false);
   const rafRef = useRef<number>(0);
   const lastFrameTimeRef = useRef<number>(0);
   const eventsRef = useRef<InputEvent[]>([]);
@@ -137,6 +140,7 @@ export function useGameEngine() {
     hasGhost: false,
     lastHealAmount: 0,
     lastHealId: 0,
+    lastWrong: false,
   }));
 
   const stateRef = useRef(state);
@@ -217,6 +221,8 @@ export function useGameEngine() {
     cancelAnimationFrame(rafRef.current);
     emaRef.current.reset(0);
     lastKeyTimeRef.current = 0;
+    lastCorrectKeyTimeRef.current = 0;
+    lastWasWrongRef.current = false;
     eventsRef.current = [];
     keyStatsRef.current = new Map();
     bigramRef.current = new Map();
@@ -262,6 +268,7 @@ export function useGameEngine() {
       hasGhost: bestReplay !== null,
       lastHealAmount: 0,
       lastHealId: 0,
+      lastWrong: false,
     });
 
     rafRef.current = requestAnimationFrame(tick);
@@ -287,22 +294,28 @@ export function useGameEngine() {
       const { next, result, segmentCompleted } = feedKey(s.typingState, key);
 
       if (result === "wrong") {
+        const isConsecutiveMiss = lastWasWrongRef.current;
+        lastWasWrongRef.current = true;
         eventsRef.current.push({ time: elapsed, key, correct: false, segmentIdx: s.typingState.segIdx });
         keyStatsRef.current.set(key, { ...keyData, count: keyData.count + 1, errors: keyData.errors + 1 });
         prevKeyRef.current = key;
         lastKeyTimeRef.current = now;
-        playMiss();
+        if (!isConsecutiveMiss) playMiss();
         setState((prev) => ({
           ...prev,
-          life: Math.max(0, prev.life - LIFE_DRAIN_MISS),
+          life: isConsecutiveMiss ? prev.life : Math.max(0, prev.life - LIFE_DRAIN_MISS),
           combo: 0,
-          totalErrors: prev.totalErrors + 1,
+          totalErrors: isConsecutiveMiss ? prev.totalErrors : prev.totalErrors + 1,
+          lastWrong: true,
         }));
         return;
       }
 
       // Correct key
-      const wpm = interval > 0 ? emaRef.current.update(intervalToWpm(interval)) : emaRef.current.get();
+      lastWasWrongRef.current = false;
+      const correctInterval = lastCorrectKeyTimeRef.current > 0 ? now - lastCorrectKeyTimeRef.current : 0;
+      const wpm = correctInterval > 0 ? emaRef.current.update(intervalToWpm(correctInterval)) : emaRef.current.get();
+      lastCorrectKeyTimeRef.current = now;
       keyStatsRef.current.set(key, { ...keyData, count: keyData.count + 1, totalMs: keyData.totalMs + interval });
       eventsRef.current.push({ time: elapsed, key, correct: true, segmentIdx: s.typingState.segIdx });
       prevKeyRef.current = key;
@@ -341,6 +354,7 @@ export function useGameEngine() {
           totalCorrect: prev.totalCorrect + 1,
           lastHealAmount: segHeal,
           lastHealId: segHeal > 0 ? prev.lastHealId + 1 : prev.lastHealId,
+          lastWrong: false,
         }));
       } else {
         setState((prev) => ({
@@ -352,6 +366,7 @@ export function useGameEngine() {
           totalCorrect: prev.totalCorrect + 1,
           lastHealAmount: segHeal,
           lastHealId: segHeal > 0 ? prev.lastHealId + 1 : prev.lastHealId,
+          lastWrong: false,
         }));
       }
     },
