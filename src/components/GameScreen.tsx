@@ -1,6 +1,5 @@
 import type { GameState } from "../hooks/useGameEngine";
 import { KeyboardDisplay } from "./KeyboardDisplay";
-import { SpeedMeter } from "./SpeedMeter";
 import { TypingDisplay } from "./TypingDisplay";
 
 interface Props {
@@ -23,7 +22,6 @@ function comboColor(combo: number): string {
 export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
   const sentence = state.sentences[state.sentenceIdx];
   const lifePct = Math.max(0, Math.min(100, state.life));
-  const comboPct = state.combo > 0 ? ((state.combo % 10) / 10) * 100 || 100 : 0;
   const lc = lifeColor(lifePct);
   const cc = comboColor(state.combo);
   const acc =
@@ -31,125 +29,154 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
       ? Math.round((state.totalCorrect / (state.totalCorrect + state.totalErrors)) * 100)
       : 100;
 
-  // Ghost: sentenceIdx as fraction of total ever completed sentences (use 20 as scale reference)
-  const ghostPct = state.hasGhost
-    ? Math.min(100, (state.ghostSentenceIdx / Math.max(state.sentenceIdx + 1, 1)) * state.sentenceIdx * 5)
-    : 0;
+  const myProgress = state.sentenceIdx;
+  const ghostProgress = state.hasGhost ? state.ghostSentenceIdx : 0;
+  // Scale so that both bars are visible and meaningful
+  const progressMax = Math.max(myProgress, ghostProgress, 10);
 
   return (
     <div className="relative h-screen overflow-hidden" style={{ background: "#050508" }}>
-      {/* ── Vertical background bars ── */}
 
-      {/* Life bar — left edge, fills from bottom */}
-      <div className="absolute left-0 top-0 bottom-0 w-10 flex flex-col justify-end" style={{ background: "#080808" }}>
+      {/* ── LIFE bar — left side, wide ── */}
+      <div className="absolute left-0 top-0 bottom-0 w-16 flex flex-col justify-end" style={{ background: "#080808" }}>
         <div
           className="w-full transition-all duration-100"
           style={{
             height: `${lifePct}%`,
             background: lc,
-            opacity: 0.35,
-            boxShadow: `0 0 12px ${lc}`,
+            opacity: 0.45,
+            boxShadow: `0 0 18px ${lc}`,
           }}
         />
-        {/* label */}
         <div className="absolute inset-0 flex items-center justify-center">
           <span
             className="text-[9px] font-mono uppercase tracking-widest select-none"
-            style={{ writingMode: "vertical-rl", color: lc, opacity: 0.5 }}
+            style={{ writingMode: "vertical-rl", color: lc, opacity: 0.75 }}
           >
             LIFE {Math.round(lifePct)}%
           </span>
         </div>
       </div>
 
-      {/* Combo bar — second from left */}
-      <div className="absolute left-10 top-0 bottom-0 w-4 flex flex-col justify-end" style={{ background: "#060606" }}>
-        <div
-          className="w-full transition-all duration-75"
-          style={{
-            height: `${comboPct}%`,
-            background: cc,
-            opacity: 0.25,
-          }}
-        />
-      </div>
-
-      {/* Sentence progress — second from right */}
-      <div className="absolute right-10 top-0 bottom-0 w-4 flex flex-col justify-end" style={{ background: "#060606" }}>
-        <div
-          className="w-full transition-all duration-300"
-          style={{
-            height: `${(state.sentenceIdx / Math.max(state.sentences.length, 1)) * 100}%`,
-            background: "#0088ff",
-            opacity: 0.25,
-          }}
-        />
-      </div>
-
-      {/* Ghost bar — right edge */}
-      <div className="absolute right-0 top-0 bottom-0 w-10 flex flex-col justify-end" style={{ background: "#080808" }}>
+      {/* ── GHOST progress bar — right side, wide ── */}
+      <div className="absolute right-0 top-0 bottom-0 w-16 flex flex-col justify-end" style={{ background: "#080808" }}>
         {state.hasGhost && (
           <div
             className="w-full transition-all duration-100"
             style={{
-              height: `${Math.min(100, (state.ghostSentenceIdx / Math.max(state.sentenceIdx + 1, 20)) * 100)}%`,
+              height: `${(ghostProgress / progressMax) * 100}%`,
               background: "#cc44ff",
-              opacity: 0.35,
-              boxShadow: "0 0 12px #cc44ff88",
+              opacity: 0.45,
+              boxShadow: "0 0 18px #cc44ff88",
             }}
           />
         )}
         <div className="absolute inset-0 flex items-center justify-center">
           <span
             className="text-[9px] font-mono uppercase tracking-widest select-none"
-            style={{ writingMode: "vertical-rl", color: "#cc44ff", opacity: state.hasGhost ? 0.5 : 0.15 }}
+            style={{ writingMode: "vertical-rl", color: "#cc44ff", opacity: state.hasGhost ? 0.75 : 0.2 }}
           >
-            {state.hasGhost ? `GHOST` : "NO GHOST"}
+            {state.hasGhost ? `GHOST ${ghostProgress}文` : "NO GHOST"}
           </span>
         </div>
       </div>
 
-      {/* ── Thin top bar: sentence count ── */}
-      <div className="absolute top-0 left-14 right-14 h-0.5" style={{ background: "#111" }}>
-        <div
-          className="h-full transition-all duration-300"
-          style={{
-            width: `${(state.sentenceIdx / Math.max(state.sentences.length, 1)) * 100}%`,
-            background: "linear-gradient(90deg, #0066ff, #00ffff)",
-            boxShadow: "0 0 6px #00ffff44",
-          }}
-        />
-      </div>
-
       {/* ── Main content area ── */}
-      <div className="absolute inset-0 left-14 right-14 flex flex-col">
+      <div className="absolute inset-0 left-16 right-16 flex flex-col">
+
+        {/* Progress comparison — central, prominent */}
+        <div className="px-6 pt-4 pb-3 flex flex-col gap-2">
+          {/* YOU */}
+          <div className="flex items-center gap-3">
+            <span className="text-[11px] font-mono text-cyan-400 w-14 text-right uppercase tracking-wider shrink-0">
+              YOU
+            </span>
+            <div className="flex-1 h-4 rounded overflow-hidden" style={{ background: "#111" }}>
+              <div
+                className="h-full rounded transition-all duration-300"
+                style={{
+                  width: `${(myProgress / progressMax) * 100}%`,
+                  background: "linear-gradient(90deg, #00ffff, #0088ff)",
+                  boxShadow: "0 0 8px #00ffff44",
+                }}
+              />
+            </div>
+            <span className="text-[11px] font-mono text-cyan-400 w-16 shrink-0">
+              {myProgress} 文
+            </span>
+          </div>
+
+          {/* GHOST */}
+          <div className="flex items-center gap-3">
+            <span
+              className="text-[11px] font-mono w-14 text-right uppercase tracking-wider shrink-0"
+              style={{ color: state.hasGhost ? "#cc44ff" : "#333" }}
+            >
+              GHOST
+            </span>
+            <div className="flex-1 h-4 rounded overflow-hidden" style={{ background: "#111" }}>
+              {state.hasGhost && (
+                <div
+                  className="h-full rounded transition-all duration-100"
+                  style={{
+                    width: `${(ghostProgress / progressMax) * 100}%`,
+                    background: "linear-gradient(90deg, #cc44ff, #8800ff)",
+                    boxShadow: "0 0 8px #cc44ff44",
+                  }}
+                />
+              )}
+            </div>
+            <span
+              className="text-[11px] font-mono w-16 shrink-0"
+              style={{ color: state.hasGhost ? "#cc44ff" : "#333" }}
+            >
+              {state.hasGhost ? `${ghostProgress} 文` : "— なし"}
+            </span>
+          </div>
+        </div>
+
+        <div className="mx-6 h-px" style={{ background: "#111" }} />
+
         {/* Typing area — centered */}
-        <div className="flex-1 flex flex-col items-center justify-center gap-6">
+        <div className="flex-1 flex flex-col items-center justify-center gap-8">
           {sentence ? (
             <TypingDisplay sentence={sentence} typingState={state.typingState} lastWrong={false} />
           ) : (
             <div className="text-gray-500 font-mono">Loading...</div>
           )}
 
-          {/* Speed meters row */}
-          <div className="flex items-center gap-8">
-            <div className="flex flex-col items-center">
-              <SpeedMeter wpm={state.speed} label="YOU" color="#00ffff" />
+          {/* Speed display — large, clearly labeled */}
+          <div className="flex items-end gap-16">
+            <div className="flex flex-col items-center gap-1">
+              <span className="text-5xl font-mono font-bold leading-none" style={{ color: "#00ffff" }}>
+                {Math.round(state.speed)}
+              </span>
+              <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">WPM / YOU</span>
             </div>
             {state.hasGhost && (
-              <div className="flex flex-col items-center">
-                <SpeedMeter wpm={state.ghostSpeed} label="GHOST" color="#cc44ff" />
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-5xl font-mono font-bold leading-none" style={{ color: "#cc44ff" }}>
+                  {Math.round(state.ghostSpeed)}
+                </span>
+                <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">WPM / GHOST</span>
               </div>
             )}
           </div>
 
           {/* Stats strip */}
           <div className="flex gap-6 text-xs text-gray-600 font-mono">
-            <span>COMBO <span style={{ color: cc }}>{state.combo}x</span></span>
-            <span>SENT <span className="text-blue-400">{state.sentenceIdx}</span></span>
-            <span>OK <span className="text-green-400">{state.totalCorrect}</span></span>
-            <span>ERR <span className="text-red-400">{state.totalErrors}</span></span>
-            <span>ACC <span className="text-yellow-400">{acc}%</span></span>
+            <span>
+              COMBO <span style={{ color: cc }}>{state.combo}x</span>
+            </span>
+            <span>
+              OK <span className="text-green-400">{state.totalCorrect}</span>
+            </span>
+            <span>
+              ERR <span className="text-red-400">{state.totalErrors}</span>
+            </span>
+            <span>
+              ACC <span className="text-yellow-400">{acc}%</span>
+            </span>
             <span className="text-gray-700">{Math.round(state.elapsed / 1000)}s</span>
           </div>
         </div>
@@ -166,11 +193,11 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
           className="flex items-center justify-between px-4 py-1.5 text-[10px] text-gray-700 font-mono"
           style={{ borderTop: "1px solid #111" }}
         >
-          <span>ESC — end</span>
+          <span>ESC — 終了</span>
           <button onClick={onToggleKeyboard} className="hover:text-gray-400 transition-colors">
             KB: {showKeyboard ? "ON" : "OFF"}
           </button>
-          <span>LIFE {Math.round(lifePct)}%</span>
+          <span style={{ color: lc }}>LIFE {Math.round(lifePct)}%</span>
         </div>
       </div>
     </div>

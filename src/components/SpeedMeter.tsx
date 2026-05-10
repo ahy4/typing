@@ -10,8 +10,6 @@ export function SpeedMeter({ wpm, label = "WPM", color = "#00ffff", maxWpm = 200
   const r = 36;
   const cx = 44;
   const cy = 44;
-  const sweepAngle = 260;
-
   // arc path using SVG
   function describeArc(startDeg: number, endDeg: number, radius: number) {
     const toRad = (d: number) => ((d - 90) * Math.PI) / 180;
