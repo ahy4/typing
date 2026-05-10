@@ -1,9 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { EMA, intervalToWpm } from "../lib/ema";
 import { createTypingState, feedKey } from "../lib/romaji";
+import { playKeyTap, playMiss, playSegmentComplete } from "../lib/sound";
 import type { ReplayData } from "../lib/types";
 import { KeyboardDisplay } from "./KeyboardDisplay";
 import { SpeedMeter } from "./SpeedMeter";
 import { TypingDisplay } from "./TypingDisplay";
+
+const LIFE_DRAIN_MISS = 5;
+const LIFE_DRAIN_BASE = 0.04;
+const LIFE_DRAIN_COMBO_FACTOR = 0.6;
+const LIFE_RECOVER_CORRECT = 0.03;
 
 interface Props {
   replay: ReplayData;
@@ -16,28 +23,60 @@ interface DisplayState {
   life: number;
   combo: number;
   speed: number;
+  totalCorrect: number;
+  totalErrors: number;
+  lastKey: string;
+}
+
+function lifeColor(life: number): string {
+  if (life > 60) return "#00ff88";
+  if (life > 30) return "#ffaa00";
+  return "#ff3333";
+}
+
+function comboColor(combo: number): string {
+  const colors = ["#00ffff", "#00ff88", "#ffaa00", "#ff6600", "#ff3366", "#cc00ff"];
+  return colors[Math.floor(combo / 10) % colors.length] ?? "#00ffff";
 }
 
 function reconstructAt(replay: ReplayData, idx: number): DisplayState {
   let sentenceIdx = 0;
   let typingState = createTypingState(replay.sentences[0]?.kana ?? "");
   let combo = 0;
-  let errors = 0;
+  let totalErrors = 0;
+  let totalCorrect = 0;
   let life = 100;
+  let lastEventTime = 0;
+  let lastCorrectTime = 0;
+  let lastKey = "";
+  const ema = new EMA(0.25, 0);
 
   for (let i = 0; i < idx && i < replay.events.length; i++) {
     const ev = replay.events[i];
     if (!ev) continue;
+
+    const dt = ev.time - lastEventTime;
+    const comboFactor = combo > 0 ? LIFE_DRAIN_COMBO_FACTOR : 1;
+    const drain = (LIFE_DRAIN_BASE * comboFactor * dt) / (1000 / 60);
+    life = Math.max(0, life - drain);
+    lastEventTime = ev.time;
+    lastKey = ev.key;
+
     if (!ev.correct) {
       combo = 0;
-      errors++;
-      life = Math.max(0, life - 0.15);
+      totalErrors++;
+      life = Math.max(0, life - LIFE_DRAIN_MISS);
       continue;
     }
-    const { next, result, segmentCompleted } = feedKey(typingState, ev.key);
-    if (segmentCompleted || result === "segment_complete" || result === "all_complete") {
-      combo++;
-    }
+
+    const interval = lastCorrectTime > 0 ? ev.time - lastCorrectTime : 0;
+    if (interval > 0) ema.update(intervalToWpm(interval));
+    lastCorrectTime = ev.time;
+    life = Math.min(100, life + LIFE_RECOVER_CORRECT);
+    totalCorrect++;
+
+    const { next, result } = feedKey(typingState, ev.key);
+    if (result === "segment_complete" || result === "all_complete") combo++;
     if (result === "all_complete") {
       sentenceIdx++;
       const nextSentence = replay.sentences[sentenceIdx];
@@ -45,22 +84,27 @@ function reconstructAt(replay: ReplayData, idx: number): DisplayState {
     } else {
       typingState = next;
     }
-    life = Math.min(100, life + 0.03 - 0.0006 * 60); // approx drain minus recovery
   }
 
-  // Rough speed from replay wpm scaled by progress
-  const speed = idx > 0 ? replay.wpm * Math.min(1, idx / Math.max(replay.events.length * 0.5, 1)) : 0;
-
-  return { sentenceIdx, typingState, life: Math.max(0, life), combo, speed };
+  return {
+    sentenceIdx,
+    typingState,
+    life: Math.max(0, life),
+    combo,
+    speed: ema.get(),
+    totalCorrect,
+    totalErrors,
+    lastKey,
+  };
 }
 
 export function ReplayPlayer({ replay, onClose }: Props) {
   const [seekPct, setSeekPct] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const [eventIdx, setEventIdx] = useState(0);
   const rafRef = useRef<number>(0);
   const startWallRef = useRef(0);
   const startGameRef = useRef(0);
+  const lastSoundIdxRef = useRef(0);
 
   const [displayState, setDisplayState] = useState<DisplayState>(() => reconstructAt(replay, 0));
 
@@ -80,7 +124,26 @@ export function ReplayPlayer({ replay, onClose }: Props) {
       newIdx++;
     }
 
-    setEventIdx(newIdx);
+    // Play sounds for newly processed events (skip if catching up too many)
+    const fromIdx = lastSoundIdxRef.current;
+    if (newIdx > fromIdx && newIdx - fromIdx < 20) {
+      let prevSegIdx = replay.events[fromIdx - 1]?.segmentIdx ?? -1;
+      for (let i = fromIdx; i < newIdx; i++) {
+        const ev = replay.events[i];
+        if (!ev) continue;
+        if (!ev.correct) {
+          playMiss();
+        } else if (prevSegIdx !== -1 && ev.segmentIdx !== prevSegIdx) {
+          playSegmentComplete(0);
+          prevSegIdx = ev.segmentIdx;
+        } else {
+          playKeyTap(0);
+          prevSegIdx = ev.segmentIdx;
+        }
+      }
+    }
+    lastSoundIdxRef.current = newIdx;
+
     setDisplayState(reconstructAt(replay, newIdx));
 
     if (elapsed >= replay.totalTime) {
@@ -109,110 +172,150 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     const events = replay.events;
     let idx = 0;
     while (idx < events.length && (events[idx]?.time ?? Infinity) <= gameTime) idx++;
-    setEventIdx(idx);
+    lastSoundIdxRef.current = idx;
     setDisplayState(reconstructAt(replay, idx));
   }
 
   const sentence = replay.sentences[displayState.sentenceIdx];
-  const ev = replay.events[eventIdx - 1];
   const lifePct = Math.max(0, Math.min(100, displayState.life));
-  const lc = lifePct > 60 ? "#00ff88" : lifePct > 30 ? "#ffaa00" : "#ff3333";
-  const comboPct = displayState.combo > 0 ? ((displayState.combo % 10) / 10) * 100 || 100 : 0;
-  const sentencePct = (displayState.sentenceIdx / Math.max(replay.sentences.length, 1)) * 100;
+  const lc = lifeColor(lifePct);
+  const cc = comboColor(displayState.combo);
+  const sentenceProgress = displayState.sentenceIdx;
+  const progressMax = Math.max(sentenceProgress, 10);
+  const sentencePct = (sentenceProgress / progressMax) * 100;
+  const acc =
+    displayState.totalCorrect + displayState.totalErrors > 0
+      ? Math.round((displayState.totalCorrect / (displayState.totalCorrect + displayState.totalErrors)) * 100)
+      : 100;
+  const currentTimeSec = Math.round((seekPct / 100) * replay.totalTime / 1000);
+  const totalTimeSec = Math.round(replay.totalTime / 1000);
 
   return (
-    <div className="relative w-full h-screen overflow-hidden" style={{ background: "#050508" }}>
-      {/* Vertical bars (same as GameScreen) */}
-      <div className="absolute left-0 top-0 bottom-0 w-10 flex flex-col justify-end" style={{ background: "#080808" }}>
-        <div className="w-full transition-all" style={{ height: `${lifePct}%`, background: lc, opacity: 0.35, boxShadow: `0 0 12px ${lc}` }} />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-[9px] font-mono uppercase select-none" style={{ writingMode: "vertical-rl", color: lc, opacity: 0.5 }}>
-            LIFE {Math.round(lifePct)}%
-          </span>
-        </div>
-      </div>
-      <div className="absolute left-10 top-0 bottom-0 w-4 flex flex-col justify-end" style={{ background: "#060606" }}>
-        <div className="w-full transition-all" style={{ height: `${comboPct}%`, background: "#00ffff", opacity: 0.22 }} />
-      </div>
-      <div className="absolute right-10 top-0 bottom-0 w-4 flex flex-col justify-end" style={{ background: "#060606" }}>
-        <div className="w-full transition-all" style={{ height: `${sentencePct}%`, background: "#0088ff", opacity: 0.22 }} />
-      </div>
-      <div className="absolute right-0 top-0 bottom-0 w-10 flex flex-col justify-end" style={{ background: "#080808" }}>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-[9px] font-mono uppercase select-none" style={{ writingMode: "vertical-rl", color: "#cc44ff", opacity: 0.4 }}>
-            REPLAY
-          </span>
-        </div>
-      </div>
+    <div className="h-screen overflow-hidden flex justify-center" style={{ background: "#050508" }}>
+      <div className="flex h-full w-full" style={{ maxWidth: "1100px" }}>
 
-      {/* Top progress bar */}
-      <div className="absolute top-0 left-14 right-14 h-0.5" style={{ background: "#111" }}>
-        <div className="h-full" style={{ width: `${seekPct}%`, background: "linear-gradient(90deg,#0066ff,#00ffff)", transition: "width 0.05s" }} />
-      </div>
-
-      {/* Content */}
-      <div className="absolute inset-0 left-14 right-14 flex flex-col">
-        {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-900">
-          <div className="text-xs text-gray-600 flex gap-4 font-mono">
-            <span>KPS <span className="text-cyan-400">{Math.round(replay.wpm)}</span></span>
-            <span>ACC <span className="text-green-400">{Math.round(replay.accuracy * 100)}%</span></span>
-            <span>COMBO <span className="text-cyan-300">{displayState.combo}x</span></span>
-            <span>KEY <span className="text-yellow-400">{ev?.key ?? "·"}</span></span>
-          </div>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-white text-xs font-mono px-3 py-1 border border-gray-800 rounded hover:border-gray-500 transition-colors"
-          >
-            CLOSE
-          </button>
-        </div>
-
-        {/* Main area */}
-        <div className="flex-1 flex flex-col items-center justify-center gap-6">
-          {sentence && (
-            <TypingDisplay
-              sentence={sentence}
-              typingState={displayState.typingState}
-              lastWrong={!(ev?.correct ?? true)}
-            />
-          )}
-          <SpeedMeter wpm={displayState.speed} label="KPS" color="#00ffff" />
-          <div className="text-xs text-gray-700 font-mono">
-            {displayState.sentenceIdx + 1} / {replay.sentences.length} sentences
-          </div>
-          {/* Keyboard showing the last pressed key */}
-          <KeyboardDisplay keyStats={[]} highlight={ev?.key ? [ev.key] : []} />
-        </div>
-
-        {/* Controls */}
-        <div className="flex flex-col gap-3 px-8 pb-6">
-          <input
-            type="range"
-            min="0"
-            max="100"
-            step="0.1"
-            value={seekPct}
-            onChange={handleSeek}
-            className="w-full accent-cyan-400"
+        {/* ── LIFE bar — left ── */}
+        <div className="w-16 shrink-0 flex flex-col justify-end relative" style={{ background: "#080808" }}>
+          <div
+            className="w-full transition-all duration-100"
+            style={{ height: `${lifePct}%`, background: lc, opacity: 0.45, boxShadow: `0 0 18px ${lc}` }}
           />
-          <div className="flex gap-4 justify-center items-center">
-            <button
-              onClick={playing ? stop : play}
-              className="px-8 py-2 font-mono text-sm border rounded transition-all"
-              style={{
-                borderColor: playing ? "#ff3333" : "#00ffff",
-                color: playing ? "#ff3333" : "#00ffff",
-                boxShadow: playing ? "0 0 8px #ff333344" : "0 0 8px #00ffff44",
-              }}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span
+              className="text-[9px] font-mono uppercase tracking-widest select-none"
+              style={{ writingMode: "vertical-rl", color: lc, opacity: 0.75 }}
             >
-              {playing ? "PAUSE" : "PLAY"}
-            </button>
-            <span className="text-xs text-gray-700 font-mono">
-              {Math.round((seekPct / 100) * replay.totalTime / 1000)}s / {Math.round(replay.totalTime / 1000)}s
+              LIFE {Math.round(lifePct)}%
             </span>
           </div>
         </div>
+
+        {/* ── Main content ── */}
+        <div className="flex-1 flex flex-col min-w-0">
+
+          {/* Progress bar */}
+          <div className="px-6 pt-4 pb-3 flex flex-col gap-2">
+            <div className="flex items-center gap-3">
+              <span className="text-[11px] font-mono w-14 text-right uppercase tracking-wider shrink-0" style={{ color: "#cc44ff" }}>
+                REPLAY
+              </span>
+              <div className="flex-1 h-4 rounded overflow-hidden" style={{ background: "#111" }}>
+                <div
+                  className="h-full rounded transition-all duration-300"
+                  style={{
+                    width: `${sentencePct}%`,
+                    background: "linear-gradient(90deg, #cc44ff, #8800ff)",
+                    boxShadow: "0 0 8px #cc44ff44",
+                  }}
+                />
+              </div>
+              <span className="text-[11px] font-mono w-16 shrink-0" style={{ color: "#cc44ff" }}>
+                {sentenceProgress} 文
+              </span>
+            </div>
+          </div>
+
+          <div className="mx-6 h-px" style={{ background: "#111" }} />
+
+          {/* Typing area */}
+          <div className="flex-1 flex flex-col items-center justify-center gap-8">
+            {sentence ? (
+              <TypingDisplay sentence={sentence} typingState={displayState.typingState} lastWrong={false} />
+            ) : (
+              <div className="text-gray-500 font-mono">Loading...</div>
+            )}
+
+            <div className="flex items-center gap-8">
+              <SpeedMeter wpm={displayState.speed} label="KPS" color="#cc44ff" />
+            </div>
+
+            <div className="flex gap-6 text-xs text-gray-600 font-mono">
+              <span>
+                COMBO <span style={{ color: cc }}>{displayState.combo}x</span>
+              </span>
+              <span>
+                OK <span className="text-green-400">{displayState.totalCorrect}</span>
+              </span>
+              <span>
+                ERR <span className="text-red-400">{displayState.totalErrors}</span>
+              </span>
+              <span>
+                ACC <span className="text-yellow-400">{acc}%</span>
+              </span>
+              <span className="text-gray-700">{currentTimeSec}s</span>
+            </div>
+          </div>
+
+          {/* Keyboard showing last pressed key */}
+          <div className="border-t border-gray-900 pb-1">
+            <KeyboardDisplay keyStats={[]} highlight={displayState.lastKey ? [displayState.lastKey] : []} />
+          </div>
+
+          {/* Seek + controls */}
+          <div className="px-4 py-2" style={{ borderTop: "1px solid #111" }}>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              step="0.1"
+              value={seekPct}
+              onChange={handleSeek}
+              className="w-full accent-cyan-400 mb-2"
+            />
+            <div className="flex items-center justify-between text-[10px] text-gray-700 font-mono">
+              <button onClick={onClose} className="hover:text-gray-400 transition-colors">ESC — 閉じる</button>
+              <button
+                onClick={playing ? stop : play}
+                className="px-4 py-1 border rounded transition-all font-mono text-xs"
+                style={{
+                  borderColor: playing ? "#ff3333" : "#00ffff",
+                  color: playing ? "#ff3333" : "#00ffff",
+                  boxShadow: playing ? "0 0 6px #ff333344" : "0 0 6px #00ffff44",
+                }}
+              >
+                {playing ? "PAUSE" : "PLAY"}
+              </button>
+              <span>{currentTimeSec}s / {totalTimeSec}s</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ── REPLAY progress bar — right ── */}
+        <div className="w-16 shrink-0 flex flex-col justify-end relative" style={{ background: "#080808" }}>
+          <div
+            className="w-full transition-all duration-100"
+            style={{ height: `${sentencePct}%`, background: "#cc44ff", opacity: 0.45, boxShadow: "0 0 18px #cc44ff88" }}
+          />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span
+              className="text-[9px] font-mono uppercase tracking-widest select-none"
+              style={{ writingMode: "vertical-rl", color: "#cc44ff", opacity: 0.75 }}
+            >
+              REPLAY {sentenceProgress}文
+            </span>
+          </div>
+        </div>
+
       </div>
     </div>
   );

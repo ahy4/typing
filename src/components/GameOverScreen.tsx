@@ -12,11 +12,7 @@ export function GameOverScreen({ session, onRestart, onStats }: Props) {
   const [showReplay, setShowReplay] = useState(false);
 
   if (showReplay) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-[#0a0a0a] p-8">
-        <ReplayPlayer replay={session.replay} onClose={() => setShowReplay(false)} />
-      </div>
-    );
+    return <ReplayPlayer replay={session.replay} onClose={() => setShowReplay(false)} />;
   }
 
   const acc = Math.round(session.accuracy * 100);
