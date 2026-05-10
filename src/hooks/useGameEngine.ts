@@ -3,15 +3,60 @@ import { EMA, intervalToWpm } from "../lib/ema";
 import { createTypingState, feedKey } from "../lib/romaji";
 import { getSentenceQueue } from "../lib/sentences";
 import { playComboMilestone, playGameOver, playKeyTap, playMiss, playSegmentComplete } from "../lib/sound";
-import { clearAll, loadSessions, saveSessions, saveReplay } from "../lib/storage";
-import type { BigramStats, GamePhase, InputEvent, KeyStats, Sentence, SessionRecord } from "../lib/types";
+import { clearAll, loadReplays, loadSessions, saveReplay, saveSessions } from "../lib/storage";
+import type { BigramStats, GamePhase, InputEvent, KeyStats, ReplayData, Sentence, SessionRecord } from "../lib/types";
 
 const LIFE_MAX = 100;
-const LIFE_DRAIN_BASE = 0.8; // per frame at 60fps
-const LIFE_DRAIN_COMBO_FACTOR = 0.6; // drain multiplier when combo > 0
-const LIFE_RECOVER_CORRECT = 0.4;
-const LIFE_DRAIN_MISS = 3;
+const LIFE_DRAIN_BASE = 0.04;
+const LIFE_DRAIN_COMBO_FACTOR = 0.6;
+const LIFE_RECOVER_CORRECT = 0.03; // per correct key — reduced
+const LIFE_DRAIN_MISS = 0.15;
 const COMBO_MILESTONE = 10;
+const REFILL_AT = 3; // add more sentences when this many remain
+
+interface GhostTimelineEntry {
+  time: number;
+  sentenceIdx: number;
+  segIdx: number;
+  speed: number;
+}
+
+function precomputeGhostTimeline(replay: ReplayData): GhostTimelineEntry[] {
+  const timeline: GhostTimelineEntry[] = [{ time: 0, sentenceIdx: 0, segIdx: 0, speed: 0 }];
+  let sentenceIdx = 0;
+  let typingState = createTypingState(replay.sentences[0]?.kana ?? "");
+  const ema = new EMA(0.25, 0);
+  let lastTime = 0;
+
+  for (const ev of replay.events) {
+    if (!ev.correct) continue;
+    const interval = lastTime > 0 ? ev.time - lastTime : 0;
+    const speed = interval > 0 ? ema.update(intervalToWpm(interval)) : ema.get();
+    lastTime = ev.time;
+
+    const { next, result } = feedKey(typingState, ev.key);
+    if (result === "all_complete") {
+      sentenceIdx++;
+      const nextSentence = replay.sentences[sentenceIdx];
+      typingState = createTypingState(nextSentence?.kana ?? "");
+    } else {
+      typingState = next;
+    }
+    timeline.push({ time: ev.time, sentenceIdx, segIdx: typingState.segIdx, speed });
+  }
+  return timeline;
+}
+
+function getGhostAt(timeline: GhostTimelineEntry[], elapsed: number): GhostTimelineEntry {
+  let lo = 0;
+  let hi = timeline.length - 1;
+  while (lo < hi) {
+    const mid = (lo + hi + 1) >> 1;
+    if ((timeline[mid]?.time ?? 0) <= elapsed) lo = mid;
+    else hi = mid - 1;
+  }
+  return timeline[lo] ?? { time: 0, sentenceIdx: 0, segIdx: 0, speed: 0 };
+}
 
 export interface GameState {
   phase: GamePhase;
@@ -20,7 +65,7 @@ export interface GameState {
   typingState: ReturnType<typeof createTypingState>;
   life: number;
   combo: number;
-  speed: number; // ema wpm
+  speed: number;
   events: InputEvent[];
   startTime: number;
   elapsed: number;
@@ -28,6 +73,9 @@ export interface GameState {
   totalErrors: number;
   sessions: SessionRecord[];
   lastSession: SessionRecord | null;
+  ghostSentenceIdx: number;
+  ghostSpeed: number;
+  hasGhost: boolean;
 }
 
 export function useGameEngine() {
@@ -39,6 +87,8 @@ export function useGameEngine() {
   const keyStatsRef = useRef<Map<string, KeyStats>>(new Map());
   const bigramRef = useRef<Map<string, BigramStats>>(new Map());
   const prevKeyRef = useRef<string>("");
+  const ghostTimelineRef = useRef<GhostTimelineEntry[]>([]);
+  const totalSentencesRef = useRef<number>(0);
 
   const [state, setState] = useState<GameState>(() => ({
     phase: "idle",
@@ -55,6 +105,9 @@ export function useGameEngine() {
     totalErrors: 0,
     sessions: loadSessions(),
     lastSession: null,
+    ghostSentenceIdx: 0,
+    ghostSpeed: 0,
+    hasGhost: false,
   }));
 
   const stateRef = useRef(state);
@@ -67,11 +120,10 @@ export function useGameEngine() {
     const totalKeys = s.totalCorrect + s.totalErrors;
     const accuracy = totalKeys > 0 ? s.totalCorrect / totalKeys : 0;
     const wpm = emaRef.current.get();
-
     const keyStats = Array.from(keyStatsRef.current.values());
     const bigramStats = Array.from(bigramRef.current.values());
 
-    const replay = {
+    const replay: ReplayData = {
       id: crypto.randomUUID(),
       timestamp: Date.now(),
       sentences: s.sentences,
@@ -98,13 +150,7 @@ export function useGameEngine() {
     existing.push(session);
     saveSessions(existing.slice(-100));
 
-    setState((prev) => ({
-      ...prev,
-      phase: "gameover",
-      sessions: existing.slice(-100),
-      lastSession: session,
-    }));
-
+    setState((prev) => ({ ...prev, phase: "gameover", sessions: existing.slice(-100), lastSession: session }));
     playGameOver();
   }, []);
 
@@ -121,13 +167,15 @@ export function useGameEngine() {
         const newLife = Math.max(0, prev.life - drain);
         const elapsed = Date.now() - prev.startTime;
 
+        // Ghost position
+        const ghost = getGhostAt(ghostTimelineRef.current, elapsed);
+
         if (newLife <= 0) {
-          // schedule endGame outside state update
           setTimeout(endGame, 0);
-          return { ...prev, life: 0, elapsed, phase: "playing" };
+          return { ...prev, life: 0, elapsed, ghostSentenceIdx: ghost.sentenceIdx, ghostSpeed: ghost.speed };
         }
 
-        return { ...prev, life: newLife, elapsed };
+        return { ...prev, life: newLife, elapsed, ghostSentenceIdx: ghost.sentenceIdx, ghostSpeed: ghost.speed };
       });
 
       rafRef.current = requestAnimationFrame(tick);
@@ -144,10 +192,22 @@ export function useGameEngine() {
     bigramRef.current = new Map();
     prevKeyRef.current = "";
 
+    // Load ghost from best replay
+    const replays = loadReplays();
+    const bestReplay = replays.length > 0
+      ? replays.reduce((best, r) => r.wpm > best.wpm ? r : best)
+      : null;
+
+    if (bestReplay) {
+      ghostTimelineRef.current = precomputeGhostTimeline(bestReplay);
+    } else {
+      ghostTimelineRef.current = [];
+    }
+
     const sentences = getSentenceQueue(10);
+    totalSentencesRef.current = sentences.length;
     const first = sentences[0];
     const typingState = createTypingState(first?.kana ?? "");
-
     const startTime = Date.now();
     lastFrameTimeRef.current = performance.now();
 
@@ -166,6 +226,9 @@ export function useGameEngine() {
       totalErrors: 0,
       sessions: loadSessions(),
       lastSession: null,
+      ghostSentenceIdx: 0,
+      ghostSpeed: 0,
+      hasGhost: bestReplay !== null,
     });
 
     rafRef.current = requestAnimationFrame(tick);
@@ -179,22 +242,16 @@ export function useGameEngine() {
       const elapsed = now - stateRef.current.startTime;
       const s = stateRef.current;
 
-      // Update key stats
       const keyData = keyStatsRef.current.get(key) ?? { key, count: 0, errors: 0, totalMs: 0 };
       const interval = lastKeyTimeRef.current > 0 ? now - lastKeyTimeRef.current : 0;
 
-      // Update bigram
       if (prevKeyRef.current !== "") {
         const bg = prevKeyRef.current + key;
         const bgData = bigramRef.current.get(bg) ?? { bigram: bg, count: 0, totalMs: 0 };
-        bigramRef.current.set(bg, {
-          ...bgData,
-          count: bgData.count + 1,
-          totalMs: bgData.totalMs + interval,
-        });
+        bigramRef.current.set(bg, { ...bgData, count: bgData.count + 1, totalMs: bgData.totalMs + interval });
       }
 
-      const { next, result } = feedKey(s.typingState, key);
+      const { next, result, segmentCompleted } = feedKey(s.typingState, key);
 
       if (result === "wrong") {
         eventsRef.current.push({ time: elapsed, key, correct: false, segmentIdx: s.typingState.segIdx });
@@ -211,14 +268,18 @@ export function useGameEngine() {
         return;
       }
 
-      // correct input
+      // Correct key
       const wpm = interval > 0 ? emaRef.current.update(intervalToWpm(interval)) : emaRef.current.get();
       keyStatsRef.current.set(key, { ...keyData, count: keyData.count + 1, totalMs: keyData.totalMs + interval });
       eventsRef.current.push({ time: elapsed, key, correct: true, segmentIdx: s.typingState.segIdx });
       prevKeyRef.current = key;
       lastKeyTimeRef.current = now;
 
-      if (result === "segment_complete" || result === "all_complete") {
+      const newCombo = s.combo + 1;
+      if (newCombo % COMBO_MILESTONE === 0) playComboMilestone(newCombo);
+
+      // Sound: segment complete if implicit or explicit completion happened
+      if (segmentCompleted || result === "segment_complete" || result === "all_complete") {
         playSegmentComplete(s.combo);
       } else {
         playKeyTap(s.combo);
@@ -226,34 +287,23 @@ export function useGameEngine() {
 
       if (result === "all_complete") {
         const nextSentenceIdx = s.sentenceIdx + 1;
-        if (nextSentenceIdx >= s.sentences.length) {
-          // all done
-          setTimeout(endGame, 100);
-          setState((prev) => ({
-            ...prev,
-            typingState: next,
-            speed: wpm,
-            totalCorrect: prev.totalCorrect + 1,
-            combo: prev.combo + 1,
-          }));
-          return;
-        }
-        const nextSentence = s.sentences[nextSentenceIdx];
+        // Refill sentence queue when running low — never end by sentence limit
+        const needRefill = s.sentences.length - nextSentenceIdx <= REFILL_AT;
+        const extraSentences = needRefill ? getSentenceQueue(10) : [];
+        const newSentences = needRefill ? [...s.sentences, ...extraSentences] : s.sentences;
+        const nextSentence = newSentences[nextSentenceIdx];
         const nextTypingState = createTypingState(nextSentence?.kana ?? "");
-        const newCombo = s.combo + 1;
-        if (newCombo % COMBO_MILESTONE === 0) playComboMilestone(newCombo);
         setState((prev) => ({
           ...prev,
           sentenceIdx: nextSentenceIdx,
+          sentences: newSentences,
           typingState: nextTypingState,
           speed: wpm,
-          life: Math.min(LIFE_MAX, prev.life + LIFE_RECOVER_CORRECT * 5),
+          life: Math.min(LIFE_MAX, prev.life + LIFE_RECOVER_CORRECT),
           combo: newCombo,
           totalCorrect: prev.totalCorrect + 1,
         }));
       } else {
-        const newCombo = s.combo + 1;
-        if (newCombo % COMBO_MILESTONE === 0) playComboMilestone(newCombo);
         setState((prev) => ({
           ...prev,
           typingState: next,

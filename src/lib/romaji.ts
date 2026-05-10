@@ -1,6 +1,5 @@
 // Kana → romaji mappings (compound first)
 const KANA_MAP: Record<string, string[]> = {
-  // compound with small ya/yu/yo
   きゃ: ["kya"], きゅ: ["kyu"], きょ: ["kyo"],
   しゃ: ["sha", "sya"], しゅ: ["shu", "syu"], しょ: ["sho", "syo"],
   ちゃ: ["cha", "tya", "cya"], ちゅ: ["chu", "tyu", "cyu"], ちょ: ["cho", "tyo", "cyo"],
@@ -16,7 +15,6 @@ const KANA_MAP: Record<string, string[]> = {
   てゃ: ["tha"], てゅ: ["thu"], てょ: ["tho"],
   ふぁ: ["fa"], ふぃ: ["fi"], ふぇ: ["fe"], ふぉ: ["fo"],
   うぁ: ["wha"], うぃ: ["wi"], うぇ: ["we"], うぉ: ["wo"],
-  // single kana
   あ: ["a"], い: ["i"], う: ["u"], え: ["e"], お: ["o"],
   か: ["ka"], き: ["ki"], く: ["ku"], け: ["ke"], こ: ["ko"],
   さ: ["sa"], し: ["si", "shi"], す: ["su"], せ: ["se"], そ: ["so"],
@@ -43,18 +41,18 @@ const SMALL_KANA = new Set("ぁぃぅぇぉっゃゅょ");
 
 export interface KanaSegment {
   kana: string;
-  options: string[]; // romaji candidates
+  options: string[];
 }
 
-// っ needs special handling: double the first consonant of the next segment
+// っ: add only the FIRST consonant of the next segment as an option.
+// Typing that single consonant completes っ, then the next segment requires its full romaji.
+// e.g. っけ → っ options: ["xtu","xtsu","ltu","k"] + け options: ["ke"] → total "kke" ✓
 function expandXtu(nextOptions: string[]): string[] {
   const results: string[] = ["xtu", "xtsu", "ltu"];
   for (const opt of nextOptions) {
-    if (opt.length > 0 && opt[0] !== undefined) {
-      const c = opt[0];
-      if (c !== undefined && /[a-z]/.test(c) && c !== "a" && c !== "i" && c !== "u" && c !== "e" && c !== "o") {
-        results.push(c + opt);
-      }
+    const c = opt[0];
+    if (c !== undefined && /[bcdfghjklmnpqrstvwxyz]/.test(c)) {
+      results.push(c);
     }
   }
   return [...new Set(results)];
@@ -65,7 +63,6 @@ export function parseKana(text: string): KanaSegment[] {
   let i = 0;
   while (i < text.length) {
     const c = text[i] ?? "";
-    // Try compound (two chars)
     if (i + 1 < text.length) {
       const next = text[i + 1] ?? "";
       const compound = c + next;
@@ -76,20 +73,19 @@ export function parseKana(text: string): KanaSegment[] {
       }
     }
     if (c === "っ") {
-      // Look ahead for next segment's options to build double-consonant forms
       const rest = text.slice(i + 1);
       const tempSegs = parseKana(rest);
       const nextOpts = tempSegs[0]?.options ?? [];
-      const opts = expandXtu(nextOpts);
-      segments.push({ kana: "っ", options: opts });
+      segments.push({ kana: "っ", options: expandXtu(nextOpts) });
       i++;
       continue;
     }
     if (c === "ん") {
-      // 'n' is only valid if next char is not a vowel or 'n' or 'y'
-      const next = text[i + 1] ?? "";
-      const nextIsVowelOrN = /^[aiueoyn]/.test(next) || next === "";
-      const opts: string[] = nextIsVowelOrN ? ["nn"] : ["nn", "n"];
+      // bare "n" is valid only before a consonant (not vowel/n/y/end)
+      const nextKana = text[i + 1] ?? "";
+      const nextRomajiStart = parseKana(nextKana)[0]?.options[0]?.[0] ?? "";
+      const nextIsAmbiguous = !nextKana || /^[aiueoyn]/.test(nextRomajiStart);
+      const opts: string[] = nextIsAmbiguous ? ["nn"] : ["nn", "n"];
       segments.push({ kana: "ん", options: opts });
       i++;
       continue;
@@ -97,10 +93,7 @@ export function parseKana(text: string): KanaSegment[] {
     const options = KANA_MAP[c];
     if (options !== undefined) {
       segments.push({ kana: c, options: options as string[] });
-    } else if (c.trim() === "" || /[　-〿＀-￯]/.test(c)) {
-      // punctuation/space — skip or treat as literal
-    } else {
-      // Treat as literal (e.g. ASCII punctuation in sentences)
+    } else if (c.trim() !== "") {
       segments.push({ kana: c, options: [c] });
     }
     i++;
@@ -108,13 +101,14 @@ export function parseKana(text: string): KanaSegment[] {
   return segments;
 }
 
-// State machine for validating romaji input against segments
 export interface TypingState {
   segments: KanaSegment[];
-  segIdx: number; // current segment index
-  typed: string; // user has typed this for current segment
-  validOptions: string[]; // still-valid options
+  segIdx: number;
+  typed: string;
+  validOptions: string[];
   completed: boolean;
+  // true when typed is an exact match but a longer option also exists (e.g. "n" for ん with ["nn","n"])
+  pendingComplete: boolean;
 }
 
 export function createTypingState(kana: string): TypingState {
@@ -126,53 +120,111 @@ export function createTypingState(kana: string): TypingState {
     typed: "",
     validOptions: first ? [...first.options] : [],
     completed: segments.length === 0,
+    pendingComplete: false,
   };
 }
 
 export type InputResult = "correct" | "wrong" | "segment_complete" | "all_complete";
 
-export function feedKey(state: TypingState, key: string): { next: TypingState; result: InputResult } {
+export interface FeedKeyResult {
+  next: TypingState;
+  result: InputResult;
+  // true when a pending segment was implicitly completed before this key was processed
+  segmentCompleted: boolean;
+}
+
+function completeSegment(state: TypingState): FeedKeyResult {
+  const nextSegIdx = state.segIdx + 1;
+  if (nextSegIdx >= state.segments.length) {
+    return {
+      next: { ...state, segIdx: nextSegIdx, typed: "", validOptions: [], completed: true, pendingComplete: false },
+      result: "all_complete",
+      segmentCompleted: false,
+    };
+  }
+  const nextSeg = state.segments[nextSegIdx]!;
+  return {
+    next: { ...state, segIdx: nextSegIdx, typed: "", validOptions: [...nextSeg.options], completed: false, pendingComplete: false },
+    result: "segment_complete",
+    segmentCompleted: false,
+  };
+}
+
+export function feedKey(state: TypingState, key: string): FeedKeyResult {
+  // If pending (e.g. typed "n" for ん with ["nn","n"]): try to extend.
+  // If can't extend, implicitly complete current segment then feed key into next.
+  if (state.pendingComplete) {
+    const extended = state.typed + key;
+    const stillValid = state.validOptions.filter((o) => o.startsWith(extended));
+    if (stillValid.length > 0) {
+      const exact = stillValid.find((o) => o === extended);
+      const hasLonger = stillValid.some((o) => o.length > extended.length);
+      if (exact !== undefined && !hasLonger) {
+        return completeSegment({ ...state, typed: extended });
+      }
+      return {
+        next: { ...state, typed: extended, validOptions: stillValid, pendingComplete: !!(exact && hasLonger) },
+        result: "correct",
+        segmentCompleted: false,
+      };
+    }
+
+    // Can't extend: implicitly complete current segment, then feed key into next segment
+    const nextSegIdx = state.segIdx + 1;
+    if (nextSegIdx >= state.segments.length) {
+      // Was last segment — it's now complete, key is extra (treat as completing all)
+      return {
+        next: { ...state, segIdx: nextSegIdx, typed: "", validOptions: [], completed: true, pendingComplete: false },
+        result: "all_complete",
+        segmentCompleted: false,
+      };
+    }
+    const nextSeg = state.segments[nextSegIdx]!;
+    const afterComplete: TypingState = {
+      ...state,
+      segIdx: nextSegIdx,
+      typed: "",
+      validOptions: [...nextSeg.options],
+      completed: false,
+      pendingComplete: false,
+    };
+    const nested = feedKey(afterComplete, key);
+    return { next: nested.next, result: nested.result, segmentCompleted: true };
+  }
+
+  // Normal processing
   const newTyped = state.typed + key;
   const stillValid = state.validOptions.filter((o) => o.startsWith(newTyped));
 
   if (stillValid.length === 0) {
-    return { next: state, result: "wrong" };
+    return { next: state, result: "wrong", segmentCompleted: false };
   }
 
-  // Check if any option is exactly matched
   const exact = stillValid.find((o) => o === newTyped);
-  if (exact !== undefined) {
-    const nextSegIdx = state.segIdx + 1;
-    if (nextSegIdx >= state.segments.length) {
-      return {
-        next: { ...state, segIdx: nextSegIdx, typed: "", validOptions: [], completed: true },
-        result: "all_complete",
-      };
-    }
-    const nextSeg = state.segments[nextSegIdx];
-    const nextOptions = nextSeg ? [...nextSeg.options] : [];
-    return {
-      next: { ...state, segIdx: nextSegIdx, typed: "", validOptions: nextOptions, completed: false },
-      result: "segment_complete",
-    };
+  const hasLonger = stillValid.some((o) => o.length > newTyped.length);
+
+  if (exact !== undefined && !hasLonger) {
+    return completeSegment({ ...state, typed: newTyped });
   }
 
   return {
-    next: { ...state, typed: newTyped, validOptions: stillValid },
+    next: { ...state, typed: newTyped, validOptions: stillValid, pendingComplete: !!(exact && hasLonger) },
     result: "correct",
+    segmentCompleted: false,
   };
 }
 
 export function getDisplayRomaji(state: TypingState): { done: string; current: string; pending: string } {
   const seg = state.segments[state.segIdx];
-  const canonical = seg?.options[0] ?? "";
+  // Use the first still-valid option as the canonical display
+  const canonical = state.validOptions[0] ?? seg?.options[0] ?? "";
   const done = state.segments
     .slice(0, state.segIdx)
     .map((s) => s.options[0] ?? "")
     .join("");
-  const pending = state.segments
+  const pendingSegs = state.segments
     .slice(state.segIdx + 1)
     .map((s) => s.options[0] ?? "")
     .join("");
-  return { done, current: canonical, pending };
+  return { done, current: canonical, pending: pendingSegs };
 }
