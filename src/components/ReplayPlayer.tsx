@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { EMA, intervalToWpm } from "../lib/ema";
+import { SlidingWindowKPS } from "../lib/ema";
 import { createTypingState, feedKey } from "../lib/romaji";
 import { playKeyTap, playMiss, playSegmentComplete } from "../lib/sound";
 import type { ReplayData } from "../lib/types";
@@ -11,6 +11,7 @@ const LIFE_DRAIN_MISS = 5;
 const LIFE_DRAIN_BASE = 0.04;
 const LIFE_DRAIN_COMBO_FACTOR = 0.6;
 const LIFE_RECOVER_CORRECT = 0.03;
+const KEYS_PER_COMBO = 10;
 
 interface Props {
   replay: ReplayData;
@@ -36,20 +37,20 @@ function lifeColor(life: number): string {
 
 function comboColor(combo: number): string {
   const colors = ["#00ffff", "#00ff88", "#ffaa00", "#ff6600", "#ff3366", "#cc00ff"];
-  return colors[Math.floor(combo / 10) % colors.length] ?? "#00ffff";
+  return colors[Math.floor(combo / 3) % colors.length] ?? "#00ffff";
 }
 
-function reconstructAt(replay: ReplayData, idx: number): DisplayState {
+function reconstructAt(replay: ReplayData, idx: number, currentTime?: number): DisplayState {
   let sentenceIdx = 0;
   let typingState = createTypingState(replay.sentences[0]?.kana ?? "");
+  let streak = 0;
   let combo = 0;
   let totalErrors = 0;
   let totalCorrect = 0;
   let life = 100;
   let lastEventTime = 0;
-  let lastCorrectTime = 0;
   let lastKey = "";
-  const ema = new EMA(0.25, 0);
+  const kps = new SlidingWindowKPS(2000);
 
   for (let i = 0; i < idx && i < replay.events.length; i++) {
     const ev = replay.events[i];
@@ -63,20 +64,21 @@ function reconstructAt(replay: ReplayData, idx: number): DisplayState {
     lastKey = ev.key;
 
     if (!ev.correct) {
+      streak = 0;
       combo = 0;
       totalErrors++;
       life = Math.max(0, life - LIFE_DRAIN_MISS);
       continue;
     }
 
-    const interval = lastCorrectTime > 0 ? ev.time - lastCorrectTime : 0;
-    if (interval > 0) ema.update(intervalToWpm(interval));
-    lastCorrectTime = ev.time;
-    life = Math.min(100, life + LIFE_RECOVER_CORRECT);
+    kps.update(ev.time);
+    streak++;
+    combo = Math.floor(streak / KEYS_PER_COMBO);
+    const healTick = streak % KEYS_PER_COMBO === 0 ? Math.max(2, Math.min(20, Math.floor(combo / 5) + 2)) : 0;
+    life = Math.min(100, life + LIFE_RECOVER_CORRECT + healTick);
     totalCorrect++;
 
     const { next, result } = feedKey(typingState, ev.key);
-    if (result === "segment_complete" || result === "all_complete") combo++;
     if (result === "all_complete") {
       sentenceIdx++;
       const nextSentence = replay.sentences[sentenceIdx];
@@ -86,12 +88,13 @@ function reconstructAt(replay: ReplayData, idx: number): DisplayState {
     }
   }
 
+  const refTime = currentTime !== undefined ? currentTime : lastEventTime;
   return {
     sentenceIdx,
     typingState,
     life: Math.max(0, life),
     combo,
-    speed: ema.get(),
+    speed: kps.get(refTime),
     totalCorrect,
     totalErrors,
     lastKey,
@@ -149,7 +152,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     }
     lastSoundIdxRef.current = newIdx;
 
-    setDisplayState(reconstructAt(replay, newIdx));
+    setDisplayState(reconstructAt(replay, newIdx, elapsed));
 
     if (elapsed >= replay.totalTime) {
       stop();
@@ -187,7 +190,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
     let idx = 0;
     while (idx < events.length && (events[idx]?.time ?? Infinity) <= gameTime) idx++;
     lastSoundIdxRef.current = idx;
-    setDisplayState(reconstructAt(replay, idx));
+    setDisplayState(reconstructAt(replay, idx, gameTime));
   }
 
   const sentence = replay.sentences[displayState.sentenceIdx];
@@ -195,7 +198,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
   const lc = lifeColor(lifePct);
   const cc = comboColor(displayState.combo);
   const sentenceProgress = displayState.sentenceIdx;
-  const progressMax = Math.max(sentenceProgress, 10);
+  const progressMax = Math.max(sentenceProgress, 1);
   const acc =
     displayState.totalCorrect + displayState.totalErrors > 0
       ? Math.round((displayState.totalCorrect / (displayState.totalCorrect + displayState.totalErrors)) * 100)
@@ -254,7 +257,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
                   />
                 </div>
                 <span className="text-[11px] font-mono w-16 shrink-0" style={{ color: "#cc44ff" }}>
-                  {sentenceProgress} 文
+                  {sentenceProgress} クリア
                 </span>
               </div>
             </div>
@@ -271,7 +274,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
             )}
 
             <div className="flex items-center gap-8">
-              <SpeedMeter wpm={displayState.speed} label="KPS" color="#cc44ff" />
+              <SpeedMeter wpm={displayState.speed} label="REPLAY" color="#cc44ff" />
             </div>
 
             <div className="flex gap-6 text-xs text-gray-600 font-mono">
@@ -300,7 +303,13 @@ export function ReplayPlayer({ replay, onClose }: Props) {
               className="w-full accent-purple-400 mb-2"
             />
             <div className="flex items-center justify-between text-[10px] text-gray-700 font-mono">
-              <button onClick={onClose} className="hover:text-gray-400 transition-colors">ESC — 閉じる</button>
+              <button
+                onClick={onClose}
+                className="px-4 py-1 border rounded transition-all font-mono text-xs"
+                style={{ borderColor: "#444", color: "#888" }}
+              >
+                ← BACK
+              </button>
               <button
                 onClick={playing ? stop : play}
                 className="px-4 py-1 border rounded transition-all font-mono text-xs"
