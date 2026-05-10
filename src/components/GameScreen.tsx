@@ -218,7 +218,8 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								コンボ <span style={{ color: cc }}>{state.combo}x</span>
 							</span>
 							<span>
-								正解 <span className="text-green-400">{state.totalCorrect}</span>
+								正解{" "}
+								<span className="text-green-400">{state.totalCorrect}</span>
 							</span>
 							<span>
 								ミス <span className="text-red-400">{state.totalErrors}</span>
