@@ -24,7 +24,7 @@ export function IdleScreen({ onStart, onStats, bestWpm, sessionCount }: Props) {
         <div className="flex gap-8 text-center">
           <div>
             <div className="text-3xl font-mono font-bold text-cyan-400">{Math.round(bestWpm)}</div>
-            <div className="text-xs text-gray-600 uppercase tracking-widest">Best WPM</div>
+            <div className="text-xs text-gray-600 uppercase tracking-widest">Best KPM</div>
           </div>
           <div>
             <div className="text-3xl font-mono font-bold text-gray-300">{sessionCount}</div>
