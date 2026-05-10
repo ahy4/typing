@@ -50,7 +50,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 			{/* Actions */}
 			<div className="flex flex-col gap-3 items-center">
 				<div
-					className="px-12 py-4 font-mono text-xl font-bold rounded border-2 uppercase tracking-widest select-none"
+					className="px-12 py-4 font-mono rounded border-2 uppercase select-none flex flex-col items-center gap-1"
 					style={{
 						borderColor: "#00ffff",
 						color: "#00ffff",
@@ -58,7 +58,10 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						boxShadow: "0 0 20px #00ffff44",
 					}}
 				>
-					START GAME
+					<span className="text-xl font-bold tracking-widest">START GAME</span>
+					<span className="text-xs tracking-widest opacity-70">
+						[ SPACE ] を押してスタート
+					</span>
 				</div>
 				<div className="flex gap-3">
 					<button
@@ -76,10 +79,6 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						HOW TO PLAY
 					</button>
 				</div>
-			</div>
-
-			<div className="text-gray-500 text-sm font-mono tracking-widest">
-				[ SPACE ] でスタート
 			</div>
 		</div>
 	);
