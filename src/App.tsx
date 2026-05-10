@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { GameOverScreen } from "./components/GameOverScreen";
 import { GameScreen } from "./components/GameScreen";
+import { HelpScreen } from "./components/HelpScreen";
 import { IdleScreen } from "./components/IdleScreen";
 import { StatsScreen } from "./components/StatsScreen";
 import { useGameEngine } from "./hooks/useGameEngine";
@@ -16,10 +17,15 @@ export default function App() {
       <IdleScreen
         onStart={startGame}
         onStats={() => setPhase("stats")}
+        onHelp={() => setPhase("help")}
         bestWpm={bestWpm}
         sessionCount={state.sessions.length}
       />
     );
+  }
+
+  if (state.phase === "help") {
+    return <HelpScreen onBack={() => setPhase("idle")} />;
   }
 
   if (state.phase === "playing") {

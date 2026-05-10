@@ -10,8 +10,12 @@ const LIFE_MAX = 100;
 const LIFE_DRAIN_BASE = 0.04;
 const LIFE_DRAIN_COMBO_FACTOR = 0.6;
 const LIFE_RECOVER_CORRECT = 0.03; // per correct key — reduced
-const LIFE_DRAIN_MISS = 0.15;
+export const LIFE_DRAIN_MISS = 5;
 const COMBO_MILESTONE = 10;
+
+function comboHealAmount(combo: number): number {
+  return Math.max(2, Math.min(20, Math.floor(combo / 5) + 2));
+}
 const REFILL_AT = 3; // add more sentences when this many remain
 
 interface GhostTimelineEntry {
@@ -19,22 +23,40 @@ interface GhostTimelineEntry {
   sentenceIdx: number;
   segIdx: number;
   speed: number;
+  life: number;
 }
 
 function precomputeGhostTimeline(replay: ReplayData): GhostTimelineEntry[] {
-  const timeline: GhostTimelineEntry[] = [{ time: 0, sentenceIdx: 0, segIdx: 0, speed: 0 }];
+  const timeline: GhostTimelineEntry[] = [{ time: 0, sentenceIdx: 0, segIdx: 0, speed: 0, life: LIFE_MAX }];
   let sentenceIdx = 0;
   let typingState = createTypingState(replay.sentences[0]?.kana ?? "");
   const ema = new EMA(0.25, 0);
-  let lastTime = 0;
+  let lastCorrectTime = 0;
+  let lastEventTime = 0;
+  let life = LIFE_MAX;
+  let combo = 0;
 
   for (const ev of replay.events) {
-    if (!ev.correct) continue;
-    const interval = lastTime > 0 ? ev.time - lastTime : 0;
+    const dt = ev.time - lastEventTime;
+    const comboFactor = combo > 0 ? LIFE_DRAIN_COMBO_FACTOR : 1;
+    const drain = (LIFE_DRAIN_BASE * comboFactor * dt) / (1000 / 60);
+    life = Math.max(0, life - drain);
+    lastEventTime = ev.time;
+
+    if (!ev.correct) {
+      life = Math.max(0, life - LIFE_DRAIN_MISS);
+      combo = 0;
+      timeline.push({ time: ev.time, sentenceIdx, segIdx: typingState.segIdx, speed: ema.get(), life });
+      continue;
+    }
+
+    const interval = lastCorrectTime > 0 ? ev.time - lastCorrectTime : 0;
     const speed = interval > 0 ? ema.update(intervalToWpm(interval)) : ema.get();
-    lastTime = ev.time;
+    lastCorrectTime = ev.time;
+    life = Math.min(LIFE_MAX, life + LIFE_RECOVER_CORRECT);
 
     const { next, result } = feedKey(typingState, ev.key);
+    if (result === "segment_complete" || result === "all_complete") combo++;
     if (result === "all_complete") {
       sentenceIdx++;
       const nextSentence = replay.sentences[sentenceIdx];
@@ -42,12 +64,13 @@ function precomputeGhostTimeline(replay: ReplayData): GhostTimelineEntry[] {
     } else {
       typingState = next;
     }
-    timeline.push({ time: ev.time, sentenceIdx, segIdx: typingState.segIdx, speed });
+    timeline.push({ time: ev.time, sentenceIdx, segIdx: typingState.segIdx, speed, life });
   }
   return timeline;
 }
 
 function getGhostAt(timeline: GhostTimelineEntry[], elapsed: number): GhostTimelineEntry {
+  if (timeline.length === 0) return { time: 0, sentenceIdx: 0, segIdx: 0, speed: 0, life: LIFE_MAX };
   let lo = 0;
   let hi = timeline.length - 1;
   while (lo < hi) {
@@ -55,7 +78,7 @@ function getGhostAt(timeline: GhostTimelineEntry[], elapsed: number): GhostTimel
     if ((timeline[mid]?.time ?? 0) <= elapsed) lo = mid;
     else hi = mid - 1;
   }
-  return timeline[lo] ?? { time: 0, sentenceIdx: 0, segIdx: 0, speed: 0 };
+  return timeline[lo] ?? { time: 0, sentenceIdx: 0, segIdx: 0, speed: 0, life: LIFE_MAX };
 }
 
 export interface GameState {
@@ -75,7 +98,10 @@ export interface GameState {
   lastSession: SessionRecord | null;
   ghostSentenceIdx: number;
   ghostSpeed: number;
+  ghostLife: number;
   hasGhost: boolean;
+  lastHealAmount: number;
+  lastHealId: number;
 }
 
 export function useGameEngine() {
@@ -107,7 +133,10 @@ export function useGameEngine() {
     lastSession: null,
     ghostSentenceIdx: 0,
     ghostSpeed: 0,
+    ghostLife: LIFE_MAX,
     hasGhost: false,
+    lastHealAmount: 0,
+    lastHealId: 0,
   }));
 
   const stateRef = useRef(state);
@@ -119,7 +148,8 @@ export function useGameEngine() {
     const duration = Date.now() - s.startTime;
     const totalKeys = s.totalCorrect + s.totalErrors;
     const accuracy = totalKeys > 0 ? s.totalCorrect / totalKeys : 0;
-    const wpm = emaRef.current.get();
+    // Average KPS over whole session
+    const wpm = duration > 0 ? s.totalCorrect / (duration / 1000) : 0;
     const keyStats = Array.from(keyStatsRef.current.values());
     const bigramStats = Array.from(bigramRef.current.values());
 
@@ -172,10 +202,10 @@ export function useGameEngine() {
 
         if (newLife <= 0) {
           setTimeout(endGame, 0);
-          return { ...prev, life: 0, elapsed, ghostSentenceIdx: ghost.sentenceIdx, ghostSpeed: ghost.speed };
+          return { ...prev, life: 0, elapsed, ghostSentenceIdx: ghost.sentenceIdx, ghostSpeed: ghost.speed, ghostLife: ghost.life };
         }
 
-        return { ...prev, life: newLife, elapsed, ghostSentenceIdx: ghost.sentenceIdx, ghostSpeed: ghost.speed };
+        return { ...prev, life: newLife, elapsed, ghostSentenceIdx: ghost.sentenceIdx, ghostSpeed: ghost.speed, ghostLife: ghost.life };
       });
 
       rafRef.current = requestAnimationFrame(tick);
@@ -228,7 +258,10 @@ export function useGameEngine() {
       lastSession: null,
       ghostSentenceIdx: 0,
       ghostSpeed: 0,
+      ghostLife: LIFE_MAX,
       hasGhost: bestReplay !== null,
+      lastHealAmount: 0,
+      lastHealId: 0,
     });
 
     rafRef.current = requestAnimationFrame(tick);
@@ -278,12 +311,16 @@ export function useGameEngine() {
       const newCombo = s.combo + 1;
       if (newCombo % COMBO_MILESTONE === 0) playComboMilestone(newCombo);
 
+      const isSegmentEnd = segmentCompleted || result === "segment_complete" || result === "all_complete";
+
       // Sound: segment complete if implicit or explicit completion happened
-      if (segmentCompleted || result === "segment_complete" || result === "all_complete") {
+      if (isSegmentEnd) {
         playSegmentComplete(s.combo);
       } else {
         playKeyTap(s.combo);
       }
+
+      const segHeal = isSegmentEnd ? comboHealAmount(newCombo) : 0;
 
       if (result === "all_complete") {
         const nextSentenceIdx = s.sentenceIdx + 1;
@@ -299,18 +336,22 @@ export function useGameEngine() {
           sentences: newSentences,
           typingState: nextTypingState,
           speed: wpm,
-          life: Math.min(LIFE_MAX, prev.life + LIFE_RECOVER_CORRECT),
+          life: Math.min(LIFE_MAX, prev.life + LIFE_RECOVER_CORRECT + segHeal),
           combo: newCombo,
           totalCorrect: prev.totalCorrect + 1,
+          lastHealAmount: segHeal,
+          lastHealId: segHeal > 0 ? prev.lastHealId + 1 : prev.lastHealId,
         }));
       } else {
         setState((prev) => ({
           ...prev,
           typingState: next,
           speed: wpm,
-          life: Math.min(LIFE_MAX, prev.life + LIFE_RECOVER_CORRECT),
+          life: Math.min(LIFE_MAX, prev.life + LIFE_RECOVER_CORRECT + segHeal),
           combo: newCombo,
           totalCorrect: prev.totalCorrect + 1,
+          lastHealAmount: segHeal,
+          lastHealId: segHeal > 0 ? prev.lastHealId + 1 : prev.lastHealId,
         }));
       }
     },

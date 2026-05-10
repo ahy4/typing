@@ -4,6 +4,12 @@
   box-sizing: border-box;
 }
 
+@keyframes healFloat {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+  70%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-48px); }
+}
+
 html, body, #root {
   margin: 0;
   padding: 0;

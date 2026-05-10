@@ -1,11 +1,12 @@
 interface Props {
   onStart: () => void;
   onStats: () => void;
+  onHelp: () => void;
   bestWpm: number;
   sessionCount: number;
 }
 
-export function IdleScreen({ onStart, onStats, bestWpm, sessionCount }: Props) {
+export function IdleScreen({ onStart, onStats, onHelp, bestWpm, sessionCount }: Props) {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-[#0a0a0a] gap-8 select-none">
       {/* Logo */}
@@ -55,12 +56,20 @@ export function IdleScreen({ onStart, onStats, bestWpm, sessionCount }: Props) {
         >
           START GAME
         </button>
-        <button
-          onClick={onStats}
-          className="px-8 py-2 font-mono text-sm text-gray-500 hover:text-gray-300 border border-gray-800 hover:border-gray-600 rounded transition-all"
-        >
-          STATISTICS
-        </button>
+        <div className="flex gap-3">
+          <button
+            onClick={onStats}
+            className="px-6 py-2 font-mono text-sm text-gray-500 hover:text-gray-300 border border-gray-800 hover:border-gray-600 rounded transition-all"
+          >
+            STATISTICS
+          </button>
+          <button
+            onClick={onHelp}
+            className="px-6 py-2 font-mono text-sm text-gray-500 hover:text-gray-300 border border-gray-800 hover:border-gray-600 rounded transition-all"
+          >
+            HOW TO PLAY
+          </button>
+        </div>
       </div>
 
       <div className="text-gray-700 text-xs font-mono">ENTER or SPACE to start</div>

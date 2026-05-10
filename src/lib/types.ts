@@ -47,7 +47,7 @@ export interface SessionRecord {
   replay: ReplayData;
 }
 
-export type GamePhase = "idle" | "playing" | "gameover" | "replay" | "stats";
+export type GamePhase = "idle" | "playing" | "gameover" | "replay" | "stats" | "help";
 
 export interface GhostState {
   segmentIdx: number;
