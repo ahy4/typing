@@ -11,12 +11,8 @@ const LIFE_DRAIN_BASE = 0.04;
 const LIFE_DRAIN_COMBO_FACTOR = 0.6;
 const LIFE_RECOVER_CORRECT = 0.03;
 export const LIFE_DRAIN_MISS = 5;
-// 10 consecutive correct keys = 1 combo
+// combo increments by 1 on each correct key; HP heals every KEYS_PER_COMBO keys
 const KEYS_PER_COMBO = 10;
-
-function comboHealAmount(combo: number): number {
-  return Math.max(2, Math.min(20, Math.floor(combo / 5) + 2));
-}
 const REFILL_AT = 3; // add more sentences when this many remain
 
 interface GhostTimelineEntry {
@@ -54,8 +50,8 @@ function precomputeGhostTimeline(replay: ReplayData): GhostTimelineEntry[] {
 
     kps.update(ev.time);
     streak++;
-    combo = Math.floor(streak / KEYS_PER_COMBO);
-    const healTick = streak % KEYS_PER_COMBO === 0 ? comboHealAmount(combo) : 0;
+    combo = streak;
+    const healTick = streak % KEYS_PER_COMBO === 0 ? Math.floor(combo / KEYS_PER_COMBO) : 0;
     life = Math.min(LIFE_MAX, life + LIFE_RECOVER_CORRECT + healTick);
 
     const { next, result } = feedKey(typingState, ev.key);
@@ -333,10 +329,10 @@ export function useGameEngine() {
 
       const newStreak = streakRef.current + 1;
       streakRef.current = newStreak;
-      const newCombo = Math.floor(newStreak / KEYS_PER_COMBO);
-      const prevCombo = Math.floor((newStreak - 1) / KEYS_PER_COMBO);
-      // Play milestone sound every 5 combos
-      if (newCombo > prevCombo && newCombo % 5 === 0) playComboMilestone(newCombo);
+      const newCombo = newStreak;
+      const prevCombo = newStreak - 1;
+      // Play milestone sound every 50 combos
+      if (newCombo % 50 === 0) playComboMilestone(newCombo);
 
       const isSegmentEnd = segmentCompleted || result === "segment_complete" || result === "all_complete";
       if (isSegmentEnd) {
@@ -346,7 +342,7 @@ export function useGameEngine() {
       }
 
       // Heal on every KEYS_PER_COMBO consecutive correct keys
-      const healTick = newStreak % KEYS_PER_COMBO === 0 ? comboHealAmount(newCombo) : 0;
+      const healTick = newStreak % KEYS_PER_COMBO === 0 ? Math.floor(newCombo / KEYS_PER_COMBO) : 0;
 
       if (result === "all_complete") {
         const nextSentenceIdx = s.sentenceIdx + 1;
