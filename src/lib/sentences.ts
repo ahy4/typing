@@ -1,0 +1,43 @@
+import type { Sentence } from "./types";
+
+const RAW: Array<{ jp: string; kana: string; romaji: string }> = [
+  { jp: "今日はいい天気ですね", kana: "きょうはいいてんきですね", romaji: "kyouhaiitenkidesune" },
+  { jp: "速く正確に打ちましょう", kana: "はやくせいかくにうちましょう", romaji: "hayakuseikakuniuchimashou" },
+  { jp: "タイピングの練習は毎日続けることが大切です", kana: "たいぴんぐのれんしゅうはまいにちつづけることがたいせつです", romaji: "taipingunorensh uuhamainichitstuzukerukotigataisetudesu" },
+  { jp: "桜の花びらが風に舞う", kana: "さくらのはなびらがかぜにまう", romaji: "sakuranohanabiragazakenimaou" },
+  { jp: "コーヒーを飲みながら本を読む", kana: "こーひーをのみながらほんをよむ", romaji: "ko-hi-wonominagara honwoyomu" },
+  { jp: "山の頂上から見える景色は絶景だ", kana: "やまのちょうじょうからみえるけしきはぜっけいだ", romaji: "yamanochojoukarami erukeshikihazekkeidaa" },
+  { jp: "星空を見上げると宇宙の広さを感じる", kana: "ほしぞらをみあげるとうちゅうのひろさをかんじる", romaji: "hoshizoraoamiagerutyuunohirosawokanjiru" },
+  { jp: "音楽を聴きながら作業をすると効率が上がる", kana: "おんがくをききながらさぎょうをするとこうりつがあがる", romaji: "ongakuwokikinagara sagyouwosrutokoritsugaagaru" },
+  { jp: "新しい言語を学ぶのは難しいが楽しい", kana: "あたらしいげんごをまなぶのはむずかしいがたのしい", romaji: "atarashiigengowomanabunohamazukashiigatanoshii" },
+  { jp: "電車の中で本を読むのが好きだ", kana: "でんしゃのなかでほんをよむのがすきだ", romaji: "densyanonakadehonwoyomunogasukida" },
+  { jp: "プログラミングは論理的思考を鍛える", kana: "ぷろぐらみんぐはろんりてきしこうをきたえる", romaji: "puroguraminguharonritekishikouwokitaeru" },
+  { jp: "冬の朝は布団から出るのが辛い", kana: "ふゆのあさはふとんからでるのがつらい", romaji: "fuyunoasahafutonkaraderunogaturai" },
+  { jp: "夕焼け空がオレンジ色に染まっている", kana: "ゆうやけぞらがおれんじいろにそまっている", romaji: "yuuyakezoraga orenji ironisomaatteiru" },
+  { jp: "猫はよく昼寝をする動物だ", kana: "ねこはよくひるねをするどうぶつだ", romaji: "nekoahayokuhirunewosurodobutudaa" },
+  { jp: "友達と久しぶりに会って話が弾んだ", kana: "ともだちとひさしぶりにあってはなしがはずんだ", romaji: "tomodachitohisashiburiniattehashigahazunda" },
+  { jp: "スポーツで汗をかくのはとても気持ちいい", kana: "すぽーつであせをかくのはとてもきもちいい", romaji: "supo-tsudeasewokakunohattemokimochiii" },
+  { jp: "料理は愛情を込めて作ることが大切だ", kana: "りょうりはあいじょうをこめてつくることがたいせつだ", romaji: "ryourihaaijowokometeakurerukotigataisetuada" },
+  { jp: "読書は心の栄養になる", kana: "どくしょはこころのえいようになる", romaji: "dokushohakkokoronoeiyouninaru" },
+  { jp: "笑顔は人を幸せにする魔法だ", kana: "えがおはひとをしあわせにするまほうだ", romaji: "egaohahitooshiawasenikasurumahoudaa" },
+  { jp: "旅行は新しい発見と出会いをもたらす", kana: "りょこうはあたらしいはっけんとであいをもたらす", romaji: "ryokouhatarayashiihakkenntodeaiwomotarasu" },
+];
+
+export const SENTENCES: Sentence[] = RAW.map((r, i) => ({
+  id: String(i),
+  japanese: r.jp,
+  kana: r.kana,
+  romaji: r.romaji,
+}));
+
+export function getSentenceQueue(count = 10): Sentence[] {
+  const shuffled = [...SENTENCES].sort(() => Math.random() - 0.5);
+  const result: Sentence[] = [];
+  while (result.length < count) {
+    for (const s of shuffled) {
+      if (result.length >= count) break;
+      result.push(s);
+    }
+  }
+  return result;
+}
