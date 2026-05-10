@@ -67,16 +67,19 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
       <div className="flex h-full w-full" style={{ maxWidth: "1100px" }}>
 
         {/* ── LIFE bar — left ── */}
-        <div className="w-16 shrink-0 flex flex-col justify-end relative" style={{ background: "#080808" }}>
-          <div
-            className="w-full transition-all duration-100"
-            style={{
-              height: `${lifePct}%`,
-              background: lc,
-              opacity: 0.45,
-              boxShadow: `0 0 18px ${lc}`,
-            }}
-          />
+        <div className="w-16 shrink-0 relative" style={{ background: "#080808" }}>
+          {/* absolute inset-0 ensures definite height so height:% on bar resolves correctly */}
+          <div className="absolute inset-0 flex flex-col justify-end">
+            <div
+              className="w-full transition-all duration-100"
+              style={{
+                height: `${lifePct}%`,
+                background: lc,
+                opacity: 0.45,
+                boxShadow: `0 0 18px ${lc}`,
+              }}
+            />
+          </div>
           <div className="absolute inset-0 flex items-center justify-center">
             <span
               className="text-[9px] font-mono uppercase tracking-widest select-none"
@@ -163,7 +166,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
           {/* Typing area */}
           <div className="flex-1 flex flex-col items-center justify-center gap-8">
             {sentence ? (
-              <TypingDisplay sentence={sentence} typingState={state.typingState} lastWrong={false} />
+              <TypingDisplay sentence={sentence} typingState={state.typingState} lastWrong={state.lastWrong} />
             ) : (
               <div className="text-gray-500 font-mono">Loading...</div>
             )}
@@ -215,18 +218,20 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
         </div>
 
         {/* ── GHOST HP bar — right ── */}
-        <div className="w-16 shrink-0 flex flex-col justify-end relative" style={{ background: "#080808" }}>
-          {state.hasGhost && (
-            <div
-              className="w-full transition-all duration-100"
-              style={{
-                height: `${ghostLifePct}%`,
-                background: "#cc44ff",
-                opacity: 0.45,
-                boxShadow: "0 0 18px #cc44ff88",
-              }}
-            />
-          )}
+        <div className="w-16 shrink-0 relative" style={{ background: "#080808" }}>
+          <div className="absolute inset-0 flex flex-col justify-end">
+            {state.hasGhost && (
+              <div
+                className="w-full transition-all duration-100"
+                style={{
+                  height: `${ghostLifePct}%`,
+                  background: "#cc44ff",
+                  opacity: 0.45,
+                  boxShadow: "0 0 18px #cc44ff88",
+                }}
+              />
+            )}
+          </div>
           <div className="absolute inset-0 flex items-center justify-center">
             <span
               className="text-[9px] font-mono uppercase tracking-widest select-none"

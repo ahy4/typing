@@ -6,7 +6,7 @@ interface Props {
   sessionCount: number;
 }
 
-export function IdleScreen({ onStart, onStats, onHelp, bestWpm, sessionCount }: Props) {
+export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-[#0a0a0a] gap-8 select-none">
       {/* Logo */}
@@ -36,26 +36,17 @@ export function IdleScreen({ onStart, onStats, onHelp, bestWpm, sessionCount }: 
 
       {/* Actions */}
       <div className="flex flex-col gap-3 items-center">
-        <button
-          onClick={onStart}
-          className="px-12 py-4 font-mono text-xl font-bold rounded border-2 transition-all duration-200 uppercase tracking-widest"
+        <div
+          className="px-12 py-4 font-mono text-xl font-bold rounded border-2 uppercase tracking-widest select-none"
           style={{
             borderColor: "#00ffff",
             color: "#00ffff",
             background: "transparent",
             boxShadow: "0 0 20px #00ffff44",
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "#00ffff18";
-            e.currentTarget.style.boxShadow = "0 0 30px #00ffff88";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "transparent";
-            e.currentTarget.style.boxShadow = "0 0 20px #00ffff44";
-          }}
         >
           START GAME
-        </button>
+        </div>
         <div className="flex gap-3">
           <button
             onClick={onStats}
@@ -72,7 +63,7 @@ export function IdleScreen({ onStart, onStats, onHelp, bestWpm, sessionCount }: 
         </div>
       </div>
 
-      <div className="text-gray-700 text-xs font-mono">ENTER or SPACE to start</div>
+      <div className="text-gray-500 text-sm font-mono tracking-widest">[ SPACE ] でスタート</div>
     </div>
   );
 }

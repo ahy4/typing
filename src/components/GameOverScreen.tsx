@@ -8,7 +8,7 @@ interface Props {
   onStats: () => void;
 }
 
-export function GameOverScreen({ session, onRestart, onStats }: Props) {
+export function GameOverScreen({ session, onStats }: Props) {
   const [showReplay, setShowReplay] = useState(false);
 
   if (showReplay) {
@@ -22,8 +22,8 @@ export function GameOverScreen({ session, onRestart, onStats }: Props) {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-[#0a0a0a] gap-8 select-none">
       <div className="text-4xl font-black font-mono tracking-widest"
-        style={{ color: "#ff3366", textShadow: "0 0 20px #ff336688" }}>
-        GAME OVER
+        style={{ color: "#00ffcc", textShadow: "0 0 20px #00ffcc88" }}>
+        RESULT
       </div>
 
       {/* Results */}
@@ -57,19 +57,17 @@ export function GameOverScreen({ session, onRestart, onStats }: Props) {
       </div>
 
       <div className="flex flex-col gap-3 items-center mt-4">
-        <button
-          onClick={onRestart}
-          className="px-10 py-3 font-mono text-lg font-bold rounded border-2 transition-all"
+        <div
+          className="px-10 py-3 font-mono text-lg font-bold rounded border-2 select-none"
           style={{
             borderColor: "#00ffff",
             color: "#00ffff",
             boxShadow: "0 0 16px #00ffff44",
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = "#00ffff18"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}
         >
           PLAY AGAIN
-        </button>
+        </div>
+        <div className="text-gray-500 text-sm font-mono tracking-widest">[ SPACE ] でもう一度</div>
         <div className="flex gap-3">
           <button
             onClick={() => setShowReplay(true)}
