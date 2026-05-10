@@ -46,16 +46,19 @@ export interface KanaSegment {
 
 // っ: add only the FIRST consonant of the next segment as an option.
 // Typing that single consonant completes っ, then the next segment requires its full romaji.
-// e.g. っけ → っ options: ["xtu","xtsu","ltu","k"] + け options: ["ke"] → total "kke" ✓
+// e.g. っけ → っ options: ["k","xtu","xtsu","ltu"] + け options: ["ke"] → total "kke" ✓
+// The doubled-consonant path is listed first so it shows as the canonical (recommended) display.
 function expandXtu(nextOptions: string[]): string[] {
-  const results: string[] = ["xtu", "xtsu", "ltu"];
+  const consonants: string[] = [];
   for (const opt of nextOptions) {
     const c = opt[0];
     if (c !== undefined && /[bcdfghjklmnpqrstvwxyz]/.test(c)) {
-      results.push(c);
+      consonants.push(c);
     }
   }
-  return [...new Set(results)];
+  const unique = [...new Set(consonants)];
+  // Prefer doubled consonant (e.g. "k" for っけ → "kke") over xtu/xtsu/ltu
+  return unique.length > 0 ? [...unique, "xtu", "xtsu", "ltu"] : ["xtu", "xtsu", "ltu"];
 }
 
 export function parseKana(text: string): KanaSegment[] {
