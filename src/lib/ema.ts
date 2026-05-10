@@ -11,7 +11,11 @@ export class SlidingWindowKPS {
 		this.timestamps.push(timestamp);
 		const cutoff = timestamp - this.windowMs;
 		let i = 0;
-		while (i < this.timestamps.length && this.timestamps[i]! < cutoff) i++;
+		while (
+			i < this.timestamps.length &&
+			(this.timestamps[i] ?? Infinity) < cutoff
+		)
+			i++;
 		if (i > 0) this.timestamps.splice(0, i);
 	}
 

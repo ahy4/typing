@@ -22,7 +22,7 @@ export function SessionChart({ sessions }: Props) {
 	const points = recent.map((s, i) => {
 		const x = pad + (i / (recent.length - 1)) * (w - pad * 2);
 		const y = h - pad - (s.wpm / maxWpm) * (h - pad * 2);
-		return { x, y, wpm: s.wpm };
+		return { x, y, wpm: s.wpm, id: s.id };
 	});
 
 	const pathD = points
@@ -72,9 +72,9 @@ export function SessionChart({ sessions }: Props) {
 					style={{ filter: "drop-shadow(0 0 4px #00ffff88)" }}
 				/>
 				{/* dots */}
-				{points.map((p, i) => (
+				{points.map((p) => (
 					<circle
-						key={i}
+						key={p.id}
 						cx={p.x}
 						cy={p.y}
 						r="2.5"

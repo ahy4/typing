@@ -60,7 +60,10 @@ export function TypingDisplay({
 			<div className="flex gap-1 flex-wrap justify-center">
 				{typingState.segments.map((seg, i) => (
 					<span
-						key={`${seg.kana}-${i}`}
+						key={typingState.segments
+							.slice(0, i + 1)
+							.map((s) => s.kana)
+							.join("")}
 						className={`text-xs px-1 py-0.5 rounded border ${
 							i < typingState.segIdx
 								? "border-cyan-800 text-cyan-600 bg-cyan-950/30"

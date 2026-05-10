@@ -147,7 +147,7 @@ export function HeatmapView({ sessions, replay }: Props) {
 
 			<div className="flex flex-col items-center gap-1.5">
 				{ROWS.map((row, ri) => (
-					<div key={ri} className="flex gap-1.5">
+					<div key={row[0] ?? ri} className="flex gap-1.5">
 						{ri === 1 && <div style={{ width: "22px" }} />}
 						{ri === 2 && <div style={{ width: "44px" }} />}
 						{row.map((key) => {

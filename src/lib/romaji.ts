@@ -301,7 +301,8 @@ function completeSegment(state: TypingState): FeedKeyResult {
 			segmentCompleted: false,
 		};
 	}
-	const nextSeg = state.segments[nextSegIdx]!;
+	const nextSeg = state.segments[nextSegIdx];
+	if (!nextSeg) throw new Error(`Segment ${nextSegIdx} not found`);
 	return {
 		next: {
 			...state,
@@ -357,7 +358,8 @@ export function feedKey(state: TypingState, key: string): FeedKeyResult {
 				segmentCompleted: false,
 			};
 		}
-		const nextSeg = state.segments[nextSegIdx]!;
+		const nextSeg = state.segments[nextSegIdx];
+		if (!nextSeg) throw new Error(`Segment ${nextSegIdx} not found`);
 		const afterComplete: TypingState = {
 			...state,
 			segIdx: nextSegIdx,

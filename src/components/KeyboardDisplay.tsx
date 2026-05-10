@@ -28,7 +28,7 @@ export function KeyboardDisplay({ keyStats, highlight = [] }: Props) {
 	return (
 		<div className="flex flex-col items-center gap-1.5 py-2">
 			{ROWS.map((row, ri) => (
-				<div key={ri} className="flex gap-1">
+				<div key={row[0] ?? ri} className="flex gap-1">
 					{ri === 1 && <div style={{ width: "16px" }} />}
 					{ri === 2 && <div style={{ width: "32px" }} />}
 					{row.map((key) => {
