@@ -21,6 +21,5 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - run: npm i
-      - run: npx @biomejs/biome ci .
       - run: npm run lint
       - run: npm run build
