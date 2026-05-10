@@ -7,10 +7,10 @@ import { clearAll, loadSessions, saveSessions, saveReplay } from "../lib/storage
 import type { BigramStats, GamePhase, InputEvent, KeyStats, Sentence, SessionRecord } from "../lib/types";
 
 const LIFE_MAX = 100;
-const LIFE_DRAIN_BASE = 0.8; // per frame at 60fps
+const LIFE_DRAIN_BASE = 0.04; // per frame at 60fps
 const LIFE_DRAIN_COMBO_FACTOR = 0.6; // drain multiplier when combo > 0
 const LIFE_RECOVER_CORRECT = 0.4;
-const LIFE_DRAIN_MISS = 3;
+const LIFE_DRAIN_MISS = 0.15;
 const COMBO_MILESTONE = 10;
 
 export interface GameState {
