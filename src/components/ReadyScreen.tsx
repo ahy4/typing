@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
+import { unlockAudio } from "../lib/sound";
 
 interface Props {
 	onReady: () => void;
 }
 
 const STEPS = ["3", "2", "1", "GO!"];
-const STEP_DURATION = 700; // ms per step
+const STEP_DURATION = 400; // ms per step
 
 export function ReadyScreen({ onReady }: Props) {
 	const [step, setStep] = useState(0);
+
+	// Unlock AudioContext on the first user-gesture (the click/keypress that triggered this screen)
+	useEffect(() => {
+		unlockAudio();
+	}, []);
 
 	useEffect(() => {
 		if (step >= STEPS.length - 1) {
