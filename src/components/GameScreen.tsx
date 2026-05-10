@@ -80,7 +80,8 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
         <div className="flex-1 flex flex-col min-w-0">
 
           {/* Progress comparison */}
-          <div className="px-6 pt-4 pb-3 flex flex-col gap-2">
+          <div className="pt-4 pb-3 flex justify-center">
+          <div className="w-full max-w-xl px-4 flex flex-col gap-2">
             <div className="flex items-center gap-3">
               <span className="text-[11px] font-mono text-cyan-400 w-14 text-right uppercase tracking-wider shrink-0">
                 YOU
@@ -127,8 +128,9 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
               </span>
             </div>
           </div>
+          </div>
 
-          <div className="mx-6 h-px" style={{ background: "#111" }} />
+          <div className="h-px" style={{ background: "#111" }} />
 
           {/* Typing area */}
           <div className="flex-1 flex flex-col items-center justify-center gap-8">
@@ -167,7 +169,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
           </div>
 
           {showKeyboard && (
-            <div className="border-t border-gray-900 pb-1">
+            <div className="border-t border-gray-900 pb-1 flex justify-center">
               <KeyboardDisplay keyStats={[]} highlight={nextKeys} />
             </div>
           )}
