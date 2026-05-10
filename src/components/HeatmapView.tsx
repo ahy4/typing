@@ -11,7 +11,6 @@ const ROWS = [
 ];
 
 export function HeatmapView({ sessions }: Props) {
-  // Aggregate all key stats across sessions
   const combined = new Map<string, { count: number; errors: number; totalMs: number }>();
   for (const s of sessions) {
     for (const ks of s.keyStats) {
@@ -43,12 +42,13 @@ export function HeatmapView({ sessions }: Props) {
     if (!d || d.count === 0) return key;
     const avg = d.count > 0 ? Math.round(d.totalMs / d.count) : 0;
     const errPct = d.count > 0 ? Math.round((d.errors / d.count) * 100) : 0;
-    return `${key}: ${d.count} hits, ${errPct}% err, ${avg}ms avg`;
+    return `${key}: ${d.count}回, エラー率${errPct}%, 平均${avg}ms`;
   }
 
   return (
     <div className="flex flex-col gap-4">
       <h3 className="text-sm uppercase tracking-widest text-gray-500">Key Heatmap</h3>
+
       <div className="flex flex-col items-center gap-1.5">
         {ROWS.map((row, ri) => (
           <div key={ri} className="flex gap-1">
@@ -56,22 +56,85 @@ export function HeatmapView({ sessions }: Props) {
             {ri === 2 && <div style={{ width: "40px" }} />}
             {row.map((key) => {
               const { bg, text } = getColor(key);
+              const d = combined.get(key);
+              const errPct = d && d.count > 0 ? Math.round((d.errors / d.count) * 100) : null;
+              const avgMs = d && d.count > 0 ? Math.round(d.totalMs / d.count) : null;
               return (
                 <div
                   key={key}
                   title={tooltip(key)}
-                  className="w-10 h-10 flex items-center justify-center rounded text-sm font-mono font-bold border border-gray-800 cursor-default"
+                  className="w-12 h-12 flex flex-col items-center justify-center rounded text-sm font-mono font-bold border border-gray-800 cursor-default gap-0.5"
                   style={{ background: bg, color: text }}
                 >
-                  {key}
+                  <span>{key}</span>
+                  {errPct !== null && (
+                    <span className="text-[7px] opacity-70" style={{ color: errPct > 25 ? "#ff8888" : "#aaa" }}>
+                      {errPct}%err
+                    </span>
+                  )}
+                  {avgMs !== null && errPct !== null && errPct <= 25 && (
+                    <span className="text-[7px] opacity-60 text-gray-400">{avgMs}ms</span>
+                  )}
                 </div>
               );
             })}
           </div>
         ))}
       </div>
+
+      {/* Legend */}
+      <div className="mt-4 p-4 rounded border border-gray-800 flex flex-col gap-3" style={{ background: "#0a0a0a" }}>
+        <h4 className="text-xs uppercase tracking-widest text-gray-500">見方 / Legend</h4>
+        <div className="flex flex-wrap gap-4 text-xs font-mono">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded flex items-center justify-center text-[10px] font-bold"
+              style={{ background: "rgba(220,50,50,0.7)", color: "#ff8888", border: "1px solid #555" }}>
+              a
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <span className="text-red-400">エラーが多い</span>
+              <span className="text-gray-600">error rate &gt; 25%</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded flex items-center justify-center text-[10px] font-bold"
+              style={{ background: "rgba(0,220,240,0.55)", color: "rgba(100,255,255,0.9)", border: "1px solid #555" }}>
+              a
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <span className="text-cyan-400">速い</span>
+              <span className="text-gray-600">fast (&lt;100ms avg)</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded flex items-center justify-center text-[10px] font-bold"
+              style={{ background: "rgba(0,100,150,0.2)", color: "rgba(100,200,255,0.6)", border: "1px solid #555" }}>
+              a
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <span className="text-blue-400">遅い</span>
+              <span className="text-gray-600">slow (&gt;400ms avg)</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded flex items-center justify-center text-[10px] font-bold"
+              style={{ background: "#111", color: "#333", border: "1px solid #333" }}>
+              a
+            </div>
+            <div className="flex flex-col gap-0.5">
+              <span className="text-gray-500">データなし</span>
+              <span className="text-gray-600">no data yet</span>
+            </div>
+          </div>
+        </div>
+        <p className="text-[10px] text-gray-600">各キーにカーソルを当てると詳細 (回数・エラー率・平均ms) を表示</p>
+      </div>
+
       {sessions.length === 0 && (
-        <p className="text-gray-600 text-sm text-center">No session data yet. Play some games!</p>
+        <p className="text-gray-600 text-sm text-center">まだデータがありません。ゲームをプレイしてください。</p>
       )}
     </div>
   );

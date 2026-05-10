@@ -5,13 +5,11 @@ interface Props {
   maxWpm?: number;
 }
 
-export function SpeedMeter({ wpm, label = "WPM", color = "#00ffff", maxWpm = 200 }: Props) {
+export function SpeedMeter({ wpm, label = "KPS", color = "#00ffff", maxWpm = 12 }: Props) {
   const pct = Math.min(1, wpm / maxWpm);
   const r = 36;
   const cx = 44;
   const cy = 44;
-  const sweepAngle = 260;
-
   // arc path using SVG
   function describeArc(startDeg: number, endDeg: number, radius: number) {
     const toRad = (d: number) => ((d - 90) * Math.PI) / 180;
@@ -52,21 +50,31 @@ export function SpeedMeter({ wpm, label = "WPM", color = "#00ffff", maxWpm = 200
         {/* center text */}
         <text
           x={cx}
-          y={cy - 4}
+          y={cy - 6}
           textAnchor="middle"
           fill={color}
           fontSize="14"
           fontFamily="monospace"
           fontWeight="bold"
         >
-          {Math.round(wpm)}
+          {wpm.toFixed(1)}
         </text>
         <text
           x={cx}
-          y={cy + 11}
+          y={cy + 7}
           textAnchor="middle"
-          fill="#555"
+          fill="#666"
           fontSize="8"
+          fontFamily="monospace"
+        >
+          KPS
+        </text>
+        <text
+          x={cx}
+          y={cy + 18}
+          textAnchor="middle"
+          fill="#444"
+          fontSize="7"
           fontFamily="monospace"
         >
           {label}

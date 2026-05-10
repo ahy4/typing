@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createTypingState, feedKey } from "../lib/romaji";
 import type { ReplayData } from "../lib/types";
+import { KeyboardDisplay } from "./KeyboardDisplay";
 import { SpeedMeter } from "./SpeedMeter";
 import { TypingDisplay } from "./TypingDisplay";
 
@@ -154,7 +155,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-900">
           <div className="text-xs text-gray-600 flex gap-4 font-mono">
-            <span>WPM <span className="text-cyan-400">{Math.round(replay.wpm)}</span></span>
+            <span>KPS <span className="text-cyan-400">{Math.round(replay.wpm)}</span></span>
             <span>ACC <span className="text-green-400">{Math.round(replay.accuracy * 100)}%</span></span>
             <span>COMBO <span className="text-cyan-300">{displayState.combo}x</span></span>
             <span>KEY <span className="text-yellow-400">{ev?.key ?? "·"}</span></span>
@@ -176,10 +177,12 @@ export function ReplayPlayer({ replay, onClose }: Props) {
               lastWrong={!(ev?.correct ?? true)}
             />
           )}
-          <SpeedMeter wpm={displayState.speed} label="WPM" color="#00ffff" />
+          <SpeedMeter wpm={displayState.speed} label="KPS" color="#00ffff" />
           <div className="text-xs text-gray-700 font-mono">
             {displayState.sentenceIdx + 1} / {replay.sentences.length} sentences
           </div>
+          {/* Keyboard showing the last pressed key */}
+          <KeyboardDisplay keyStats={[]} highlight={ev?.key ? [ev.key] : []} />
         </div>
 
         {/* Controls */}

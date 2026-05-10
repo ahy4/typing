@@ -2,7 +2,7 @@ import type { KeyStats } from "../lib/types";
 
 interface Props {
   keyStats: KeyStats[];
-  highlight?: string;
+  highlight?: string[];
 }
 
 const ROWS = [
@@ -11,15 +11,15 @@ const ROWS = [
   ["z", "x", "c", "v", "b", "n", "m"],
 ];
 
-export function KeyboardDisplay({ keyStats, highlight }: Props) {
+export function KeyboardDisplay({ keyStats, highlight = [] }: Props) {
   const statsMap = new Map(keyStats.map((k) => [k.key, k]));
+  const highlightSet = new Set(highlight);
 
   function getKeyColor(key: string): string {
     const s = statsMap.get(key);
     if (!s || s.count === 0) return "#1a1a1a";
     const errRate = s.errors / s.count;
     const avgMs = s.totalMs / s.count;
-    // speed: lower ms = faster = cyan; error: higher = red
     if (errRate > 0.2) return `rgba(255,50,50,${0.3 + errRate * 0.5})`;
     const speed = Math.max(0, 1 - avgMs / 400);
     return `rgba(0,${Math.round(150 + speed * 100)},${Math.round(200 + speed * 55)},${0.2 + speed * 0.5})`;
@@ -32,7 +32,7 @@ export function KeyboardDisplay({ keyStats, highlight }: Props) {
           {ri === 1 && <div style={{ width: "16px" }} />}
           {ri === 2 && <div style={{ width: "32px" }} />}
           {row.map((key) => {
-            const isHighlight = highlight === key;
+            const isHighlight = highlightSet.has(key);
             return (
               <div
                 key={key}
@@ -42,7 +42,7 @@ export function KeyboardDisplay({ keyStats, highlight }: Props) {
                   borderColor: isHighlight ? "#00ffff" : "#2a2a2a",
                   color: isHighlight ? "#00ffff" : "#888",
                   boxShadow: isHighlight ? "0 0 8px #00ffff88" : "none",
-                  transform: isHighlight ? "scale(1.1)" : "scale(1)",
+                  transform: isHighlight ? "scale(1.15)" : "scale(1)",
                 }}
               >
                 {key}
