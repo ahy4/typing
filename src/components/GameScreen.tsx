@@ -234,6 +234,8 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							speed={player.speed}
 							combo={player.combo}
 							comboColor={cc}
+							hitCount={state.totalCorrect}
+							lastWrong={state.lastWrong}
 							{...(ghost ? { ghostSpeed: ghost.speed } : {})}
 						/>
 

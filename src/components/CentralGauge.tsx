@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from "react";
+
 const SIZE = 260;
 const CX = SIZE / 2;
 const CY = SIZE / 2;
@@ -15,6 +17,8 @@ interface Props {
 	combo: number;
 	comboColor: string;
 	ghostSpeed?: number;
+	hitCount: number;
+	lastWrong: boolean;
 }
 
 export function CentralGauge({
@@ -25,6 +29,8 @@ export function CentralGauge({
 	combo,
 	comboColor,
 	ghostSpeed,
+	hitCount,
+	lastWrong,
 }: Props) {
 	const outerCirc = 2 * Math.PI * OUTER_R;
 	const outerOffset = outerCirc * (1 - progressToHeal);
@@ -38,13 +44,45 @@ export function CentralGauge({
 			? innerCirc * (1 - Math.min(1, ghostSpeed / MAX_KPS))
 			: null;
 
+	// Animation state
+	const prevHitCount = useRef(hitCount);
+	const prevLastWrong = useRef(lastWrong);
+	const [gaugeAnim, setGaugeAnim] = useState<"pulse" | "shake" | null>(null);
+	const [comboAnim, setComboAnim] = useState(false);
+	const [ringFlash, setRingFlash] = useState(false);
+
+	useEffect(() => {
+		if (hitCount !== prevHitCount.current) {
+			prevHitCount.current = hitCount;
+			setGaugeAnim("pulse");
+			setComboAnim(true);
+			setRingFlash(true);
+		}
+	}, [hitCount]);
+
+	useEffect(() => {
+		if (lastWrong && lastWrong !== prevLastWrong.current) {
+			setGaugeAnim("shake");
+			setRingFlash(false);
+		}
+		prevLastWrong.current = lastWrong;
+	}, [lastWrong]);
+
+	const gaugeStyle: React.CSSProperties =
+		gaugeAnim === "pulse"
+			? { animation: "gaugePulse 0.18s ease-out forwards", transformOrigin: "center", overflow: "visible" }
+			: gaugeAnim === "shake"
+			? { animation: "gaugeShake 0.3s ease-out forwards", transformOrigin: "center", overflow: "visible" }
+			: { overflow: "visible" };
+
 	return (
 		<svg
 			width={SIZE}
 			height={SIZE}
-			style={{ overflow: "visible" }}
+			style={gaugeStyle}
 			role="img"
 			aria-label={`コンボ ${combo}、速度 ${speed.toFixed(1)} 打/秒`}
+			onAnimationEnd={() => setGaugeAnim(null)}
 		>
 			<defs>
 				<filter id="heal-glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -56,6 +94,13 @@ export function CentralGauge({
 				</filter>
 				<filter id="speed-glow" x="-50%" y="-50%" width="200%" height="200%">
 					<feGaussianBlur stdDeviation="3" result="blur" />
+					<feMerge>
+						<feMergeNode in="blur" />
+						<feMergeNode in="SourceGraphic" />
+					</feMerge>
+				</filter>
+				<filter id="ring-flash-glow" x="-60%" y="-60%" width="220%" height="220%">
+					<feGaussianBlur stdDeviation="7" result="blur" />
 					<feMerge>
 						<feMergeNode in="blur" />
 						<feMergeNode in="SourceGraphic" />
@@ -111,8 +156,12 @@ export function CentralGauge({
 				strokeDashoffset={outerOffset}
 				strokeLinecap="round"
 				transform={`rotate(-90 ${CX} ${CY})`}
-				filter="url(#heal-glow)"
-				style={{ transition: "stroke-dashoffset 0.08s, stroke 0.3s" }}
+				filter={ringFlash ? "url(#ring-flash-glow)" : "url(#heal-glow)"}
+				style={{
+					transition: "stroke-dashoffset 0.08s, stroke 0.3s",
+					animation: ringFlash ? "ringFlash 0.25s ease-out forwards" : undefined,
+				}}
+				onAnimationEnd={() => setRingFlash(false)}
 			/>
 
 			{/* Inner ring: speed */}
@@ -156,7 +205,13 @@ export function CentralGauge({
 				fontSize={52}
 				fontFamily="monospace"
 				fontWeight="bold"
-				style={{ userSelect: "none" }}
+				style={{
+					userSelect: "none",
+					transformBox: "fill-box",
+					transformOrigin: "center",
+					animation: comboAnim ? "comboPop 0.2s ease-out forwards" : undefined,
+				}}
+				onAnimationEnd={() => setComboAnim(false)}
 			>
 				{combo}
 			</text>
