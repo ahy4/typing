@@ -16,6 +16,15 @@ function lifeColor(life: number): string {
 	return "#ff3333";
 }
 
+function healStreakColor(streak: number): string {
+	if (streak >= 5) return "#ff44ff";
+	if (streak >= 4) return "#ff8800";
+	if (streak >= 3) return "#ffdd00";
+	if (streak >= 2) return "#00ff88";
+	if (streak >= 1) return "#00ffff";
+	return "#333344";
+}
+
 function comboColor(combo: number): string {
 	const colors = [
 		"#00ffff",
@@ -34,6 +43,13 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 	const lifePct = Math.max(0, Math.min(100, player.life));
 	const lc = lifeColor(lifePct);
 	const cc = comboColor(player.combo);
+
+	const prevHealAt = player.nextHealAt - player.nextHealInterval;
+	const progressToHeal =
+		player.nextHealInterval > 0
+			? Math.min(1, Math.max(0, (player.combo - prevHealAt) / player.nextHealInterval))
+			: 0;
+	const sc = healStreakColor(state.healStreak);
 
 	const prevHealId = useRef(state.lastHealId);
 	const [healAnim, setHealAnim] = useState<{
@@ -107,21 +123,66 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 						</span>
 					</div>
 					{healAnim && (
-						<span
-							key={healAnim.id}
-							className="absolute text-[11px] font-mono font-bold pointer-events-none select-none"
-							style={{
-								bottom: `${lifePct}%`,
-								left: "50%",
-								color: "#00ff88",
-								textShadow: "0 0 10px #00ff88",
-								animation: "healFloat 0.9s ease-out forwards",
-							}}
-							onAnimationEnd={() => setHealAnim(null)}
-						>
-							+{healAnim.amount}
-						</span>
+						<>
+							<div
+								key={`flash-${healAnim.id}`}
+								className="absolute inset-0 pointer-events-none"
+								style={{
+									background: sc,
+									animation: "healFlash 0.4s ease-out forwards",
+								}}
+							/>
+							<span
+								key={healAnim.id}
+								className="absolute font-mono font-bold pointer-events-none select-none"
+								style={{
+									bottom: `${lifePct}%`,
+									left: "50%",
+									fontSize: "13px",
+									color: sc,
+									textShadow: `0 0 10px ${sc}, 0 0 20px ${sc}`,
+									animation: "healFloat 1s ease-out forwards",
+								}}
+								onAnimationEnd={() => setHealAnim(null)}
+							>
+								+{Math.round(healAnim.amount)}
+							</span>
+						</>
 					)}
+					{/* Heal interval progress */}
+					<div
+						className="absolute bottom-0 left-0 right-0 flex flex-col items-center"
+						style={{ padding: "0 5px 5px", gap: 3 }}
+					>
+						{state.healStreak > 0 && (
+							<span
+								className="font-mono select-none"
+								style={{ fontSize: 7, color: sc, opacity: 0.9, letterSpacing: "0.05em" }}
+							>
+								×{state.healStreak}
+							</span>
+						)}
+						<div
+							style={{
+								width: "100%",
+								height: 3,
+								background: "#111",
+								borderRadius: 2,
+								overflow: "hidden",
+							}}
+						>
+							<div
+								style={{
+									width: `${progressToHeal * 100}%`,
+									height: "100%",
+									background: sc,
+									boxShadow: `0 0 ${4 + progressToHeal * 8}px ${sc}`,
+									borderRadius: 2,
+									transition: "width 0.08s",
+								}}
+							/>
+						</div>
+					</div>
 				</div>
 
 				{/* ── Main content ── */}

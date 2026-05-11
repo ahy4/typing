@@ -18,6 +18,15 @@
 	}
 }
 
+@keyframes healFlash {
+	0% {
+		opacity: 0.35;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
 @keyframes wrongShake {
 	0% {
 		transform: translateX(0);
