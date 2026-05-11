@@ -1,32 +1,20 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SlidingWindowKPS } from "../lib/ema";
-import { createTypingState, feedKey } from "../lib/romaji";
+import {
+	applyDrain,
+	applyInput,
+	createRunnerState,
+	type RunnerState,
+} from "../lib/runnerState";
 import { playKeyTap, playMiss, playSegmentComplete } from "../lib/sound";
 import type { ReplayData } from "../lib/types";
 import { KeyboardDisplay } from "./KeyboardDisplay";
 import { SpeedMeter } from "./SpeedMeter";
 import { TypingDisplay } from "./TypingDisplay";
 
-const LIFE_DRAIN_MISS = 5;
-const LIFE_DRAIN_BASE = 0.04;
-const LIFE_DRAIN_COMBO_FACTOR = 0.6;
-const LIFE_RECOVER_CORRECT = 0.03;
-const KEYS_PER_COMBO = 10;
-
 interface Props {
 	replay: ReplayData;
 	onClose: () => void;
-}
-
-interface DisplayState {
-	sentenceIdx: number;
-	typingState: ReturnType<typeof createTypingState>;
-	life: number;
-	combo: number;
-	speed: number;
-	totalCorrect: number;
-	totalErrors: number;
-	lastKey: string;
 }
 
 function lifeColor(life: number): string {
@@ -47,66 +35,47 @@ function comboColor(combo: number): string {
 	return colors[Math.floor(combo / 30) % colors.length] ?? "#00ffff";
 }
 
+interface DisplayState extends RunnerState {
+	totalCorrect: number;
+	totalErrors: number;
+	lastKey: string;
+}
+
 function reconstructAt(
 	replay: ReplayData,
 	idx: number,
 	currentTime?: number,
 ): DisplayState {
-	let sentenceIdx = 0;
-	let typingState = createTypingState(replay.sentences[0]?.kana ?? "");
-	let streak = 0;
-	let combo = 0;
+	const kps = new SlidingWindowKPS(2000);
+	let runner = createRunnerState(replay.sentences);
 	let totalErrors = 0;
 	let totalCorrect = 0;
-	let life = 100;
 	let lastEventTime = 0;
 	let lastKey = "";
-	const kps = new SlidingWindowKPS(2000);
+	let lastWasWrong = false;
 
 	for (let i = 0; i < idx && i < replay.events.length; i++) {
 		const ev = replay.events[i];
 		if (!ev) continue;
 
 		const dt = ev.time - lastEventTime;
-		const comboFactor = combo > 0 ? LIFE_DRAIN_COMBO_FACTOR : 1;
-		const drain = (LIFE_DRAIN_BASE * comboFactor * dt) / (1000 / 60);
-		life = Math.max(0, life - drain);
+		runner = applyDrain(runner, dt);
 		lastEventTime = ev.time;
 		lastKey = ev.key;
 
-		if (!ev.correct) {
-			streak = 0;
-			combo = 0;
-			totalErrors++;
-			life = Math.max(0, life - LIFE_DRAIN_MISS);
-			continue;
-		}
+		const { state } = applyInput(runner, ev, kps, lastWasWrong);
+		runner = state;
+		lastWasWrong = !ev.correct;
 
-		kps.update(ev.time);
-		streak++;
-		combo = streak;
-		const healTick =
-			streak % KEYS_PER_COMBO === 0 ? Math.floor(combo / KEYS_PER_COMBO) : 0;
-		life = Math.min(100, life + LIFE_RECOVER_CORRECT + healTick);
-		totalCorrect++;
-
-		const { next, result } = feedKey(typingState, ev.key);
-		if (result === "all_complete") {
-			sentenceIdx++;
-			const nextSentence = replay.sentences[sentenceIdx];
-			typingState = createTypingState(nextSentence?.kana ?? "");
-		} else {
-			typingState = next;
-		}
+		if (ev.correct) totalCorrect++;
+		else totalErrors++;
 	}
 
 	const refTime = currentTime !== undefined ? currentTime : lastEventTime;
 	return {
-		sentenceIdx,
-		typingState,
-		life: Math.max(0, life),
-		combo,
+		...runner,
 		speed: kps.get(refTime),
+		life: Math.max(0, runner.life),
 		totalCorrect,
 		totalErrors,
 		lastKey,
@@ -241,7 +210,6 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 	);
 	const totalTimeSec = Math.round(replay.totalTime / 1000);
 
-	// Compute next valid keys for keyboard highlight
 	const nextKeys: string[] = (() => {
 		const ts = displayState.typingState;
 		const pos = ts.typed.length;
