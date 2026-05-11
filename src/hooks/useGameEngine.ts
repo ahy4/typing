@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { SlidingWindowKPS } from "../lib/ema";
+import { KPS_WINDOW_SECONDS, SlidingWindowKPS } from "../lib/ema";
 import { feedKey } from "../lib/romaji";
 import type { RunnerState } from "../lib/runnerState";
 import { applyDrain, applyInput, createRunnerState } from "../lib/runnerState";
@@ -38,7 +38,7 @@ interface GhostTimelineEntry extends RunnerState {
 }
 
 function precomputeGhostTimeline(replay: ReplayData): GhostTimelineEntry[] {
-	const kps = new SlidingWindowKPS(2000);
+	const kps = new SlidingWindowKPS(KPS_WINDOW_SECONDS * 1000);
 	let runner = createRunnerState(replay.sentences);
 	const timeline: GhostTimelineEntry[] = [{ ...runner, time: 0 }];
 	let lastEventTime = 0;
@@ -95,7 +95,8 @@ export interface GameState {
 }
 
 export function useGameEngine() {
-	const kpsWindowRef = useRef(new SlidingWindowKPS(2000));
+	const kpsWindowRef = useRef(new SlidingWindowKPS(KPS_WINDOW_SECONDS * 1000));
+	const lastSpeedCalcRef = useRef(0);
 	const streakRef = useRef(0);
 	const lastKeyTimeRef = useRef<number>(0);
 	const lastWasWrongRef = useRef<boolean>(false);
@@ -193,7 +194,12 @@ export function useGameEngine() {
 				const newPlayer = applyDrain(prev.player, dt);
 				const elapsed = Date.now() - prev.startTime;
 				const ghost = getGhostAt(ghostTimelineRef.current, elapsed);
-				const speed = kpsWindowRef.current.get(elapsed);
+
+				const shouldRecalcSpeed = elapsed - lastSpeedCalcRef.current >= 100;
+				if (shouldRecalcSpeed) lastSpeedCalcRef.current = elapsed;
+				const speed = shouldRecalcSpeed
+					? kpsWindowRef.current.get(elapsed)
+					: prev.player.speed;
 
 				if (newPlayer.life <= 0) {
 					setTimeout(endGame, 0);
@@ -228,6 +234,7 @@ export function useGameEngine() {
 	const startGame = useCallback((ghostReplayId?: string) => {
 		cancelAnimationFrame(rafRef.current);
 		kpsWindowRef.current.reset();
+		lastSpeedCalcRef.current = 0;
 		streakRef.current = 0;
 		lastKeyTimeRef.current = 0;
 		lastWasWrongRef.current = false;
@@ -370,7 +377,6 @@ export function useGameEngine() {
 		}
 
 		// Correct key
-		kpsWindowRef.current.update(elapsed);
 		keyStatsRef.current.set(key, {
 			...keyData,
 			count: keyData.count + 1,

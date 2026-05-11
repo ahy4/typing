@@ -1,9 +1,11 @@
+export const KPS_WINDOW_SECONDS = 1;
+
 // Sliding window KPS: counts keystrokes within the last windowMs milliseconds
 export class SlidingWindowKPS {
 	private readonly windowMs: number;
 	private timestamps: number[] = [];
 
-	constructor(windowMs = 2000) {
+	constructor(windowMs = KPS_WINDOW_SECONDS * 1000) {
 		this.windowMs = windowMs;
 	}
 
