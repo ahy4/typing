@@ -257,7 +257,10 @@ export function CentralGauge({
 				opacity={0.85}
 			>
 				<tspan fontSize={22}>{speed.toFixed(1)}</tspan>
-				<tspan fontSize={12} dy="2"> 打/秒</tspan>
+				<tspan fontSize={12} dy="2">
+					{" "}
+					打/秒
+				</tspan>
 			</text>
 		</svg>
 	);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { unlockAudio, playCountdownStep } from "../lib/sound";
+import { playCountdownStep, unlockAudio } from "../lib/sound";
 
 interface Props {
 	onReady: () => void;
