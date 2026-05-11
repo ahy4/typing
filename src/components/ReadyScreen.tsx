@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { unlockAudio } from "../lib/sound";
+import { unlockAudio, playCountdownStep } from "../lib/sound";
 
 interface Props {
 	onReady: () => void;
@@ -17,6 +17,7 @@ export function ReadyScreen({ onReady }: Props) {
 	}, []);
 
 	useEffect(() => {
+		playCountdownStep(step);
 		if (step >= STEPS.length - 1) {
 			const t = setTimeout(onReady, STEP_DURATION);
 			return () => clearTimeout(t);

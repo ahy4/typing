@@ -6,7 +6,9 @@ const CY = SIZE / 2;
 const OUTER_R = 108;
 const INNER_R = 80;
 const OUTER_STROKE = 12;
-const INNER_STROKE = 9;
+const INNER_TRACK_STROKE = 16; // background track wide enough for ghost arc
+const GHOST_INNER_STROKE = 13; // ghost arc is thicker (lower layer)
+const PLAYER_INNER_STROKE = 5; // player arc is thinner (upper layer)
 const MAX_KPS = 12;
 
 interface Props {
@@ -137,23 +139,23 @@ export function CentralGauge({
 				r={INNER_R}
 				fill="none"
 				stroke="#151518"
-				strokeWidth={INNER_STROKE}
+				strokeWidth={INNER_TRACK_STROKE}
 			/>
 
-			{/* Ghost speed arc */}
+			{/* Ghost speed arc — lower layer, thicker, muted color */}
 			{ghostInnerOffset !== null && (
 				<circle
 					cx={CX}
 					cy={CY}
 					r={INNER_R}
 					fill="none"
-					stroke="#cc44ff"
-					strokeWidth={INNER_STROKE}
+					stroke="#7744aa"
+					strokeWidth={GHOST_INNER_STROKE}
 					strokeDasharray={innerCirc}
 					strokeDashoffset={ghostInnerOffset}
 					strokeLinecap="round"
 					transform={`rotate(-90 ${CX} ${CY})`}
-					opacity={0.3}
+					opacity={0.65}
 					style={{ transition: "stroke-dashoffset 0.15s" }}
 				/>
 			)}
@@ -180,14 +182,14 @@ export function CentralGauge({
 				onAnimationEnd={() => setRingFlash(false)}
 			/>
 
-			{/* Inner ring: speed */}
+			{/* Inner ring: player speed — upper layer, thinner */}
 			<circle
 				cx={CX}
 				cy={CY}
 				r={INNER_R}
 				fill="none"
 				stroke="#00ffff"
-				strokeWidth={INNER_STROKE}
+				strokeWidth={PLAYER_INNER_STROKE}
 				strokeDasharray={innerCirc}
 				strokeDashoffset={innerOffset}
 				strokeLinecap="round"
@@ -251,11 +253,11 @@ export function CentralGauge({
 				y={CY + 26}
 				textAnchor="middle"
 				fill="#00ffff"
-				fontSize={22}
 				fontFamily="monospace"
 				opacity={0.85}
 			>
-				{speed.toFixed(1)} 打/秒
+				<tspan fontSize={22}>{speed.toFixed(1)}</tspan>
+				<tspan fontSize={12} dy="2"> 打/秒</tspan>
 			</text>
 		</svg>
 	);

@@ -72,3 +72,16 @@ export function playComboMilestone(combo: number): void {
 	setTimeout(() => playTone(freq * 1.5, 0.05, 0.08, "sine"), 50);
 	setTimeout(() => playTone(freq * 2, 0.08, 0.06, "sine"), 100);
 }
+
+// step: 0="3", 1="2", 2="1", 3="GO!"
+export function playCountdownStep(step: number): void {
+	if (step < 3) {
+		// 3, 2, 1: short tick, pitch rises with each step
+		const freq = 440 + step * 110;
+		playTone(freq, 0.08, 0.12, "sine");
+	} else {
+		// GO!: bright two-tone fanfare
+		playTone(880, 0.15, 0.14, "sine");
+		setTimeout(() => playTone(1100, 0.12, 0.1, "sine"), 40);
+	}
+}
