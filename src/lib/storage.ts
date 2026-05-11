@@ -43,6 +43,16 @@ export function loadReplays(): ReplayData[] {
 	}
 }
 
+export function deleteReplay(id: string): void {
+	try {
+		const existing = loadReplays();
+		const filtered = existing.filter((r) => r.id !== id);
+		localStorage.setItem(REPLAYS_KEY, JSON.stringify(filtered));
+	} catch {
+		// storage full
+	}
+}
+
 export function clearAll(): void {
 	localStorage.removeItem(SESSIONS_KEY);
 	localStorage.removeItem(REPLAYS_KEY);

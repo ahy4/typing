@@ -7,6 +7,7 @@ import { IdleScreen } from "./components/IdleScreen";
 import { ReadyScreen } from "./components/ReadyScreen";
 import { StatsScreen } from "./components/StatsScreen";
 import { useGameEngine } from "./hooks/useGameEngine";
+import { deleteReplay } from "./lib/storage";
 import type { GamePhase } from "./lib/types";
 
 const PHASE_TO_PATH: Record<GamePhase, string> = {
@@ -59,6 +60,10 @@ export default function App() {
 						sessions={state.sessions}
 						onBack={() => setPhase("idle")}
 						onClear={clearData}
+						onStartWithGhost={(replayId) => {
+							startGame(replayId);
+						}}
+						onDeleteReplay={deleteReplay}
 					/>
 				}
 			/>
