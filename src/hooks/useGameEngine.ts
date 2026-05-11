@@ -91,6 +91,7 @@ export interface GameState {
 	lastHealAmount: number;
 	lastHealId: number;
 	lastWrong: boolean;
+	healStreak: number;
 }
 
 export function useGameEngine() {
@@ -124,6 +125,7 @@ export function useGameEngine() {
 		lastHealAmount: 0,
 		lastHealId: 0,
 		lastWrong: false,
+		healStreak: 0,
 	}));
 
 	const stateRef = useRef(state);
@@ -285,6 +287,7 @@ export function useGameEngine() {
 			lastHealAmount: 0,
 			lastHealId: 0,
 			lastWrong: false,
+			healStreak: 0,
 		});
 
 		rafRef.current = requestAnimationFrame(tick);
@@ -361,6 +364,7 @@ export function useGameEngine() {
 				player: newPlayer,
 				totalErrors: prev.totalErrors + 1,
 				lastWrong: true,
+				healStreak: 0,
 			}));
 			return;
 		}
@@ -422,6 +426,7 @@ export function useGameEngine() {
 			lastHealAmount: healAmount,
 			lastHealId: healAmount > 0 ? prev.lastHealId + 1 : prev.lastHealId,
 			lastWrong: false,
+			healStreak: healAmount > 0 ? prev.healStreak + 1 : prev.healStreak,
 		}));
 	}, []);
 
