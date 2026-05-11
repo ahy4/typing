@@ -29,12 +29,12 @@ function comboColor(combo: number): string {
 }
 
 export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
-	const sentence = state.sentences[state.sentenceIdx];
-	const lifePct = Math.max(0, Math.min(100, state.life));
+	const { player, ghost } = state;
+	const sentence = player.sentences[player.sentenceIdx];
+	const lifePct = Math.max(0, Math.min(100, player.life));
 	const lc = lifeColor(lifePct);
-	const cc = comboColor(state.combo);
+	const cc = comboColor(player.combo);
 
-	// Heal animation: re-mount the element each time lastHealId changes
 	const prevHealId = useRef(state.lastHealId);
 	const [healAnim, setHealAnim] = useState<{
 		id: number;
@@ -46,7 +46,8 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 			setHealAnim({ id: state.lastHealId, amount: state.lastHealAmount });
 		}
 	}, [state.lastHealId, state.lastHealAmount]);
-	const ghostLifePct = Math.max(0, Math.min(100, state.ghostLife));
+
+	const ghostLifePct = ghost ? Math.max(0, Math.min(100, ghost.life)) : 0;
 	const acc =
 		state.totalCorrect + state.totalErrors > 0
 			? Math.round(
@@ -55,7 +56,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 			: 100;
 
 	const nextKeys: string[] = (() => {
-		const ts = state.typingState;
+		const ts = player.typingState;
 		const pos = ts.typed.length;
 		const fromCurrent = ts.validOptions
 			.map((o) => o[pos])
@@ -70,8 +71,8 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 		return [...new Set(fromCurrent)];
 	})();
 
-	const myProgress = state.sentenceIdx;
-	const ghostProgress = state.hasGhost ? state.ghostSentenceIdx : 0;
+	const myProgress = player.sentenceIdx;
+	const ghostProgress = ghost ? ghost.sentenceIdx : 0;
 
 	const PX_PER_CLEAR = 6;
 
@@ -86,7 +87,6 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					className="w-16 shrink-0 relative"
 					style={{ background: "#080808" }}
 				>
-					{/* absolute inset-0 ensures definite height so height:% on bar resolves correctly */}
 					<div className="absolute inset-0 flex flex-col justify-end">
 						<div
 							className="w-full transition-all duration-100"
@@ -106,7 +106,6 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							HP {Math.round(lifePct)}%
 						</span>
 					</div>
-					{/* Heal float indicator */}
 					{healAnim && (
 						<span
 							key={healAnim.id}
@@ -155,21 +154,21 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							<div className="flex items-center gap-3">
 								<span
 									className="text-[11px] font-mono w-14 text-right uppercase tracking-wider shrink-0"
-									style={{ color: state.hasGhost ? "#cc44ff" : "#333" }}
+									style={{ color: ghost ? "#cc44ff" : "#333" }}
 								>
 									ゴースト
 								</span>
 								<span
 									className="text-[11px] font-mono w-16 shrink-0"
-									style={{ color: state.hasGhost ? "#cc44ff" : "#333" }}
+									style={{ color: ghost ? "#cc44ff" : "#333" }}
 								>
-									{state.hasGhost ? `${ghostProgress} クリア` : "— なし"}
+									{ghost ? `${ghostProgress} クリア` : "— なし"}
 								</span>
 								<div
 									className="flex-1 h-4 rounded overflow-hidden"
 									style={{ background: "#111" }}
 								>
-									{state.hasGhost && (
+									{ghost && (
 										<div
 											className="h-full rounded transition-all duration-100"
 											style={{
@@ -191,7 +190,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 						{sentence ? (
 							<TypingDisplay
 								sentence={sentence}
-								typingState={state.typingState}
+								typingState={player.typingState}
 								lastWrong={state.lastWrong}
 							/>
 						) : (
@@ -200,12 +199,12 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 
 						<div className="flex items-center gap-8">
 							<div className="flex flex-col items-center">
-								<SpeedMeter wpm={state.speed} label="自分" color="#00ffff" />
+								<SpeedMeter wpm={player.speed} label="自分" color="#00ffff" />
 							</div>
-							{state.hasGhost && (
+							{ghost && (
 								<div className="flex flex-col items-center">
 									<SpeedMeter
-										wpm={state.ghostSpeed}
+										wpm={ghost.speed}
 										label="ゴースト"
 										color="#cc44ff"
 									/>
@@ -215,7 +214,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 
 						<div className="flex gap-6 text-xs text-gray-600 font-mono">
 							<span>
-								コンボ <span style={{ color: cc }}>{state.combo}x</span>
+								コンボ <span style={{ color: cc }}>{player.combo}x</span>
 							</span>
 							<span>
 								正解{" "}
@@ -274,7 +273,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					style={{ background: "#080808" }}
 				>
 					<div className="absolute inset-0 flex flex-col justify-end">
-						{state.hasGhost && (
+						{ghost && (
 							<div
 								className="w-full transition-all duration-100"
 								style={{
@@ -292,12 +291,10 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							style={{
 								writingMode: "vertical-rl",
 								color: "#cc44ff",
-								opacity: state.hasGhost ? 0.75 : 0.2,
+								opacity: ghost ? 0.75 : 0.2,
 							}}
 						>
-							{state.hasGhost
-								? `ゴースト ${Math.round(ghostLifePct)}%`
-								: "ゴーストなし"}
+							{ghost ? `ゴースト ${Math.round(ghostLifePct)}%` : "ゴーストなし"}
 						</span>
 					</div>
 				</div>
