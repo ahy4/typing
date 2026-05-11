@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { GameState } from "../hooks/useGameEngine";
+import { CentralGauge } from "./CentralGauge";
 import { KeyboardDisplay } from "./KeyboardDisplay";
-import { SpeedMeter } from "./SpeedMeter";
 import { TypingDisplay } from "./TypingDisplay";
 
 interface Props {
@@ -152,45 +152,6 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							</span>
 						</>
 					)}
-					{/* Heal interval progress */}
-					<div
-						className="absolute bottom-0 left-0 right-0 flex flex-col items-center"
-						style={{ padding: "0 5px 5px", gap: 3 }}
-					>
-						{state.healStreak > 0 && (
-							<span
-								className="font-mono select-none"
-								style={{
-									fontSize: 7,
-									color: sc,
-									opacity: 0.9,
-									letterSpacing: "0.05em",
-								}}
-							>
-								×{state.healStreak}
-							</span>
-						)}
-						<div
-							style={{
-								width: "100%",
-								height: 3,
-								background: "#111",
-								borderRadius: 2,
-								overflow: "hidden",
-							}}
-						>
-							<div
-								style={{
-									width: `${progressToHeal * 100}%`,
-									height: "100%",
-									background: sc,
-									boxShadow: `0 0 ${4 + progressToHeal * 8}px ${sc}`,
-									borderRadius: 2,
-									transition: "width 0.08s",
-								}}
-							/>
-						</div>
-					</div>
 				</div>
 
 				{/* ── Main content ── */}
@@ -255,7 +216,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					<div className="h-px" style={{ background: "#111" }} />
 
 					{/* Typing area */}
-					<div className="flex-1 flex flex-col items-center justify-center gap-8">
+					<div className="flex-1 flex flex-col items-center justify-center gap-6">
 						{sentence ? (
 							<TypingDisplay
 								sentence={sentence}
@@ -266,25 +227,17 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							<div className="text-gray-500 font-mono">読み込み中...</div>
 						)}
 
-						<div className="flex items-center gap-8">
-							<div className="flex flex-col items-center">
-								<SpeedMeter wpm={player.speed} label="自分" color="#00ffff" />
-							</div>
-							{ghost && (
-								<div className="flex flex-col items-center">
-									<SpeedMeter
-										wpm={ghost.speed}
-										label="ゴースト"
-										color="#cc44ff"
-									/>
-								</div>
-							)}
-						</div>
+						<CentralGauge
+							progressToHeal={progressToHeal}
+							healStreak={state.healStreak}
+							streakColor={sc}
+							speed={player.speed}
+							combo={player.combo}
+							comboColor={cc}
+							{...(ghost ? { ghostSpeed: ghost.speed } : {})}
+						/>
 
 						<div className="flex gap-6 text-xs text-gray-600 font-mono">
-							<span>
-								コンボ <span style={{ color: cc }}>{player.combo}x</span>
-							</span>
 							<span>
 								正解{" "}
 								<span className="text-green-400">{state.totalCorrect}</span>
