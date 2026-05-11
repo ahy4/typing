@@ -214,11 +214,11 @@ export function CentralGauge({
 			{/* Combo number */}
 			<text
 				x={CX}
-				y={CY}
+				y={CY - 14}
 				textAnchor="middle"
 				dominantBaseline="central"
 				fill={comboColor}
-				fontSize={52}
+				fontSize={26}
 				fontFamily="monospace"
 				fontWeight="bold"
 				style={{
@@ -235,7 +235,7 @@ export function CentralGauge({
 			{/* COMBO label */}
 			<text
 				x={CX}
-				y={CY + 30}
+				y={CY + 6}
 				textAnchor="middle"
 				fill="#333"
 				fontSize={9}
@@ -248,12 +248,12 @@ export function CentralGauge({
 			{/* Speed value */}
 			<text
 				x={CX}
-				y={CY + 46}
+				y={CY + 26}
 				textAnchor="middle"
 				fill="#00ffff"
-				fontSize={11}
+				fontSize={22}
 				fontFamily="monospace"
-				opacity={0.6}
+				opacity={0.85}
 			>
 				{speed.toFixed(1)} 打/秒
 			</text>
