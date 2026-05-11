@@ -257,6 +257,8 @@ export interface TypingState {
 	completed: boolean;
 	// true when typed is an exact match but a longer option also exists (e.g. "n" for ん with ["nn","n"])
 	pendingComplete: boolean;
+	// what the user actually typed for each already-completed segment
+	typedSegments: string[];
 }
 
 export function createTypingState(kana: string): TypingState {
@@ -269,6 +271,7 @@ export function createTypingState(kana: string): TypingState {
 		validOptions: first ? [...first.options] : [],
 		completed: segments.length === 0,
 		pendingComplete: false,
+		typedSegments: [],
 	};
 }
 
@@ -287,6 +290,7 @@ export interface FeedKeyResult {
 
 function completeSegment(state: TypingState): FeedKeyResult {
 	const nextSegIdx = state.segIdx + 1;
+	const typedSegments = [...state.typedSegments, state.typed];
 	if (nextSegIdx >= state.segments.length) {
 		return {
 			next: {
@@ -296,6 +300,7 @@ function completeSegment(state: TypingState): FeedKeyResult {
 				validOptions: [],
 				completed: true,
 				pendingComplete: false,
+				typedSegments,
 			},
 			result: "all_complete",
 			segmentCompleted: false,
@@ -311,6 +316,7 @@ function completeSegment(state: TypingState): FeedKeyResult {
 			validOptions: [...nextSeg.options],
 			completed: false,
 			pendingComplete: false,
+			typedSegments,
 		},
 		result: "segment_complete",
 		segmentCompleted: false,
@@ -367,6 +373,7 @@ export function feedKey(state: TypingState, key: string): FeedKeyResult {
 			validOptions: [...nextSeg.options],
 			completed: false,
 			pendingComplete: false,
+			typedSegments: [...state.typedSegments, state.typed],
 		};
 		const nested = feedKey(afterComplete, key);
 		return { next: nested.next, result: nested.result, segmentCompleted: true };
@@ -407,10 +414,7 @@ export function getDisplayRomaji(state: TypingState): {
 	const seg = state.segments[state.segIdx];
 	// Use the first still-valid option as the canonical display
 	const canonical = state.validOptions[0] ?? seg?.options[0] ?? "";
-	const done = state.segments
-		.slice(0, state.segIdx)
-		.map((s) => s.options[0] ?? "")
-		.join("");
+	const done = state.typedSegments.join("");
 	const pendingSegs = state.segments
 		.slice(state.segIdx + 1)
 		.map((s) => s.options[0] ?? "")
