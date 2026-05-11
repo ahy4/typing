@@ -149,13 +149,13 @@ export function CentralGauge({
 					cy={CY}
 					r={INNER_R}
 					fill="none"
-					stroke="#7744aa"
+					stroke="#bb44ff"
 					strokeWidth={GHOST_INNER_STROKE}
 					strokeDasharray={innerCirc}
 					strokeDashoffset={ghostInnerOffset}
 					strokeLinecap="round"
 					transform={`rotate(-90 ${CX} ${CY})`}
-					opacity={0.65}
+					opacity={0.75}
 					style={{ transition: "stroke-dashoffset 0.15s" }}
 				/>
 			)}
