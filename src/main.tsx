@@ -8,7 +8,7 @@ const root = document.getElementById("root");
 if (root) {
 	createRoot(root).render(
 		<StrictMode>
-			<BrowserRouter>
+			<BrowserRouter basename="/typing">
 				<App />
 			</BrowserRouter>
 		</StrictMode>,
