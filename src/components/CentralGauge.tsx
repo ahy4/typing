@@ -70,10 +70,18 @@ export function CentralGauge({
 
 	const gaugeStyle: React.CSSProperties =
 		gaugeAnim === "pulse"
-			? { animation: "gaugePulse 0.18s ease-out forwards", transformOrigin: "center", overflow: "visible" }
+			? {
+					animation: "gaugePulse 0.18s ease-out forwards",
+					transformOrigin: "center",
+					overflow: "visible",
+				}
 			: gaugeAnim === "shake"
-			? { animation: "gaugeShake 0.3s ease-out forwards", transformOrigin: "center", overflow: "visible" }
-			: { overflow: "visible" };
+				? {
+						animation: "gaugeShake 0.3s ease-out forwards",
+						transformOrigin: "center",
+						overflow: "visible",
+					}
+				: { overflow: "visible" };
 
 	return (
 		<svg
@@ -99,7 +107,13 @@ export function CentralGauge({
 						<feMergeNode in="SourceGraphic" />
 					</feMerge>
 				</filter>
-				<filter id="ring-flash-glow" x="-60%" y="-60%" width="220%" height="220%">
+				<filter
+					id="ring-flash-glow"
+					x="-60%"
+					y="-60%"
+					width="220%"
+					height="220%"
+				>
 					<feGaussianBlur stdDeviation="7" result="blur" />
 					<feMerge>
 						<feMergeNode in="blur" />
@@ -159,7 +173,9 @@ export function CentralGauge({
 				filter={ringFlash ? "url(#ring-flash-glow)" : "url(#heal-glow)"}
 				style={{
 					transition: "stroke-dashoffset 0.08s, stroke 0.3s",
-					animation: ringFlash ? "ringFlash 0.25s ease-out forwards" : undefined,
+					animation: ringFlash
+						? "ringFlash 0.25s ease-out forwards"
+						: undefined,
 				}}
 				onAnimationEnd={() => setRingFlash(false)}
 			/>
