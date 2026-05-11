@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SlidingWindowKPS } from "../lib/ema";
 import { feedKey } from "../lib/romaji";
+import type { RunnerState } from "../lib/runnerState";
+import { applyDrain, applyInput, createRunnerState } from "../lib/runnerState";
 import { getSentenceQueue } from "../lib/sentences";
 import {
 	playComboMilestone,
@@ -15,12 +17,6 @@ import {
 	saveReplay,
 	saveSessions,
 } from "../lib/storage";
-import {
-	applyDrain,
-	applyInput,
-	createRunnerState,
-} from "../lib/runnerState";
-import type { RunnerState } from "../lib/runnerState";
 import type {
 	BigramStats,
 	GamePhase,
@@ -387,8 +383,12 @@ export function useGameEngine() {
 		lastKeyTimeRef.current = now;
 		lastWasWrongRef.current = false;
 
-		const { state: newPlayer, healAmount, sentenceAdvanced, segmentCompleted } =
-			applyInput(s.player, inputEvent, kpsWindowRef.current, false);
+		const {
+			state: newPlayer,
+			healAmount,
+			sentenceAdvanced,
+			segmentCompleted,
+		} = applyInput(s.player, inputEvent, kpsWindowRef.current, false);
 
 		streakRef.current = newPlayer.combo;
 

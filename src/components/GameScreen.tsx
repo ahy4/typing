@@ -294,9 +294,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								opacity: ghost ? 0.75 : 0.2,
 							}}
 						>
-							{ghost
-								? `ゴースト ${Math.round(ghostLifePct)}%`
-								: "ゴーストなし"}
+							{ghost ? `ゴースト ${Math.round(ghostLifePct)}%` : "ゴーストなし"}
 						</span>
 					</div>
 				</div>

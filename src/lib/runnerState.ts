@@ -1,4 +1,4 @@
-import { SlidingWindowKPS } from "./ema";
+import type { SlidingWindowKPS } from "./ema";
 import { createTypingState, feedKey } from "./romaji";
 import type { InputEvent, Sentence } from "./types";
 
@@ -41,7 +41,10 @@ export function drainDelta(combo: number, dt: number): number {
 }
 
 export function applyDrain(state: RunnerState, dt: number): RunnerState {
-	return { ...state, life: Math.max(0, state.life + drainDelta(state.combo, dt)) };
+	return {
+		...state,
+		life: Math.max(0, state.life + drainDelta(state.combo, dt)),
+	};
 }
 
 export interface ApplyInputResult {
@@ -85,11 +88,18 @@ export function applyInput(
 			? state.nextHealAt + state.nextHealInterval + KEYS_PER_COMBO
 			: state.nextHealAt;
 	const newNextHealInterval =
-		healTick > 0 ? state.nextHealInterval + KEYS_PER_COMBO : state.nextHealInterval;
+		healTick > 0
+			? state.nextHealInterval + KEYS_PER_COMBO
+			: state.nextHealInterval;
 
-	const { next, result, segmentCompleted } = feedKey(state.typingState, event.key);
+	const { next, result, segmentCompleted } = feedKey(
+		state.typingState,
+		event.key,
+	);
 	const sentenceAdvanced = result === "all_complete";
-	const newSentenceIdx = sentenceAdvanced ? state.sentenceIdx + 1 : state.sentenceIdx;
+	const newSentenceIdx = sentenceAdvanced
+		? state.sentenceIdx + 1
+		: state.sentenceIdx;
 	const newTypingState = sentenceAdvanced
 		? createTypingState(state.sentences[newSentenceIdx]?.kana ?? "")
 		: next;
@@ -107,6 +117,7 @@ export function applyInput(
 		},
 		healAmount: healTick,
 		sentenceAdvanced,
-		segmentCompleted: segmentCompleted || result === "segment_complete" || sentenceAdvanced,
+		segmentCompleted:
+			segmentCompleted || result === "segment_complete" || sentenceAdvanced,
 	};
 }
