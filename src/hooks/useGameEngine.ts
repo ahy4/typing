@@ -34,6 +34,54 @@ export const LIFE_DRAIN_MISS = 5;
 const KEYS_PER_COMBO = 10;
 const REFILL_AT = 3; // add more sentences when this many remain
 
+// --- Shared HP logic (used by both live player and ghost precompute) ---
+
+interface KeyHP {
+	lifeDelta: number;
+	newCombo: number;
+	newNextHealAt: number;
+	newNextHealInterval: number;
+	healAmount: number;
+}
+
+function drainDelta(combo: number, dt: number): number {
+	const comboFactor = combo > 0 ? LIFE_DRAIN_COMBO_FACTOR : 1;
+	return -(LIFE_DRAIN_BASE * comboFactor * dt) / (1000 / 60);
+}
+
+function correctKeyHP(
+	combo: number,
+	nextHealAt: number,
+	nextHealInterval: number,
+): KeyHP {
+	const newCombo = combo + 1;
+	const healTick =
+		newCombo === nextHealAt ? nextHealInterval / KEYS_PER_COMBO : 0;
+	return {
+		lifeDelta: LIFE_RECOVER_CORRECT + healTick,
+		newCombo,
+		newNextHealAt:
+			healTick > 0
+				? nextHealAt + nextHealInterval + KEYS_PER_COMBO
+				: nextHealAt,
+		newNextHealInterval:
+			healTick > 0 ? nextHealInterval + KEYS_PER_COMBO : nextHealInterval,
+		healAmount: healTick,
+	};
+}
+
+function wrongKeyHP(isConsecutiveMiss: boolean): KeyHP {
+	return {
+		lifeDelta: isConsecutiveMiss ? 0 : -LIFE_DRAIN_MISS,
+		newCombo: 0,
+		newNextHealAt: KEYS_PER_COMBO,
+		newNextHealInterval: KEYS_PER_COMBO,
+		healAmount: 0,
+	};
+}
+
+// ----------------------------------------------------------------------
+
 interface GhostTimelineEntry {
 	time: number;
 	sentenceIdx: number;
@@ -51,20 +99,23 @@ function precomputeGhostTimeline(replay: ReplayData): GhostTimelineEntry[] {
 	const kps = new SlidingWindowKPS(2000);
 	let lastEventTime = 0;
 	let life = LIFE_MAX;
-	let streak = 0;
 	let combo = 0;
+	let nextHealAt = KEYS_PER_COMBO;
+	let nextHealInterval = KEYS_PER_COMBO;
+	let lastWasWrong = false;
 
 	for (const ev of replay.events) {
 		const dt = ev.time - lastEventTime;
-		const comboFactor = combo > 0 ? LIFE_DRAIN_COMBO_FACTOR : 1;
-		const drain = (LIFE_DRAIN_BASE * comboFactor * dt) / (1000 / 60);
-		life = Math.max(0, life - drain);
+		life = Math.max(0, life + drainDelta(combo, dt));
 		lastEventTime = ev.time;
 
 		if (!ev.correct) {
-			life = Math.max(0, life - LIFE_DRAIN_MISS);
-			streak = 0;
-			combo = 0;
+			const upd = wrongKeyHP(lastWasWrong);
+			life = Math.max(0, life + upd.lifeDelta);
+			combo = upd.newCombo;
+			nextHealAt = upd.newNextHealAt;
+			nextHealInterval = upd.newNextHealInterval;
+			lastWasWrong = true;
 			timeline.push({
 				time: ev.time,
 				sentenceIdx,
@@ -75,12 +126,13 @@ function precomputeGhostTimeline(replay: ReplayData): GhostTimelineEntry[] {
 			continue;
 		}
 
+		lastWasWrong = false;
 		kps.update(ev.time);
-		streak++;
-		combo = streak;
-		const healTick =
-			streak % KEYS_PER_COMBO === 0 ? Math.floor(combo / KEYS_PER_COMBO) : 0;
-		life = Math.min(LIFE_MAX, life + LIFE_RECOVER_CORRECT + healTick);
+		const upd = correctKeyHP(combo, nextHealAt, nextHealInterval);
+		life = Math.min(LIFE_MAX, life + upd.lifeDelta);
+		combo = upd.newCombo;
+		nextHealAt = upd.newNextHealAt;
+		nextHealInterval = upd.newNextHealInterval;
 
 		const { next, result } = feedKey(typingState, ev.key);
 		if (result === "all_complete") {
@@ -255,9 +307,7 @@ export function useGameEngine() {
 			setState((prev) => {
 				if (prev.phase !== "playing") return prev;
 
-				const comboFactor = prev.combo > 0 ? LIFE_DRAIN_COMBO_FACTOR : 1;
-				const drain = (LIFE_DRAIN_BASE * comboFactor * dt) / (1000 / 60);
-				const newLife = Math.max(0, prev.life - drain);
+				const newLife = Math.max(0, prev.life + drainDelta(prev.combo, dt));
 				const elapsed = Date.now() - prev.startTime;
 
 				// Ghost position
@@ -428,26 +478,16 @@ export function useGameEngine() {
 			lastWasWrongRef.current = true;
 			streakRef.current = 0;
 			playMiss();
-			if (!consecutiveMiss) {
-				setState((prev) => ({
-					...prev,
-					life: Math.max(0, prev.life - LIFE_DRAIN_MISS),
-					combo: 0,
-					totalErrors: prev.totalErrors + 1,
-					lastWrong: true,
-					nextHealAt: KEYS_PER_COMBO,
-					nextHealInterval: KEYS_PER_COMBO,
-				}));
-			} else {
-				setState((prev) => ({
-					...prev,
-					combo: 0,
-					totalErrors: prev.totalErrors + 1,
-					lastWrong: true,
-					nextHealAt: KEYS_PER_COMBO,
-					nextHealInterval: KEYS_PER_COMBO,
-				}));
-			}
+			const wUpd = wrongKeyHP(consecutiveMiss);
+			setState((prev) => ({
+				...prev,
+				life: Math.max(0, prev.life + wUpd.lifeDelta),
+				combo: wUpd.newCombo,
+				totalErrors: prev.totalErrors + 1,
+				lastWrong: true,
+				nextHealAt: wUpd.newNextHealAt,
+				nextHealInterval: wUpd.newNextHealInterval,
+			}));
 			return;
 		}
 
@@ -468,9 +508,11 @@ export function useGameEngine() {
 		lastKeyTimeRef.current = now;
 		lastWasWrongRef.current = false;
 
-		const newStreak = streakRef.current + 1;
-		streakRef.current = newStreak;
-		const newCombo = newStreak;
+		const hpUpd = correctKeyHP(s.combo, s.nextHealAt, s.nextHealInterval);
+		streakRef.current = hpUpd.newCombo;
+		const newCombo = hpUpd.newCombo;
+		const healTick = hpUpd.healAmount;
+
 		// Play milestone sound every 50 combos
 		if (newCombo % 50 === 0) playComboMilestone(newCombo);
 
@@ -483,10 +525,6 @@ export function useGameEngine() {
 		} else {
 			playKeyTap(newCombo);
 		}
-
-		// Heal when combo reaches the next threshold; each interval grows by KEYS_PER_COMBO
-		const healTick =
-			newStreak === s.nextHealAt ? s.nextHealInterval / KEYS_PER_COMBO : 0;
 
 		if (result === "all_complete") {
 			const nextSentenceIdx = s.sentenceIdx + 1;
@@ -502,39 +540,27 @@ export function useGameEngine() {
 				sentenceIdx: nextSentenceIdx,
 				sentences: newSentences,
 				typingState: nextTypingState,
-				life: Math.min(LIFE_MAX, prev.life + LIFE_RECOVER_CORRECT + healTick),
+				life: Math.min(LIFE_MAX, prev.life + hpUpd.lifeDelta),
 				combo: newCombo,
 				totalCorrect: prev.totalCorrect + 1,
 				lastHealAmount: healTick,
 				lastHealId: healTick > 0 ? prev.lastHealId + 1 : prev.lastHealId,
 				lastWrong: false,
-				nextHealInterval:
-					healTick > 0
-						? prev.nextHealInterval + KEYS_PER_COMBO
-						: prev.nextHealInterval,
-				nextHealAt:
-					healTick > 0
-						? prev.nextHealAt + prev.nextHealInterval + KEYS_PER_COMBO
-						: prev.nextHealAt,
+				nextHealAt: hpUpd.newNextHealAt,
+				nextHealInterval: hpUpd.newNextHealInterval,
 			}));
 		} else {
 			setState((prev) => ({
 				...prev,
 				typingState: next,
-				life: Math.min(LIFE_MAX, prev.life + LIFE_RECOVER_CORRECT + healTick),
+				life: Math.min(LIFE_MAX, prev.life + hpUpd.lifeDelta),
 				combo: newCombo,
 				totalCorrect: prev.totalCorrect + 1,
 				lastHealAmount: healTick,
 				lastHealId: healTick > 0 ? prev.lastHealId + 1 : prev.lastHealId,
 				lastWrong: false,
-				nextHealInterval:
-					healTick > 0
-						? prev.nextHealInterval + KEYS_PER_COMBO
-						: prev.nextHealInterval,
-				nextHealAt:
-					healTick > 0
-						? prev.nextHealAt + prev.nextHealInterval + KEYS_PER_COMBO
-						: prev.nextHealAt,
+				nextHealAt: hpUpd.newNextHealAt,
+				nextHealInterval: hpUpd.newNextHealInterval,
 			}));
 		}
 	}, []);
