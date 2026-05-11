@@ -47,7 +47,10 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 	const prevHealAt = player.nextHealAt - player.nextHealInterval;
 	const progressToHeal =
 		player.nextHealInterval > 0
-			? Math.min(1, Math.max(0, (player.combo - prevHealAt) / player.nextHealInterval))
+			? Math.min(
+					1,
+					Math.max(0, (player.combo - prevHealAt) / player.nextHealInterval),
+				)
 			: 0;
 	const sc = healStreakColor(state.healStreak);
 
@@ -157,7 +160,12 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 						{state.healStreak > 0 && (
 							<span
 								className="font-mono select-none"
-								style={{ fontSize: 7, color: sc, opacity: 0.9, letterSpacing: "0.05em" }}
+								style={{
+									fontSize: 7,
+									color: sc,
+									opacity: 0.9,
+									letterSpacing: "0.05em",
+								}}
 							>
 								×{state.healStreak}
 							</span>

@@ -426,8 +426,7 @@ export function useGameEngine() {
 			lastHealAmount: healAmount,
 			lastHealId: healAmount > 0 ? prev.lastHealId + 1 : prev.lastHealId,
 			lastWrong: false,
-			healStreak:
-				healAmount > 0 ? prev.healStreak + 1 : prev.healStreak,
+			healStreak: healAmount > 0 ? prev.healStreak + 1 : prev.healStreak,
 		}));
 	}, []);
 
