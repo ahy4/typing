@@ -4,7 +4,6 @@ import type { InputEvent, Sentence } from "./types";
 
 export const LIFE_MAX = 100;
 export const LIFE_DRAIN_BASE = 0.04;
-export const LIFE_DRAIN_COMBO_FACTOR = 0.6;
 export const LIFE_RECOVER_CORRECT = 0.03;
 export const LIFE_DRAIN_MISS = 5;
 export const KEYS_PER_COMBO = 10;
@@ -35,15 +34,14 @@ export function createRunnerState(sentences: Sentence[]): RunnerState {
 	};
 }
 
-export function drainDelta(combo: number, dt: number): number {
-	const comboFactor = combo > 0 ? LIFE_DRAIN_COMBO_FACTOR : 1;
-	return -(LIFE_DRAIN_BASE * comboFactor * dt) / (1000 / 60);
+export function drainDelta(dt: number): number {
+	return -(LIFE_DRAIN_BASE * dt) / (1000 / 60);
 }
 
 export function applyDrain(state: RunnerState, dt: number): RunnerState {
 	return {
 		...state,
-		life: Math.max(0, state.life + drainDelta(state.combo, dt)),
+		life: Math.max(0, state.life + drainDelta(dt)),
 	};
 }
 
