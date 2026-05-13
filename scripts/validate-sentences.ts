@@ -22,6 +22,7 @@ interface RawSentence {
 
 // Characters that must never appear in the kana field (type-A error indicators)
 const KANJI_RE = /[一-鿿㐀-䶿\u{20000}-\u{2A6DF}]/u;
+const HIRAGANA_OR_PROLONGED_RE = /[぀-ゟー]/;
 // Exclude ー (U+30FC, prolonged sound mark) and ・ (U+30FB, middle dot) — both are
 // technically in the katakana block but are legitimately used in hiragana text.
 const KATAKANA_RE = /[゠-ヺヽ-ヿ]/;
@@ -82,6 +83,28 @@ export function validateSentence(s: RawSentence): ValidationError | null {
 			sentence: s,
 			reason: `jp is all-ASCII (no Japanese): "${s.jp}"`,
 		};
+	}
+
+	// jp の非漢字部分（ひらがな・長音符・英数字）が kana に順番通り含まれているかチェック。
+	// これにより「jp を書いてから kana を途中で切る」誤りを検出する。
+	{
+		const kanaLower = s.kana.toLowerCase();
+		const nonKanjiChars = [...s.jp].filter(
+			(c) => HIRAGANA_OR_PROLONGED_RE.test(c) || /[a-zA-Z0-9]/.test(c),
+		);
+		let idx = 0;
+		for (const c of nonKanjiChars) {
+			const search = /[a-zA-Z]/.test(c) ? c.toLowerCase() : c;
+			const found = kanaLower.indexOf(search, idx);
+			if (found === -1) {
+				return {
+					kind: "type-a",
+					sentence: s,
+					reason: `kana が jp の完全な読みになっていない (jp の "${c}" が kana に見つからない): jp="${s.jp}", kana="${s.kana}"`,
+				};
+			}
+			idx = found + 1;
+		}
 	}
 
 	// --- Type-B checks (engine bugs) ---
