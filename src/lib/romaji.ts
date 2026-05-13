@@ -48,6 +48,7 @@ const KANA_MAP_RAW: Record<string, string[]> = {
 	ぎゃ: ["gya"],
 	ぎゅ: ["gyu"],
 	ぎょ: ["gyo"],
+	じぇ: ["je"],
 	じゃ: ["ja", "zya", "jya"],
 	じゅ: ["ju", "zyu", "jyu"],
 	じょ: ["jo", "zyo", "jyo"],
