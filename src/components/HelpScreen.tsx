@@ -5,51 +5,111 @@ interface Props {
 export function HelpScreen({ onBack }: Props) {
 	return (
 		<div
-			className="min-h-screen overflow-y-auto"
-			style={{ background: "#050508", color: "#ccc" }}
+			style={{
+				minHeight: "100vh",
+				overflowY: "auto",
+				background: "var(--bg)",
+				color: "#ccc",
+			}}
 		>
-			<div className="max-w-2xl mx-auto px-6 py-10 font-mono">
+			<div
+				style={{
+					maxWidth: "640px",
+					margin: "0 auto",
+					padding: "40px 24px",
+					fontFamily: "'Share Tech Mono', monospace",
+				}}
+			>
 				{/* Header */}
-				<div className="flex items-center justify-between mb-10">
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "space-between",
+						marginBottom: "40px",
+						borderBottom: "2px solid #ff00aa",
+						paddingBottom: "16px",
+						boxShadow: "0 2px 20px #ff00aa44",
+					}}
+				>
 					<div>
 						<div
-							className="text-2xl font-black tracking-[0.2em]"
-							style={{ color: "#00ffff", textShadow: "0 0 20px #00ffff88" }}
+							style={{
+								fontFamily: "'Press Start 2P', monospace",
+								fontSize: "16px",
+								color: "#00ffff",
+								textShadow: "0 0 10px #00ffff, 0 0 20px #00ffff",
+								letterSpacing: "3px",
+							}}
 						>
-							TYPE{"//"}DARK
+							TYPE//DARK
 						</div>
-						<div className="text-xs text-gray-600 tracking-widest uppercase mt-1">
-							ルール &amp; ヘルプ
+						<div
+							style={{
+								fontSize: "9px",
+								color: "#444",
+								letterSpacing: "4px",
+								textTransform: "uppercase",
+								marginTop: "6px",
+								fontFamily: "'Press Start 2P', monospace",
+							}}
+						>
+							HELP & RULES
 						</div>
 					</div>
 					<button
 						type="button"
 						onClick={onBack}
-						className="px-4 py-2 text-sm border rounded transition-all"
-						style={{ borderColor: "#333", color: "#888" }}
+						style={{
+							padding: "8px 16px",
+							fontSize: "9px",
+							fontFamily: "'Press Start 2P', monospace",
+							border: "1px solid #2a0050",
+							color: "#555",
+							background: "none",
+							cursor: "pointer",
+							letterSpacing: "1px",
+							transition: "all 0.15s",
+						}}
 						onMouseEnter={(e) => {
-							e.currentTarget.style.borderColor = "#888";
-							e.currentTarget.style.color = "#ccc";
+							e.currentTarget.style.borderColor = "#00ffff";
+							e.currentTarget.style.color = "#00ffff";
 						}}
 						onMouseLeave={(e) => {
-							e.currentTarget.style.borderColor = "#333";
-							e.currentTarget.style.color = "#888";
+							e.currentTarget.style.borderColor = "#2a0050";
+							e.currentTarget.style.color = "#555";
 						}}
 					>
 						← 戻る
 					</button>
 				</div>
 
-				<div className="flex flex-col gap-8">
+				<div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
 					{/* How to play */}
 					<section>
 						<h2
-							className="text-xs tracking-widest uppercase mb-3"
-							style={{ color: "#00ffff" }}
+							style={{
+								fontFamily: "'Press Start 2P', monospace",
+								fontSize: "9px",
+								letterSpacing: "3px",
+								color: "#00ffff",
+								textShadow: "0 0 8px #00ffff44",
+								marginBottom: "12px",
+								textTransform: "uppercase",
+							}}
 						>
 							ゲームの目的
 						</h2>
-						<div className="text-sm text-gray-400 leading-relaxed space-y-2">
+						<div
+							style={{
+								fontSize: "13px",
+								color: "#888",
+								lineHeight: 1.8,
+								display: "flex",
+								flexDirection: "column",
+								gap: "8px",
+							}}
+						>
 							<p>画面に表示される日本語をローマ字でタイプしよう。</p>
 							<p>
 								HPが0になるとゲームオーバー。正確に素早くタイプしてできるだけ多くの文章をクリアしよう。
@@ -57,62 +117,115 @@ export function HelpScreen({ onBack }: Props) {
 						</div>
 					</section>
 
-					<div className="h-px" style={{ background: "#111" }} />
+					<div
+						style={{
+							height: "1px",
+							background:
+								"linear-gradient(90deg, transparent, #2a0050, transparent)",
+						}}
+					/>
 
 					{/* HP system */}
 					<section>
 						<h2
-							className="text-xs tracking-widest uppercase mb-3"
-							style={{ color: "#00ff88" }}
+							style={{
+								fontFamily: "'Press Start 2P', monospace",
+								fontSize: "9px",
+								letterSpacing: "3px",
+								color: "#00ff66",
+								textShadow: "0 0 8px #00ff6644",
+								marginBottom: "12px",
+								textTransform: "uppercase",
+							}}
 						>
 							HP システム
 						</h2>
-						<div className="text-sm leading-relaxed space-y-2">
-							<div className="flex gap-4">
-								<span className="w-32 shrink-0 text-gray-600">時間経過</span>
-								<span className="text-gray-400">
-									毎フレーム少しずつHPが減る
-								</span>
-							</div>
-							<div className="flex gap-4">
-								<span className="w-32 shrink-0" style={{ color: "#ffaa00" }}>
-									ミス
-								</span>
-								<span className="text-gray-400">
-									HP <span style={{ color: "#ff3333" }}>−5</span> /
-									コンボリセット
-								</span>
-							</div>
-							<div className="flex gap-4">
-								<span className="w-32 shrink-0 text-green-400">正解</span>
-								<span className="text-gray-400">HP 微回復</span>
-							</div>
-							<div className="flex gap-4">
-								<span className="w-32 shrink-0" style={{ color: "#00ffff" }}>
-									コンボ中
-								</span>
-								<span className="text-gray-400">
-									HP自然減少が <span className="text-yellow-400">40%</span>{" "}
-									に軽減
-								</span>
-							</div>
-							<p className="text-gray-600 text-xs mt-2">
-								左バー = 自分のHP 右バー = ゴーストのHP
+						<div
+							style={{
+								fontSize: "13px",
+								lineHeight: 1.8,
+								display: "flex",
+								flexDirection: "column",
+								gap: "6px",
+							}}
+						>
+							{[
+								{
+									label: "時間経過",
+									labelColor: "#666",
+									desc: "毎フレーム少しずつHPが減る",
+								},
+								{
+									label: "ミス",
+									labelColor: "#ff8800",
+									desc: "HP −5 / コンボリセット",
+								},
+								{ label: "正解", labelColor: "#00ff66", desc: "HP 微回復" },
+								{
+									label: "コンボ中",
+									labelColor: "#00ffff",
+									desc: "HP自然減少が 40% に軽減",
+								},
+							].map((item) => (
+								<div key={item.label} style={{ display: "flex", gap: "16px" }}>
+									<span
+										style={{
+											width: "120px",
+											flexShrink: 0,
+											color: item.labelColor,
+											textShadow: `0 0 6px ${item.labelColor}44`,
+										}}
+									>
+										{item.label}
+									</span>
+									<span style={{ color: "#666" }}>{item.desc}</span>
+								</div>
+							))}
+							<p
+								style={{
+									fontSize: "11px",
+									color: "#333",
+									marginTop: "4px",
+								}}
+							>
+								左バー = 自分のHP　右バー = ゴーストのHP
 							</p>
 						</div>
 					</section>
 
-					<div className="h-px" style={{ background: "#111" }} />
+					<div
+						style={{
+							height: "1px",
+							background:
+								"linear-gradient(90deg, transparent, #2a0050, transparent)",
+						}}
+					/>
 
 					{/* Ghost system */}
 					<section>
 						<h2
-							className="text-xs tracking-widest uppercase mb-3"
-							style={{ color: "#cc44ff" }}
+							style={{
+								fontFamily: "'Press Start 2P', monospace",
+								fontSize: "9px",
+								letterSpacing: "3px",
+								color: "#ff00aa",
+								textShadow: "0 0 8px #ff00aa44",
+								marginBottom: "12px",
+								textTransform: "uppercase",
+							}}
 						>
 							ゴーストシステム
 						</h2>
-						<div className="text-sm text-gray-400 leading-relaxed space-y-2">
+						<div
+							style={{
+								fontSize: "13px",
+								color: "#888",
+								lineHeight: 1.8,
+								display: "flex",
+								flexDirection: "column",
+								gap: "8px",
+							}}
+						>
 							<p>
 								過去のベストプレイ（最高平均KPS）がゴーストとして表示される。
 							</p>
@@ -122,22 +235,59 @@ export function HelpScreen({ onBack }: Props) {
 						</div>
 					</section>
 
-					<div className="h-px" style={{ background: "#111" }} />
+					<div
+						style={{
+							height: "1px",
+							background:
+								"linear-gradient(90deg, transparent, #2a0050, transparent)",
+						}}
+					/>
 
 					{/* Romaji rules */}
 					<section>
 						<h2
-							className="text-xs tracking-widest uppercase mb-3"
-							style={{ color: "#ffaa00" }}
+							style={{
+								fontFamily: "'Press Start 2P', monospace",
+								fontSize: "9px",
+								letterSpacing: "3px",
+								color: "#ff8800",
+								textShadow: "0 0 8px #ff880044",
+								marginBottom: "12px",
+								textTransform: "uppercase",
+							}}
 						>
 							ローマ字入力ルール
 						</h2>
-						<div className="text-sm leading-relaxed space-y-3">
+						<div
+							style={{
+								fontSize: "13px",
+								lineHeight: 1.8,
+								display: "flex",
+								flexDirection: "column",
+								gap: "12px",
+							}}
+						>
 							<div>
-								<div className="text-gray-500 text-xs mb-2 uppercase tracking-wider">
+								<div
+									style={{
+										fontSize: "10px",
+										color: "#444",
+										textTransform: "uppercase",
+										letterSpacing: "2px",
+										marginBottom: "8px",
+										fontFamily: "'Press Start 2P', monospace",
+									}}
+								>
 									特殊な文字
 								</div>
-								<div className="grid grid-cols-2 gap-x-8 gap-y-1 text-sm">
+								<div
+									style={{
+										display: "grid",
+										gridTemplateColumns: "1fr 1fr",
+										gap: "6px 32px",
+										fontSize: "13px",
+									}}
+								>
 									{[
 										["ん", "n + 子音、または nn"],
 										["っ", "子音を2回 (tt, kk, ss…)"],
@@ -148,54 +298,116 @@ export function HelpScreen({ onBack }: Props) {
 										["づ", "du / dzu"],
 										["ぢ", "di / dzi"],
 									].map(([kana, romaji]) => (
-										<div key={kana} className="flex gap-3">
-											<span className="w-12 text-yellow-400">{kana}</span>
-											<span className="text-gray-500">{romaji}</span>
+										<div key={kana} style={{ display: "flex", gap: "12px" }}>
+											<span
+												style={{
+													width: "40px",
+													color: "#ffee00",
+													textShadow: "0 0 6px #ffee0044",
+												}}
+											>
+												{kana}
+											</span>
+											<span style={{ color: "#555" }}>{romaji}</span>
 										</div>
 									))}
 								</div>
 							</div>
-							<p className="text-gray-600 text-xs">
+							<p style={{ fontSize: "11px", color: "#333" }}>
 								複数のローマ字表記に対応しています。どれを使ってもOK。
 							</p>
 						</div>
 					</section>
 
-					<div className="h-px" style={{ background: "#111" }} />
+					<div
+						style={{
+							height: "1px",
+							background:
+								"linear-gradient(90deg, transparent, #2a0050, transparent)",
+						}}
+					/>
 
 					{/* Shortcuts */}
 					<section>
 						<h2
-							className="text-xs tracking-widest uppercase mb-3"
-							style={{ color: "#00ffff" }}
+							style={{
+								fontFamily: "'Press Start 2P', monospace",
+								fontSize: "9px",
+								letterSpacing: "3px",
+								color: "#00ffff",
+								textShadow: "0 0 8px #00ffff44",
+								marginBottom: "12px",
+								textTransform: "uppercase",
+							}}
 						>
 							キーボードショートカット
 						</h2>
-						<div className="text-sm leading-relaxed space-y-2">
+						<div
+							style={{
+								fontSize: "13px",
+								lineHeight: 1.8,
+								display: "flex",
+								flexDirection: "column",
+								gap: "6px",
+							}}
+						>
 							{[
 								["ENTER / SPACE", "ゲーム開始（タイトル・結果画面）"],
 								["ESC", "ゲーム終了 / 前の画面に戻る"],
 								["KB ボタン", "キーボード表示の ON / OFF 切り替え"],
 							].map(([key, desc]) => (
-								<div key={key} className="flex gap-4">
-									<span className="w-36 shrink-0 text-cyan-400">{key}</span>
-									<span className="text-gray-400">{desc}</span>
+								<div key={key} style={{ display: "flex", gap: "16px" }}>
+									<span
+										style={{
+											width: "160px",
+											flexShrink: 0,
+											color: "#00ffff",
+											fontFamily: "'Press Start 2P', monospace",
+											fontSize: "9px",
+											paddingTop: "3px",
+										}}
+									>
+										{key}
+									</span>
+									<span style={{ color: "#666" }}>{desc}</span>
 								</div>
 							))}
 						</div>
 					</section>
 
-					<div className="h-px" style={{ background: "#111" }} />
+					<div
+						style={{
+							height: "1px",
+							background:
+								"linear-gradient(90deg, transparent, #2a0050, transparent)",
+						}}
+					/>
 
 					{/* Stats */}
 					<section>
 						<h2
-							className="text-xs tracking-widest uppercase mb-3"
-							style={{ color: "#00ffff" }}
+							style={{
+								fontFamily: "'Press Start 2P', monospace",
+								fontSize: "9px",
+								letterSpacing: "3px",
+								color: "#00ffff",
+								textShadow: "0 0 8px #00ffff44",
+								marginBottom: "12px",
+								textTransform: "uppercase",
+							}}
 						>
 							統計・リプレイ
 						</h2>
-						<div className="text-sm text-gray-400 leading-relaxed space-y-2">
+						<div
+							style={{
+								fontSize: "13px",
+								color: "#888",
+								lineHeight: 1.8,
+								display: "flex",
+								flexDirection: "column",
+								gap: "8px",
+							}}
+						>
 							<p>
 								ゲーム終了後、KPS・正確率・文章数・タイムが表示される。KPSはセッション全体の平均値。
 							</p>
@@ -209,21 +421,29 @@ export function HelpScreen({ onBack }: Props) {
 					</section>
 				</div>
 
-				<div className="mt-10 text-center">
+				<div style={{ marginTop: "40px", textAlign: "center" }}>
 					<button
 						type="button"
 						onClick={onBack}
-						className="px-8 py-3 font-mono text-sm rounded border transition-all"
 						style={{
-							borderColor: "#00ffff",
+							padding: "12px 32px",
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "9px",
+							border: "2px solid #00ffff",
 							color: "#00ffff",
+							background: "none",
 							boxShadow: "0 0 12px #00ffff33",
+							cursor: "pointer",
+							letterSpacing: "2px",
+							transition: "all 0.15s",
 						}}
 						onMouseEnter={(e) => {
-							e.currentTarget.style.background = "#00ffff18";
+							e.currentTarget.style.background = "rgba(0,255,255,0.08)";
+							e.currentTarget.style.boxShadow = "0 0 20px #00ffff66";
 						}}
 						onMouseLeave={(e) => {
-							e.currentTarget.style.background = "transparent";
+							e.currentTarget.style.background = "none";
+							e.currentTarget.style.boxShadow = "0 0 12px #00ffff33";
 						}}
 					>
 						タイトルへ戻る

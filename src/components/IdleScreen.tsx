@@ -1,3 +1,12 @@
+const PARTICLES = [
+	{ left: "8%", color: "#00ffff", duration: "8s", delay: "0s" },
+	{ left: "22%", color: "#ff00aa", duration: "12s", delay: "2s" },
+	{ left: "38%", color: "#ffee00", duration: "7s", delay: "1s" },
+	{ left: "55%", color: "#00ffff", duration: "10s", delay: "3s" },
+	{ left: "70%", color: "#ff00aa", duration: "9s", delay: "0.5s" },
+	{ left: "85%", color: "#00ff66", duration: "11s", delay: "4s" },
+];
+
 interface Props {
 	onStart: () => void;
 	onStats: () => void;
@@ -8,39 +17,140 @@ interface Props {
 
 export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 	return (
-		<div className="flex flex-col items-center justify-center h-screen bg-[#0a0a0a] gap-8 select-none">
+		<div
+			style={{
+				display: "flex",
+				flexDirection: "column",
+				alignItems: "center",
+				justifyContent: "center",
+				height: "100vh",
+				background: "var(--bg)",
+				gap: "40px",
+				userSelect: "none",
+				position: "relative",
+				overflow: "hidden",
+			}}
+		>
+			{/* Particles */}
+			<div
+				style={{
+					position: "fixed",
+					inset: 0,
+					overflow: "hidden",
+					pointerEvents: "none",
+					zIndex: 0,
+				}}
+			>
+				{PARTICLES.map((p, i) => (
+					<div
+						// biome-ignore lint/suspicious/noArrayIndexKey: static list
+						key={i}
+						style={{
+							position: "absolute",
+							width: "2px",
+							height: "2px",
+							borderRadius: "50%",
+							background: p.color,
+							left: p.left,
+							animation: `float ${p.duration} linear infinite`,
+							animationDelay: p.delay,
+						}}
+					/>
+				))}
+			</div>
+
 			{/* Logo */}
-			<div className="flex flex-col items-center gap-2">
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					gap: "12px",
+					position: "relative",
+					zIndex: 1,
+				}}
+			>
 				<div
-					className="text-5xl font-black tracking-[0.3em] font-mono"
 					style={{
+						fontFamily: "'Press Start 2P', monospace",
+						fontSize: "28px",
 						color: "#00ffff",
-						textShadow: "0 0 30px #00ffff88, 0 0 60px #00ffff44",
+						textShadow:
+							"0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff",
+						letterSpacing: "4px",
+						animation: "neonPulse 3s ease-in-out infinite",
 					}}
 				>
-					TYPE{"//"}DARK
+					TYPE//DARK
 				</div>
-				<div className="text-gray-600 text-sm tracking-widest uppercase font-mono">
+				<div
+					style={{
+						color: "#444",
+						fontSize: "10px",
+						letterSpacing: "4px",
+						textTransform: "uppercase",
+						fontFamily: "'Share Tech Mono', monospace",
+					}}
+				>
 					ローマ字タイピング · 統計 · ゴースト
 				</div>
 			</div>
 
 			{/* Stats preview */}
 			{sessionCount > 0 && (
-				<div className="flex gap-8 text-center">
+				<div
+					style={{
+						display: "flex",
+						gap: "40px",
+						textAlign: "center",
+						position: "relative",
+						zIndex: 1,
+					}}
+				>
 					<div>
-						<div className="text-3xl font-mono font-bold text-cyan-400">
+						<div
+							style={{
+								fontFamily: "'Press Start 2P', monospace",
+								fontSize: "28px",
+								color: "#00ffff",
+								textShadow: "0 0 16px #00ffff",
+							}}
+						>
 							{bestWpm.toFixed(1)}
 						</div>
-						<div className="text-xs text-gray-600 uppercase tracking-widest">
+						<div
+							style={{
+								fontSize: "9px",
+								color: "#444",
+								textTransform: "uppercase",
+								letterSpacing: "3px",
+								fontFamily: "'Press Start 2P', monospace",
+								marginTop: "6px",
+							}}
+						>
 							最高打/秒
 						</div>
 					</div>
 					<div>
-						<div className="text-3xl font-mono font-bold text-gray-300">
+						<div
+							style={{
+								fontFamily: "'Press Start 2P', monospace",
+								fontSize: "28px",
+								color: "#888",
+							}}
+						>
 							{sessionCount}
 						</div>
-						<div className="text-xs text-gray-600 uppercase tracking-widest">
+						<div
+							style={{
+								fontSize: "9px",
+								color: "#444",
+								textTransform: "uppercase",
+								letterSpacing: "3px",
+								fontFamily: "'Press Start 2P', monospace",
+								marginTop: "6px",
+							}}
+						>
 							回数
 						</div>
 					</div>
@@ -48,39 +158,115 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 			)}
 
 			{/* Actions */}
-			<div className="flex flex-col gap-3 items-center">
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					gap: "16px",
+					alignItems: "center",
+					position: "relative",
+					zIndex: 1,
+				}}
+			>
 				<div
-					className="px-12 py-4 font-mono rounded border-2 uppercase select-none flex flex-col items-center gap-1"
 					style={{
-						borderColor: "#00ffff",
+						padding: "20px 48px",
+						fontFamily: "'Press Start 2P', monospace",
+						border: "2px solid #00ffff",
 						color: "#00ffff",
 						background: "transparent",
-						boxShadow: "0 0 20px #00ffff44",
+						boxShadow: "0 0 20px #00ffff44, inset 0 0 20px rgba(0,255,255,0.05)",
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+						gap: "10px",
 					}}
 				>
-					<span className="text-xl font-bold tracking-widest">
+					<span style={{ fontSize: "14px", letterSpacing: "3px" }}>
 						ゲームスタート
 					</span>
-					<span className="text-xs tracking-widest opacity-70">
+					<span
+						style={{
+							fontSize: "8px",
+							letterSpacing: "2px",
+							opacity: 0.6,
+							color: "#88ffff",
+						}}
+					>
 						[ SPACE ] を押してスタート
 					</span>
 				</div>
-				<div className="flex gap-3">
+				<div style={{ display: "flex", gap: "12px" }}>
 					<button
 						type="button"
 						onClick={onStats}
-						className="px-6 py-2 font-mono text-sm text-gray-500 hover:text-gray-300 border border-gray-800 hover:border-gray-600 rounded transition-all"
+						style={{
+							padding: "8px 24px",
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "9px",
+							color: "#555",
+							background: "none",
+							border: "1px solid #2a0050",
+							cursor: "pointer",
+							letterSpacing: "2px",
+							transition: "all 0.15s",
+						}}
+						onMouseEnter={(e) => {
+							e.currentTarget.style.color = "#00ffff";
+							e.currentTarget.style.borderColor = "#00ffff";
+							e.currentTarget.style.boxShadow = "0 0 8px #00ffff44";
+						}}
+						onMouseLeave={(e) => {
+							e.currentTarget.style.color = "#555";
+							e.currentTarget.style.borderColor = "#2a0050";
+							e.currentTarget.style.boxShadow = "none";
+						}}
 					>
 						統計
 					</button>
 					<button
 						type="button"
 						onClick={onHelp}
-						className="px-6 py-2 font-mono text-sm text-gray-500 hover:text-gray-300 border border-gray-800 hover:border-gray-600 rounded transition-all"
+						style={{
+							padding: "8px 24px",
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "9px",
+							color: "#555",
+							background: "none",
+							border: "1px solid #2a0050",
+							cursor: "pointer",
+							letterSpacing: "2px",
+							transition: "all 0.15s",
+						}}
+						onMouseEnter={(e) => {
+							e.currentTarget.style.color = "#00ffff";
+							e.currentTarget.style.borderColor = "#00ffff";
+							e.currentTarget.style.boxShadow = "0 0 8px #00ffff44";
+						}}
+						onMouseLeave={(e) => {
+							e.currentTarget.style.color = "#555";
+							e.currentTarget.style.borderColor = "#2a0050";
+							e.currentTarget.style.boxShadow = "none";
+						}}
 					>
 						遊び方
 					</button>
 				</div>
+			</div>
+
+			{/* Bottom label */}
+			<div
+				style={{
+					position: "absolute",
+					bottom: "12px",
+					fontFamily: "'Press Start 2P', monospace",
+					fontSize: "7px",
+					color: "#2a0050",
+					zIndex: 1,
+					letterSpacing: "2px",
+				}}
+			>
+				NEON ARCADE
 			</div>
 		</div>
 	);
