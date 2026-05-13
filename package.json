@@ -4,7 +4,10 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
+		"gen": "node scripts/gen-sentences.mjs",
+		"predev": "node scripts/gen-sentences.mjs",
 		"dev": "vite",
+		"prebuild": "node scripts/gen-sentences.mjs",
 		"build": "tsc -b && vite build",
 		"lint": "eslint .",
 		"preview": "vite preview"
@@ -27,6 +30,7 @@
 		"eslint-plugin-react-hooks": "^7.1.1",
 		"eslint-plugin-react-refresh": "^0.5.2",
 		"globals": "^17.5.0",
+		"smol-toml": "^1.6.1",
 		"typescript": "~6.0.2",
 		"typescript-eslint": "^8.58.2",
 		"vite": "^8.0.10"
