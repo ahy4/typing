@@ -4,10 +4,18 @@ import { createTypingState, feedKey, parseKana } from "./romaji.ts";
 // Helper that returns the full FeedKeyResult (not just the string outcome)
 function typeDetailed(kana: string, input: string) {
 	let state = createTypingState(kana);
-	const results: Array<{ key: string; result: string; segmentCompleted: boolean }> = [];
+	const results: Array<{
+		key: string;
+		result: string;
+		segmentCompleted: boolean;
+	}> = [];
 	for (const ch of input) {
 		const r = feedKey(state, ch);
-		results.push({ key: ch, result: r.result, segmentCompleted: r.segmentCompleted });
+		results.push({
+			key: ch,
+			result: r.result,
+			segmentCompleted: r.segmentCompleted,
+		});
 		if (r.result === "wrong") break;
 		state = r.next;
 	}
@@ -444,7 +452,11 @@ describe("ん – pendingComplete + segmentCompleted flag", () => {
 		// 'n': pendingComplete – correct
 		expect(results[0]).toMatchObject({ key: "n", result: "correct" });
 		// 'k': implicit ん complete fires, then 'k' starts か – segmentCompleted=true
-		expect(results[1]).toMatchObject({ key: "k", result: "correct", segmentCompleted: true });
+		expect(results[1]).toMatchObject({
+			key: "k",
+			result: "correct",
+			segmentCompleted: true,
+		});
 		// 'a': finishes か
 		expect(results[2]).toMatchObject({ key: "a", result: "all_complete" });
 	});
