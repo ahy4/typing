@@ -328,7 +328,9 @@ export function parseKana(text: string): KanaSegment[] {
 			const nextKana = text[i + 1] ?? "";
 			const nextRomajiStart = parseKana(nextKana)[0]?.options[0]?.[0] ?? "";
 			const nextIsAmbiguous = !nextKana || /^[aiueoyn]/.test(nextRomajiStart);
-			const opts: string[] = nextIsAmbiguous ? ["nn", "n'", "xn"] : ["nn", "n", "n'", "xn"];
+			const opts: string[] = nextIsAmbiguous
+				? ["nn", "n'", "xn"]
+				: ["nn", "n", "n'", "xn"];
 			segments.push({ kana: "ん", options: opts });
 			i++;
 			continue;
