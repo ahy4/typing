@@ -289,7 +289,9 @@ function expandXtu(nextOptions: string[]): string[] {
 	const consonants: string[] = [];
 	for (const opt of nextOptions) {
 		const c = opt[0];
-		if (c !== undefined && /[bcdfghjklmnpqrstvwxyz]/.test(c)) {
+		// Exclude 'x' and 'l': they only appear as small-kana prefixes (xa/la, xya/lya…)
+		// or the xtu/ltu family itself — none of these are valid doubled consonants.
+		if (c !== undefined && /[bcdfghjkmnpqrstvwyz]/.test(c)) {
 			consonants.push(c);
 		}
 	}
