@@ -3,6 +3,7 @@ const SMALL_COMPOUND_ALTS: Record<string, string[]> = {
 	ゃ: ["lya", "xya"],
 	ゅ: ["lyu", "xyu"],
 	ょ: ["lyo", "xyo"],
+	ぇ: ["xe", "le", "lye", "xye"],
 };
 
 // Single-kana options used to build decomposed compound alternatives

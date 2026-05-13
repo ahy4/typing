@@ -11,7 +11,7 @@ function accepts(kana: string, romaji: string): boolean {
 	return opts(kana).includes(romaji);
 }
 
-function type(kana: string, input: string): "all_complete" | "wrong" | string {
+function type(kana: string, input: string): string {
 	let state = createTypingState(kana);
 	for (const ch of input) {
 		const r = feedKey(state, ch);
@@ -247,9 +247,8 @@ describe("feedKey – full word typing", () => {
 		expect(type("ぷろじぇくと", "purojekuto")).toBe("all_complete");
 	});
 
-	it("ぷろじぇくと → purojexekuto (alternate)", () => {
-		// じぇ can also be typed as zye or jye but NOT as xe
-		expect(type("ぷろじぇくと", "purojexekuto")).toBe("wrong@x");
+	it("ぷろじぇくと → purojixekuto (decomposed ji+xe)", () => {
+		expect(type("ぷろじぇくと", "purojixekuto")).toBe("all_complete");
 	});
 
 	it("ん: xn completes before vowel", () => {
