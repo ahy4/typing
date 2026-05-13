@@ -260,7 +260,11 @@ export function useGameEngine() {
 			: [];
 		preparedHasGhostRef.current = ghostReplay !== null;
 
-		const sentences = getSentenceQueue(10);
+		// 履歴から対戦（ghostReplayId 指定）の場合はゴーストと同じお題で勝負
+		const sentences =
+			ghostReplayId && ghostReplay
+				? [...ghostReplay.sentences]
+				: getSentenceQueue(10);
 		preparedSentencesRef.current = sentences;
 
 		setState((prev) => ({
