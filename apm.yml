@@ -1,0 +1,9 @@
+name: typing
+version: 1.0.0
+description: Japanese typing game built with React and TypeScript
+
+dependencies:
+  apm:
+    - anthropics/skills/skills/frontend-design#f458cee3
+    - anthropics/skills/skills/webapp-testing#f458cee3
+  mcp: []
