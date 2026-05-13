@@ -209,7 +209,7 @@ const KANA_MAP_RAW: Record<string, string[]> = {
 	ゐ: ["i"],
 	ゑ: ["e"],
 	を: ["wo"],
-	ん: ["nn", "n"],
+	ん: ["nn", "n"], // never reached: parseKana handles ん via special-case before KANA_MAP lookup
 	が: ["ga"],
 	ぎ: ["gi"],
 	ぐ: ["gu"],
@@ -281,7 +281,7 @@ export interface KanaSegment {
 
 // っ: add only the FIRST consonant of the next segment as an option.
 // Typing that single consonant completes っ, then the next segment requires its full romaji.
-// e.g. っけ → っ options: ["k","xtu","xtsu","ltu"] + け options: ["ke"] → total "kke" ✓
+// e.g. っけ → っ options: ["k","xtu","xtsu","ltu","ltsu"] + け options: ["ke"] → total "kke" ✓
 // The doubled-consonant path is listed first so it shows as the canonical (recommended) display.
 function expandXtu(nextOptions: string[]): string[] {
 	const consonants: string[] = [];
