@@ -1,5 +1,5 @@
-import type { Sentence } from "./types";
 import RAW from "./sentences.json";
+import type { Sentence } from "./types";
 
 export const SENTENCES: Sentence[] = RAW.map((r, i) => ({
 	id: String(i),
