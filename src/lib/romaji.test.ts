@@ -251,6 +251,10 @@ describe("feedKey – full word typing", () => {
 		expect(type("ぷろじぇくと", "purojixekuto")).toBe("all_complete");
 	});
 
+	it("きぃ → kixi (decomposed ki+xi)", () => {
+		expect(type("きぃ", "kixi")).toBe("all_complete");
+	});
+
 	it("ん: xn completes before vowel", () => {
 		expect(type("んあ", "xna")).toBe("all_complete");
 	});

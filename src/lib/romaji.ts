@@ -3,6 +3,7 @@ const SMALL_COMPOUND_ALTS: Record<string, string[]> = {
 	ゃ: ["lya", "xya"],
 	ゅ: ["lyu", "xyu"],
 	ょ: ["lyo", "xyo"],
+	ぃ: ["xi", "li", "lyi", "xyi"],
 	ぇ: ["xe", "le", "lye", "xye"],
 };
 
