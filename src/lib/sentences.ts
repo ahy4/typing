@@ -1,5 +1,11 @@
-import RAW from "./sentences.json";
+import DATA from "./sentences.toml";
 import type { Sentence } from "./types";
+
+const RAW = DATA.sentences as Array<{
+	jp: string;
+	kana: string;
+	romaji: string;
+}>;
 
 export const SENTENCES: Sentence[] = RAW.map((r, i) => ({
 	id: String(i),
