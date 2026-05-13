@@ -85,7 +85,7 @@ export function validateSentence(s: RawSentence): ValidationError | null {
 	}
 
 	// --- Type-B checks (engine bugs) ---
-	let segments;
+	let segments: ReturnType<typeof parseKana>;
 	try {
 		segments = parseKana(s.kana);
 	} catch (e) {
@@ -120,7 +120,9 @@ export function validateSentence(s: RawSentence): ValidationError | null {
 // --- CLI entrypoint ---
 const args = process.argv.slice(2);
 if (args.length === 0) {
-	console.error("Usage: node --experimental-strip-types scripts/validate-sentences.ts <path>");
+	console.error(
+		"Usage: node --experimental-strip-types scripts/validate-sentences.ts <path>",
+	);
 	process.exit(1);
 }
 
@@ -142,8 +144,12 @@ for (const s of raw) {
 
 console.log(`\nValidation results: ${raw.length} sentences checked`);
 console.log(`  ✓ valid:   ${valid.length}`);
-console.log(`  ✗ type-A:  ${typeAErrors.length}  (bad generation output — discard)`);
-console.log(`  ✗ type-B:  ${typeBErrors.length}  (engine bugs — file GitHub issues)\n`);
+console.log(
+	`  ✗ type-A:  ${typeAErrors.length}  (bad generation output — discard)`,
+);
+console.log(
+	`  ✗ type-B:  ${typeBErrors.length}  (engine bugs — file GitHub issues)\n`,
+);
 
 if (typeAErrors.length > 0) {
 	console.log("=== Type-A errors (discard) ===");
@@ -162,5 +168,6 @@ if (typeBErrors.length > 0) {
 	console.log();
 }
 
-const exitCode = (typeAErrors.length > 0 ? 1 : 0) | (typeBErrors.length > 0 ? 2 : 0);
+const exitCode =
+	(typeAErrors.length > 0 ? 1 : 0) | (typeBErrors.length > 0 ? 2 : 0);
 process.exit(exitCode);
