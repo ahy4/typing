@@ -1,0 +1,246 @@
+[
+	{
+		"jp": "朝ごはんを食べる",
+		"kana": "あさごはんをたべる",
+		"romaji": "asagohanwotaberu"
+	},
+	{ "jp": "お茶を飲む", "kana": "おちゃをのむ", "romaji": "ochawonomu" },
+	{ "jp": "本を読む", "kana": "ほんをよむ", "romaji": "honwoyomu" },
+	{ "jp": "歯を磨く", "kana": "はをみがく", "romaji": "hawomigaku" },
+	{ "jp": "電話する", "kana": "でんわする", "romaji": "denwasuru" },
+	{ "jp": "手紙を書く", "kana": "てがみをかく", "romaji": "tegamiwokaku" },
+	{ "jp": "靴を脱ぐ", "kana": "くつをぬぐ", "romaji": "kutsuwonugu" },
+	{ "jp": "寝る", "kana": "ねる", "romaji": "neru" },
+	{ "jp": "起きる", "kana": "おきる", "romaji": "okiru" },
+	{ "jp": "走る", "kana": "はしる", "romaji": "hashiru" },
+	{ "jp": "歩く", "kana": "あるく", "romaji": "aruku" },
+	{ "jp": "踊る", "kana": "おどる", "romaji": "odoru" },
+	{ "jp": "歌う", "kana": "うたう", "romaji": "utau" },
+	{ "jp": "笑う", "kana": "わらう", "romaji": "warau" },
+	{ "jp": "泣く", "kana": "なく", "romaji": "naku" },
+	{ "jp": "話す", "kana": "はなす", "romaji": "hanasu" },
+	{ "jp": "聞く", "kana": "きく", "romaji": "kiku" },
+	{ "jp": "見る", "kana": "みる", "romaji": "miru" },
+	{ "jp": "食べる", "kana": "たべる", "romaji": "taberu" },
+	{ "jp": "飲む", "kana": "のむ", "romaji": "nomu" },
+	{ "jp": "切る", "kana": "きる", "romaji": "kiru" },
+	{ "jp": "洗う", "kana": "あらう", "romaji": "arau" },
+	{ "jp": "拭く", "kana": "ふく", "romaji": "fuku" },
+	{ "jp": "掃く", "kana": "はく", "romaji": "haku" },
+	{ "jp": "掃除する", "kana": "そうじする", "romaji": "soujisuru" },
+	{ "jp": "料理する", "kana": "りょうりする", "romaji": "ryourisuru" },
+	{ "jp": "買い物する", "kana": "かいものする", "romaji": "kaimonosuru" },
+	{ "jp": "勉強する", "kana": "べんきょうする", "romaji": "benkyousuru" },
+	{ "jp": "働く", "kana": "はたらく", "romaji": "hataraku" },
+	{ "jp": "遊ぶ", "kana": "あそぶ", "romaji": "asobu" },
+	{
+		"jp": "スポーツをする",
+		"kana": "すぽーつをする",
+		"romaji": "supootsuwosuru"
+	},
+	{ "jp": "映画を見る", "kana": "えいがをみる", "romaji": "eigawomiru" },
+	{ "jp": "テレビを見る", "kana": "てれびをみる", "romaji": "terebiwomiru" },
+	{ "jp": "ゲームをする", "kana": "げーむをする", "romaji": "geemuwosuru" },
+	{ "jp": "音楽を聞く", "kana": "おんがくをきく", "romaji": "ongakuwokiku" },
+	{
+		"jp": "友達と遊ぶ",
+		"kana": "ともだちとあそぶ",
+		"romaji": "tomodachiasobu"
+	},
+	{ "jp": "犬を飼う", "kana": "いぬをかう", "romaji": "inuwokau" },
+	{ "jp": "猫を飼う", "kana": "ねこをかう", "romaji": "nekouwokau" },
+	{ "jp": "花を育てる", "kana": "はなをそだてる", "romaji": "hanawosodateru" },
+	{
+		"jp": "庭を手入れする",
+		"kana": "にわをていれする",
+		"romaji": "niwawoteiresuru"
+	},
+	{ "jp": "雨が降る", "kana": "あめがふる", "romaji": "amegafuru" },
+	{ "jp": "雪が降る", "kana": "ゆきがふる", "romaji": "yukigafuru" },
+	{ "jp": "風が吹く", "kana": "かぜがふく", "romaji": "kazegafuku" },
+	{ "jp": "太陽が照る", "kana": "たいようがてる", "romaji": "taiyougateru" },
+	{
+		"jp": "月が出ている",
+		"kana": "つきがでている",
+		"romaji": "tsukigadeiteiru"
+	},
+	{ "jp": "星が輝く", "kana": "ほしがかがやく", "romaji": "hoshigakagayaku" },
+	{ "jp": "虹が見える", "kana": "にじがみえる", "romaji": "nijigamieru" },
+	{ "jp": "春が来た", "kana": "はるがきた", "romaji": "harugakita" },
+	{ "jp": "夏は暑い", "kana": "なつはあつい", "romaji": "natsuwaatsui" },
+	{ "jp": "秋は涼しい", "kana": "あきはすずしい", "romaji": "akiwasuzushii" },
+	{ "jp": "冬は寒い", "kana": "ふゆはさむい", "romaji": "fuyuwasamui" },
+	{
+		"jp": "朝日が美しい",
+		"kana": "あさひがうつくしい",
+		"romaji": "asahigautsukushii"
+	},
+	{
+		"jp": "夕焼けが綺麗",
+		"kana": "ゆうやけがきれい",
+		"romaji": "yuuyakegakirei"
+	},
+	{ "jp": "夜空が黒い", "kana": "よぞらがくろい", "romaji": "yozoragakuroi" },
+	{ "jp": "黒板に書く", "kana": "こくばんにかく", "romaji": "kokubannikaku" },
+	{
+		"jp": "教室で勉強",
+		"kana": "きょうしつでべんきょう",
+		"romaji": "kyoushitsudebenkyou"
+	},
+	{
+		"jp": "運動場で走る",
+		"kana": "うんどうじょうではしる",
+		"romaji": "undoujoudehashiru"
+	},
+	{
+		"jp": "図書館で本を読む",
+		"kana": "としょかんでほんをよむ",
+		"romaji": "toshokandehonwoyomu"
+	},
+	{ "jp": "プールで泳ぐ", "kana": "ぷーるでおよぐ", "romaji": "puuludeoyogu" },
+	{
+		"jp": "給食を食べる",
+		"kana": "きゅうしょくをたべる",
+		"romaji": "kyuushokuwotaberu"
+	},
+	{ "jp": "校庭で遊ぶ", "kana": "こうていであそぶ", "romaji": "kouteideasobu" },
+	{ "jp": "先生に聞く", "kana": "せんせいにきく", "romaji": "senseinikiku" },
+	{
+		"jp": "友達と話す",
+		"kana": "ともだちとはなす",
+		"romaji": "tomodachitohanasusu"
+	},
+	{
+		"jp": "お母さんを助ける",
+		"kana": "おかあさんをたすける",
+		"romaji": "okaasanwotasukeru"
+	},
+	{
+		"jp": "お父さんと遊ぶ",
+		"kana": "おとうさんとあそぶ",
+		"romaji": "otousantasobu"
+	},
+	{
+		"jp": "兄弟と喧嘩する",
+		"kana": "きょうだいとけんかする",
+		"romaji": "kyoudaitokenkasuru"
+	},
+	{
+		"jp": "姉妹と仲良し",
+		"kana": "しまいとなかよし",
+		"romaji": "shimaitonakayoshi"
+	},
+	{
+		"jp": "おじいちゃんの話を聞く",
+		"kana": "おじいちゃんのはなしをきく",
+		"romaji": "ojiichannohanaishiwokiku"
+	},
+	{
+		"jp": "おばあちゃんを手伝う",
+		"kana": "おばあちゃんをてつだう",
+		"romaji": "obaachannwotetsudau"
+	},
+	{
+		"jp": "ケーキを食べる",
+		"kana": "けーきをたべる",
+		"romaji": "keekiwotaberu"
+	},
+	{
+		"jp": "ラーメンを食べる",
+		"kana": "らーめんをたべる",
+		"romaji": "raamenwotaberu"
+	},
+	{
+		"jp": "ハンバーガーを食べる",
+		"kana": "はんばーがーをたべる",
+		"romaji": "hanbaagaawotaberu"
+	},
+	{ "jp": "ピザを食べる", "kana": "ぴざをたべる", "romaji": "pizawotaberu" },
+	{
+		"jp": "サラダを食べる",
+		"kana": "さらだをたべる",
+		"romaji": "saradawotaberu"
+	},
+	{ "jp": "スープを飲む", "kana": "すーぷをのむ", "romaji": "suupuwonomu" },
+	{ "jp": "ジュースを飲む", "kana": "じゅーすをのむ", "romaji": "juusuwonomu" },
+	{
+		"jp": "コーヒーを飲む",
+		"kana": "こーひーをのむ",
+		"romaji": "koohiiwonomu"
+	},
+	{
+		"jp": "牛乳を飲む",
+		"kana": "ぎゅうにゅうをのむ",
+		"romaji": "gyuunyuuwonomu"
+	},
+	{
+		"jp": "りんごを食べる",
+		"kana": "りんごをたべる",
+		"romaji": "ringowotaberu"
+	},
+	{
+		"jp": "みかんを食べる",
+		"kana": "みかんをたべる",
+		"romaji": "mikanwotaberu"
+	},
+	{
+		"jp": "バナナを食べる",
+		"kana": "ばななをたべる",
+		"romaji": "bananawotaberu"
+	},
+	{
+		"jp": "いちごを食べる",
+		"kana": "いちごをたべる",
+		"romaji": "ichigowotaberu"
+	},
+	{
+		"jp": "ぶどうを食べる",
+		"kana": "ぶどうをたべる",
+		"romaji": "budouwotaberu"
+	},
+	{ "jp": "パンを食べる", "kana": "ぱんをたべる", "romaji": "panwotaberu" },
+	{ "jp": "ご飯を食べる", "kana": "ごはんをたべる", "romaji": "gohanwotaberu" },
+	{ "jp": "魚を食べる", "kana": "さかなをたべる", "romaji": "sakanawotaberu" },
+	{ "jp": "肉を食べる", "kana": "にくをたべる", "romaji": "nikuwotaberu" },
+	{ "jp": "卵を食べる", "kana": "たまごをたべる", "romaji": "tamagowotaberu" },
+	{ "jp": "野菜を食べる", "kana": "やさいをたべる", "romaji": "yasaiwotaberu" },
+	{
+		"jp": "アイスを食べる",
+		"kana": "あいすをたべる",
+		"romaji": "aisuwotaberu"
+	},
+	{
+		"jp": "チョコを食べる",
+		"kana": "ちょこをたべる",
+		"romaji": "chokwotaberu"
+	},
+	{ "jp": "飴を食べる", "kana": "あめをたべる", "romaji": "amewotaberu" },
+	{ "jp": "ガムを噛む", "kana": "がむをかむ", "romaji": "gamuwokamu" },
+	{
+		"jp": "チーズを食べる",
+		"kana": "ちーずをたべる",
+		"romaji": "chiizuwotaberu"
+	},
+	{
+		"jp": "ヨーグルトを食べる",
+		"kana": "よーぐるとをたべる",
+		"romaji": "yooguruwotaberu"
+	},
+	{
+		"jp": "シャワーを浴びる",
+		"kana": "しゃわーをあびる",
+		"romaji": "shawaawoabiru"
+	},
+	{ "jp": "洗濯する", "kana": "せんたくする", "romaji": "sentakusuru" },
+	{
+		"jp": "アイロンをかける",
+		"kana": "あいろんをかける",
+		"romaji": "aironwokakeru"
+	},
+	{ "jp": "ゴミを捨てる", "kana": "ごみをすてる", "romaji": "gomiwosuteru" },
+	{
+		"jp": "植木に水をやる",
+		"kana": "うえきにみずをやる",
+		"romaji": "uekinimizuwoyaru"
+	}
+]
