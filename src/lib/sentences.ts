@@ -5,7 +5,6 @@ export const SENTENCES: Sentence[] = RAW.map((r, i) => ({
 	id: String(i),
 	japanese: r.jp,
 	kana: r.kana,
-	romaji: r.romaji,
 }));
 
 export function getSentenceQueue(count = 10): Sentence[] {

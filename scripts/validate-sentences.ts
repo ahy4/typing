@@ -17,7 +17,6 @@ import { parseKana } from "../src/lib/romaji.ts";
 interface RawSentence {
 	jp: string;
 	kana: string;
-	romaji: string;
 }
 
 // Characters that must never appear in the kana field (type-A error indicators)

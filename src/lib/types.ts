@@ -1,7 +1,6 @@
 export interface Sentence {
 	id: string;
 	japanese: string;
-	romaji: string; // display romaji
 	kana: string; // hiragana source
 }
 
