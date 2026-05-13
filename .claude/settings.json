@@ -1,5 +1,17 @@
 {
 	"hooks": {
+		"SessionStart": [
+			{
+				"hooks": [
+					{
+						"type": "command",
+						"command": "cd /home/user/typing && npm install",
+						"timeout": 60,
+						"statusMessage": "npm install 中..."
+					}
+				]
+			}
+		],
 		"Stop": [
 			{
 				"hooks": [

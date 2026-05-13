@@ -20,15 +20,42 @@ const PHASE_TO_PATH: Record<GamePhase, string> = {
 	replay: "/replay",
 };
 
+// Only list phases that can be safely restored from URL alone
+const PATH_TO_PHASE: Partial<Record<string, GamePhase>> = {
+	"/": "idle",
+	"/help": "help",
+	"/stats": "stats",
+};
+
 export default function App() {
 	const { state, startGame, beginPlaying, setPhase, clearData } =
 		useGameEngine();
 	const [showKeyboard, setShowKeyboard] = useState(true);
 	const navigate = useNavigate();
 
+	// phase → URL (app-driven transitions)
+	// Reads window.location.hash to avoid adding location to deps (which would
+	// fight browser back navigation).
 	useEffect(() => {
-		navigate(PHASE_TO_PATH[state.phase]);
+		const expectedPath = PHASE_TO_PATH[state.phase];
+		const currentPath = window.location.hash.slice(1) || "/";
+		if (currentPath !== expectedPath) {
+			navigate(expectedPath);
+		}
 	}, [state.phase, navigate]);
+
+	// URL → phase (browser back/forward)
+	// popstate fires only for browser-initiated navigation, not for navigate().
+	useEffect(() => {
+		const handlePopState = () => {
+			const hash = window.location.hash;
+			const path = hash.startsWith("#") ? hash.slice(1) : "/";
+			const phase = PATH_TO_PHASE[path] ?? "idle";
+			setPhase(phase);
+		};
+		window.addEventListener("popstate", handlePopState);
+		return () => window.removeEventListener("popstate", handlePopState);
+	}, [setPhase]);
 
 	const bestWpm =
 		state.sessions.length > 0
