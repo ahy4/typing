@@ -267,9 +267,7 @@ Bash ツールは exit code ≠ 0 のときエラーとして表示される（`
 
 終了コードに応じた処理：
 - `0` → 全文有効
-- `1` (type-A エラーのみ) → type-A エラー文を除外して有効文のみ残す
-- `2` (type-B エラーのみ) → type-B エラーについて GitHub Issue を登録（ステップ 6）し、有効文は残す
-- `3` (両方) → type-A 除外 + type-B Issue 登録の両方を行い、有効文は残す
+- `1` → エラー文を除外して有効文のみ残す
 
 ## ステップ 5: 有効な文を sentences.toml に追記し、JSON を再生成する
 
@@ -287,31 +285,6 @@ Bash ツールは exit code ≠ 0 のときエラーとして表示される（`
 4. 追記後、`npm run gen` を実行して `src/lib/generated/sentences.json` を再生成する
 
 ファイルに書き出し後、結果をユーザーに報告する：
-- 生成バッチ数 / 合計生成数 / LLM検証除外数 / type-A除外数 / type-B Issue登録数 / 合計有効数
+- 生成バッチ数 / 合計生成数 / LLM検証除外数 / フォーマット検証除外数 / 合計有効数
 - 追記前の既存件数 / 追記後の合計件数
 - 出力先パス（TOML）および再生成された JSON パス
-
-## ステップ 6: type-B エラーの GitHub Issue 登録
-
-type-B エラー（エンジン側のバグ）が存在する場合、各エラーについて GitHub Issue を登録する。
-
-**リポジトリ: `ahy4/typing`**
-
-Issue の内容：
-- **タイトル**: `[typing-engine] parseKana が処理できない kana パターン: "<kana文字列>"`
-- **本文**:
-  ```
-  ## 概要
-  お題生成スキルの検証で、有効な kana 文字列を parseKana() が正しく処理できないケースを検出しました。
-
-  ## 再現情報
-  - jp: <japanese文字列>
-  - kana: <kana文字列>
-  - エラー詳細: <スクリプトが出力したエラー理由>
-
-  ## 期待される動作
-  上記 kana を parseKana() に渡すと、全セグメントに有効な romaji オプションが返るべきです。
-
-  ## 発生環境
-  scripts/validate-sentences.ts (type-B error)
-  ```

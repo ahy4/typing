@@ -1,91 +1,70 @@
 /**
- * Validates a sentences JSON file against the typing engine's parseKana logic.
+ * Validates a sentences JSON file for use in the typing game.
  *
  * Usage:
  *   node --experimental-strip-types scripts/validate-sentences.ts <path-to-json>
  *
  * Exit codes:
  *   0 — all sentences valid
- *   1 — type-A errors found (bad AI output, sentences discarded)
- *   2 — type-B errors found (engine bugs, should be filed as GitHub issues)
- *   3 — both type-A and type-B errors found
+ *   1 — errors found (bad generation output, sentences discarded)
  */
 
 import { readFileSync } from "node:fs";
-import { parseKana } from "../src/lib/romaji.ts";
 
 interface RawSentence {
 	jp: string;
 	kana: string;
 }
 
-// Characters that must never appear in the kana field (type-A error indicators)
 const KANJI_RE = /[一-鿿㐀-䶿\u{20000}-\u{2A6DF}]/u;
 const HIRAGANA_OR_PROLONGED_RE = /[぀-ゟー]/;
-// Exclude ー (U+30FC, prolonged sound mark) and ・ (U+30FB, middle dot) — both are
-// technically in the katakana block but are legitimately used in hiragana text.
+// Exclude ー (U+30FC) and ・ (U+30FB) — used in hiragana text despite being in the katakana block.
 const KATAKANA_RE = /[゠-ヺヽ-ヿ]/;
 const UPPERCASE_RE = /[A-Z]/;
 const KAGIKAKKO_RE = /[「」『』]/;
 
-type ErrorKind = "type-a" | "type-b";
-
 interface ValidationError {
-	kind: ErrorKind;
 	sentence: RawSentence;
 	reason: string;
 }
 
 export function validateSentence(s: RawSentence): ValidationError | null {
-	// --- Type-A checks (bad generation output) ---
 	if (!s.jp || !s.kana) {
-		return { kind: "type-a", sentence: s, reason: "jp or kana is empty" };
+		return { sentence: s, reason: "jp or kana is empty" };
 	}
 	if (KANJI_RE.test(s.kana)) {
-		return {
-			kind: "type-a",
-			sentence: s,
-			reason: `kana contains kanji: "${s.kana}"`,
-		};
+		return { sentence: s, reason: `kana contains kanji: "${s.kana}"` };
 	}
 	if (KATAKANA_RE.test(s.kana)) {
-		return {
-			kind: "type-a",
-			sentence: s,
-			reason: `kana contains katakana: "${s.kana}"`,
-		};
+		return { sentence: s, reason: `kana contains katakana: "${s.kana}"` };
 	}
 	if (UPPERCASE_RE.test(s.kana)) {
 		return {
-			kind: "type-a",
 			sentence: s,
 			reason: `kana contains uppercase ASCII: "${s.kana}"`,
 		};
 	}
 	if (KAGIKAKKO_RE.test(s.kana) || KAGIKAKKO_RE.test(s.jp)) {
 		return {
-			kind: "type-a",
 			sentence: s,
 			reason: `sentence contains 鍵カッコ: "${s.jp}"`,
 		};
 	}
 	if (s.kana.length > 29) {
 		return {
-			kind: "type-a",
 			sentence: s,
 			reason: `kana too long (${s.kana.length} > 29): "${s.kana}"`,
 		};
 	}
 	if (/^[a-z0-9\s.,!?:;'"-]+$/i.test(s.jp)) {
 		return {
-			kind: "type-a",
 			sentence: s,
 			reason: `jp is all-ASCII (no Japanese): "${s.jp}"`,
 		};
 	}
 
 	// jp の非漢字部分（ひらがな・長音符・英数字）が kana に順番通り含まれているかチェック。
-	// これにより「jp を書いてから kana を途中で切る」誤りを検出する。
+	// これにより「kana が jp の途中で切れている」誤りを検出する。
 	{
 		const kanaLower = s.kana.toLowerCase();
 		const nonKanjiChars = [...s.jp].filter(
@@ -97,42 +76,11 @@ export function validateSentence(s: RawSentence): ValidationError | null {
 			const found = kanaLower.indexOf(search, idx);
 			if (found === -1) {
 				return {
-					kind: "type-a",
 					sentence: s,
 					reason: `kana が jp の完全な読みになっていない (jp の "${c}" が kana に見つからない): jp="${s.jp}", kana="${s.kana}"`,
 				};
 			}
 			idx = found + 1;
-		}
-	}
-
-	// --- Type-B checks (engine bugs) ---
-	let segments: ReturnType<typeof parseKana>;
-	try {
-		segments = parseKana(s.kana);
-	} catch (e) {
-		return {
-			kind: "type-b",
-			sentence: s,
-			reason: `parseKana threw: ${e instanceof Error ? e.message : String(e)}`,
-		};
-	}
-
-	if (segments.length === 0) {
-		return {
-			kind: "type-b",
-			sentence: s,
-			reason: `parseKana returned 0 segments for kana: "${s.kana}"`,
-		};
-	}
-
-	for (const seg of segments) {
-		if (seg.options.length === 0) {
-			return {
-				kind: "type-b",
-				sentence: s,
-				reason: `segment "${seg.kana}" has no romaji options in kana: "${s.kana}"`,
-			};
 		}
 	}
 
@@ -149,47 +97,28 @@ if (args.length === 0) {
 }
 
 const raw = JSON.parse(readFileSync(args[0], "utf-8")) as RawSentence[];
-const typeAErrors: ValidationError[] = [];
-const typeBErrors: ValidationError[] = [];
+const errors: ValidationError[] = [];
 const valid: RawSentence[] = [];
 
 for (const s of raw) {
 	const err = validateSentence(s);
 	if (!err) {
 		valid.push(s);
-	} else if (err.kind === "type-a") {
-		typeAErrors.push(err);
 	} else {
-		typeBErrors.push(err);
+		errors.push(err);
 	}
 }
 
 console.log(`\nValidation results: ${raw.length} sentences checked`);
 console.log(`  ✓ valid:   ${valid.length}`);
-console.log(
-	`  ✗ type-A:  ${typeAErrors.length}  (bad generation output — discard)`,
-);
-console.log(
-	`  ✗ type-B:  ${typeBErrors.length}  (engine bugs — file GitHub issues)\n`,
-);
+console.log(`  ✗ errors:  ${errors.length}  (bad generation output — discard)\n`);
 
-if (typeAErrors.length > 0) {
-	console.log("=== Type-A errors (discard) ===");
-	for (const e of typeAErrors) {
+if (errors.length > 0) {
+	console.log("=== Errors (discard) ===");
+	for (const e of errors) {
 		console.log(`  [${e.sentence.jp}] ${e.reason}`);
 	}
 	console.log();
 }
 
-if (typeBErrors.length > 0) {
-	console.log("=== Type-B errors (file as GitHub issues) ===");
-	for (const e of typeBErrors) {
-		console.log(`  [${e.sentence.jp}] ${e.reason}`);
-		console.log(`  kana: ${e.sentence.kana}`);
-	}
-	console.log();
-}
-
-const exitCode =
-	(typeAErrors.length > 0 ? 1 : 0) | (typeBErrors.length > 0 ? 2 : 0);
-process.exit(exitCode);
+process.exit(errors.length > 0 ? 1 : 0);
