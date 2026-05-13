@@ -477,6 +477,11 @@ export function feedKey(state: TypingState, key: string): FeedKeyResult {
 			typedSegments: [...state.typedSegments, state.typed],
 		};
 		const nested = feedKey(afterComplete, key);
+		// If the key is wrong for the next segment, don't advance past the pending segment.
+		// Return the original (pre-implicit-complete) state so the user retypes correctly.
+		if (nested.result === "wrong") {
+			return { next: state, result: "wrong", segmentCompleted: false };
+		}
 		return { next: nested.next, result: nested.result, segmentCompleted: true };
 	}
 

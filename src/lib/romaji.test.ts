@@ -606,4 +606,126 @@ describe("feedKey – multi-segment integration", () => {
 		expect(type("っづ", "ddzu")).toBe("all_complete");
 		expect(type("っづ", "ddu")).toBe("all_complete");
 	});
+
+	it("っ before compound kana: っきゃ → kkya / kkilya", () => {
+		expect(type("っきゃ", "kkya")).toBe("all_complete");
+		// ゃ decomposes as lya (not lyo which is for ょ)
+		expect(type("っきゃ", "kkilya")).toBe("all_complete");
+	});
+
+	it("っ before じゃ: jja / zzya", () => {
+		expect(type("っじゃ", "jja")).toBe("all_complete");
+		expect(type("っじゃ", "zzya")).toBe("all_complete");
+	});
+
+	it("っ before しゃ: ssha / ssya", () => {
+		expect(type("っしゃ", "ssha")).toBe("all_complete");
+		expect(type("っしゃ", "ssya")).toBe("all_complete");
+	});
+
+	it("にほんご: n' and xn paths for ん", () => {
+		expect(type("にほんご", "niho" + "n'" + "go")).toBe("all_complete");
+		expect(type("にほんご", "nihoxngo")).toBe("all_complete");
+	});
+
+	it("にほんのき: ん before の (starts with n) requires nn", () => {
+		// の starts with 'n' → ambiguous → bare n not allowed
+		const opts = parseKana("んの")[0]?.options ?? [];
+		expect(opts).not.toContain("n");
+		expect(opts).toContain("nn");
+	});
+
+	it("ん before は行: bare n is OK", () => {
+		expect(type("んは", "nha")).toBe("all_complete");
+		expect(type("んほ", "nho")).toBe("all_complete");
+	});
+
+	it("ん before ら行: bare n is OK", () => {
+		expect(type("んら", "nra")).toBe("all_complete");
+	});
+
+	it("ん before わ: bare n is OK", () => {
+		expect(type("んわ", "nwa")).toBe("all_complete");
+	});
+
+	it("ん before ゐ (maps to 'i'): bare n is NOT OK (ambiguous)", () => {
+		const opts = parseKana("んゐ")[0]?.options ?? [];
+		expect(opts).not.toContain("n");
+	});
+
+	it("ん before ゑ (maps to 'e'): bare n is NOT OK (ambiguous)", () => {
+		const opts = parseKana("んゑ")[0]?.options ?? [];
+		expect(opts).not.toContain("n");
+	});
+});
+
+// ── pendingComplete wrong path (BUG DETECTION) ───────────────────────────────
+
+describe("pendingComplete – wrong key state consistency", () => {
+	// When ん has pendingComplete=true (bare n, before consonant) and the user
+	// types a wrong key that can't extend the pending option AND can't start the
+	// next segment, feedKey returns result="wrong" but next=<afterComplete state>.
+	// In the normal wrong path, next===currentState (no advancement).
+	// The inconsistency means ん can be silently "completed" on a wrong keystroke.
+
+	it("'n' + wrong key on んか: result is wrong", () => {
+		const state0 = createTypingState("んか");
+		const r1 = feedKey(state0, "n"); // pendingComplete
+		expect(r1.result).toBe("correct");
+		const r2 = feedKey(r1.next, "z"); // wrong key: can't extend, can't start か
+		expect(r2.result).toBe("wrong");
+	});
+
+	it("'n' + wrong key on んか: next state should still be on ん (BUG: is on か)", () => {
+		const state0 = createTypingState("んか");
+		const r1 = feedKey(state0, "n");
+		const r2 = feedKey(r1.next, "z");
+		// BUG: r2.next is afterComplete (segIdx=1, on か) instead of staying on ん
+		// Expected: segIdx=0 (still on ん), but actual: segIdx=1 (advanced to か)
+		expect(r2.next.segIdx).toBe(0); // currently fails → bug confirmed
+	});
+
+	it("normal wrong path does NOT advance state", () => {
+		// Sanity check: a plain wrong key keeps segIdx unchanged
+		const state0 = createTypingState("かき");
+		const r = feedKey(state0, "z");
+		expect(r.result).toBe("wrong");
+		expect(r.next.segIdx).toBe(0); // stays on か
+	});
+});
+
+// ── typedSegments accuracy ────────────────────────────────────────────────────
+
+describe("typedSegments tracking", () => {
+	it("records each completed segment's typed string", () => {
+		const state0 = createTypingState("かき");
+		const r1 = feedKey(state0, "k");
+		const r2 = feedKey(r1.next, "a"); // か complete
+		expect(r2.result).toBe("segment_complete");
+		expect(r2.next.typedSegments).toEqual(["ka"]);
+
+		const r3 = feedKey(r2.next, "k");
+		const r4 = feedKey(r3.next, "i"); // き complete
+		expect(r4.result).toBe("all_complete");
+		expect(r4.next.typedSegments).toEqual(["ka", "ki"]);
+	});
+
+	it("records the exact option used (not canonical)", () => {
+		// Type か using the 'ca' alias
+		const state0 = createTypingState("か");
+		const r1 = feedKey(state0, "c");
+		const r2 = feedKey(r1.next, "a");
+		expect(r2.result).toBe("all_complete");
+		expect(r2.next.typedSegments).toEqual(["ca"]);
+	});
+
+	it("records pending-complete segment with its implicit typed string", () => {
+		// Type んか with bare n for ん (pendingComplete path)
+		const state0 = createTypingState("んか");
+		const r1 = feedKey(state0, "n"); // pendingComplete
+		const r2 = feedKey(r1.next, "k"); // implicit complete ん, then 'k' starts か
+		expect(r2.segmentCompleted).toBe(true);
+		// ん should be recorded as "n" in typedSegments
+		expect(r2.next.typedSegments).toEqual(["n"]);
+	});
 });
