@@ -3,6 +3,8 @@ const SMALL_COMPOUND_ALTS: Record<string, string[]> = {
 	ゃ: ["lya", "xya"],
 	ゅ: ["lyu", "xyu"],
 	ょ: ["lyo", "xyo"],
+	ぃ: ["xi", "li", "lyi", "xyi"],
+	ぇ: ["xe", "le", "lye", "xye"],
 };
 
 // Single-kana options used to build decomposed compound alternatives
@@ -24,67 +26,158 @@ const SINGLE_KANA_OPTIONS: Record<string, string[]> = {
 
 // Kana → romaji mappings (compound first)
 const KANA_MAP_RAW: Record<string, string[]> = {
+	// ── か行 compounds ──
 	きゃ: ["kya"],
+	きぃ: ["kyi"],
 	きゅ: ["kyu"],
+	きぇ: ["kye"],
 	きょ: ["kyo"],
+	くゃ: ["qya"],
+	くゅ: ["qyu"],
+	くょ: ["qyo"],
+	くぁ: ["qwa", "qa"],
+	くぃ: ["qwi", "qi", "qyi"],
+	くぅ: ["qwu"],
+	くぇ: ["qwe", "qe", "qye"],
+	くぉ: ["qwo", "qo"],
+	// ── さ行 compounds ──
 	しゃ: ["sha", "sya"],
+	しぃ: ["syi"],
 	しゅ: ["shu", "syu"],
+	しぇ: ["she", "sye"],
 	しょ: ["sho", "syo"],
+	すぁ: ["swa"],
+	すぃ: ["swi"],
+	すぅ: ["swu"],
+	すぇ: ["swe"],
+	すぉ: ["swo"],
+	// ── た行 compounds ──
 	ちゃ: ["cha", "tya", "cya"],
+	ちぃ: ["tyi", "cyi"],
 	ちゅ: ["chu", "tyu", "cyu"],
+	ちぇ: ["che", "tye", "cye"],
 	ちょ: ["cho", "tyo", "cyo"],
+	つぁ: ["tsa"],
+	つぃ: ["tsi"],
+	つぇ: ["tse"],
+	つぉ: ["tso"],
+	てゃ: ["tha"],
+	てぃ: ["thi"],
+	てゅ: ["thu"],
+	てぇ: ["the"],
+	てょ: ["tho"],
+	とぁ: ["twa"],
+	とぃ: ["twi"],
+	とぅ: ["twu"],
+	とぇ: ["twe"],
+	とぉ: ["two"],
+	// ── だ行 compounds ──
+	ぢゃ: ["dya"],
+	ぢぃ: ["dyi"],
+	ぢゅ: ["dyu"],
+	ぢぇ: ["dye"],
+	ぢょ: ["dyo"],
+	でゃ: ["dha"],
+	でぃ: ["dhi"],
+	でゅ: ["dhu"],
+	でぇ: ["dhe"],
+	でょ: ["dho"],
+	どぁ: ["dwa"],
+	どぃ: ["dwi"],
+	どぅ: ["dwu"],
+	どぇ: ["dwe"],
+	どぉ: ["dwo"],
+	// ── な行 compounds ──
 	にゃ: ["nya"],
+	にぃ: ["nyi"],
 	にゅ: ["nyu"],
+	にぇ: ["nye"],
 	にょ: ["nyo"],
+	// ── は行 compounds ──
 	ひゃ: ["hya"],
+	ひぃ: ["hyi"],
 	ひゅ: ["hyu"],
+	ひぇ: ["hye"],
 	ひょ: ["hyo"],
+	ふゃ: ["fya"],
+	ふゅ: ["fyu"],
+	ふょ: ["fyo"],
+	ふぁ: ["fa", "fwa"],
+	ふぃ: ["fi", "fwi", "fyi"],
+	ふぅ: ["fwu"],
+	ふぇ: ["fe", "fwe", "fye"],
+	ふぉ: ["fo", "fwo"],
+	// ── ま行 compounds ──
 	みゃ: ["mya"],
+	みぃ: ["myi"],
 	みゅ: ["myu"],
+	みぇ: ["mye"],
 	みょ: ["myo"],
+	// ── ら行 compounds ──
 	りゃ: ["rya"],
+	りぃ: ["ryi"],
 	りゅ: ["ryu"],
+	りぇ: ["rye"],
 	りょ: ["ryo"],
+	// ── が行 compounds ──
 	ぎゃ: ["gya"],
+	ぎぃ: ["gyi"],
 	ぎゅ: ["gyu"],
+	ぎぇ: ["gye"],
 	ぎょ: ["gyo"],
+	ぐぁ: ["gwa"],
+	ぐぃ: ["gwi"],
+	ぐぅ: ["gwu"],
+	ぐぇ: ["gwe"],
+	ぐぉ: ["gwo"],
+	// ── ざ行 compounds ──
+	じぇ: ["je", "zye", "jye"],
 	じゃ: ["ja", "zya", "jya"],
+	じぃ: ["zyi", "jyi"],
 	じゅ: ["ju", "zyu", "jyu"],
 	じょ: ["jo", "zyo", "jyo"],
+	// ── ば行 compounds ──
 	びゃ: ["bya"],
+	びぃ: ["byi"],
 	びゅ: ["byu"],
+	びぇ: ["bye"],
 	びょ: ["byo"],
+	// ── ヴ compounds ──
+	ゔぁ: ["va"],
+	ゔぃ: ["vi", "vyi"],
+	ゔぇ: ["ve", "vye"],
+	ゔぉ: ["vo"],
+	ゔゃ: ["vya"],
+	ゔゅ: ["vyu"],
+	ゔょ: ["vyo"],
+	// ── ぱ行 compounds ──
 	ぴゃ: ["pya"],
+	ぴぃ: ["pyi"],
 	ぴゅ: ["pyu"],
+	ぴぇ: ["pye"],
 	ぴょ: ["pyo"],
-	でゃ: ["dha"],
-	でゅ: ["dhu"],
-	でょ: ["dho"],
-	てゃ: ["tha"],
-	てゅ: ["thu"],
-	てょ: ["tho"],
-	ふぁ: ["fa"],
-	ふぃ: ["fi"],
-	ふぇ: ["fe"],
-	ふぉ: ["fo"],
+	// ── うぁ～うぉ ──
 	うぁ: ["wha"],
-	うぃ: ["wi"],
-	うぇ: ["we"],
-	うぉ: ["wo"],
+	うぃ: ["wi", "whi"],
+	うぇ: ["we", "whe"],
+	うぉ: ["who"],
+	// ── いぇ ──
+	いぇ: ["ye"],
+	// ── 単独かな ──
 	あ: ["a"],
-	い: ["i"],
-	う: ["u"],
+	い: ["i", "yi"],
+	う: ["u", "wu", "whu"],
 	え: ["e"],
 	お: ["o"],
-	か: ["ka"],
+	か: ["ka", "ca"],
 	き: ["ki"],
-	く: ["ku"],
+	く: ["ku", "cu", "qu"],
 	け: ["ke"],
-	こ: ["ko"],
+	こ: ["ko", "co"],
 	さ: ["sa"],
-	し: ["si", "shi"],
+	し: ["si", "shi", "ci"],
 	す: ["su"],
-	せ: ["se"],
+	せ: ["se", "ce"],
 	そ: ["so"],
 	た: ["ta"],
 	ち: ["ti", "chi"],
@@ -118,7 +211,7 @@ const KANA_MAP_RAW: Record<string, string[]> = {
 	ゐ: ["i"],
 	ゑ: ["e"],
 	を: ["wo"],
-	ん: ["nn", "n"],
+	ん: ["nn", "n"], // never reached: parseKana handles ん via special-case before KANA_MAP lookup
 	が: ["ga"],
 	ぎ: ["gi"],
 	ぐ: ["gu"],
@@ -144,16 +237,20 @@ const KANA_MAP_RAW: Record<string, string[]> = {
 	ぷ: ["pu"],
 	ぺ: ["pe"],
 	ぽ: ["po"],
+	ゔ: ["vu"],
 	ぁ: ["xa", "la"],
-	ぃ: ["xi", "li"],
+	ぃ: ["xi", "li", "lyi", "xyi"],
 	ぅ: ["xu", "lu"],
-	ぇ: ["xe", "le"],
+	ぇ: ["xe", "le", "lye", "xye"],
 	ぉ: ["xo", "lo"],
 	// small compound vowels reachable by l/x prefix alone
 	ゃ: ["lya", "xya"],
 	ゅ: ["lyu", "xyu"],
 	ょ: ["lyo", "xyo"],
-	っ: ["xtu", "xtsu", "ltu"],
+	っ: ["xtu", "xtsu", "ltu", "ltsu"],
+	ゎ: ["lwa", "xwa"],
+	ヵ: ["lka", "xka"],
+	ヶ: ["lke", "xke"],
 	ー: ["-"],
 	" ": [" "],
 };
@@ -186,7 +283,7 @@ export interface KanaSegment {
 
 // っ: add only the FIRST consonant of the next segment as an option.
 // Typing that single consonant completes っ, then the next segment requires its full romaji.
-// e.g. っけ → っ options: ["k","xtu","xtsu","ltu"] + け options: ["ke"] → total "kke" ✓
+// e.g. っけ → っ options: ["k","xtu","xtsu","ltu","ltsu"] + け options: ["ke"] → total "kke" ✓
 // The doubled-consonant path is listed first so it shows as the canonical (recommended) display.
 function expandXtu(nextOptions: string[]): string[] {
 	const consonants: string[] = [];
@@ -197,10 +294,10 @@ function expandXtu(nextOptions: string[]): string[] {
 		}
 	}
 	const unique = [...new Set(consonants)];
-	// Prefer doubled consonant (e.g. "k" for っけ → "kke") over xtu/xtsu/ltu
+	// Prefer doubled consonant (e.g. "k" for っけ → "kke") over xtu/xtsu/ltu/ltsu
 	return unique.length > 0
-		? [...unique, "xtu", "xtsu", "ltu"]
-		: ["xtu", "xtsu", "ltu"];
+		? [...unique, "xtu", "xtsu", "ltu", "ltsu"]
+		: ["xtu", "xtsu", "ltu", "ltsu"];
 }
 
 export function parseKana(text: string): KanaSegment[] {
@@ -233,7 +330,9 @@ export function parseKana(text: string): KanaSegment[] {
 			const nextKana = text[i + 1] ?? "";
 			const nextRomajiStart = parseKana(nextKana)[0]?.options[0]?.[0] ?? "";
 			const nextIsAmbiguous = !nextKana || /^[aiueoyn]/.test(nextRomajiStart);
-			const opts: string[] = nextIsAmbiguous ? ["nn"] : ["nn", "n"];
+			const opts: string[] = nextIsAmbiguous
+				? ["nn", "n'", "xn"]
+				: ["nn", "n", "n'", "xn"];
 			segments.push({ kana: "ん", options: opts });
 			i++;
 			continue;
