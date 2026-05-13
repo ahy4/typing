@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>CONCEPT 4 — AURORA GLASS</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@300;400;500&display=swap');
+
+  :root {
+    --blue: #4db8ff;
+    --purple: #b066ff;
+    --teal: #00e5cc;
+    --rose: #ff4488;
+    --amber: #ffb347;
+    --bg: #060812;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ===== AURORA BACKGROUND ===== */
+  .aurora {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .aurora-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    animation: aurora-drift ease-in-out infinite;
+  }
+
+  .ab1 {
+    width: 600px; height: 400px;
+    background: radial-gradient(ellipse, rgba(75,0,200,0.35) 0%, transparent 70%);
+    top: -100px; left: -100px;
+    animation-duration: 12s;
+  }
+  .ab2 {
+    width: 500px; height: 500px;
+    background: radial-gradient(ellipse, rgba(0,180,200,0.25) 0%, transparent 70%);
+    top: -50px; right: 0;
+    animation-duration: 15s;
+    animation-delay: -5s;
+  }
+  .ab3 {
+    width: 700px; height: 300px;
+    background: radial-gradient(ellipse, rgba(200,0,120,0.2) 0%, transparent 70%);
+    bottom: 0; left: 30%;
+    animation-duration: 18s;
+    animation-delay: -8s;
+  }
+  .ab4 {
+    width: 400px; height: 400px;
+    background: radial-gradient(ellipse, rgba(255,100,0,0.15) 0%, transparent 70%);
+    bottom: 100px; right: 100px;
+    animation-duration: 20s;
+    animation-delay: -3s;
+  }
+
+  @keyframes aurora-drift {
+    0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
+    33% { transform: translate(40px, -30px) scale(1.05); opacity: 1; }
+    66% { transform: translate(-20px, 20px) scale(0.95); opacity: 0.7; }
+  }
+
+  /* Glass panel mixin */
+  .glass {
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(20px) saturate(1.5);
+    -webkit-backdrop-filter: blur(20px) saturate(1.5);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+  }
+
+  .glass-strong {
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(30px) saturate(2);
+    -webkit-backdrop-filter: blur(30px) saturate(2);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+  }
+
+  /* ===== LAYOUT ===== */
+  .layout {
+    position: relative; z-index: 1;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 12px;
+    gap: 10px;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 12px 20px;
+    gap: 16px;
+  }
+  .header.glass { border-radius: 16px; }
+
+  .logo {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .progress-track {
+    width: 320px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .prog-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    font-weight: 500;
+  }
+
+  .prog-label {
+    width: 48px;
+    text-align: right;
+    color: rgba(255,255,255,0.4);
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .prog-bar {
+    flex: 1;
+    height: 5px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .prog-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .prog-fill-p {
+    width: 68%;
+    background: linear-gradient(90deg, var(--purple), var(--blue));
+    box-shadow: 0 0 8px rgba(77,184,255,0.6);
+  }
+
+  .prog-fill-g {
+    width: 55%;
+    background: linear-gradient(90deg, rgba(255,68,136,0.5), rgba(255,68,136,0.8));
+  }
+
+  .prog-count {
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'DM Mono', monospace;
+    min-width: 20px;
+  }
+  .pc-p { color: var(--blue); }
+  .pc-g { color: var(--rose); opacity: 0.8; }
+
+  .header-stats {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .hs-item {
+    text-align: right;
+  }
+
+  .hs-label {
+    font-size: 9px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 1px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  .hs-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .hs-c { color: var(--blue); }
+  .hs-r { color: var(--rose); }
+  .hs-y { color: var(--amber); }
+  .hs-w { color: rgba(255,255,255,0.5); }
+
+  /* ===== MAIN GRID ===== */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 72px 1fr 72px;
+    gap: 10px;
+  }
+
+  /* ===== HP COLUMNS ===== */
+  .hp-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 12px;
+    gap: 12px;
+  }
+
+  .hp-title {
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+  }
+  .hp-title.p { color: rgba(77,184,255,0.7); }
+  .hp-title.g { color: rgba(255,68,136,0.7); }
+
+  .hp-bar-v {
+    flex: 1;
+    width: 12px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .hp-fill-v {
+    width: 100%;
+    border-radius: 6px;
+    position: relative;
+    transition: height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .hp-fill-v::after {
+    content: '';
+    position: absolute;
+    top: 4px; left: 2px; right: 2px;
+    height: 6px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.3);
+  }
+
+  .hp-fill-player {
+    height: 75%;
+    background: linear-gradient(to top, rgba(77,184,255,0.4), var(--blue));
+    box-shadow: 0 0 16px rgba(77,184,255,0.5);
+  }
+
+  .hp-fill-ghost {
+    height: 60%;
+    background: linear-gradient(to top, rgba(255,68,136,0.4), var(--rose));
+    box-shadow: 0 0 16px rgba(255,68,136,0.5);
+  }
+
+  .hp-pct {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+  }
+  .hp-pct.p { color: var(--blue); }
+  .hp-pct.g { color: var(--rose); }
+
+  /* ===== CENTER ===== */
+  .center {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Typing panel */
+  .typing-panel {
+    flex: 1;
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .jp-display {
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: 8px;
+    color: rgba(255,255,255,0.35);
+  }
+
+  .romaji-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 560px;
+  }
+
+  .romaji-line {
+    font-family: 'DM Mono', monospace;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .r-done {
+    color: var(--teal);
+    text-shadow: 0 0 12px rgba(0,229,204,0.5);
+  }
+
+  .r-typed {
+    color: rgba(0,229,204,0.7);
+  }
+
+  .r-remain {
+    color: rgba(255,255,255,0.5);
+    text-decoration: underline;
+    text-decoration-color: rgba(77,184,255,0.5);
+    text-underline-offset: 5px;
+  }
+
+  .r-pending {
+    color: rgba(255,255,255,0.12);
+  }
+
+  /* Progress bar under romaji */
+  .type-progress {
+    width: 100%;
+    height: 2px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  .type-progress-fill {
+    height: 100%;
+    width: 45%;
+    background: linear-gradient(90deg, var(--purple), var(--teal));
+    border-radius: 1px;
+    box-shadow: 0 0 6px rgba(0,229,204,0.5);
+    transition: width 0.2s;
+  }
+
+  .kana-row {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .kp {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+
+  .kp.done {
+    background: rgba(0,229,204,0.12);
+    color: rgba(0,229,204,0.7);
+    border: 1px solid rgba(0,229,204,0.2);
+  }
+
+  .kp.current {
+    background: rgba(77,184,255,0.15);
+    color: var(--blue);
+    border: 1px solid rgba(77,184,255,0.4);
+    box-shadow: 0 0 8px rgba(77,184,255,0.2), 0 2px 8px rgba(0,0,0,0.3);
+  }
+
+  .kp.pending {
+    background: rgba(255,255,255,0.03);
+    color: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  /* ===== GAUGE ROW ===== */
+  .gauge-row {
+    padding: 14px 20px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .gauge-stats-left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .gs-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .gs-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .gs-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .gs-bar {
+    height: 2px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 1px;
+    margin-top: 2px;
+    overflow: hidden;
+  }
+
+  .gs-bar-fill {
+    height: 100%;
+    border-radius: 1px;
+  }
+
+  .gv-c { color: var(--teal); }
+  .gb-c { background: var(--teal); width: 89%; box-shadow: 0 0 4px var(--teal); }
+
+  .gv-r { color: var(--rose); }
+  .gb-r { background: var(--rose); width: 3%; box-shadow: 0 0 4px var(--rose); }
+
+  .gv-y { color: var(--amber); }
+  .gb-y { background: var(--amber); width: 96.7%; box-shadow: 0 0 4px var(--amber); }
+
+  .gv-w { color: rgba(255,255,255,0.5); }
+  .gb-w { background: rgba(255,255,255,0.3); width: 40%; }
+
+  /* Combo orb */
+  .combo-orb-wrap {
+    position: relative;
+    width: 170px;
+    height: 170px;
+  }
+
+  .combo-orb-wrap svg { width: 100%; height: 100%; }
+
+  .combo-orb-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+  }
+
+  .co-streak {
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--amber);
+    text-transform: uppercase;
+  }
+
+  .co-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 1;
+    background: linear-gradient(180deg, #fff 0%, var(--blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .co-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 4px;
+  }
+
+  .co-speed {
+    font-family: 'DM Mono', monospace;
+    font-size: 16px;
+    color: var(--teal);
+    margin-top: 2px;
+    font-weight: 500;
+  }
+
+  .co-speed span { font-size: 10px; color: rgba(255,255,255,0.3); }
+
+  /* Ghost progress */
+  .gauge-stats-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+  }
+
+  /* ===== KEYBOARD ===== */
+  .kb-section {
+    padding: 10px 16px 14px;
+  }
+
+  .kb-row {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+
+  .key {
+    width: 30px; height: 28px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.2);
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+  }
+
+  .key::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 5px;
+    border-bottom: 2px solid rgba(0,0,0,0.3);
+    pointer-events: none;
+  }
+
+  .key.active {
+    background: rgba(77,184,255,0.15);
+    border-color: rgba(77,184,255,0.5);
+    color: var(--blue);
+    box-shadow: 0 0 12px rgba(77,184,255,0.3), 0 4px 12px rgba(0,0,0,0.4);
+    transform: scale(1.05);
+  }
+
+  .key.hot {
+    background: rgba(255,68,136,0.1);
+    border-color: rgba(255,68,136,0.3);
+    color: var(--rose);
+  }
+
+  .key.warm {
+    background: rgba(255,179,71,0.08);
+    border-color: rgba(255,179,71,0.3);
+    color: var(--amber);
+  }
+
+  .key.wide { width: 44px; border-radius: 6px; }
+  .key.space { width: 160px; border-radius: 8px; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    padding: 8px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: rgba(255,255,255,0.25);
+    font-weight: 500;
+  }
+
+  .footer.glass { border-radius: 12px; }
+
+  .footer-chip {
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    font-size: 9px;
+    font-weight: 600;
+    margin-right: 4px;
+    color: rgba(255,255,255,0.4);
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora">
+  <div class="aurora-blob ab1"></div>
+  <div class="aurora-blob ab2"></div>
+  <div class="aurora-blob ab3"></div>
+  <div class="aurora-blob ab4"></div>
+</div>
+
+<div class="layout">
+
+  <!-- HEADER -->
+  <div class="header glass">
+    <div class="logo">TYPE // DARK</div>
+
+    <div class="header-center">
+      <div class="progress-track">
+        <div class="prog-row">
+          <span class="prog-label">自分</span>
+          <div class="prog-bar"><div class="prog-fill prog-fill-p"></div></div>
+          <span class="prog-count pc-p">12</span>
+        </div>
+        <div class="prog-row">
+          <span class="prog-label">ゴースト</span>
+          <div class="prog-bar"><div class="prog-fill prog-fill-g"></div></div>
+          <span class="prog-count pc-g">10</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-stats">
+      <div class="hs-item">
+        <div class="hs-label">正解</div>
+        <div class="hs-val hs-c">89</div>
+      </div>
+      <div class="hs-item">
+        <div class="hs-label">ミス</div>
+        <div class="hs-val hs-r">3</div>
+      </div>
+      <div class="hs-item">
+        <div class="hs-label">精度</div>
+        <div class="hs-val hs-y">96.7%</div>
+      </div>
+      <div class="hs-item">
+        <div class="hs-label">経過</div>
+        <div class="hs-val hs-w">1:23</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+
+    <!-- Player HP -->
+    <div class="hp-col glass">
+      <div class="hp-title p">PLAYER</div>
+      <div class="hp-bar-v">
+        <div class="hp-fill-v hp-fill-player"></div>
+      </div>
+      <div class="hp-pct p">75%</div>
+    </div>
+
+    <!-- Center -->
+    <div class="center">
+
+      <div class="typing-panel glass-strong">
+        <div class="jp-display">今日はとても良い天気ですね</div>
+
+        <div class="romaji-block">
+          <div class="romaji-line">
+            <span class="r-done">kyou ha totemo </span><span class="r-typed">yo</span><span class="r-remain">i</span><span class="r-pending"> tenki desu ne</span>
+          </div>
+          <div class="type-progress">
+            <div class="type-progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="kana-row">
+          <span class="kp done">きょ</span>
+          <span class="kp done">う</span>
+          <span class="kp done">は</span>
+          <span class="kp done">と</span>
+          <span class="kp done">て</span>
+          <span class="kp done">も</span>
+          <span class="kp current">よ</span>
+          <span class="kp pending">い</span>
+          <span class="kp pending">て</span>
+          <span class="kp pending">ん</span>
+          <span class="kp pending">き</span>
+          <span class="kp pending">で</span>
+          <span class="kp pending">す</span>
+          <span class="kp pending">ね</span>
+        </div>
+      </div>
+
+      <div class="gauge-row glass">
+
+        <div class="gauge-stats-left">
+          <div class="gs-item">
+            <div class="gs-label">正解</div>
+            <div class="gs-val gv-c">89</div>
+            <div class="gs-bar"><div class="gs-bar-fill gb-c"></div></div>
+          </div>
+          <div class="gs-item">
+            <div class="gs-label">ミス</div>
+            <div class="gs-val gv-r">3</div>
+            <div class="gs-bar"><div class="gs-bar-fill gb-r"></div></div>
+          </div>
+        </div>
+
+        <div class="combo-orb-wrap">
+          <svg viewBox="0 0 170 170" xmlns="http://www.w3.org/2000/svg"><title>Speed and combo gauge</title>
+            <defs>
+              <filter id="glass-glow">
+                <feGaussianBlur stdDeviation="5" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <radialGradient id="orb-grad" cx="40%" cy="30%">
+                <stop offset="0%" stop-color="rgba(255,255,255,0.15)"/>
+                <stop offset="100%" stop-color="rgba(77,184,255,0.03)"/>
+              </radialGradient>
+              <linearGradient id="arc-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#b066ff"/>
+                <stop offset="100%" stop-color="#4db8ff"/>
+              </linearGradient>
+            </defs>
+            <!-- Orb bg -->
+            <circle cx="85" cy="85" r="78" fill="url(#orb-grad)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+            <!-- Ghost ring -->
+            <circle cx="85" cy="85" r="76" fill="none" stroke="rgba(255,68,136,0.25)" stroke-width="4"
+              stroke-dasharray="477" stroke-dashoffset="214"
+              transform="rotate(-90 85 85)" stroke-linecap="round"/>
+            <!-- Player speed ring -->
+            <circle cx="85" cy="85" r="68" fill="none" stroke="url(#arc-blue)" stroke-width="5"
+              stroke-dasharray="427" stroke-dashoffset="128"
+              transform="rotate(-90 85 85)" stroke-linecap="round" filter="url(#glass-glow)"/>
+            <!-- Heal ring -->
+            <circle cx="85" cy="85" r="60" fill="none" stroke="rgba(255,179,71,0.5)" stroke-width="3"
+              stroke-dasharray="377" stroke-dashoffset="151"
+              transform="rotate(-90 85 85)" stroke-linecap="round"/>
+            <!-- Inner subtle ring -->
+            <circle cx="85" cy="85" r="50" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+            <!-- Shine -->
+            <ellipse cx="70" cy="55" rx="20" ry="12"
+              fill="rgba(255,255,255,0.06)" transform="rotate(-20 70 55)"/>
+          </svg>
+          <div class="combo-orb-inner">
+            <div class="co-streak">×4 streak</div>
+            <div class="co-num">142</div>
+            <div class="co-label">COMBO</div>
+            <div class="co-speed">8.3 <span>打/秒</span></div>
+          </div>
+        </div>
+
+        <div class="gauge-stats-right">
+          <div class="gs-item" style="align-items:flex-end">
+            <div class="gs-label">精度</div>
+            <div class="gs-val gv-y">96.7%</div>
+            <div class="gs-bar" style="width:100%"><div class="gs-bar-fill gb-y"></div></div>
+          </div>
+          <div class="gs-item" style="align-items:flex-end">
+            <div class="gs-label">経過</div>
+            <div class="gs-val gv-w">1:23</div>
+            <div class="gs-bar" style="width:100%"><div class="gs-bar-fill gb-w"></div></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Keyboard -->
+      <div class="kb-section glass">
+        <div class="kb-row">
+          <div class="key warm">Q</div><div class="key">W</div><div class="key">E</div>
+          <div class="key">R</div><div class="key">T</div><div class="key active">Y</div>
+          <div class="key">U</div><div class="key">I</div><div class="key">O</div>
+          <div class="key hot">P</div>
+        </div>
+        <div class="kb-row">
+          <div class="key">A</div><div class="key">S</div><div class="key">D</div>
+          <div class="key">F</div><div class="key">G</div><div class="key">H</div>
+          <div class="key">J</div><div class="key">K</div><div class="key">L</div>
+        </div>
+        <div class="kb-row">
+          <div class="key wide">Z</div><div class="key">X</div><div class="key">C</div>
+          <div class="key">V</div><div class="key">B</div><div class="key">N</div>
+          <div class="key">M</div>
+        </div>
+        <div class="kb-row"><div class="key space"></div></div>
+      </div>
+
+    </div>
+
+    <!-- Ghost HP -->
+    <div class="hp-col glass">
+      <div class="hp-title g">GHOST</div>
+      <div class="hp-bar-v">
+        <div class="hp-fill-v hp-fill-ghost"></div>
+      </div>
+      <div class="hp-pct g">60%</div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer glass">
+    <div>
+      <span class="footer-chip">ESC</span>退出
+      <span class="footer-chip" style="margin-left:12px">TAB</span>キーボード表示
+    </div>
+    <div>CONCEPT 4 — AURORA GLASS</div>
+    <div>HP 75%</div>
+  </div>
+
+</div>
+</body>
+</html>

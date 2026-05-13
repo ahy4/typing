@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>CONCEPT 1 — NEON ARCADE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Press+Start+2P&display=swap');
+
+  :root {
+    --cyan: #00ffff;
+    --pink: #ff00aa;
+    --yellow: #ffee00;
+    --green: #00ff66;
+    --orange: #ff8800;
+    --red: #ff2244;
+    --bg: #070010;
+    --panel: #0d001a;
+    --border: #2a0050;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: #fff;
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* CRT scanlines */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.15) 2px,
+      rgba(0,0,0,0.15) 4px
+    );
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* CRT vignette */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.85) 100%);
+    pointer-events: none;
+    z-index: 101;
+  }
+
+  /* Floating particles */
+  .particles {
+    position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0;
+  }
+  .particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    border-radius: 50%;
+    animation: float linear infinite;
+  }
+  @keyframes float {
+    from { transform: translateY(100vh); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    to { transform: translateY(-20px); opacity: 0; }
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 64px 1fr 64px;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+    gap: 0;
+    position: relative; z-index: 1;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    border-bottom: 2px solid var(--pink);
+    box-shadow: 0 0 20px var(--pink), 0 0 40px rgba(255,0,170,0.3);
+    background: rgba(13,0,26,0.9);
+  }
+
+  .logo {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    color: var(--cyan);
+    text-shadow: 0 0 10px var(--cyan), 0 0 20px var(--cyan), 0 0 40px var(--cyan);
+    letter-spacing: 3px;
+  }
+
+  .header-stats {
+    display: flex;
+    gap: 24px;
+    font-size: 11px;
+  }
+
+  .hs { color: #888; }
+  .hs span { color: var(--yellow); text-shadow: 0 0 8px var(--yellow); }
+
+  .progress-battle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 10px;
+  }
+
+  .pbval {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+  }
+  .pbval.player { color: var(--cyan); text-shadow: 0 0 6px var(--cyan); }
+  .pbval.ghost { color: var(--pink); text-shadow: 0 0 6px var(--pink); }
+
+  .progress-bar-wrap {
+    width: 120px;
+    height: 8px;
+    background: #1a0030;
+    border: 1px solid #440088;
+    position: relative;
+    overflow: visible;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    position: relative;
+  }
+  .progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    right: -1px; top: -2px;
+    width: 4px; height: 12px;
+    background: inherit;
+  }
+  .pb-player { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); width: 68%; }
+  .pb-ghost  { background: var(--pink); box-shadow: 0 0 8px var(--pink); width: 55%; }
+
+  /* ===== HP BARS (sides) ===== */
+  .hp-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 8px;
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    gap: 8px;
+  }
+  .hp-bar.right { border-right: none; border-left: 1px solid var(--border); }
+
+  .hp-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    letter-spacing: 2px;
+  }
+  .hp-label.player { color: var(--cyan); text-shadow: 0 0 8px var(--cyan); }
+  .hp-label.ghost  { color: var(--pink); text-shadow: 0 0 8px var(--pink); }
+
+  .hp-track {
+    flex: 1;
+    width: 20px;
+    background: #1a0030;
+    border: 1px solid;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .hp-track.player { border-color: var(--cyan); }
+  .hp-track.ghost  { border-color: var(--pink); }
+
+  .hp-fill {
+    width: 100%;
+    transition: height 0.3s;
+    position: relative;
+  }
+  .hp-fill.player {
+    height: 75%;
+    background: linear-gradient(to top, #006666, var(--cyan));
+    box-shadow: 0 0 12px var(--cyan), inset 0 0 12px rgba(0,255,255,0.3);
+  }
+  .hp-fill.ghost {
+    height: 60%;
+    background: linear-gradient(to top, #660044, var(--pink));
+    box-shadow: 0 0 12px var(--pink), inset 0 0 12px rgba(255,0,170,0.3);
+  }
+
+  /* Tick marks on HP bar */
+  .hp-ticks {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+  }
+  .hp-tick {
+    flex: 1;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .hp-pct {
+    font-size: 9px;
+    font-family: 'Press Start 2P', monospace;
+  }
+  .hp-pct.player { color: var(--cyan); }
+  .hp-pct.ghost  { color: var(--pink); }
+
+  /* ===== CENTER ===== */
+  .center {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* Progress compare row */
+  .progress-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+  .prog-side {
+    padding: 6px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+  }
+  .prog-side.player { border-right: 1px solid var(--border); }
+  .prog-side.ghost  { justify-content: flex-end; }
+  .prog-label { color: #666; }
+  .prog-num {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+  }
+  .prog-num.player { color: var(--cyan); text-shadow: 0 0 10px var(--cyan); }
+  .prog-num.ghost  { color: var(--pink); text-shadow: 0 0 10px var(--pink); }
+
+  /* ===== TYPING DISPLAY ===== */
+  .typing-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    gap: 16px;
+  }
+
+  .japanese-text {
+    font-size: 28px;
+    color: #aaa;
+    text-shadow: 0 0 20px rgba(255,255,255,0.1);
+    letter-spacing: 4px;
+  }
+
+  .romaji-display {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+    font-size: 32px;
+    font-family: 'Press Start 2P', monospace;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .rom-done {
+    color: var(--cyan);
+    text-shadow: 0 0 12px var(--cyan), 0 0 24px rgba(0,255,255,0.5);
+  }
+  .rom-current-done {
+    color: #88ffff;
+    text-shadow: 0 0 8px var(--cyan);
+  }
+  .rom-current-remain {
+    color: #ccc;
+    border-bottom: 3px solid var(--cyan);
+    padding-bottom: 2px;
+  }
+  .rom-pending {
+    color: #333;
+  }
+
+  /* Kana progress pills */
+  .kana-pills {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .kana-pill {
+    padding: 3px 8px;
+    border: 1px solid;
+    font-size: 11px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .kana-pill.done {
+    background: rgba(0,255,255,0.15);
+    border-color: var(--cyan);
+    color: var(--cyan);
+    box-shadow: 0 0 6px rgba(0,255,255,0.4);
+  }
+  .kana-pill.current {
+    background: rgba(0,255,255,0.08);
+    border-color: var(--cyan);
+    color: #88ffff;
+    animation: pulse-border 1s infinite;
+  }
+  .kana-pill.pending {
+    border-color: #333;
+    color: #333;
+  }
+  @keyframes pulse-border {
+    0%, 100% { box-shadow: 0 0 4px rgba(0,255,255,0.3); }
+    50% { box-shadow: 0 0 12px rgba(0,255,255,0.7); }
+  }
+
+  /* ===== CENTRAL GAUGE ===== */
+  .gauge-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 0;
+    gap: 32px;
+  }
+
+  .gauge-svg-wrap {
+    position: relative;
+    width: 200px;
+    height: 200px;
+  }
+
+  .gauge-svg-wrap svg {
+    width: 100%; height: 100%;
+  }
+
+  .gauge-center-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+
+  .streak-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    color: var(--orange);
+    text-shadow: 0 0 8px var(--orange);
+    letter-spacing: 1px;
+  }
+
+  .combo-num {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 36px;
+    line-height: 1;
+    color: var(--green);
+    text-shadow: 0 0 16px var(--green), 0 0 32px rgba(0,255,102,0.5);
+    animation: combo-pulse 0.3s ease-out;
+  }
+
+  .combo-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: #555;
+    letter-spacing: 2px;
+  }
+
+  .speed-val {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 16px;
+    color: var(--cyan);
+    text-shadow: 0 0 10px var(--cyan);
+    margin-top: 4px;
+  }
+
+  .speed-unit {
+    font-size: 8px;
+    color: #666;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  @keyframes combo-pulse {
+    0% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+  }
+
+  /* Side stats next to gauge */
+  .gauge-side-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 120px;
+  }
+
+  .side-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .side-stat-label {
+    font-size: 9px;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: 'Press Start 2P', monospace;
+  }
+
+  .side-stat-val {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px;
+  }
+  .val-green  { color: var(--green); text-shadow: 0 0 8px var(--green); }
+  .val-red    { color: var(--red);   text-shadow: 0 0 8px var(--red); }
+  .val-yellow { color: var(--yellow); text-shadow: 0 0 8px var(--yellow); }
+  .val-gray   { color: #888; }
+
+  /* ===== STATS ROW ===== */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat-cell {
+    padding: 8px 12px;
+    text-align: center;
+    border-right: 1px solid var(--border);
+  }
+  .stat-cell:last-child { border-right: none; }
+
+  .stat-label {
+    font-size: 9px;
+    color: #444;
+    font-family: 'Press Start 2P', monospace;
+    margin-bottom: 2px;
+  }
+  .stat-value {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+  }
+
+  /* ===== KEYBOARD ===== */
+  .keyboard-section {
+    padding: 10px 16px;
+    background: rgba(0,0,0,0.5);
+    border-top: 1px solid var(--border);
+  }
+
+  .kb-row {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+
+  .key {
+    width: 32px;
+    height: 30px;
+    background: #0d001a;
+    border: 1px solid #2a0050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-family: 'Press Start 2P', monospace;
+    color: #444;
+    position: relative;
+    transition: all 0.1s;
+  }
+
+  .key.active {
+    border-color: var(--cyan);
+    color: var(--cyan);
+    background: rgba(0,255,255,0.1);
+    box-shadow: 0 0 12px var(--cyan), inset 0 0 8px rgba(0,255,255,0.2);
+    animation: key-bounce 0.15s ease-out;
+  }
+  .key.hot {
+    border-color: var(--red);
+    color: var(--red);
+    background: rgba(255,34,68,0.08);
+    box-shadow: 0 0 6px var(--red);
+  }
+  .key.warm {
+    border-color: var(--orange);
+    color: var(--orange);
+    background: rgba(255,136,0,0.06);
+  }
+
+  @keyframes key-bounce {
+    0% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+  }
+
+  .key.wide { width: 48px; }
+  .key.space { width: 160px; }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 16px;
+    border-top: 1px solid var(--border);
+    background: rgba(13,0,26,0.9);
+    font-size: 9px;
+    font-family: 'Press Start 2P', monospace;
+    color: #333;
+  }
+
+  .footer-hint {
+    display: flex;
+    gap: 16px;
+  }
+
+  .kbd-chip {
+    padding: 2px 6px;
+    border: 1px solid #333;
+    color: #555;
+  }
+
+  /* Combo gauge bar */
+  .combo-gauge {
+    height: 3px;
+    background: #1a0030;
+    position: relative;
+    overflow: hidden;
+  }
+  .combo-gauge-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cyan), var(--green), var(--yellow));
+    width: 42%;
+    box-shadow: 0 0 8px var(--cyan);
+    animation: combo-shimmer 2s linear infinite;
+  }
+  @keyframes combo-shimmer {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+
+  /* Heal ring animation */
+  .heal-flash {
+    position: absolute;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--orange);
+    text-shadow: 0 0 10px var(--orange);
+    animation: heal-rise 1.5s ease-out forwards;
+    pointer-events: none;
+  }
+  @keyframes heal-rise {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-40px); }
+  }
+</style>
+</head>
+<body>
+
+<div class="particles">
+  <div class="particle" style="left:10%;background:#00ffff;animation-duration:8s;animation-delay:0s"></div>
+  <div class="particle" style="left:25%;background:#ff00aa;animation-duration:12s;animation-delay:2s"></div>
+  <div class="particle" style="left:40%;background:#ffee00;animation-duration:7s;animation-delay:1s"></div>
+  <div class="particle" style="left:60%;background:#00ffff;animation-duration:10s;animation-delay:3s"></div>
+  <div class="particle" style="left:75%;background:#ff00aa;animation-duration:9s;animation-delay:0.5s"></div>
+  <div class="particle" style="left:90%;background:#00ff66;animation-duration:11s;animation-delay:4s"></div>
+</div>
+
+<div class="layout">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo">TYPE//DARK</div>
+    <div class="progress-battle">
+      <div class="pbval player">自分 12</div>
+      <div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill pb-player"></div>
+        </div>
+        <div class="progress-bar-wrap" style="margin-top:3px">
+          <div class="progress-bar-fill pb-ghost"></div>
+        </div>
+      </div>
+      <div class="pbval ghost">GHO 10</div>
+    </div>
+    <div class="header-stats">
+      <div class="hs">正解 <span>89</span></div>
+      <div class="hs">ミス <span style="color:var(--red)">3</span></div>
+      <div class="hs">精度 <span>96.7%</span></div>
+      <div class="hs">TIME <span>1:23</span></div>
+    </div>
+  </div>
+
+  <!-- LEFT HP BAR -->
+  <div class="hp-bar">
+    <div class="hp-label player">PLAYER</div>
+    <div class="hp-track player">
+      <div class="hp-fill player"></div>
+      <div class="hp-ticks">
+        <div class="hp-tick"></div><div class="hp-tick"></div><div class="hp-tick"></div>
+        <div class="hp-tick"></div><div class="hp-tick"></div>
+      </div>
+    </div>
+    <div class="hp-pct player">75%</div>
+  </div>
+
+  <!-- CENTER -->
+  <div class="center">
+
+    <!-- Typing area -->
+    <div class="typing-area">
+
+      <div class="japanese-text">今日はとても良い天気ですね</div>
+
+      <div class="romaji-display">
+        <span class="rom-done">kyou ha totemo </span><span class="rom-current-done">yo</span><span class="rom-current-remain">i</span><span class="rom-pending"> tenki desu ne</span>
+      </div>
+
+      <div class="kana-pills">
+        <div class="kana-pill done">きょ</div>
+        <div class="kana-pill done">う</div>
+        <div class="kana-pill done">は</div>
+        <div class="kana-pill done">と</div>
+        <div class="kana-pill done">て</div>
+        <div class="kana-pill done">も</div>
+        <div class="kana-pill current">よ</div>
+        <div class="kana-pill pending">い</div>
+        <div class="kana-pill pending">て</div>
+        <div class="kana-pill pending">ん</div>
+        <div class="kana-pill pending">き</div>
+        <div class="kana-pill pending">で</div>
+        <div class="kana-pill pending">す</div>
+        <div class="kana-pill pending">ね</div>
+      </div>
+
+    </div>
+
+    <!-- Combo gauge bar -->
+    <div class="combo-gauge">
+      <div class="combo-gauge-fill"></div>
+    </div>
+
+    <!-- Central gauge + side stats -->
+    <div class="gauge-section">
+
+      <div class="gauge-side-stats">
+        <div class="side-stat">
+          <div class="side-stat-label">CORRECT</div>
+          <div class="side-stat-val val-green">89</div>
+        </div>
+        <div class="side-stat">
+          <div class="side-stat-label">MISS</div>
+          <div class="side-stat-val val-red">3</div>
+        </div>
+      </div>
+
+      <div class="gauge-svg-wrap">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><title>Speed and combo gauge</title>
+          <defs>
+            <filter id="glow-cyan">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glow-pink">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- BG circle -->
+          <circle cx="100" cy="100" r="90" fill="none" stroke="#1a0030" stroke-width="2"/>
+          <!-- Ghost speed arc (outer, magenta) -->
+          <path d="M 100 10 A 90 90 0 0 1 185 127" fill="none" stroke="#cc00cc" stroke-width="8" stroke-linecap="round" opacity="0.5" filter="url(#glow-pink)"/>
+          <!-- Player speed arc (inner, cyan) -->
+          <path d="M 100 18 A 82 82 0 0 1 171 121" fill="none" stroke="#00ffff" stroke-width="5" stroke-linecap="round" filter="url(#glow-cyan)"/>
+          <!-- Heal ring (outermost) -->
+          <circle cx="100" cy="100" r="96" fill="none" stroke="#ff8800" stroke-width="3"
+            stroke-dasharray="603" stroke-dashoffset="362" stroke-linecap="round"
+            transform="rotate(-90 100 100)" opacity="0.8" filter="url(#glow-pink)"/>
+          <!-- Tick marks -->
+          <line x1="100" y1="10" x2="100" y2="22" stroke="#333" stroke-width="1"/>
+          <line x1="190" y1="100" x2="178" y2="100" stroke="#333" stroke-width="1"/>
+          <line x1="10" y1="100" x2="22" y2="100" stroke="#333" stroke-width="1"/>
+          <line x1="100" y1="190" x2="100" y2="178" stroke="#333" stroke-width="1"/>
+        </svg>
+        <div class="gauge-center-text">
+          <div class="streak-label">×4 STREAK</div>
+          <div class="combo-num">142</div>
+          <div class="combo-label">COMBO</div>
+          <div class="speed-val">8.3</div>
+          <div class="speed-unit">打/秒</div>
+        </div>
+      </div>
+
+      <div class="gauge-side-stats" style="align-items:flex-end">
+        <div class="side-stat" style="align-items:flex-end">
+          <div class="side-stat-label">ACCURACY</div>
+          <div class="side-stat-val val-yellow">96.7%</div>
+        </div>
+        <div class="side-stat" style="align-items:flex-end">
+          <div class="side-stat-label">TIME</div>
+          <div class="side-stat-val val-gray">1:23</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Keyboard display -->
+    <div class="keyboard-section">
+      <div class="kb-row">
+        <div class="key warm">Q</div><div class="key">W</div><div class="key">E</div>
+        <div class="key">R</div><div class="key">T</div><div class="key active">Y</div>
+        <div class="key">U</div><div class="key">I</div><div class="key">O</div>
+        <div class="key hot">P</div>
+      </div>
+      <div class="kb-row">
+        <div class="key">A</div><div class="key">S</div><div class="key">D</div>
+        <div class="key">F</div><div class="key">G</div><div class="key">H</div>
+        <div class="key">J</div><div class="key">K</div><div class="key">L</div>
+      </div>
+      <div class="kb-row">
+        <div class="key wide">Z</div><div class="key">X</div><div class="key">C</div>
+        <div class="key">V</div><div class="key">B</div><div class="key">N</div>
+        <div class="key">M</div>
+      </div>
+      <div class="kb-row">
+        <div class="key space"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT GHOST HP BAR -->
+  <div class="hp-bar right">
+    <div class="hp-label ghost">GHOST</div>
+    <div class="hp-track ghost">
+      <div class="hp-fill ghost"></div>
+      <div class="hp-ticks">
+        <div class="hp-tick"></div><div class="hp-tick"></div><div class="hp-tick"></div>
+        <div class="hp-tick"></div><div class="hp-tick"></div>
+      </div>
+    </div>
+    <div class="hp-pct ghost">60%</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-hint">
+      <span class="kbd-chip">ESC</span>
+      <span>QUIT</span>
+      <span class="kbd-chip">TAB</span>
+      <span>KEYBOARD</span>
+    </div>
+    <div style="color:#333">CONCEPT 1 — NEON ARCADE</div>
+    <div style="color:var(--cyan)">HP: 75%</div>
+  </div>
+
+</div>
+</body>
+</html>
