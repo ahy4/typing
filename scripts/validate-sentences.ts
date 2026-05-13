@@ -111,7 +111,9 @@ for (const s of raw) {
 
 console.log(`\nValidation results: ${raw.length} sentences checked`);
 console.log(`  ✓ valid:   ${valid.length}`);
-console.log(`  ✗ errors:  ${errors.length}  (bad generation output — discard)\n`);
+console.log(
+	`  ✗ errors:  ${errors.length}  (bad generation output — discard)\n`,
+);
 
 if (errors.length > 0) {
 	console.log("=== Errors (discard) ===");
