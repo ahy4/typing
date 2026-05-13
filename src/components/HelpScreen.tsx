@@ -42,7 +42,7 @@ export function HelpScreen({ onBack }: Props) {
 								letterSpacing: "3px",
 							}}
 						>
-							TYPE//DARK
+							{"TYPE//DARK"}
 						</div>
 						<div
 							style={{
@@ -188,7 +188,7 @@ export function HelpScreen({ onBack }: Props) {
 									marginTop: "4px",
 								}}
 							>
-								左バー = 自分のHP　右バー = ゴーストのHP
+								左バー = 自分のHP{"　"}右バー = ゴーストのHP
 							</p>
 						</div>
 					</section>

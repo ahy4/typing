@@ -68,10 +68,7 @@ export function KeyboardDisplay({ keyStats, highlight = [] }: Props) {
 			}}
 		>
 			{ROWS.map((row, ri) => (
-				<div
-					key={row[0] ?? ri}
-					style={{ display: "flex", gap: "4px" }}
-				>
+				<div key={row[0] ?? ri} style={{ display: "flex", gap: "4px" }}>
 					{ri === 1 && <div style={{ width: "16px" }} />}
 					{ri === 2 && <div style={{ width: "32px" }} />}
 					{row.map((key) => {

@@ -181,12 +181,11 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 						fontFamily: "'Press Start 2P', monospace",
 						fontSize: "13px",
 						color: "#00ffff",
-						textShadow:
-							"0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff",
+						textShadow: "0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff",
 						letterSpacing: "3px",
 					}}
 				>
-					TYPE//DARK
+					{"TYPE//DARK"}
 				</div>
 
 				{/* Progress battle */}
@@ -273,9 +272,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 				>
 					<span>
 						正解{" "}
-						<span
-							style={{ color: "#ffee00", textShadow: "0 0 8px #ffee00" }}
-						>
+						<span style={{ color: "#ffee00", textShadow: "0 0 8px #ffee00" }}>
 							{state.totalCorrect}
 						</span>
 					</span>
@@ -287,17 +284,13 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					</span>
 					<span>
 						精度{" "}
-						<span
-							style={{ color: "#ffee00", textShadow: "0 0 8px #ffee00" }}
-						>
+						<span style={{ color: "#ffee00", textShadow: "0 0 8px #ffee00" }}>
 							{acc}%
 						</span>
 					</span>
 					<span>
 						TIME{" "}
-						<span
-							style={{ color: "#ffee00", textShadow: "0 0 8px #ffee00" }}
-						>
+						<span style={{ color: "#ffee00", textShadow: "0 0 8px #ffee00" }}>
 							{timeStr}
 						</span>
 					</span>
@@ -464,7 +457,8 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								background: `linear-gradient(90deg, ${comboBgColor}, #00ff66, #ffee00, ${comboBgColor})`,
 								backgroundSize: "200% 100%",
 								boxShadow: `0 0 8px ${comboBgColor}`,
-								animation: player.combo > 0 ? "comboShimmer 2s linear infinite" : "none",
+								animation:
+									player.combo > 0 ? "comboShimmer 2s linear infinite" : "none",
 								transition: "width 0.1s",
 							}}
 						/>
@@ -562,7 +556,13 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								alignItems: "flex-end",
 							}}
 						>
-							<div style={{ alignItems: "flex-end", display: "flex", flexDirection: "column" }}>
+							<div
+								style={{
+									alignItems: "flex-end",
+									display: "flex",
+									flexDirection: "column",
+								}}
+							>
 								<div
 									style={{
 										fontFamily: "'Press Start 2P', monospace",
@@ -586,7 +586,13 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 									{acc}%
 								</div>
 							</div>
-							<div style={{ alignItems: "flex-end", display: "flex", flexDirection: "column" }}>
+							<div
+								style={{
+									alignItems: "flex-end",
+									display: "flex",
+									flexDirection: "column",
+								}}
+							>
 								<div
 									style={{
 										fontFamily: "'Press Start 2P', monospace",
@@ -674,8 +680,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								style={{
 									width: "100%",
 									height: `${ghostLifePct}%`,
-									background:
-										"linear-gradient(to top, #660044, #ff00aa)",
+									background: "linear-gradient(to top, #660044, #ff00aa)",
 									boxShadow:
 										"0 0 12px #ff00aa, inset 0 0 12px rgba(255,0,170,0.3)",
 									transition: "height 0.1s",

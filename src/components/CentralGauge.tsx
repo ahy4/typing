@@ -85,7 +85,9 @@ export function CentralGauge({
 				: { overflow: "visible" };
 
 	return (
-		<div style={{ position: "relative", width: SIZE, height: SIZE, flexShrink: 0 }}>
+		<div
+			style={{ position: "relative", width: SIZE, height: SIZE, flexShrink: 0 }}
+		>
 			<svg
 				width={SIZE}
 				height={SIZE}
@@ -251,7 +253,9 @@ export function CentralGauge({
 						transformBox: "fill-box",
 						transformOrigin: "center",
 						textShadow: `0 0 16px ${comboColor}, 0 0 32px ${comboColor}50`,
-						animation: comboAnim ? "comboPop 0.2s ease-out forwards" : undefined,
+						animation: comboAnim
+							? "comboPop 0.2s ease-out forwards"
+							: undefined,
 					}}
 					onAnimationEnd={() => setComboAnim(false)}
 				>
@@ -281,8 +285,14 @@ export function CentralGauge({
 					opacity={0.9}
 				>
 					<tspan fontSize={16}>{speed.toFixed(1)}</tspan>
-					<tspan fontSize={9} dy="2" fill="#666" fontFamily="'Share Tech Mono', monospace">
-						{" "}打/秒
+					<tspan
+						fontSize={9}
+						dy="2"
+						fill="#666"
+						fontFamily="'Share Tech Mono', monospace"
+					>
+						{" "}
+						打/秒
 					</tspan>
 				</text>
 			</svg>

@@ -75,13 +75,12 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						fontFamily: "'Press Start 2P', monospace",
 						fontSize: "28px",
 						color: "#00ffff",
-						textShadow:
-							"0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff",
+						textShadow: "0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff",
 						letterSpacing: "4px",
 						animation: "neonPulse 3s ease-in-out infinite",
 					}}
 				>
-					TYPE//DARK
+					{"TYPE//DARK"}
 				</div>
 				<div
 					style={{
@@ -175,7 +174,8 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						border: "2px solid #00ffff",
 						color: "#00ffff",
 						background: "transparent",
-						boxShadow: "0 0 20px #00ffff44, inset 0 0 20px rgba(0,255,255,0.05)",
+						boxShadow:
+							"0 0 20px #00ffff44, inset 0 0 20px rgba(0,255,255,0.05)",
 						display: "flex",
 						flexDirection: "column",
 						alignItems: "center",

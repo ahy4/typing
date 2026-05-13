@@ -20,7 +20,7 @@
 
 /* CRT scanlines */
 body::before {
-	content: '';
+	content: "";
 	position: fixed;
 	inset: 0;
 	background: repeating-linear-gradient(
@@ -36,10 +36,14 @@ body::before {
 
 /* CRT vignette */
 body::after {
-	content: '';
+	content: "";
 	position: fixed;
 	inset: 0;
-	background: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.85) 100%);
+	background: radial-gradient(
+		ellipse at center,
+		transparent 60%,
+		rgba(0, 0, 0, 0.85) 100%
+	);
 	pointer-events: none;
 	z-index: 101;
 }
@@ -53,7 +57,7 @@ body,
 	height: 100%;
 	background: var(--bg);
 	color: #fff;
-	font-family: 'Share Tech Mono', 'JetBrains Mono', 'Fira Code', monospace;
+	font-family: "Share Tech Mono", "JetBrains Mono", "Fira Code", monospace;
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
@@ -208,10 +212,17 @@ body,
 }
 
 @keyframes neonPulse {
-	0%, 100% {
-		text-shadow: 0 0 10px var(--cyan), 0 0 20px var(--cyan), 0 0 40px var(--cyan);
+	0%,
+	100% {
+		text-shadow:
+			0 0 10px var(--cyan),
+			0 0 20px var(--cyan),
+			0 0 40px var(--cyan);
 	}
 	50% {
-		text-shadow: 0 0 20px var(--cyan), 0 0 40px var(--cyan), 0 0 80px var(--cyan);
+		text-shadow:
+			0 0 20px var(--cyan),
+			0 0 40px var(--cyan),
+			0 0 80px var(--cyan);
 	}
 }
