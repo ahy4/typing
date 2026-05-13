@@ -5,7 +5,7 @@
 				"hooks": [
 					{
 						"type": "command",
-						"command": "cd /home/user/typing && npm install",
+						"command": "npm install",
 						"timeout": 60,
 						"statusMessage": "npm install 中..."
 					}
@@ -17,7 +17,7 @@
 				"hooks": [
 					{
 						"type": "command",
-						"command": "/home/user/typing/.claude/stop-lint-build-check.sh",
+						"command": ".claude/stop-lint-build-check.sh",
 						"timeout": 120,
 						"statusMessage": "ESLint / Biome / Build チェック中..."
 					}
