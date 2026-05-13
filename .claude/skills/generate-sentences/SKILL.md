@@ -1,3 +1,8 @@
+---
+name: generate-sentences
+description: タイピングゲーム用のお題（Sentence[]）を生成し、検証してJSONに書き出す。テーマ・件数・長さをユーザーにヒアリングし、claude-haikuで生成後にvalidate-sentences.tsで検証する。
+---
+
 # お題生成スキル
 
 タイピングゲーム用のお題（`Sentence[]`）を生成し、検証してJSONに書き出す。
@@ -38,7 +43,7 @@
    - NG: `kana: "コーヒー"` / OK: `kana: "こーひー"`
 2. **英単語は小文字のみ**。大文字禁止
    - NG: `kana: "USB接続"` / OK: `kana: "usbせつぞく"`
-   - NG: `kana: "Wi-Fi"` / OK: `kana: "wi-fi"`
+   - NG: `kana: "Wi-Fi"` / OK: `kana: "wi-fiがつながらない"`
 3. **長音符 `ー` はひらがなと共存 OK**
    - `こーひー`、`すぽーつ` のように使う
 4. **完全英語文は禁止**。必ず日本語を含む
@@ -57,8 +62,7 @@
 
 ## ん のルール
 
-- `ん` の次が母音・y・n・語末の場合 → `nn` で打つ（`n` だけでは不完全）
-- 例: `本を読む` → `kana: "ほんをよむ"` （`ん` の後が `を` なので `nn` 必須だが、kana としては `ほんをよむ` と書けばエンジンが自動判定する）
+- `ん` の次が母音・y・n・語末の場合 → `nn` で打つ必要があるが、kana としては `ほんをよむ` と書けばエンジンが自動判定する
 
 ## 長さ制限
 
@@ -109,13 +113,9 @@ node --experimental-strip-types scripts/validate-sentences.ts /tmp/sentences_dra
 
 検証をパスした文のみを、ユーザーが指定した出力先に書き出す。
 
-出力前に `output/` ディレクトリが存在しない場合は作成する。
+出力前にディレクトリが存在しない場合は作成する。
 
 **注意: `src/lib/generated/sentences.json` は上書きしない。**
-
-```bash
-mkdir -p $(dirname <出力先パス>)
-```
 
 ファイルに書き出し後、結果をユーザーに報告する：
 - 生成数 / 有効数 / type-A 除外数 / type-B Issue 登録数
