@@ -1,6 +1,4 @@
 #!/bin/bash
-cd /home/user/typing
-
 ERRORS=()
 
 # ESLint
