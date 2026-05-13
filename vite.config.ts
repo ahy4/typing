@@ -5,4 +5,7 @@ import { defineConfig } from "vite";
 export default defineConfig({
 	base: "/typing/",
 	plugins: [react(), tailwindcss()],
+	test: {
+		include: ["src/**/*.test.ts"],
+	},
 });

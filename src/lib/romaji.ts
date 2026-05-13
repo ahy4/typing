@@ -141,13 +141,13 @@ const KANA_MAP_RAW: Record<string, string[]> = {
 	びぇ: ["bye"],
 	びょ: ["byo"],
 	// ── ヴ compounds ──
-	ヴぁ: ["va"],
-	ヴぃ: ["vi", "vyi"],
-	ヴぇ: ["ve", "vye"],
-	ヴぉ: ["vo"],
-	ヴゃ: ["vya"],
-	ヴゅ: ["vyu"],
-	ヴょ: ["vyo"],
+	ゔぁ: ["va"],
+	ゔぃ: ["vi", "vyi"],
+	ゔぇ: ["ve", "vye"],
+	ゔぉ: ["vo"],
+	ゔゃ: ["vya"],
+	ゔゅ: ["vyu"],
+	ゔょ: ["vyo"],
 	// ── ぱ行 compounds ──
 	ぴゃ: ["pya"],
 	ぴぃ: ["pyi"],
@@ -158,7 +158,7 @@ const KANA_MAP_RAW: Record<string, string[]> = {
 	うぁ: ["wha"],
 	うぃ: ["wi", "whi"],
 	うぇ: ["we", "whe"],
-	うぉ: ["wo", "who"],
+	うぉ: ["who"],
 	// ── いぇ ──
 	いぇ: ["ye"],
 	// ── 単独かな ──
@@ -235,7 +235,7 @@ const KANA_MAP_RAW: Record<string, string[]> = {
 	ぷ: ["pu"],
 	ぺ: ["pe"],
 	ぽ: ["po"],
-	ヴ: ["vu"],
+	ゔ: ["vu"],
 	ぁ: ["xa", "la"],
 	ぃ: ["xi", "li", "lyi", "xyi"],
 	ぅ: ["xu", "lu"],
