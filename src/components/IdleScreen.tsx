@@ -25,7 +25,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 				justifyContent: "center",
 				height: "100vh",
 				background: "var(--bg)",
-				gap: "40px",
+				gap: "52px",
 				userSelect: "none",
 				position: "relative",
 				overflow: "hidden",
@@ -65,7 +65,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 					display: "flex",
 					flexDirection: "column",
 					alignItems: "center",
-					gap: "12px",
+					gap: "16px",
 					position: "relative",
 					zIndex: 1,
 				}}
@@ -73,10 +73,10 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 				<div
 					style={{
 						fontFamily: "'Press Start 2P', monospace",
-						fontSize: "28px",
+						fontSize: "42px",
 						color: "#00ffff",
 						textShadow: "0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff",
-						letterSpacing: "4px",
+						letterSpacing: "6px",
 						animation: "neonPulse 3s ease-in-out infinite",
 					}}
 				>
@@ -85,8 +85,8 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 				<div
 					style={{
 						color: "#444",
-						fontSize: "10px",
-						letterSpacing: "4px",
+						fontSize: "13px",
+						letterSpacing: "5px",
 						textTransform: "uppercase",
 						fontFamily: "'Share Tech Mono', monospace",
 					}}
@@ -100,7 +100,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 				<div
 					style={{
 						display: "flex",
-						gap: "40px",
+						gap: "56px",
 						textAlign: "center",
 						position: "relative",
 						zIndex: 1,
@@ -110,7 +110,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						<div
 							style={{
 								fontFamily: "'Press Start 2P', monospace",
-								fontSize: "28px",
+								fontSize: "40px",
 								color: "#00ffff",
 								textShadow: "0 0 16px #00ffff",
 							}}
@@ -119,12 +119,12 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						</div>
 						<div
 							style={{
-								fontSize: "9px",
+								fontSize: "10px",
 								color: "#444",
 								textTransform: "uppercase",
 								letterSpacing: "3px",
 								fontFamily: "'Press Start 2P', monospace",
-								marginTop: "6px",
+								marginTop: "10px",
 							}}
 						>
 							最高打/秒
@@ -134,7 +134,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						<div
 							style={{
 								fontFamily: "'Press Start 2P', monospace",
-								fontSize: "28px",
+								fontSize: "40px",
 								color: "#888",
 							}}
 						>
@@ -142,12 +142,12 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						</div>
 						<div
 							style={{
-								fontSize: "9px",
+								fontSize: "10px",
 								color: "#444",
 								textTransform: "uppercase",
 								letterSpacing: "3px",
 								fontFamily: "'Press Start 2P', monospace",
-								marginTop: "6px",
+								marginTop: "10px",
 							}}
 						>
 							回数
@@ -161,7 +161,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 				style={{
 					display: "flex",
 					flexDirection: "column",
-					gap: "16px",
+					gap: "20px",
 					alignItems: "center",
 					position: "relative",
 					zIndex: 1,
@@ -169,7 +169,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 			>
 				<div
 					style={{
-						padding: "20px 48px",
+						padding: "28px 64px",
 						fontFamily: "'Press Start 2P', monospace",
 						border: "2px solid #00ffff",
 						color: "#00ffff",
@@ -179,16 +179,16 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						display: "flex",
 						flexDirection: "column",
 						alignItems: "center",
-						gap: "10px",
+						gap: "14px",
 					}}
 				>
-					<span style={{ fontSize: "14px", letterSpacing: "3px" }}>
+					<span style={{ fontSize: "18px", letterSpacing: "4px" }}>
 						ゲームスタート
 					</span>
 					<span
 						style={{
-							fontSize: "8px",
-							letterSpacing: "2px",
+							fontSize: "10px",
+							letterSpacing: "3px",
 							opacity: 0.6,
 							color: "#88ffff",
 						}}
@@ -196,14 +196,14 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						[ SPACE ] を押してスタート
 					</span>
 				</div>
-				<div style={{ display: "flex", gap: "12px" }}>
+				<div style={{ display: "flex", gap: "16px" }}>
 					<button
 						type="button"
 						onClick={onStats}
 						style={{
-							padding: "8px 24px",
+							padding: "12px 32px",
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "9px",
+							fontSize: "11px",
 							color: "#555",
 							background: "none",
 							border: "1px solid #2a0050",
@@ -228,9 +228,9 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						type="button"
 						onClick={onHelp}
 						style={{
-							padding: "8px 24px",
+							padding: "12px 32px",
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "9px",
+							fontSize: "11px",
 							color: "#555",
 							background: "none",
 							border: "1px solid #2a0050",
@@ -254,13 +254,12 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 				</div>
 			</div>
 
-			{/* Bottom label */}
 			<div
 				style={{
 					position: "absolute",
-					bottom: "12px",
+					bottom: "16px",
 					fontFamily: "'Press Start 2P', monospace",
-					fontSize: "7px",
+					fontSize: "8px",
 					color: "#2a0050",
 					zIndex: 1,
 					letterSpacing: "2px",

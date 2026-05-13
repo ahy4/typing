@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 
-const SIZE = 200;
+const SIZE = 260;
 const CX = SIZE / 2;
 const CY = SIZE / 2;
-const OUTER_R = 90;
-const INNER_R = 72;
-const OUTER_STROKE = 10;
-const INNER_TRACK_STROKE = 14;
-const GHOST_INNER_STROKE = 11;
-const PLAYER_INNER_STROKE = 5;
+const OUTER_R = 116;
+const INNER_R = 94;
+const OUTER_STROKE = 13;
+const INNER_TRACK_STROKE = 18;
+const GHOST_INNER_STROKE = 15;
+const PLAYER_INNER_STROKE = 6;
 const MAX_KPS = 12;
 
 interface Props {
@@ -161,7 +161,7 @@ export function CentralGauge({
 					strokeWidth={INNER_TRACK_STROKE}
 				/>
 
-				{/* Ghost speed arc — lower layer, thicker, pink */}
+				{/* Ghost speed arc */}
 				{ghostInnerOffset !== null && (
 					<circle
 						cx={CX}
@@ -202,7 +202,7 @@ export function CentralGauge({
 					onAnimationEnd={() => setRingFlash(false)}
 				/>
 
-				{/* Inner ring: player speed — upper layer, thinner */}
+				{/* Inner ring: player speed */}
 				<circle
 					cx={CX}
 					cy={CY}
@@ -219,19 +219,33 @@ export function CentralGauge({
 				/>
 
 				{/* Tick marks */}
-				<line x1={CX} y1="10" x2={CX} y2="22" stroke="#333" strokeWidth="1" />
-				<line x1="190" y1={CY} x2="178" y2={CY} stroke="#333" strokeWidth="1" />
-				<line x1="10" y1={CY} x2="22" y2={CY} stroke="#333" strokeWidth="1" />
-				<line x1={CX} y1="190" x2={CX} y2="178" stroke="#333" strokeWidth="1" />
+				<line x1={CX} y1="12" x2={CX} y2="26" stroke="#333" strokeWidth="1" />
+				<line
+					x1={SIZE - 12}
+					y1={CY}
+					x2={SIZE - 26}
+					y2={CY}
+					stroke="#333"
+					strokeWidth="1"
+				/>
+				<line x1="12" y1={CY} x2="26" y2={CY} stroke="#333" strokeWidth="1" />
+				<line
+					x1={CX}
+					y1={SIZE - 12}
+					x2={CX}
+					y2={SIZE - 26}
+					stroke="#333"
+					strokeWidth="1"
+				/>
 
 				{/* Streak label */}
 				{healStreak > 0 && (
 					<text
 						x={CX}
-						y={CY - 34}
+						y={CY - 44}
 						textAnchor="middle"
 						fill={streakColor}
-						fontSize={8}
+						fontSize={9}
 						fontFamily="'Press Start 2P', monospace"
 						opacity={0.9}
 					>
@@ -242,11 +256,11 @@ export function CentralGauge({
 				{/* Combo number */}
 				<text
 					x={CX}
-					y={CY - 10}
+					y={CY - 12}
 					textAnchor="middle"
 					dominantBaseline="central"
 					fill={comboColor}
-					fontSize={32}
+					fontSize={42}
 					fontFamily="'Press Start 2P', monospace"
 					style={{
 						userSelect: "none",
@@ -265,10 +279,10 @@ export function CentralGauge({
 				{/* COMBO label */}
 				<text
 					x={CX}
-					y={CY + 10}
+					y={CY + 12}
 					textAnchor="middle"
 					fill="#555"
-					fontSize={8}
+					fontSize={10}
 					fontFamily="'Press Start 2P', monospace"
 					letterSpacing="0.2em"
 				>
@@ -278,15 +292,15 @@ export function CentralGauge({
 				{/* Speed value */}
 				<text
 					x={CX}
-					y={CY + 30}
+					y={CY + 38}
 					textAnchor="middle"
 					fill="#00ffff"
 					fontFamily="'Press Start 2P', monospace"
 					opacity={0.9}
 				>
-					<tspan fontSize={16}>{speed.toFixed(1)}</tspan>
+					<tspan fontSize={20}>{speed.toFixed(1)}</tspan>
 					<tspan
-						fontSize={9}
+						fontSize={11}
 						dy="2"
 						fill="#666"
 						fontFamily="'Share Tech Mono', monospace"

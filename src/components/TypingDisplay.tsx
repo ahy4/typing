@@ -22,7 +22,7 @@ export function TypingDisplay({
 			style={{
 				display: "flex",
 				flexDirection: "column",
-				gap: "12px",
+				gap: "16px",
 				alignItems: "center",
 				userSelect: "none",
 			}}
@@ -30,8 +30,8 @@ export function TypingDisplay({
 			{/* Japanese */}
 			<div
 				style={{
-					fontSize: "26px",
-					letterSpacing: "4px",
+					fontSize: "40px",
+					letterSpacing: "6px",
 					color: lastWrong ? "#ff6666" : "#aaaaaa",
 					textShadow: lastWrong
 						? "0 0 12px #ff333388"
@@ -50,13 +50,12 @@ export function TypingDisplay({
 					alignItems: "baseline",
 					gap: "0",
 					fontFamily: "'Press Start 2P', monospace",
-					fontSize: "22px",
+					fontSize: "28px",
 					flexWrap: "wrap",
 					justifyContent: "center",
-					lineHeight: 1.6,
+					lineHeight: 1.7,
 				}}
 			>
-				{/* completed segments */}
 				<span
 					style={{
 						color: "#00ffff",
@@ -65,7 +64,6 @@ export function TypingDisplay({
 				>
 					{done}
 				</span>
-				{/* current segment: typed part */}
 				<span
 					style={{
 						color: "#88ffff",
@@ -74,7 +72,6 @@ export function TypingDisplay({
 				>
 					{typed}
 				</span>
-				{/* current segment: remaining */}
 				<span
 					style={{
 						color: lastWrong ? "#ff4444" : "#cccccc",
@@ -87,7 +84,6 @@ export function TypingDisplay({
 				>
 					{remainingInCurrent}
 				</span>
-				{/* pending segments */}
 				<span style={{ color: "#333" }}>{pending}</span>
 			</div>
 
@@ -95,7 +91,7 @@ export function TypingDisplay({
 			<div
 				style={{
 					display: "flex",
-					gap: "4px",
+					gap: "6px",
 					flexWrap: "wrap",
 					justifyContent: "center",
 				}}
@@ -110,9 +106,9 @@ export function TypingDisplay({
 								.map((s) => s.kana)
 								.join("")}
 							style={{
-								padding: "3px 8px",
+								padding: "4px 10px",
 								border: `1px solid ${isDone ? "#00cccc" : isCurrent ? "#00ffff" : "#333"}`,
-								fontSize: "11px",
+								fontSize: "14px",
 								fontFamily: "'Share Tech Mono', monospace",
 								background: isDone
 									? "rgba(0,255,255,0.15)"
@@ -125,7 +121,6 @@ export function TypingDisplay({
 									: isCurrent
 										? "0 0 4px rgba(0,255,255,0.3)"
 										: "none",
-								animation: isCurrent ? "pulseBorder 1s infinite" : "none",
 							}}
 						>
 							{seg.kana}

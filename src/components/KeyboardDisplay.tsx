@@ -63,26 +63,26 @@ export function KeyboardDisplay({ keyStats, highlight = [] }: Props) {
 				display: "flex",
 				flexDirection: "column",
 				alignItems: "center",
-				gap: "4px",
-				padding: "10px 16px",
+				gap: "5px",
+				padding: "12px 20px",
 			}}
 		>
 			{ROWS.map((row, ri) => (
-				<div key={row[0] ?? ri} style={{ display: "flex", gap: "4px" }}>
-					{ri === 1 && <div style={{ width: "16px" }} />}
-					{ri === 2 && <div style={{ width: "32px" }} />}
+				<div key={row[0] ?? ri} style={{ display: "flex", gap: "5px" }}>
+					{ri === 1 && <div style={{ width: "22px" }} />}
+					{ri === 2 && <div style={{ width: "44px" }} />}
 					{row.map((key) => {
 						const keyStyle = getKeyStyle(key);
 						return (
 							<div
 								key={key}
 								style={{
-									width: "32px",
-									height: "30px",
+									width: "46px",
+									height: "42px",
 									display: "flex",
 									alignItems: "center",
 									justifyContent: "center",
-									fontSize: "10px",
+									fontSize: "13px",
 									fontFamily: "'Press Start 2P', monospace",
 									border: "1px solid",
 									transition: "all 0.1s",
@@ -95,18 +95,17 @@ export function KeyboardDisplay({ keyStats, highlight = [] }: Props) {
 					})}
 				</div>
 			))}
-			{/* Space bar row */}
-			<div style={{ display: "flex", gap: "4px", marginTop: "0" }}>
+			<div style={{ display: "flex", gap: "5px" }}>
 				<div
 					style={{
-						width: "160px",
-						height: "30px",
+						width: "220px",
+						height: "42px",
 						background: "#0d001a",
 						border: "1px solid #2a0050",
 						display: "flex",
 						alignItems: "center",
 						justifyContent: "center",
-						fontSize: "9px",
+						fontSize: "11px",
 						fontFamily: "'Press Start 2P', monospace",
 						color: "#222",
 					}}

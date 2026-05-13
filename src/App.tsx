@@ -13,7 +13,7 @@ import type { GamePhase } from "./lib/types";
 const PHASE_TO_PATH: Record<GamePhase, string> = {
 	idle: "/",
 	help: "/help",
-	ready: "/ready",
+	ready: "/play", // same URL as playing — no route change on countdown end
 	playing: "/play",
 	gameover: "/gameover",
 	stats: "/stats",
@@ -34,8 +34,6 @@ export default function App() {
 	const navigate = useNavigate();
 
 	// phase → URL (app-driven transitions)
-	// Reads window.location.hash to avoid adding location to deps (which would
-	// fight browser back navigation).
 	useEffect(() => {
 		const expectedPath = PHASE_TO_PATH[state.phase];
 		const currentPath = window.location.hash.slice(1) || "/";
@@ -45,7 +43,6 @@ export default function App() {
 	}, [state.phase, navigate]);
 
 	// URL → phase (browser back/forward)
-	// popstate fires only for browser-initiated navigation, not for navigate().
 	useEffect(() => {
 		const handlePopState = () => {
 			const hash = window.location.hash;
@@ -95,24 +92,19 @@ export default function App() {
 				}
 			/>
 			<Route
-				path="/ready"
-				element={
-					state.phase === "ready" ? (
-						<ReadyScreen onReady={beginPlaying} />
-					) : (
-						<Navigate to="/" replace />
-					)
-				}
-			/>
-			<Route
 				path="/play"
 				element={
-					state.phase === "playing" ? (
-						<GameScreen
-							state={state}
-							showKeyboard={showKeyboard}
-							onToggleKeyboard={() => setShowKeyboard((v) => !v)}
-						/>
+					state.phase === "playing" || state.phase === "ready" ? (
+						<div style={{ position: "relative", height: "100vh" }}>
+							<GameScreen
+								state={state}
+								showKeyboard={showKeyboard && state.phase === "playing"}
+								onToggleKeyboard={() => setShowKeyboard((v) => !v)}
+							/>
+							{state.phase === "ready" && (
+								<ReadyScreen onReady={beginPlaying} />
+							)}
+						</div>
 					) : (
 						<Navigate to="/" replace />
 					)

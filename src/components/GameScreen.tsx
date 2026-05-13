@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { GameState } from "../hooks/useGameEngine";
+import { LIFE_MAX } from "../lib/runnerState";
 import { CentralGauge } from "./CentralGauge";
 import { KeyboardDisplay } from "./KeyboardDisplay";
 import { TypingDisplay } from "./TypingDisplay";
@@ -10,9 +11,9 @@ interface Props {
 	onToggleKeyboard: () => void;
 }
 
-function lifeColor(life: number): string {
-	if (life > 60) return "#00ffff";
-	if (life > 30) return "#ffaa00";
+function lifeColor(pct: number): string {
+	if (pct > 60) return "#00ffff";
+	if (pct > 30) return "#ffaa00";
 	return "#ff2244";
 }
 
@@ -51,7 +52,9 @@ const PARTICLES = [
 export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 	const { player, ghost } = state;
 	const sentence = player.sentences[player.sentenceIdx];
-	const lifePct = Math.max(0, Math.min(100, player.life));
+
+	// Normalize life to 0-100% for display
+	const lifePct = Math.max(0, Math.min(100, (player.life / LIFE_MAX) * 100));
 	const lc = lifeColor(lifePct);
 	const cc = comboColor(player.combo);
 
@@ -77,7 +80,9 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 		}
 	}, [state.lastHealId, state.lastHealAmount]);
 
-	const ghostLifePct = ghost ? Math.max(0, Math.min(100, ghost.life)) : 0;
+	const ghostLifePct = ghost
+		? Math.max(0, Math.min(100, (ghost.life / LIFE_MAX) * 100))
+		: 0;
 	const acc =
 		state.totalCorrect + state.totalErrors > 0
 			? Math.round(
@@ -109,7 +114,6 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 	const secs = elapsedSec % 60;
 	const timeStr = `${mins}:${secs.toString().padStart(2, "0")}`;
 
-	// Combo gauge fill pct (cycles per 100 combo)
 	const comboMilestone = 100;
 	const comboPct =
 		player.combo === 0
@@ -166,7 +170,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "space-between",
-					padding: "8px 16px",
+					padding: "10px 20px",
 					borderBottom: "2px solid #ff00aa",
 					boxShadow: "0 0 20px #ff00aa, 0 0 40px rgba(255,0,170,0.3)",
 					background: "rgba(13,0,26,0.9)",
@@ -179,7 +183,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 				<div
 					style={{
 						fontFamily: "'Press Start 2P', monospace",
-						fontSize: "13px",
+						fontSize: "18px",
 						color: "#00ffff",
 						textShadow: "0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff",
 						letterSpacing: "3px",
@@ -193,25 +197,24 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					style={{
 						display: "flex",
 						alignItems: "center",
-						gap: "10px",
-						fontSize: "10px",
+						gap: "12px",
 					}}
 				>
 					<div
 						style={{
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "9px",
+							fontSize: "11px",
 							color: "#00ffff",
 							textShadow: "0 0 6px #00ffff",
 						}}
 					>
 						自分 {myProgress}
 					</div>
-					<div style={{ display: "flex", flexDirection: "column", gap: "3px" }}>
+					<div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
 						<div
 							style={{
-								width: "120px",
-								height: "7px",
+								width: "160px",
+								height: "9px",
 								background: "#1a0030",
 								border: "1px solid #440088",
 								overflow: "hidden",
@@ -229,8 +232,8 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 						</div>
 						<div
 							style={{
-								width: "120px",
-								height: "7px",
+								width: "160px",
+								height: "9px",
 								background: "#1a0030",
 								border: "1px solid #440088",
 								overflow: "hidden",
@@ -251,7 +254,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					<div
 						style={{
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "9px",
+							fontSize: "11px",
 							color: "#ff00aa",
 							textShadow: "0 0 6px #ff00aa",
 							opacity: ghost ? 1 : 0.35,
@@ -265,9 +268,10 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 				<div
 					style={{
 						display: "flex",
-						gap: "18px",
-						fontSize: "10px",
+						gap: "20px",
+						fontSize: "13px",
 						color: "#666",
+						fontFamily: "'Share Tech Mono', monospace",
 					}}
 				>
 					<span>
@@ -305,7 +309,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 				{/* LEFT HP BAR — PLAYER */}
 				<div
 					style={{
-						width: "64px",
+						width: "80px",
 						flexShrink: 0,
 						background: "var(--panel)",
 						borderRight: "1px solid var(--border)",
@@ -313,15 +317,15 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 						flexDirection: "column",
 						alignItems: "center",
 						justifyContent: "center",
-						padding: "16px 8px",
-						gap: "8px",
+						padding: "20px 10px",
+						gap: "10px",
 						position: "relative",
 					}}
 				>
 					<div
 						style={{
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "7px",
+							fontSize: "9px",
 							writingMode: "vertical-rl",
 							textOrientation: "mixed",
 							letterSpacing: "2px",
@@ -334,7 +338,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					<div
 						style={{
 							flex: 1,
-							width: "20px",
+							width: "28px",
 							background: "#1a0030",
 							border: `1px solid ${lc}`,
 							position: "relative",
@@ -353,7 +357,6 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								transition: "height 0.1s",
 							}}
 						/>
-						{/* Tick marks */}
 						{[...Array(5)].map((_, i) => (
 							<div
 								// biome-ignore lint/suspicious/noArrayIndexKey: decorative ticks
@@ -372,14 +375,13 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					<div
 						style={{
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "8px",
+							fontSize: "11px",
 							color: lc,
 						}}
 					>
 						{Math.round(lifePct)}%
 					</div>
 
-					{/* Heal animation */}
 					{healAnim && (
 						<>
 							<div
@@ -398,7 +400,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 									position: "absolute",
 									bottom: `${lifePct}%`,
 									left: "50%",
-									fontSize: "12px",
+									fontSize: "16px",
 									fontFamily: "'Press Start 2P', monospace",
 									color: sc,
 									textShadow: `0 0 10px ${sc}, 0 0 20px ${sc}`,
@@ -421,7 +423,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					{/* Typing area */}
 					<div
 						className="flex-1 flex flex-col items-center justify-center"
-						style={{ padding: "16px 24px", gap: "16px" }}
+						style={{ padding: "20px 32px", gap: "16px" }}
 					>
 						{sentence ? (
 							<TypingDisplay
@@ -434,6 +436,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								style={{
 									color: "#666",
 									fontFamily: "'Share Tech Mono', monospace",
+									fontSize: "16px",
 								}}
 							>
 								読み込み中...
@@ -444,7 +447,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					{/* Combo gauge — thin shimmer bar */}
 					<div
 						style={{
-							height: "3px",
+							height: "4px",
 							background: "#1a0030",
 							position: "relative",
 							overflow: "hidden",
@@ -470,8 +473,8 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							display: "flex",
 							justifyContent: "center",
 							alignItems: "center",
-							padding: "8px 16px",
-							gap: "24px",
+							padding: "12px 20px",
+							gap: "32px",
 						}}
 					>
 						{/* Left side stats */}
@@ -479,19 +482,19 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							style={{
 								display: "flex",
 								flexDirection: "column",
-								gap: "14px",
-								minWidth: "100px",
+								gap: "18px",
+								minWidth: "120px",
 							}}
 						>
 							<div>
 								<div
 									style={{
 										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "8px",
+										fontSize: "10px",
 										color: "#444",
 										textTransform: "uppercase",
 										letterSpacing: "2px",
-										marginBottom: "3px",
+										marginBottom: "5px",
 									}}
 								>
 									CORRECT
@@ -499,7 +502,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								<div
 									style={{
 										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "16px",
+										fontSize: "24px",
 										color: "#00ff66",
 										textShadow: "0 0 8px #00ff66",
 									}}
@@ -511,11 +514,11 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								<div
 									style={{
 										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "8px",
+										fontSize: "10px",
 										color: "#444",
 										textTransform: "uppercase",
 										letterSpacing: "2px",
-										marginBottom: "3px",
+										marginBottom: "5px",
 									}}
 								>
 									MISS
@@ -523,7 +526,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								<div
 									style={{
 										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "16px",
+										fontSize: "24px",
 										color: "#ff2244",
 										textShadow: "0 0 8px #ff2244",
 									}}
@@ -551,8 +554,8 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							style={{
 								display: "flex",
 								flexDirection: "column",
-								gap: "14px",
-								minWidth: "100px",
+								gap: "18px",
+								minWidth: "120px",
 								alignItems: "flex-end",
 							}}
 						>
@@ -566,11 +569,11 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								<div
 									style={{
 										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "8px",
+										fontSize: "10px",
 										color: "#444",
 										textTransform: "uppercase",
 										letterSpacing: "2px",
-										marginBottom: "3px",
+										marginBottom: "5px",
 									}}
 								>
 									ACCURACY
@@ -578,7 +581,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								<div
 									style={{
 										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "16px",
+										fontSize: "24px",
 										color: "#ffee00",
 										textShadow: "0 0 8px #ffee00",
 									}}
@@ -596,11 +599,11 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								<div
 									style={{
 										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "8px",
+										fontSize: "10px",
 										color: "#444",
 										textTransform: "uppercase",
 										letterSpacing: "2px",
-										marginBottom: "3px",
+										marginBottom: "5px",
 									}}
 								>
 									TIME
@@ -608,7 +611,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								<div
 									style={{
 										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "16px",
+										fontSize: "24px",
 										color: "#888",
 									}}
 								>
@@ -636,7 +639,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 				{/* RIGHT HP BAR — GHOST */}
 				<div
 					style={{
-						width: "64px",
+						width: "80px",
 						flexShrink: 0,
 						background: "var(--panel)",
 						borderLeft: "1px solid var(--border)",
@@ -644,14 +647,14 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 						flexDirection: "column",
 						alignItems: "center",
 						justifyContent: "center",
-						padding: "16px 8px",
-						gap: "8px",
+						padding: "20px 10px",
+						gap: "10px",
 					}}
 				>
 					<div
 						style={{
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "7px",
+							fontSize: "9px",
 							writingMode: "vertical-rl",
 							textOrientation: "mixed",
 							letterSpacing: "2px",
@@ -665,7 +668,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					<div
 						style={{
 							flex: 1,
-							width: "20px",
+							width: "28px",
 							background: "#1a0030",
 							border: `1px solid ${ghost ? "#ff00aa" : "#2a0050"}`,
 							position: "relative",
@@ -705,7 +708,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					<div
 						style={{
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "8px",
+							fontSize: "11px",
 							color: "#ff00aa",
 							opacity: ghost ? 1 : 0.3,
 						}}
@@ -721,21 +724,21 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "space-between",
-					padding: "5px 16px",
+					padding: "8px 20px",
 					borderTop: "1px solid var(--border)",
 					background: "rgba(13,0,26,0.9)",
 					fontFamily: "'Press Start 2P', monospace",
-					fontSize: "9px",
+					fontSize: "11px",
 					color: "#333",
 					flexShrink: 0,
 					position: "relative",
 					zIndex: 1,
 				}}
 			>
-				<div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+				<div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
 					<span
 						style={{
-							padding: "2px 6px",
+							padding: "3px 8px",
 							border: "1px solid #333",
 							color: "#555",
 						}}
@@ -752,8 +755,8 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 						border: "1px solid #333",
 						color: "#555",
 						fontFamily: "'Press Start 2P', monospace",
-						fontSize: "9px",
-						padding: "2px 8px",
+						fontSize: "11px",
+						padding: "3px 10px",
 						cursor: "pointer",
 					}}
 					onMouseEnter={(e) => {

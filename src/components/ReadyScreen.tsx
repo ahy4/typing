@@ -31,23 +31,22 @@ export function ReadyScreen({ onReady }: Props) {
 	return (
 		<div
 			style={{
+				position: "fixed",
+				inset: 0,
+				zIndex: 50,
 				display: "flex",
 				flexDirection: "column",
 				alignItems: "center",
 				justifyContent: "center",
-				height: "100vh",
-				background: "var(--bg)",
+				background: "rgba(7, 0, 16, 0.82)",
 				userSelect: "none",
-				position: "relative",
-				overflow: "hidden",
 			}}
 		>
-			{/* Scanline effect inherited from body::before */}
 			<div
 				key={step}
 				style={{
 					fontFamily: "'Press Start 2P', monospace",
-					fontSize: isGo ? "72px" : "96px",
+					fontSize: isGo ? "80px" : "108px",
 					color: isGo ? "#00ffff" : "#ffffff",
 					textShadow: isGo
 						? "0 0 40px #00ffff, 0 0 80px #00ffff, 0 0 120px #00ffff88"

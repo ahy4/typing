@@ -41,7 +41,7 @@ export function GameOverScreen({ session, onStats }: Props) {
 				justifyContent: "center",
 				height: "100vh",
 				background: "var(--bg)",
-				gap: "36px",
+				gap: "44px",
 				userSelect: "none",
 				position: "relative",
 				overflow: "hidden",
@@ -79,10 +79,10 @@ export function GameOverScreen({ session, onStats }: Props) {
 			<div
 				style={{
 					fontFamily: "'Press Start 2P', monospace",
-					fontSize: "22px",
+					fontSize: "32px",
 					color: "#00ffcc",
 					textShadow: "0 0 20px #00ffcc, 0 0 40px #00ffcc88",
-					letterSpacing: "4px",
+					letterSpacing: "6px",
 					position: "relative",
 					zIndex: 1,
 				}}
@@ -95,7 +95,7 @@ export function GameOverScreen({ session, onStats }: Props) {
 				style={{
 					display: "grid",
 					gridTemplateColumns: "1fr 1fr",
-					gap: "24px 48px",
+					gap: "32px 64px",
 					textAlign: "center",
 					position: "relative",
 					zIndex: 1,
@@ -105,7 +105,7 @@ export function GameOverScreen({ session, onStats }: Props) {
 					<div
 						style={{
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "36px",
+							fontSize: "48px",
 							color: "#00ffff",
 							textShadow: "0 0 20px #00ffff88",
 						}}
@@ -114,12 +114,12 @@ export function GameOverScreen({ session, onStats }: Props) {
 					</div>
 					<div
 						style={{
-							fontSize: "8px",
+							fontSize: "10px",
 							color: "#444",
 							textTransform: "uppercase",
-							letterSpacing: "2px",
+							letterSpacing: "3px",
 							fontFamily: "'Press Start 2P', monospace",
-							marginTop: "8px",
+							marginTop: "10px",
 						}}
 					>
 						打/秒
@@ -129,7 +129,7 @@ export function GameOverScreen({ session, onStats }: Props) {
 					<div
 						style={{
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "36px",
+							fontSize: "48px",
 							color: "#00ff66",
 							textShadow: "0 0 20px #00ff6688",
 						}}
@@ -138,12 +138,12 @@ export function GameOverScreen({ session, onStats }: Props) {
 					</div>
 					<div
 						style={{
-							fontSize: "8px",
+							fontSize: "10px",
 							color: "#444",
 							textTransform: "uppercase",
-							letterSpacing: "2px",
+							letterSpacing: "3px",
 							fontFamily: "'Press Start 2P', monospace",
-							marginTop: "8px",
+							marginTop: "10px",
 						}}
 					>
 						正確率
@@ -153,7 +153,7 @@ export function GameOverScreen({ session, onStats }: Props) {
 					<div
 						style={{
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "26px",
+							fontSize: "36px",
 							color: "#888",
 						}}
 					>
@@ -161,12 +161,12 @@ export function GameOverScreen({ session, onStats }: Props) {
 					</div>
 					<div
 						style={{
-							fontSize: "8px",
+							fontSize: "10px",
 							color: "#444",
 							textTransform: "uppercase",
-							letterSpacing: "2px",
+							letterSpacing: "3px",
 							fontFamily: "'Press Start 2P', monospace",
-							marginTop: "8px",
+							marginTop: "10px",
 						}}
 					>
 						文章数
@@ -176,7 +176,7 @@ export function GameOverScreen({ session, onStats }: Props) {
 					<div
 						style={{
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "26px",
+							fontSize: "36px",
 							color: "#888",
 						}}
 					>
@@ -184,12 +184,12 @@ export function GameOverScreen({ session, onStats }: Props) {
 					</div>
 					<div
 						style={{
-							fontSize: "8px",
+							fontSize: "10px",
 							color: "#444",
 							textTransform: "uppercase",
-							letterSpacing: "2px",
+							letterSpacing: "3px",
 							fontFamily: "'Press Start 2P', monospace",
-							marginTop: "8px",
+							marginTop: "10px",
 						}}
 					>
 						タイム
@@ -200,7 +200,7 @@ export function GameOverScreen({ session, onStats }: Props) {
 			{/* Separator */}
 			<div
 				style={{
-					width: "300px",
+					width: "400px",
 					height: "1px",
 					background:
 						"linear-gradient(90deg, transparent, #2a0050, #00ffff44, #2a0050, transparent)",
@@ -214,7 +214,7 @@ export function GameOverScreen({ session, onStats }: Props) {
 				style={{
 					display: "flex",
 					flexDirection: "column",
-					gap: "12px",
+					gap: "16px",
 					alignItems: "center",
 					position: "relative",
 					zIndex: 1,
@@ -222,13 +222,13 @@ export function GameOverScreen({ session, onStats }: Props) {
 			>
 				<div
 					style={{
-						padding: "14px 40px",
+						padding: "20px 56px",
 						fontFamily: "'Press Start 2P', monospace",
-						fontSize: "12px",
+						fontSize: "16px",
 						border: "2px solid #00ffff",
 						color: "#00ffff",
 						boxShadow: "0 0 16px #00ffff44",
-						letterSpacing: "2px",
+						letterSpacing: "3px",
 					}}
 				>
 					もう一度
@@ -236,21 +236,21 @@ export function GameOverScreen({ session, onStats }: Props) {
 				<div
 					style={{
 						fontFamily: "'Share Tech Mono', monospace",
-						fontSize: "11px",
+						fontSize: "14px",
 						color: "#444",
-						letterSpacing: "3px",
+						letterSpacing: "4px",
 					}}
 				>
 					[ SPACE ] でもう一度
 				</div>
-				<div style={{ display: "flex", gap: "12px", marginTop: "4px" }}>
+				<div style={{ display: "flex", gap: "16px", marginTop: "8px" }}>
 					<button
 						type="button"
 						onClick={() => setShowReplay(true)}
 						style={{
-							padding: "8px 20px",
+							padding: "12px 28px",
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "8px",
+							fontSize: "10px",
 							color: "#555",
 							background: "none",
 							border: "1px solid #2a0050",
@@ -273,9 +273,9 @@ export function GameOverScreen({ session, onStats }: Props) {
 						type="button"
 						onClick={onStats}
 						style={{
-							padding: "8px 20px",
+							padding: "12px 28px",
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "8px",
+							fontSize: "10px",
 							color: "#555",
 							background: "none",
 							border: "1px solid #2a0050",
