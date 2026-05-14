@@ -12,14 +12,16 @@ export const SENTENCES: Sentence[] = RAW.map((r, i) => ({
 // Tune these numbers to change difficulty ramp-up.
 //
 // kps rough feel:
-//   < 1  : 人差し指で一文字ずつ探すレベル（おじいちゃん・初めての小学生）
+//   < 0.5: 1文字ずつキーを目で探す（りんご・ごはんレベルが適切）
+//   0.5–1: 人差し指2本でゆっくり（おじいちゃん・初めての小学生）
 //   1–2  : ゆっくりだが両手は使える
 //   2–3  : 初心者の普通ペース
 //   3–4.5: 中級者
 //   4.5–6: 慣れてきたタイピスト
 //   6+   : 上級者
 const SPEED_BUCKETS: { maxKps: number; minKana: number; maxKana: number }[] = [
-	{ maxKps: 1, minKana: 0, maxKana: 21 }, //  9文 — 超短文
+	{ maxKps: 0.5, minKana: 0, maxKana: 6 }, // 単語レベル（りんご=3・ごはん=4）
+	{ maxKps: 1, minKana: 7, maxKana: 21 }, //  9文 — 短い文
 	{ maxKps: 2, minKana: 22, maxKana: 30 }, // 13文 — 短文
 	{ maxKps: 3, minKana: 31, maxKana: 36 }, // 16文 — やや短
 	{ maxKps: 4.5, minKana: 37, maxKana: 48 }, // 62文 — 中程度
