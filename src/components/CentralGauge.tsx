@@ -9,6 +9,59 @@ const PLAYER_STROKE = 18;
 const GHOST_STROKE = 5;
 const MAX_KPS = 12;
 
+// Car-style speedometer: bottom-left (225°) → clockwise → bottom-right (135°), 270° sweep
+const START_DEG = 225;
+const TOTAL_DEG = 270;
+const ARC_LENGTH = SPEED_R * (TOTAL_DEG * Math.PI) / 180;
+
+function polarToXY(cx: number, cy: number, r: number, deg: number) {
+	const rad = ((deg - 90) * Math.PI) / 180;
+	return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+}
+
+// Arc path from startDeg, sweeping sweepDeg degrees clockwise at radius r
+function arcPath(startDeg: number, sweepDeg: number, r: number) {
+	const endDeg = startDeg + sweepDeg;
+	const start = polarToXY(CX, CY, r, startDeg);
+	const end = polarToXY(CX, CY, r, endDeg);
+	const largeArc = sweepDeg > 180 ? 1 : 0;
+	return `M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArc} 1 ${end.x} ${end.y}`;
+}
+
+// Smoothly lerps toward target on each animation frame
+function useAnimatedValue(target: number) {
+	const displayRef = useRef(target);
+	const [display, setDisplay] = useState(target);
+	const rafRef = useRef<number | null>(null);
+
+	useEffect(() => {
+		if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+
+		function animate() {
+			const diff = target - displayRef.current;
+			if (Math.abs(diff) < 0.005) {
+				displayRef.current = target;
+				setDisplay(target);
+				rafRef.current = null;
+				return;
+			}
+			displayRef.current += diff * 0.15;
+			setDisplay(displayRef.current);
+			rafRef.current = requestAnimationFrame(animate);
+		}
+
+		rafRef.current = requestAnimationFrame(animate);
+		return () => {
+			if (rafRef.current !== null) {
+				cancelAnimationFrame(rafRef.current);
+				rafRef.current = null;
+			}
+		};
+	}, [target]);
+
+	return display;
+}
+
 interface Props {
 	speed: number;
 	ghostSpeed?: number;
@@ -22,14 +75,18 @@ export function CentralGauge({
 	hitCount,
 	lastWrong,
 }: Props) {
-	const speedPct = Math.min(1, speed / MAX_KPS);
-	const speedCirc = 2 * Math.PI * SPEED_R;
-	const playerOffset = speedCirc * (1 - speedPct);
+	const displaySpeed = useAnimatedValue(speed);
+	const displayGhostSpeed = useAnimatedValue(ghostSpeed ?? 0);
 
-	const ghostOffset =
+	const speedPct = Math.min(1, Math.max(0, displaySpeed / MAX_KPS));
+	const ghostPct =
 		ghostSpeed !== undefined
-			? speedCirc * (1 - Math.min(1, ghostSpeed / MAX_KPS))
+			? Math.min(1, Math.max(0, displayGhostSpeed / MAX_KPS))
 			: null;
+
+	const track = arcPath(START_DEG, TOTAL_DEG, SPEED_R);
+	const playerOffset = ARC_LENGTH * (1 - speedPct);
+	const ghostOffset = ghostPct !== null ? ARC_LENGTH * (1 - ghostPct) : null;
 
 	const prevHitCount = useRef(hitCount);
 	const prevLastWrong = useRef(lastWrong);
@@ -64,6 +121,15 @@ export function CentralGauge({
 					}
 				: { overflow: "visible" };
 
+	// Tick marks at 0%, 25%, 50%, 75%, 100%
+	const ticks = [0, 0.25, 0.5, 0.75, 1].map((t) => {
+		const deg = START_DEG + t * TOTAL_DEG;
+		const inner = polarToXY(CX, CY, SPEED_R - TRACK_STROKE / 2 - 4, deg);
+		const outer = polarToXY(CX, CY, SPEED_R + TRACK_STROKE / 2 + 3, deg);
+		const labelPt = polarToXY(CX, CY, SPEED_R + TRACK_STROKE / 2 + 14, deg);
+		return { inner, outer, labelPt, value: Math.round(t * MAX_KPS) };
+	});
+
 	return (
 		<div
 			style={{ position: "relative", width: SIZE, height: SIZE, flexShrink: 0 }}
@@ -73,7 +139,7 @@ export function CentralGauge({
 				height={SIZE}
 				style={gaugeStyle}
 				role="img"
-				aria-label={`速度 ${speed.toFixed(1)} 打/秒`}
+				aria-label={`速度 ${displaySpeed.toFixed(1)} 打/秒`}
 				onAnimationEnd={() => setGaugeAnim(null)}
 			>
 				<defs>
@@ -95,70 +161,51 @@ export function CentralGauge({
 					</filter>
 				</defs>
 
-				{/* BG outer circle */}
-				<circle
-					cx={CX}
-					cy={CY}
-					r={SPEED_R}
-					fill="none"
-					stroke="#1a0030"
-					strokeWidth={2}
-				/>
-
-				{/* Speed track */}
-				<circle
-					cx={CX}
-					cy={CY}
-					r={SPEED_R}
+				{/* Track */}
+				<path
+					d={track}
 					fill="none"
 					stroke="#150025"
 					strokeWidth={TRACK_STROKE}
+					strokeLinecap="round"
 				/>
 
-				{/* White halo behind player arc */}
-				<circle
-					cx={CX}
-					cy={CY}
-					r={SPEED_R}
+				{/* White halo */}
+				<path
+					d={track}
 					fill="none"
 					stroke="white"
 					strokeWidth={PLAYER_STROKE + 8}
-					strokeDasharray={speedCirc}
-					strokeDashoffset={playerOffset}
 					strokeLinecap="round"
-					transform={`rotate(-90 ${CX} ${CY})`}
+					strokeDasharray={ARC_LENGTH}
+					strokeDashoffset={playerOffset}
 					opacity={0.06}
 					style={{ transition: "stroke-dashoffset 0.15s" }}
 				/>
-				{/* Player speed arc — rendered first (below), thicker */}
-				<circle
-					cx={CX}
-					cy={CY}
-					r={SPEED_R}
+
+				{/* Player speed arc */}
+				<path
+					d={track}
 					fill="none"
 					stroke="#00ffff"
 					strokeWidth={PLAYER_STROKE}
-					strokeDasharray={speedCirc}
-					strokeDashoffset={playerOffset}
 					strokeLinecap="round"
-					transform={`rotate(-90 ${CX} ${CY})`}
+					strokeDasharray={ARC_LENGTH}
+					strokeDashoffset={playerOffset}
 					filter="url(#speed-glow)"
 					style={{ transition: "stroke-dashoffset 0.15s" }}
 				/>
 
-				{/* Ghost speed arc — rendered second (above), thinner */}
+				{/* Ghost speed arc */}
 				{ghostOffset !== null && (
-					<circle
-						cx={CX}
-						cy={CY}
-						r={SPEED_R}
+					<path
+						d={track}
 						fill="none"
 						stroke="#cc00cc"
 						strokeWidth={GHOST_STROKE}
-						strokeDasharray={speedCirc}
-						strokeDashoffset={ghostOffset}
 						strokeLinecap="round"
-						transform={`rotate(-90 ${CX} ${CY})`}
+						strokeDasharray={ARC_LENGTH}
+						strokeDashoffset={ghostOffset}
 						opacity={0.75}
 						filter="url(#glow-pink)"
 						style={{ transition: "stroke-dashoffset 0.15s" }}
@@ -166,24 +213,29 @@ export function CentralGauge({
 				)}
 
 				{/* Tick marks */}
-				<line x1={CX} y1="12" x2={CX} y2="26" stroke="#333" strokeWidth="1" />
-				<line
-					x1={SIZE - 12}
-					y1={CY}
-					x2={SIZE - 26}
-					y2={CY}
-					stroke="#333"
-					strokeWidth="1"
-				/>
-				<line x1="12" y1={CY} x2="26" y2={CY} stroke="#333" strokeWidth="1" />
-				<line
-					x1={CX}
-					y1={SIZE - 12}
-					x2={CX}
-					y2={SIZE - 26}
-					stroke="#333"
-					strokeWidth="1"
-				/>
+				{ticks.map((tick, i) => (
+					<g key={i}>
+						<line
+							x1={tick.inner.x}
+							y1={tick.inner.y}
+							x2={tick.outer.x}
+							y2={tick.outer.y}
+							stroke="#444"
+							strokeWidth="1.5"
+						/>
+						<text
+							x={tick.labelPt.x}
+							y={tick.labelPt.y}
+							textAnchor="middle"
+							dominantBaseline="middle"
+							fill="#444"
+							fontSize="8"
+							fontFamily="monospace"
+						>
+							{tick.value}
+						</text>
+					</g>
+				))}
 
 				{/* Speed value */}
 				<text
@@ -195,7 +247,7 @@ export function CentralGauge({
 					opacity={0.9}
 				>
 					<tspan fontSize={28} dominantBaseline="central">
-						{speed.toFixed(1)}
+						{displaySpeed.toFixed(1)}
 					</tspan>
 				</text>
 				<text
@@ -221,7 +273,7 @@ export function CentralGauge({
 						fontFamily="'Share Tech Mono', monospace"
 						opacity={0.8}
 					>
-						GHO {ghostSpeed.toFixed(1)}
+						GHO {displayGhostSpeed.toFixed(1)}
 					</text>
 				)}
 			</svg>
