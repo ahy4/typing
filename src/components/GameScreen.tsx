@@ -288,7 +288,8 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 										key={i}
 										style={{
 											height: "4px",
-											background: "#1a0030",
+											background:
+												isCompleted || isCurrent ? "#1a0030" : "transparent",
 											position: "relative",
 											overflow: "hidden",
 										}}
