@@ -7,18 +7,32 @@ export const SENTENCES: Sentence[] = RAW.map((r, i) => ({
 	kana: r.kana,
 }));
 
-// Thresholds tuned to kana-length distribution in sentences.toml
-const SHORT_MAX = 36; // kana ≤ 36
-const LONG_MIN = 58; // kana ≥ 58
+// Speed → kana-length mapping.
+// Each bucket: kps < maxKps → pick sentences with minKana ≤ kana.length ≤ maxKana.
+// Tune these numbers to change difficulty ramp-up.
+//
+// kps rough feel:
+//   < 1  : 人差し指で一文字ずつ探すレベル（おじいちゃん・初めての小学生）
+//   1–2  : ゆっくりだが両手は使える
+//   2–3  : 初心者の普通ペース
+//   3–4.5: 中級者
+//   4.5–6: 慣れてきたタイピスト
+//   6+   : 上級者
+const SPEED_BUCKETS: { maxKps: number; minKana: number; maxKana: number }[] = [
+	{ maxKps: 1, minKana: 0, maxKana: 21 }, //  9文 — 超短文
+	{ maxKps: 2, minKana: 22, maxKana: 30 }, // 13文 — 短文
+	{ maxKps: 3, minKana: 31, maxKana: 36 }, // 16文 — やや短
+	{ maxKps: 4.5, minKana: 37, maxKana: 48 }, // 62文 — 中程度
+	{ maxKps: 6, minKana: 49, maxKana: 57 }, // 75文 — やや長
+	{ maxKps: Infinity, minKana: 58, maxKana: Infinity }, // 76文 — 長文
+];
 
 function sentencePool(kps?: number): Sentence[] {
 	if (kps === undefined) return SENTENCES;
-	if (kps < 3) return SENTENCES.filter((s) => s.kana.length <= SHORT_MAX);
-	if (kps < 5.5)
-		return SENTENCES.filter(
-			(s) => s.kana.length > SHORT_MAX && s.kana.length < LONG_MIN,
-		);
-	return SENTENCES.filter((s) => s.kana.length >= LONG_MIN);
+	const bucket = SPEED_BUCKETS.find((b) => kps < b.maxKps) ?? SPEED_BUCKETS.at(-1)!;
+	return SENTENCES.filter(
+		(s) => s.kana.length >= bucket.minKana && s.kana.length <= bucket.maxKana,
+	);
 }
 
 // kps: current typing speed; omit (or pass undefined) to draw from all lengths.
