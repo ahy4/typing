@@ -1,14 +1,27 @@
-import { useEffect, useRef, useState } from "react";
-import type { GameState } from "../hooks/useGameEngine";
-import { LIFE_MAX } from "../lib/runnerState";
+import { type ReactNode, useEffect, useRef, useState } from "react";
+import { LIFE_MAX, type RunnerState } from "../lib/runnerState";
 import { CentralGauge } from "./CentralGauge";
 import { KeyboardDisplay } from "./KeyboardDisplay";
 import { TypingDisplay } from "./TypingDisplay";
 
 interface Props {
-	state: GameState;
+	player: RunnerState;
+	ghost: RunnerState | null;
+	healStreak: number;
+	lastHealId: number;
+	lastHealAmount: number;
+	totalCorrect: number;
+	totalErrors: number;
+	elapsed: number;
+	lastWrong: boolean;
 	showKeyboard: boolean;
 	onToggleKeyboard: () => void;
+	/** Optional header above the main area (e.g. replay banner). */
+	header?: ReactNode;
+	/** Replaces the right ghost HP bar (e.g. replay time bar). */
+	rightPanel?: ReactNode;
+	/** Replaces the default ESC/KB-toggle footer (e.g. replay seek controls). */
+	footer?: ReactNode;
 }
 
 function lifeColor(pct: number): string {
@@ -37,13 +50,27 @@ const PARTICLES = [
 	{ left: "50%", color: "#00ffff", duration: "6s", delay: "5s" },
 ];
 
-export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
-	const { player, ghost } = state;
+export function GameScreen({
+	player,
+	ghost,
+	healStreak,
+	lastHealId,
+	lastHealAmount,
+	totalCorrect,
+	totalErrors,
+	elapsed,
+	lastWrong,
+	showKeyboard,
+	onToggleKeyboard,
+	header,
+	rightPanel,
+	footer,
+}: Props) {
 	const sentence = player.sentences[player.sentenceIdx];
 
 	const lifePct = Math.max(0, Math.min(100, (player.life / LIFE_MAX) * 100));
 	const lc = lifeColor(lifePct);
-	const sc = healStreakColor(state.healStreak);
+	const sc = healStreakColor(healStreak);
 
 	const prevHealAt = player.nextHealAt - player.nextHealInterval;
 	const progressToHeal =
@@ -54,26 +81,24 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 				)
 			: 0;
 
-	const prevHealId = useRef(state.lastHealId);
+	const prevHealIdRef = useRef(lastHealId);
 	const [healAnim, setHealAnim] = useState<{
 		id: number;
 		amount: number;
 	} | null>(null);
 	useEffect(() => {
-		if (state.lastHealId !== prevHealId.current && state.lastHealAmount > 0) {
-			prevHealId.current = state.lastHealId;
-			setHealAnim({ id: state.lastHealId, amount: state.lastHealAmount });
+		if (lastHealId !== prevHealIdRef.current && lastHealAmount > 0) {
+			prevHealIdRef.current = lastHealId;
+			setHealAnim({ id: lastHealId, amount: lastHealAmount });
 		}
-	}, [state.lastHealId, state.lastHealAmount]);
+	}, [lastHealId, lastHealAmount]);
 
 	const ghostLifePct = ghost
 		? Math.max(0, Math.min(100, (ghost.life / LIFE_MAX) * 100))
 		: 0;
 	const acc =
-		state.totalCorrect + state.totalErrors > 0
-			? Math.round(
-					(state.totalCorrect / (state.totalCorrect + state.totalErrors)) * 100,
-				)
+		totalCorrect + totalErrors > 0
+			? Math.round((totalCorrect / (totalCorrect + totalErrors)) * 100)
 			: 100;
 
 	const nextKeys: string[] = (() => {
@@ -95,7 +120,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 	const myProgress = player.sentenceIdx;
 	const ghostProgress = ghost ? ghost.sentenceIdx : 0;
 
-	const elapsedSec = Math.round(state.elapsed / 1000);
+	const elapsedSec = Math.round(elapsed / 1000);
 	const mins = Math.floor(elapsedSec / 60);
 	const secs = elapsedSec % 60;
 	const timeStr = `${mins}:${secs.toString().padStart(2, "0")}`;
@@ -106,11 +131,11 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 	const prevComboForBarsRef = useRef(player.combo);
 	useEffect(() => {
 		if (player.combo === 0 && prevComboForBarsRef.current > 0) {
-			setBarBaseHealId(state.lastHealId);
+			setBarBaseHealId(lastHealId);
 		}
 		prevComboForBarsRef.current = player.combo;
-	}, [player.combo, state.lastHealId]);
-	const currentRunLaps = state.lastHealId - barBaseHealId;
+	}, [player.combo, lastHealId]);
+	const currentRunLaps = lastHealId - barBaseHealId;
 	const comboPct = progressToHeal * 100;
 
 	return (
@@ -145,6 +170,9 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					/>
 				))}
 			</div>
+
+			{/* Optional header slot (e.g. replay banner) */}
+			{header}
 
 			{/* MAIN AREA */}
 			<div
@@ -254,7 +282,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								<TypingDisplay
 									sentence={sentence}
 									typingState={player.typingState}
-									lastWrong={state.lastWrong}
+									lastWrong={lastWrong}
 								/>
 							) : (
 								<div
@@ -366,7 +394,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 											textShadow: "0 0 8px #00ff66",
 										}}
 									>
-										{state.totalCorrect}
+										{totalCorrect}
 									</div>
 								</div>
 								<div>
@@ -390,7 +418,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 											textShadow: "0 0 8px #ff2244",
 										}}
 									>
-										{state.totalErrors}
+										{totalErrors}
 									</div>
 								</div>
 							</div>
@@ -399,8 +427,8 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							<div style={{ position: "relative" }}>
 								<CentralGauge
 									speed={player.speed}
-									hitCount={state.totalCorrect}
-									lastWrong={state.lastWrong}
+									hitCount={totalCorrect}
+									lastWrong={lastWrong}
 									{...(ghost ? { ghostSpeed: ghost.speed } : {})}
 								/>
 								{healAnim && (
@@ -609,145 +637,153 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					</div>
 				</div>
 
-				{/* RIGHT HP BAR — GHOST */}
-				<div
-					style={{
-						width: "120px",
-						flexShrink: 0,
-						background: "var(--panel)",
-						borderLeft: "1px solid var(--border)",
-						display: "flex",
-						flexDirection: "column",
-						alignItems: "center",
-						justifyContent: "center",
-						padding: "20px 16px",
-						gap: "10px",
-					}}
-				>
+				{/* RIGHT PANEL — ghost HP bar (default) or custom slot */}
+				{rightPanel !== undefined ? (
+					rightPanel
+				) : (
 					<div
 						style={{
-							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "10px",
-							writingMode: "vertical-rl",
-							textOrientation: "mixed",
-							letterSpacing: "2px",
-							color: "#ff00aa",
-							textShadow: "0 0 8px #ff00aa",
-							opacity: ghost ? 1 : 0.3,
-						}}
-					>
-						GHOST
-					</div>
-					<div
-						style={{
-							flex: 1,
-							width: "52px",
-							background: "#1a0030",
-							border: `2px solid ${ghost ? "#ff00aa" : "#2a0050"}`,
-							position: "relative",
+							width: "120px",
+							flexShrink: 0,
+							background: "var(--panel)",
+							borderLeft: "1px solid var(--border)",
 							display: "flex",
 							flexDirection: "column",
-							justifyContent: "flex-end",
-							overflow: "hidden",
+							alignItems: "center",
+							justifyContent: "center",
+							padding: "20px 16px",
+							gap: "10px",
 						}}
 					>
-						{ghost && (
-							<div
-								style={{
-									width: "100%",
-									height: `${ghostLifePct}%`,
-									background: "linear-gradient(to top, #660044, #ff00aa)",
-									boxShadow:
-										"0 0 16px #ff00aa, inset 0 0 16px rgba(255,0,170,0.3)",
-									transition: "height 0.05s",
-								}}
-							/>
-						)}
-						{[...Array(5)].map((_, i) => (
-							<div
-								// biome-ignore lint/suspicious/noArrayIndexKey: decorative ticks
-								key={i}
-								style={{
-									position: "absolute",
-									top: `${(i + 1) * 20}%`,
-									left: 0,
-									right: 0,
-									height: "1px",
-									background: "rgba(255,255,255,0.1)",
-								}}
-							/>
-						))}
+						<div
+							style={{
+								fontFamily: "'Press Start 2P', monospace",
+								fontSize: "10px",
+								writingMode: "vertical-rl",
+								textOrientation: "mixed",
+								letterSpacing: "2px",
+								color: "#ff00aa",
+								textShadow: "0 0 8px #ff00aa",
+								opacity: ghost ? 1 : 0.3,
+							}}
+						>
+							GHOST
+						</div>
+						<div
+							style={{
+								flex: 1,
+								width: "52px",
+								background: "#1a0030",
+								border: `2px solid ${ghost ? "#ff00aa" : "#2a0050"}`,
+								position: "relative",
+								display: "flex",
+								flexDirection: "column",
+								justifyContent: "flex-end",
+								overflow: "hidden",
+							}}
+						>
+							{ghost && (
+								<div
+									style={{
+										width: "100%",
+										height: `${ghostLifePct}%`,
+										background: "linear-gradient(to top, #660044, #ff00aa)",
+										boxShadow:
+											"0 0 16px #ff00aa, inset 0 0 16px rgba(255,0,170,0.3)",
+										transition: "height 0.05s",
+									}}
+								/>
+							)}
+							{[...Array(5)].map((_, i) => (
+								<div
+									// biome-ignore lint/suspicious/noArrayIndexKey: decorative ticks
+									key={i}
+									style={{
+										position: "absolute",
+										top: `${(i + 1) * 20}%`,
+										left: 0,
+										right: 0,
+										height: "1px",
+										background: "rgba(255,255,255,0.1)",
+									}}
+								/>
+							))}
+						</div>
+						<div
+							style={{
+								fontFamily: "'Press Start 2P', monospace",
+								fontSize: "13px",
+								color: "#ff00aa",
+								textShadow: ghost ? "0 0 6px #ff00aa" : "none",
+								opacity: ghost ? 1 : 0.3,
+							}}
+						>
+							{ghost ? `${Math.round(ghostLifePct)}%` : "--"}
+						</div>
 					</div>
-					<div
-						style={{
-							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "13px",
-							color: "#ff00aa",
-							textShadow: ghost ? "0 0 6px #ff00aa" : "none",
-							opacity: ghost ? 1 : 0.3,
-						}}
-					>
-						{ghost ? `${Math.round(ghostLifePct)}%` : "--"}
-					</div>
-				</div>
+				)}
 			</div>
 
-			{/* FOOTER */}
-			<div
-				style={{
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "space-between",
-					padding: "8px 20px",
-					borderTop: "1px solid var(--border)",
-					background: "rgba(13,0,26,0.9)",
-					fontFamily: "'Press Start 2P', monospace",
-					fontSize: "11px",
-					color: "#555",
-					flexShrink: 0,
-					position: "relative",
-					zIndex: 1,
-				}}
-			>
-				<div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-					<span
-						style={{
-							padding: "3px 8px",
-							border: "1px solid #444",
-							color: "#777",
-						}}
-					>
-						ESC
-					</span>
-					<span style={{ color: "#777" }}>QUIT</span>
-				</div>
-				<button
-					type="button"
-					onClick={onToggleKeyboard}
+			{/* FOOTER — default ESC/KB-toggle controls or custom slot */}
+			{footer !== undefined ? (
+				footer
+			) : (
+				<div
 					style={{
-						background: "none",
-						border: "1px solid #444",
-						color: "#777",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "space-between",
+						padding: "8px 20px",
+						borderTop: "1px solid var(--border)",
+						background: "rgba(13,0,26,0.9)",
 						fontFamily: "'Press Start 2P', monospace",
 						fontSize: "11px",
-						padding: "3px 10px",
-						cursor: "pointer",
-					}}
-					onMouseEnter={(e) => {
-						e.currentTarget.style.borderColor = "#888";
-						e.currentTarget.style.color = "#bbb";
-					}}
-					onMouseLeave={(e) => {
-						e.currentTarget.style.borderColor = "#444";
-						e.currentTarget.style.color = "#777";
+						color: "#555",
+						flexShrink: 0,
+						position: "relative",
+						zIndex: 1,
 					}}
 				>
-					KB: {showKeyboard ? "ON" : "OFF"}
-				</button>
-				<div style={{ color: lc, textShadow: `0 0 6px ${lc}` }}>
-					HP: {Math.round(lifePct)}%
+					<div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+						<span
+							style={{
+								padding: "3px 8px",
+								border: "1px solid #444",
+								color: "#777",
+							}}
+						>
+							ESC
+						</span>
+						<span style={{ color: "#777" }}>QUIT</span>
+					</div>
+					<button
+						type="button"
+						onClick={onToggleKeyboard}
+						style={{
+							background: "none",
+							border: "1px solid #444",
+							color: "#777",
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "11px",
+							padding: "3px 10px",
+							cursor: "pointer",
+						}}
+						onMouseEnter={(e) => {
+							e.currentTarget.style.borderColor = "#888";
+							e.currentTarget.style.color = "#bbb";
+						}}
+						onMouseLeave={(e) => {
+							e.currentTarget.style.borderColor = "#444";
+							e.currentTarget.style.color = "#777";
+						}}
+					>
+						KB: {showKeyboard ? "ON" : "OFF"}
+					</button>
+					<div style={{ color: lc, textShadow: `0 0 6px ${lc}` }}>
+						HP: {Math.round(lifePct)}%
+					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 }
