@@ -42,7 +42,7 @@ export function HelpScreen({ onBack }: Props) {
 								letterSpacing: "3px",
 							}}
 						>
-							{"TYPE//DARK"}
+							{"ミルキー★タイピング"}
 						</div>
 						<div
 							style={{

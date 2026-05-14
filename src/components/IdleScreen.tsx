@@ -80,7 +80,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						animation: "neonPulse 3s ease-in-out infinite",
 					}}
 				>
-					{"TYPE//DARK"}
+					{"ミルキー★タイピング"}
 				</div>
 				<div
 					style={{
