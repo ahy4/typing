@@ -102,14 +102,15 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 
 	// Multi-lap combo bars: track heals completed in the current unbroken combo run
 	const MAX_COMBO_BARS = 16;
-	const baseHealIdRef = useRef(0);
-	const prevComboRef = useRef(player.combo);
-	if (player.combo === 0 && prevComboRef.current > 0) {
-		// Combo just broke — reset the bar baseline so bars clear
-		baseHealIdRef.current = state.lastHealId;
-	}
-	prevComboRef.current = player.combo;
-	const currentRunLaps = state.lastHealId - baseHealIdRef.current;
+	const [barBaseHealId, setBarBaseHealId] = useState(0);
+	const prevComboForBarsRef = useRef(player.combo);
+	useEffect(() => {
+		if (player.combo === 0 && prevComboForBarsRef.current > 0) {
+			setBarBaseHealId(state.lastHealId);
+		}
+		prevComboForBarsRef.current = player.combo;
+	}, [player.combo, state.lastHealId]);
+	const currentRunLaps = state.lastHealId - barBaseHealId;
 	const comboPct = progressToHeal * 100;
 
 	return (
