@@ -6,7 +6,12 @@ import {
 	createRunnerState,
 	type RunnerState,
 } from "../lib/runnerState";
-import { playHeal, playKeyTap, playMiss, playSegmentComplete } from "../lib/sound";
+import {
+	playHeal,
+	playKeyTap,
+	playMiss,
+	playSegmentComplete,
+} from "../lib/sound";
 import type { ReplayData } from "../lib/types";
 import { GameScreen } from "./GameScreen";
 
