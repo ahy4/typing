@@ -7,7 +7,7 @@ export const LIFE_DRAIN_BASE = 0.08;
 export const LIFE_RECOVER_CORRECT = 0.12;
 export const LIFE_DRAIN_MISS = 10;
 export const KEYS_PER_COMBO = 9;
-export const COMBO_HEAL_MULTIPLIER = 6;
+export const COMBO_HEAL_MULTIPLIER = 4;
 
 // Unified state for any typing runner (player, ghost, replay).
 // Components render from this; they never care about the source.
