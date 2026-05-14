@@ -19,11 +19,12 @@ function playTone(
 		osc.connect(g);
 		g.connect(ac.destination);
 		osc.type = type;
-		osc.frequency.setValueAtTime(freq, ac.currentTime);
-		g.gain.setValueAtTime(gain, ac.currentTime);
-		g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + duration);
-		osc.start(ac.currentTime);
-		osc.stop(ac.currentTime + duration);
+		const t = ac.currentTime + 0.005;
+		osc.frequency.setValueAtTime(freq, t);
+		g.gain.setValueAtTime(gain, t);
+		g.gain.exponentialRampToValueAtTime(0.001, t + duration);
+		osc.start(t);
+		osc.stop(t + duration);
 	} catch {
 		// audio not available
 	}
