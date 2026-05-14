@@ -140,7 +140,14 @@ export function SpeedMeter({
 					style={{ filter: `drop-shadow(0 0 3px ${arcColor})` }}
 				/>
 				{/* center hub */}
-				<circle cx={cx} cy={cy} r={4} fill="#333" stroke={arcColor} strokeWidth="1" />
+				<circle
+					cx={cx}
+					cy={cy}
+					r={4}
+					fill="#333"
+					stroke={arcColor}
+					strokeWidth="1"
+				/>
 				{/* center text */}
 				<text
 					x={cx}
