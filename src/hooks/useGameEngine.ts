@@ -6,6 +6,7 @@ import { applyDrain, applyInput, createRunnerState } from "../lib/runnerState";
 import { getSentenceQueue } from "../lib/sentences";
 import {
 	playComboMilestone,
+	playHeal,
 	playKeyTap,
 	playMiss,
 	playSegmentComplete,
@@ -96,7 +97,6 @@ export interface GameState {
 
 export function useGameEngine() {
 	const kpsWindowRef = useRef(new SlidingWindowKPS(KPS_WINDOW_SECONDS * 1000));
-	const lastSpeedCalcRef = useRef(0);
 	const streakRef = useRef(0);
 	const lastKeyTimeRef = useRef<number>(0);
 	const lastWasWrongRef = useRef<boolean>(false);
@@ -195,11 +195,7 @@ export function useGameEngine() {
 				const elapsed = Date.now() - prev.startTime;
 				const ghost = getGhostAt(ghostTimelineRef.current, elapsed);
 
-				const shouldRecalcSpeed = elapsed - lastSpeedCalcRef.current >= 100;
-				if (shouldRecalcSpeed) lastSpeedCalcRef.current = elapsed;
-				const speed = shouldRecalcSpeed
-					? kpsWindowRef.current.get(elapsed)
-					: prev.player.speed;
+				const speed = kpsWindowRef.current.get(elapsed);
 
 				if (newPlayer.life <= 0) {
 					setTimeout(endGame, 0);
@@ -234,7 +230,6 @@ export function useGameEngine() {
 	const startGame = useCallback((ghostReplayId?: string) => {
 		cancelAnimationFrame(rafRef.current);
 		kpsWindowRef.current.reset();
-		lastSpeedCalcRef.current = 0;
 		streakRef.current = 0;
 		lastKeyTimeRef.current = 0;
 		lastWasWrongRef.current = false;
@@ -430,6 +425,7 @@ export function useGameEngine() {
 		} else {
 			playKeyTap(newPlayer.combo);
 		}
+		if (healAmount > 0) playHeal(s.healStreak);
 
 		// Sentence refill: player-specific concern (ghost uses fixed replay sentences)
 		let finalPlayer = newPlayer;

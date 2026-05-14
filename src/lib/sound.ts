@@ -75,6 +75,13 @@ export function playComboMilestone(combo: number): void {
 	setTimeout(() => playTone(freq * 2, 0.08, 0.06, "sine"), 100);
 }
 
+export function playHeal(healStreak: number): void {
+	const base = 440 + Math.min(healStreak, 8) * 80;
+	playTone(base, 0.12, 0.12, "sine");
+	setTimeout(() => playTone(base * 1.26, 0.1, 0.1, "sine"), 70);
+	setTimeout(() => playTone(base * 1.5, 0.18, 0.09, "sine"), 140);
+}
+
 // step: 0="3", 1="2", 2="1", 3="GO!"
 export function playCountdownStep(step: number): void {
 	if (step < 3) {
