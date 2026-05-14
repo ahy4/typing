@@ -16,7 +16,12 @@ interface Props {
 	lastWrong: boolean;
 }
 
-export function CentralGauge({ speed, ghostSpeed, hitCount, lastWrong }: Props) {
+export function CentralGauge({
+	speed,
+	ghostSpeed,
+	hitCount,
+	lastWrong,
+}: Props) {
 	const speedPct = Math.min(1, speed / MAX_KPS);
 	const speedCirc = 2 * Math.PI * SPEED_R;
 	const playerOffset = speedCirc * (1 - speedPct);
@@ -172,7 +177,9 @@ export function CentralGauge({ speed, ghostSpeed, hitCount, lastWrong }: Props) 
 					fontFamily="'Press Start 2P', monospace"
 					opacity={0.9}
 				>
-					<tspan fontSize={28} dominantBaseline="central">{speed.toFixed(1)}</tspan>
+					<tspan fontSize={28} dominantBaseline="central">
+						{speed.toFixed(1)}
+					</tspan>
 				</text>
 				<text
 					x={CX}

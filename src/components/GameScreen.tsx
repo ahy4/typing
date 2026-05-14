@@ -366,6 +366,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							{/* Completed lap bars — stacked above the current bar */}
 							{Array.from({ length: completedLaps }, (_, i) => (
 								<div
+									// biome-ignore lint/suspicious/noArrayIndexKey: static decorative list based on lap count
 									key={i}
 									style={{
 										height: "4px",

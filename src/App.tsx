@@ -57,7 +57,8 @@ export default function App() {
 	const recentSessions = state.sessions.slice(-5);
 	const avgWpm =
 		recentSessions.length > 0
-			? recentSessions.reduce((sum, s) => sum + s.wpm, 0) / recentSessions.length
+			? recentSessions.reduce((sum, s) => sum + s.wpm, 0) /
+				recentSessions.length
 			: 0;
 
 	return (

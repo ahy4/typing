@@ -24,8 +24,6 @@ function lifeColor(pct: number): string {
 	return "#ff2244";
 }
 
-
-
 function healStreakColor(streak: number): string {
 	if (streak >= 5) return "#ff44ff";
 	if (streak >= 4) return "#ff8800";
