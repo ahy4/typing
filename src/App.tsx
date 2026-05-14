@@ -98,7 +98,7 @@ export default function App() {
 						<div style={{ position: "relative", height: "100vh" }}>
 							<GameScreen
 								state={state}
-								showKeyboard={showKeyboard && state.phase === "playing"}
+								showKeyboard={showKeyboard}
 								onToggleKeyboard={() => setShowKeyboard((v) => !v)}
 							/>
 							{state.phase === "ready" && (
