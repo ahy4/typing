@@ -26,18 +26,6 @@ function healStreakColor(streak: number): string {
 	return "#333344";
 }
 
-function comboColor(combo: number): string {
-	const colors = [
-		"#00ffff",
-		"#00ff66",
-		"#ffaa00",
-		"#ff6600",
-		"#ff3366",
-		"#cc00ff",
-	];
-	return colors[Math.floor(combo / 30) % colors.length] ?? "#00ffff";
-}
-
 const PARTICLES = [
 	{ left: "8%", color: "#00ffff", duration: "8s", delay: "0s" },
 	{ left: "22%", color: "#ff00aa", duration: "12s", delay: "2s" },
@@ -55,7 +43,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 
 	const lifePct = Math.max(0, Math.min(100, (player.life / LIFE_MAX) * 100));
 	const lc = lifeColor(lifePct);
-	const cc = comboColor(player.combo);
+	const sc = healStreakColor(state.healStreak);
 
 	const prevHealAt = player.nextHealAt - player.nextHealInterval;
 	const progressToHeal =
@@ -65,7 +53,6 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					Math.max(0, (player.combo - prevHealAt) / player.nextHealInterval),
 				)
 			: 0;
-	const sc = healStreakColor(state.healStreak);
 
 	const prevHealId = useRef(state.lastHealId);
 	const [healAnim, setHealAnim] = useState<{
@@ -113,7 +100,8 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 	const secs = elapsedSec % 60;
 	const timeStr = `${mins}:${secs.toString().padStart(2, "0")}`;
 
-	// Combo shimmer bar — synced with progressToHeal (same as CentralGauge outer ring)
+	// Multi-lap combo bars: completed laps = lastHealId, current partial = progressToHeal
+	const completedLaps = state.lastHealId;
 	const comboPct = progressToHeal * 100;
 
 	return (
@@ -175,78 +163,6 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					}}
 				>
 					{"TYPE//DARK"}
-				</div>
-
-				{/* Progress battle */}
-				<div
-					style={{
-						display: "flex",
-						alignItems: "center",
-						gap: "14px",
-					}}
-				>
-					<div
-						style={{
-							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "15px",
-							color: "#00ffff",
-							textShadow: "0 0 6px #00ffff",
-						}}
-					>
-						自分 {myProgress}
-					</div>
-					<div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-						<div
-							style={{
-								width: "260px",
-								height: "18px",
-								background: "#1a0030",
-								border: "1px solid #440088",
-								overflow: "hidden",
-							}}
-						>
-							<div
-								style={{
-									height: "100%",
-									width: `${Math.min(100, myProgress * 5)}%`,
-									background: "#00ffff",
-									boxShadow: "0 0 10px #00ffff",
-									transition: "width 0.3s",
-								}}
-							/>
-						</div>
-						<div
-							style={{
-								width: "260px",
-								height: "18px",
-								background: "#1a0030",
-								border: "1px solid #440088",
-								overflow: "hidden",
-							}}
-						>
-							<div
-								style={{
-									height: "100%",
-									width: ghost ? `${Math.min(100, ghostProgress * 5)}%` : "0%",
-									background: "#ff00aa",
-									boxShadow: "0 0 10px #ff00aa",
-									transition: "width 0.3s",
-									opacity: ghost ? 1 : 0.3,
-								}}
-							/>
-						</div>
-					</div>
-					<div
-						style={{
-							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "15px",
-							color: "#ff00aa",
-							textShadow: "0 0 6px #ff00aa",
-							opacity: ghost ? 1 : 0.35,
-						}}
-					>
-						GHO {ghostProgress}
-					</div>
 				</div>
 
 				{/* Header stats */}
@@ -409,30 +325,68 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							)}
 						</div>
 
-						{/* Combo shimmer bar — synced with progressToHeal */}
+						{/* Multi-lap combo bars */}
 						<div
 							style={{
-								height: "4px",
-								background: "#1a0030",
-								position: "relative",
-								overflow: "hidden",
 								width: "100%",
+								height: "28px",
+								overflow: "hidden",
+								display: "flex",
+								flexDirection: "column-reverse",
+								gap: "2px",
+								padding: "0",
 							}}
 						>
+							{/* Current partial bar (newest — appears at bottom via column-reverse) */}
 							<div
 								style={{
-									height: "100%",
-									width: `${comboPct}%`,
-									background: `linear-gradient(90deg, ${sc}, #00ff66, #ffee00, ${sc})`,
-									backgroundSize: "200% 100%",
-									boxShadow: `0 0 8px ${sc}`,
-									animation:
-										player.combo > 0
-											? "comboShimmer 2s linear infinite"
-											: "none",
-									transition: "width 0.08s",
+									height: "4px",
+									minHeight: "4px",
+									background: "#1a0030",
+									position: "relative",
+									overflow: "hidden",
+									flexShrink: 0,
 								}}
-							/>
+							>
+								<div
+									style={{
+										height: "100%",
+										width: `${comboPct}%`,
+										background: `linear-gradient(90deg, ${sc}, #00ff66, #ffee00, ${sc})`,
+										backgroundSize: "200% 100%",
+										boxShadow: `0 0 8px ${sc}`,
+										animation:
+											player.combo > 0
+												? "comboShimmer 2s linear infinite"
+												: "none",
+										transition: "width 0.08s",
+									}}
+								/>
+							</div>
+							{/* Completed lap bars — stacked above the current bar */}
+							{Array.from({ length: completedLaps }, (_, i) => (
+								<div
+									key={i}
+									style={{
+										height: "4px",
+										minHeight: "4px",
+										background: "#1a0030",
+										position: "relative",
+										overflow: "hidden",
+										flexShrink: 0,
+									}}
+								>
+									<div
+										style={{
+											height: "100%",
+											width: "100%",
+											background: `linear-gradient(90deg, ${sc}99, #00ff6699, #ffee0099, ${sc}99)`,
+											backgroundSize: "200% 100%",
+											animation: "comboShimmer 3s linear infinite",
+										}}
+									/>
+								</div>
+							))}
 						</div>
 
 						{/* Central gauge + side stats */}
@@ -507,12 +461,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							{/* Central gauge with heal float overlay */}
 							<div style={{ position: "relative" }}>
 								<CentralGauge
-									progressToHeal={progressToHeal}
-									healStreak={state.healStreak}
-									streakColor={sc}
 									speed={player.speed}
-									combo={player.combo}
-									comboColor={cc}
 									hitCount={state.totalCorrect}
 									lastWrong={state.lastWrong}
 									{...(ghost ? { ghostSpeed: ghost.speed } : {})}
@@ -610,22 +559,117 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								</div>
 							</div>
 						</div>
-					</div>
 
-					{/* Keyboard — stays at bottom */}
-					{showKeyboard && (
+						{/* Sentence progress meter */}
 						<div
 							style={{
-								borderTop: "1px solid var(--border)",
-								background: "rgba(0,0,0,0.5)",
 								display: "flex",
-								justifyContent: "center",
-								flexShrink: 0,
+								flexDirection: "column",
+								alignItems: "center",
+								gap: "5px",
+								padding: "4px 32px 8px",
+								width: "100%",
 							}}
 						>
-							<KeyboardDisplay keyStats={[]} highlight={nextKeys} />
+							{/* Player progress */}
+							<div
+								style={{
+									display: "flex",
+									alignItems: "center",
+									gap: "10px",
+									width: "100%",
+									maxWidth: "320px",
+								}}
+							>
+								<span
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "9px",
+										color: "#00ffff",
+										textShadow: "0 0 6px #00ffff",
+										minWidth: "56px",
+									}}
+								>
+									自分 {myProgress}
+								</span>
+								<div
+									style={{
+										flex: 1,
+										height: "8px",
+										background: "#1a0030",
+										border: "1px solid #440088",
+										overflow: "hidden",
+									}}
+								>
+									<div
+										style={{
+											height: "100%",
+											width: `${Math.min(100, myProgress * 5)}%`,
+											background: "#00ffff",
+											boxShadow: "0 0 8px #00ffff",
+											transition: "width 0.3s",
+										}}
+									/>
+								</div>
+							</div>
+							{/* Ghost progress */}
+							{ghost && (
+								<div
+									style={{
+										display: "flex",
+										alignItems: "center",
+										gap: "10px",
+										width: "100%",
+										maxWidth: "320px",
+									}}
+								>
+									<span
+										style={{
+											fontFamily: "'Press Start 2P', monospace",
+											fontSize: "9px",
+											color: "#ff00aa",
+											textShadow: "0 0 6px #ff00aa",
+											minWidth: "56px",
+										}}
+									>
+										GHO {ghostProgress}
+									</span>
+									<div
+										style={{
+											flex: 1,
+											height: "8px",
+											background: "#1a0030",
+											border: "1px solid #440088",
+											overflow: "hidden",
+										}}
+									>
+										<div
+											style={{
+												height: "100%",
+												width: `${Math.min(100, ghostProgress * 5)}%`,
+												background: "#ff00aa",
+												boxShadow: "0 0 8px #ff00aa",
+												transition: "width 0.3s",
+											}}
+										/>
+									</div>
+								</div>
+							)}
 						</div>
-					)}
+
+						{/* Keyboard — inline below sentence meter */}
+						{showKeyboard && (
+							<div
+								style={{
+									display: "flex",
+									justifyContent: "center",
+									paddingBottom: "8px",
+								}}
+							>
+								<KeyboardDisplay keyStats={[]} highlight={nextKeys} />
+							</div>
+						)}
+					</div>
 				</div>
 
 				{/* RIGHT HP BAR — GHOST */}
