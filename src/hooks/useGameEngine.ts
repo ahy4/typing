@@ -435,7 +435,7 @@ export function useGameEngine() {
 			const needRefill =
 				s.sentences.length - newPlayer.sentenceIdx <= REFILL_AT;
 			if (needRefill) {
-				const extra = getSentenceQueue(10);
+				const extra = getSentenceQueue(10, newPlayer.speed);
 				finalPlayer = {
 					...newPlayer,
 					sentences: [...s.sentences, ...extra],
