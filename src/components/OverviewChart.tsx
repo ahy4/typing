@@ -55,26 +55,39 @@ function LineChart({
 }) {
 	const { getValue, label, unit, color, fmt } = metric;
 	const values = sessions.map(getValue);
-	const rawMax = Math.max(...values, 0.001);
-	const maxVal = rawMax * 1.05;
+	const rawMin = Math.min(...values);
+	const rawMax = Math.max(...values, rawMin + 0.001);
 	const n = sessions.length;
 	const plotW = VW - PAD_L - PAD_R;
 	const plotH = LINE_VH - PAD_T - PAD_B;
 	const xAxisH = showXAxis ? 28 : 0;
 	const totalH = LINE_VH + xAxisH;
 
-	function xPos(i: number) {
-		return n <= 1 ? PAD_L + plotW / 2 : PAD_L + (i / (n - 1)) * plotW;
+	// Auto-zoom y-axis: pad 20% of the data range above and below
+	const dataRange = rawMax - rawMin || rawMax * 0.05 || 0.001;
+	const pad = dataRange * 0.2;
+	const minVal = Math.max(0, rawMin - pad);
+	const maxVal = rawMax + pad;
+	const valSpan = maxVal - minVal;
+
+	// Time-based x position using actual timestamps
+	const minT = sessions[0]?.timestamp ?? 0;
+	const maxT = sessions[n - 1]?.timestamp ?? 0;
+	const timeSpan = maxT - minT;
+
+	function xPos(timestamp: number) {
+		if (n <= 1 || timeSpan === 0) return PAD_L + plotW / 2;
+		return PAD_L + ((timestamp - minT) / timeSpan) * plotW;
 	}
 	function yPos(v: number) {
-		return PAD_T + plotH * (1 - v / maxVal);
+		return PAD_T + plotH * (1 - (v - minVal) / valSpan);
 	}
 
 	const pts = values
 		.map((v, i) => {
 			const s = sessions[i];
 			if (!s) return null;
-			return { x: xPos(i), y: yPos(v), v, s };
+			return { x: xPos(s.timestamp), y: yPos(v), v, s };
 		})
 		.filter((p): p is NonNullable<typeof p> => p !== null);
 
@@ -88,22 +101,36 @@ function LineChart({
 			? `${linePath} L${last.x},${PAD_T + plotH} L${first.x},${PAD_T + plotH} Z`
 			: "";
 
-	const xLabels: { i: number; text: string }[] = [];
+	// Pick x-axis labels spaced by session index, placed at time-proportional x positions
+	const xLabels: { x: number; text: string }[] = [];
 	if (showXAxis && n > 0) {
 		const step = Math.max(1, Math.floor(n / 7));
+		const shownIndices = new Set<number>();
 		for (let i = 0; i < n; i += step) {
-			const d = new Date(sessions[i]?.timestamp ?? 0);
-			xLabels.push({ i, text: `${d.getMonth() + 1}/${d.getDate()}` });
+			const s = sessions[i];
+			if (!s) continue;
+			shownIndices.add(i);
+			const d = new Date(s.timestamp);
+			xLabels.push({
+				x: xPos(s.timestamp),
+				text: `${d.getMonth() + 1}/${d.getDate()}`,
+			});
 		}
-		const last = sessions[n - 1];
-		if (
-			last &&
-			(xLabels.length === 0 || xLabels[xLabels.length - 1]?.i !== n - 1)
-		) {
-			const d = new Date(last.timestamp);
-			xLabels.push({ i: n - 1, text: `${d.getMonth() + 1}/${d.getDate()}` });
+		const lastS = sessions[n - 1];
+		if (lastS && !shownIndices.has(n - 1)) {
+			const d = new Date(lastS.timestamp);
+			xLabels.push({
+				x: xPos(lastS.timestamp),
+				text: `${d.getMonth() + 1}/${d.getDate()}`,
+			});
 		}
 	}
+
+	// Compute 4 y-axis grid ticks within [minVal, maxVal]
+	const gridTicks = [0.25, 0.5, 0.75, 1.0].map((t) => ({
+		y: PAD_T + plotH * (1 - t),
+		v: minVal + valSpan * t,
+	}));
 
 	const gradId = `grad-${label}`;
 
@@ -122,20 +149,17 @@ function LineChart({
 				</defs>
 
 				{/* grid lines */}
-				{[0.25, 0.5, 0.75, 1.0].map((t) => {
-					const y = PAD_T + plotH * (1 - t);
-					return (
-						<line
-							key={t}
-							x1={PAD_L}
-							x2={VW - PAD_R}
-							y1={y}
-							y2={y}
-							stroke="#1a1a2e"
-							strokeWidth="1"
-						/>
-					);
-				})}
+				{gridTicks.map(({ y }) => (
+					<line
+						key={y}
+						x1={PAD_L}
+						x2={VW - PAD_R}
+						y1={y}
+						y2={y}
+						stroke="#1a1a2e"
+						strokeWidth="1"
+					/>
+				))}
 
 				{/* y-axis */}
 				<line
@@ -157,30 +181,21 @@ function LineChart({
 					strokeWidth="1"
 				/>
 
-				{/* max label */}
-				<text
-					x={PAD_L - 6}
-					y={PAD_T + 4}
-					fill="#666"
-					fontSize="11"
-					fontFamily="monospace"
-					textAnchor="end"
-				>
-					{fmt(rawMax)}
-				</text>
-
-				{/* 0 label */}
-				<text
-					x={PAD_L - 6}
-					y={PAD_T + plotH}
-					fill="#555"
-					fontSize="11"
-					fontFamily="monospace"
-					textAnchor="end"
-					dominantBaseline="auto"
-				>
-					0
-				</text>
+				{/* y-axis tick labels */}
+				{gridTicks.map(({ y, v }) => (
+					<text
+						key={y}
+						x={PAD_L - 6}
+						y={y}
+						fill="#666"
+						fontSize="11"
+						fontFamily="monospace"
+						textAnchor="end"
+						dominantBaseline="middle"
+					>
+						{fmt(v)}
+					</text>
+				))}
 
 				{/* y-axis label (rotated) */}
 				<text
@@ -226,10 +241,10 @@ function LineChart({
 
 				{/* x-axis date labels */}
 				{showXAxis &&
-					xLabels.map(({ i, text }) => (
+					xLabels.map(({ x, text }) => (
 						<text
-							key={i}
-							x={xPos(i)}
+							key={x}
+							x={x}
 							y={LINE_VH + 16}
 							fill="#666"
 							fontSize="10"
