@@ -29,7 +29,9 @@ const SPEED_BUCKETS: { maxKps: number; minKana: number; maxKana: number }[] = [
 
 function sentencePool(kps?: number): Sentence[] {
 	if (kps === undefined) return SENTENCES;
-	const bucket = SPEED_BUCKETS.find((b) => kps < b.maxKps) ?? SPEED_BUCKETS.at(-1)!;
+	const bucket =
+		SPEED_BUCKETS.find((b) => kps < b.maxKps) ??
+		SPEED_BUCKETS[SPEED_BUCKETS.length - 1];
 	return SENTENCES.filter(
 		(s) => s.kana.length >= bucket.minKana && s.kana.length <= bucket.maxKana,
 	);
