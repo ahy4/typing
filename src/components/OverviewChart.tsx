@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { SessionRecord } from "../lib/types";
 
 interface Props {
@@ -11,6 +12,7 @@ const PAD_R = 8;
 const PAD_T = 10;
 const PAD_B = 8;
 const MAX_SESSIONS = 30;
+const MIN_WINDOW = 5;
 
 interface MetricDef {
 	getValue: (s: SessionRecord) => number;
@@ -259,8 +261,31 @@ function LineChart({
 	);
 }
 
+const ZOOM_BTN: React.CSSProperties = {
+	fontFamily: "'Share Tech Mono', monospace",
+	fontSize: "13px",
+	background: "transparent",
+	border: "1px solid #333",
+	color: "#aaa",
+	cursor: "pointer",
+	padding: "3px 10px",
+	lineHeight: "1",
+	borderRadius: "2px",
+	userSelect: "none",
+};
+const ZOOM_BTN_DISABLED: React.CSSProperties = {
+	...ZOOM_BTN,
+	color: "#444",
+	cursor: "default",
+	borderColor: "#222",
+};
+
 export function OverviewChart({ sessions }: Props) {
-	if (sessions.length === 0) {
+	const total = sessions.length;
+	const [windowSize, setWindowSize] = useState(Math.min(MAX_SESSIONS, total));
+	const [offset, setOffset] = useState(0);
+
+	if (total === 0) {
 		return (
 			<p
 				style={{
@@ -275,27 +300,94 @@ export function OverviewChart({ sessions }: Props) {
 		);
 	}
 
-	const recent = sessions.slice(-MAX_SESSIONS);
+	const clampedWindow = Math.max(MIN_WINDOW, Math.min(windowSize, total));
+	const maxOffset = Math.max(0, total - clampedWindow);
+	const clampedOffset = Math.max(0, Math.min(offset, maxOffset));
+
+	const startIdx = total - clampedWindow - clampedOffset;
+	const displaySessions = sessions.slice(startIdx, startIdx + clampedWindow);
+
+	function zoomIn() {
+		const next = Math.max(MIN_WINDOW, Math.floor(clampedWindow * 0.65));
+		setWindowSize(next);
+		// keep the right edge fixed when zooming in
+		setOffset((o) => Math.min(o, Math.max(0, total - next)));
+	}
+	function zoomOut() {
+		const next = Math.min(total, Math.ceil(clampedWindow / 0.65));
+		setWindowSize(next);
+		setOffset((o) => Math.min(o, Math.max(0, total - next)));
+	}
+	function panLeft() {
+		setOffset((o) => Math.min(maxOffset, o + Math.max(1, Math.floor(clampedWindow * 0.3))));
+	}
+	function panRight() {
+		setOffset((o) => Math.max(0, o - Math.max(1, Math.floor(clampedWindow * 0.3))));
+	}
+
+	const canZoomIn = clampedWindow > MIN_WINDOW;
+	const canZoomOut = clampedWindow < total;
+	const canPanLeft = clampedOffset < maxOffset;
+	const canPanRight = clampedOffset > 0;
 
 	return (
 		<div>
 			<div
 				style={{
-					fontFamily: "'Press Start 2P', monospace",
-					fontSize: "10px",
-					color: "#999",
-					letterSpacing: "3px",
-					textTransform: "uppercase",
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "space-between",
 					marginBottom: "24px",
 				}}
 			>
-				直近{recent.length}回 — プレイ記録
+				<div
+					style={{
+						fontFamily: "'Press Start 2P', monospace",
+						fontSize: "10px",
+						color: "#999",
+						letterSpacing: "3px",
+						textTransform: "uppercase",
+					}}
+				>
+					{clampedWindow}回表示 / 全{total}回
+				</div>
+
+				<div style={{ display: "flex", gap: "4px", alignItems: "center" }}>
+					<button
+						style={canPanLeft ? ZOOM_BTN : ZOOM_BTN_DISABLED}
+						onClick={canPanLeft ? panLeft : undefined}
+						title="古い方へ"
+					>
+						◀
+					</button>
+					<button
+						style={canZoomIn ? ZOOM_BTN : ZOOM_BTN_DISABLED}
+						onClick={canZoomIn ? zoomIn : undefined}
+						title="拡大"
+					>
+						＋
+					</button>
+					<button
+						style={canZoomOut ? ZOOM_BTN : ZOOM_BTN_DISABLED}
+						onClick={canZoomOut ? zoomOut : undefined}
+						title="縮小"
+					>
+						－
+					</button>
+					<button
+						style={canPanRight ? ZOOM_BTN : ZOOM_BTN_DISABLED}
+						onClick={canPanRight ? panRight : undefined}
+						title="新しい方へ"
+					>
+						▶
+					</button>
+				</div>
 			</div>
 
 			{METRICS.map((metric, idx) => (
 				<LineChart
 					key={metric.label}
-					sessions={recent}
+					sessions={displaySessions}
 					metric={metric}
 					showXAxis={idx === METRICS.length - 1}
 				/>
