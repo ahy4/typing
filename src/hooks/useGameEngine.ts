@@ -6,6 +6,7 @@ import { applyDrain, applyInput, createRunnerState } from "../lib/runnerState";
 import { getSentenceQueue } from "../lib/sentences";
 import {
 	playComboMilestone,
+	playHeal,
 	playKeyTap,
 	playMiss,
 	playSegmentComplete,
@@ -424,6 +425,7 @@ export function useGameEngine() {
 		} else {
 			playKeyTap(newPlayer.combo);
 		}
+		if (healAmount > 0) playHeal(s.healStreak);
 
 		// Sentence refill: player-specific concern (ghost uses fixed replay sentences)
 		let finalPlayer = newPlayer;

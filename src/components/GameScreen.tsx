@@ -182,24 +182,24 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					style={{
 						display: "flex",
 						alignItems: "center",
-						gap: "12px",
+						gap: "14px",
 					}}
 				>
 					<div
 						style={{
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "13px",
+							fontSize: "15px",
 							color: "#00ffff",
 							textShadow: "0 0 6px #00ffff",
 						}}
 					>
 						自分 {myProgress}
 					</div>
-					<div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+					<div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
 						<div
 							style={{
-								width: "200px",
-								height: "14px",
+								width: "260px",
+								height: "18px",
 								background: "#1a0030",
 								border: "1px solid #440088",
 								overflow: "hidden",
@@ -210,15 +210,15 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 									height: "100%",
 									width: `${Math.min(100, myProgress * 5)}%`,
 									background: "#00ffff",
-									boxShadow: "0 0 8px #00ffff",
+									boxShadow: "0 0 10px #00ffff",
 									transition: "width 0.3s",
 								}}
 							/>
 						</div>
 						<div
 							style={{
-								width: "200px",
-								height: "14px",
+								width: "260px",
+								height: "18px",
 								background: "#1a0030",
 								border: "1px solid #440088",
 								overflow: "hidden",
@@ -229,7 +229,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 									height: "100%",
 									width: ghost ? `${Math.min(100, ghostProgress * 5)}%` : "0%",
 									background: "#ff00aa",
-									boxShadow: "0 0 8px #ff00aa",
+									boxShadow: "0 0 10px #ff00aa",
 									transition: "width 0.3s",
 									opacity: ghost ? 1 : 0.3,
 								}}
@@ -239,7 +239,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					<div
 						style={{
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "13px",
+							fontSize: "15px",
 							color: "#ff00aa",
 							textShadow: "0 0 6px #ff00aa",
 							opacity: ghost ? 1 : 0.35,
@@ -367,38 +367,6 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					>
 						{Math.round(lifePct)}%
 					</div>
-
-					{healAnim && (
-						<>
-							<div
-								key={`flash-${healAnim.id}`}
-								style={{
-									position: "absolute",
-									inset: 0,
-									background: sc,
-									animation: "healFlash 0.4s ease-out forwards",
-									pointerEvents: "none",
-								}}
-							/>
-							<span
-								key={healAnim.id}
-								style={{
-									position: "absolute",
-									bottom: `${lifePct}%`,
-									left: "50%",
-									fontSize: "16px",
-									fontFamily: "'Press Start 2P', monospace",
-									color: sc,
-									textShadow: `0 0 10px ${sc}, 0 0 20px ${sc}`,
-									animation: "healFloat 1s ease-out forwards",
-									pointerEvents: "none",
-								}}
-								onAnimationEnd={() => setHealAnim(null)}
-							>
-								+{Math.round(healAnim.amount)}
-							</span>
-						</>
-					)}
 				</div>
 
 				{/* CENTER */}
@@ -406,208 +374,245 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					className="flex-1 flex flex-col min-w-0"
 					style={{ overflow: "hidden" }}
 				>
-					{/* Typing area */}
+					{/* Middle group: typing + shimmer + gauge — vertically centered together */}
 					<div
-						className="flex-1 flex flex-col items-center justify-center"
-						style={{ padding: "16px 32px", gap: "12px" }}
+						className="flex-1 flex flex-col items-center justify-center min-h-0"
+						style={{ gap: "0px" }}
 					>
-						{sentence ? (
-							<TypingDisplay
-								sentence={sentence}
-								typingState={player.typingState}
-								lastWrong={state.lastWrong}
+						{/* Typing area */}
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								alignItems: "center",
+								padding: "16px 32px",
+								gap: "12px",
+								width: "100%",
+							}}
+						>
+							{sentence ? (
+								<TypingDisplay
+									sentence={sentence}
+									typingState={player.typingState}
+									lastWrong={state.lastWrong}
+								/>
+							) : (
+								<div
+									style={{
+										color: "#666",
+										fontFamily: "'Share Tech Mono', monospace",
+										fontSize: "16px",
+									}}
+								>
+									読み込み中...
+								</div>
+							)}
+						</div>
+
+						{/* Combo shimmer bar — synced with progressToHeal */}
+						<div
+							style={{
+								height: "4px",
+								background: "#1a0030",
+								position: "relative",
+								overflow: "hidden",
+								width: "100%",
+							}}
+						>
+							<div
+								style={{
+									height: "100%",
+									width: `${comboPct}%`,
+									background: `linear-gradient(90deg, ${sc}, #00ff66, #ffee00, ${sc})`,
+									backgroundSize: "200% 100%",
+									boxShadow: `0 0 8px ${sc}`,
+									animation:
+										player.combo > 0
+											? "comboShimmer 2s linear infinite"
+											: "none",
+									transition: "width 0.08s",
+								}}
 							/>
-						) : (
-							<div
-								style={{
-									color: "#666",
-									fontFamily: "'Share Tech Mono', monospace",
-									fontSize: "16px",
-								}}
-							>
-								読み込み中...
-							</div>
-						)}
-					</div>
-
-					{/* Combo gauge — thin shimmer bar, synced with progressToHeal */}
-					<div
-						style={{
-							height: "4px",
-							background: "#1a0030",
-							position: "relative",
-							overflow: "hidden",
-						}}
-					>
-						<div
-							style={{
-								height: "100%",
-								width: `${comboPct}%`,
-								background: `linear-gradient(90deg, ${sc}, #00ff66, #ffee00, ${sc})`,
-								backgroundSize: "200% 100%",
-								boxShadow: `0 0 8px ${sc}`,
-								animation:
-									player.combo > 0 ? "comboShimmer 2s linear infinite" : "none",
-								transition: "width 0.08s",
-							}}
-						/>
-					</div>
-
-					{/* Central gauge + side stats */}
-					<div
-						style={{
-							display: "flex",
-							justifyContent: "center",
-							alignItems: "center",
-							padding: "8px 20px",
-							gap: "32px",
-						}}
-					>
-						{/* Left side stats */}
-						<div
-							style={{
-								display: "flex",
-								flexDirection: "column",
-								gap: "18px",
-								minWidth: "120px",
-							}}
-						>
-							<div>
-								<div
-									style={{
-										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "10px",
-										color: "#666",
-										textTransform: "uppercase",
-										letterSpacing: "2px",
-										marginBottom: "5px",
-									}}
-								>
-									CORRECT
-								</div>
-								<div
-									style={{
-										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "24px",
-										color: "#00ff66",
-										textShadow: "0 0 8px #00ff66",
-									}}
-								>
-									{state.totalCorrect}
-								</div>
-							</div>
-							<div>
-								<div
-									style={{
-										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "10px",
-										color: "#666",
-										textTransform: "uppercase",
-										letterSpacing: "2px",
-										marginBottom: "5px",
-									}}
-								>
-									MISS
-								</div>
-								<div
-									style={{
-										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "24px",
-										color: "#ff2244",
-										textShadow: "0 0 8px #ff2244",
-									}}
-								>
-									{state.totalErrors}
-								</div>
-							</div>
 						</div>
 
-						{/* Central gauge */}
-						<CentralGauge
-							progressToHeal={progressToHeal}
-							healStreak={state.healStreak}
-							streakColor={sc}
-							speed={player.speed}
-							combo={player.combo}
-							comboColor={cc}
-							hitCount={state.totalCorrect}
-							lastWrong={state.lastWrong}
-							{...(ghost ? { ghostSpeed: ghost.speed } : {})}
-						/>
-
-						{/* Right side stats */}
+						{/* Central gauge + side stats */}
 						<div
 							style={{
 								display: "flex",
-								flexDirection: "column",
-								gap: "18px",
-								minWidth: "120px",
-								alignItems: "flex-end",
+								justifyContent: "center",
+								alignItems: "center",
+								padding: "12px 20px",
+								gap: "32px",
 							}}
 						>
+							{/* Left side stats */}
 							<div
 								style={{
-									alignItems: "flex-end",
 									display: "flex",
 									flexDirection: "column",
+									gap: "18px",
+									minWidth: "120px",
 								}}
 							>
-								<div
-									style={{
-										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "10px",
-										color: "#666",
-										textTransform: "uppercase",
-										letterSpacing: "2px",
-										marginBottom: "5px",
-									}}
-								>
-									ACCURACY
+								<div>
+									<div
+										style={{
+											fontFamily: "'Press Start 2P', monospace",
+											fontSize: "10px",
+											color: "#666",
+											textTransform: "uppercase",
+											letterSpacing: "2px",
+											marginBottom: "5px",
+										}}
+									>
+										CORRECT
+									</div>
+									<div
+										style={{
+											fontFamily: "'Press Start 2P', monospace",
+											fontSize: "24px",
+											color: "#00ff66",
+											textShadow: "0 0 8px #00ff66",
+										}}
+									>
+										{state.totalCorrect}
+									</div>
 								</div>
-								<div
-									style={{
-										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "24px",
-										color: "#ffee00",
-										textShadow: "0 0 8px #ffee00",
-									}}
-								>
-									{acc}%
+								<div>
+									<div
+										style={{
+											fontFamily: "'Press Start 2P', monospace",
+											fontSize: "10px",
+											color: "#666",
+											textTransform: "uppercase",
+											letterSpacing: "2px",
+											marginBottom: "5px",
+										}}
+									>
+										MISS
+									</div>
+									<div
+										style={{
+											fontFamily: "'Press Start 2P', monospace",
+											fontSize: "24px",
+											color: "#ff2244",
+											textShadow: "0 0 8px #ff2244",
+										}}
+									>
+										{state.totalErrors}
+									</div>
 								</div>
 							</div>
+
+							{/* Central gauge with heal float overlay */}
+							<div style={{ position: "relative" }}>
+								<CentralGauge
+									progressToHeal={progressToHeal}
+									healStreak={state.healStreak}
+									streakColor={sc}
+									speed={player.speed}
+									combo={player.combo}
+									comboColor={cc}
+									hitCount={state.totalCorrect}
+									lastWrong={state.lastWrong}
+									{...(ghost ? { ghostSpeed: ghost.speed } : {})}
+								/>
+								{healAnim && (
+									<span
+										key={healAnim.id}
+										style={{
+											position: "absolute",
+											top: "4px",
+											left: "50%",
+											fontFamily: "'Press Start 2P', monospace",
+											fontSize: "15px",
+											color: sc,
+											textShadow: `0 0 10px ${sc}, 0 0 20px ${sc}`,
+											animation: "healFloat 1s ease-out forwards",
+											pointerEvents: "none",
+											whiteSpace: "nowrap",
+										}}
+										onAnimationEnd={() => setHealAnim(null)}
+									>
+										+{Math.round(healAnim.amount)} 回復
+									</span>
+								)}
+							</div>
+
+							{/* Right side stats */}
 							<div
 								style={{
-									alignItems: "flex-end",
 									display: "flex",
 									flexDirection: "column",
+									gap: "18px",
+									minWidth: "120px",
+									alignItems: "flex-end",
 								}}
 							>
 								<div
 									style={{
-										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "10px",
-										color: "#666",
-										textTransform: "uppercase",
-										letterSpacing: "2px",
-										marginBottom: "5px",
+										alignItems: "flex-end",
+										display: "flex",
+										flexDirection: "column",
 									}}
 								>
-									TIME
+									<div
+										style={{
+											fontFamily: "'Press Start 2P', monospace",
+											fontSize: "10px",
+											color: "#666",
+											textTransform: "uppercase",
+											letterSpacing: "2px",
+											marginBottom: "5px",
+										}}
+									>
+										ACCURACY
+									</div>
+									<div
+										style={{
+											fontFamily: "'Press Start 2P', monospace",
+											fontSize: "24px",
+											color: "#ffee00",
+											textShadow: "0 0 8px #ffee00",
+										}}
+									>
+										{acc}%
+									</div>
 								</div>
 								<div
 									style={{
-										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "24px",
-										color: "#aaa",
+										alignItems: "flex-end",
+										display: "flex",
+										flexDirection: "column",
 									}}
 								>
-									{timeStr}
+									<div
+										style={{
+											fontFamily: "'Press Start 2P', monospace",
+											fontSize: "10px",
+											color: "#666",
+											textTransform: "uppercase",
+											letterSpacing: "2px",
+											marginBottom: "5px",
+										}}
+									>
+										TIME
+									</div>
+									<div
+										style={{
+											fontFamily: "'Press Start 2P', monospace",
+											fontSize: "24px",
+											color: "#aaa",
+										}}
+									>
+										{timeStr}
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 
-					{/* Keyboard */}
+					{/* Keyboard — stays at bottom */}
 					{showKeyboard && (
 						<div
 							style={{
@@ -615,6 +620,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								background: "rgba(0,0,0,0.5)",
 								display: "flex",
 								justifyContent: "center",
+								flexShrink: 0,
 							}}
 						>
 							<KeyboardDisplay keyStats={[]} highlight={nextKeys} />
