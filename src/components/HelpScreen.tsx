@@ -43,8 +43,7 @@ export function HelpScreen({ onBack }: Props) {
 								WebkitBackgroundClip: "text",
 								WebkitTextFillColor: "transparent",
 								backgroundClip: "text",
-								animation: "milkyShimmer 5s linear infinite",
-								filter: "drop-shadow(0 0 6px #c084fc88)",
+								animation: "milkyShimmer 5s linear infinite, milkyGlow 3s ease-in-out infinite",
 								letterSpacing: "2px",
 							}}
 						>

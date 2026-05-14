@@ -80,8 +80,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						WebkitBackgroundClip: "text",
 						WebkitTextFillColor: "transparent",
 						backgroundClip: "text",
-						animation: "milkyShimmer 5s linear infinite",
-						filter: "drop-shadow(0 0 12px #c084fc88)",
+						animation: "milkyShimmer 5s linear infinite, milkyGlow 3s ease-in-out infinite",
 						letterSpacing: "3px",
 					}}
 				>

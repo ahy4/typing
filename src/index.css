@@ -211,6 +211,16 @@ body,
 	}
 }
 
+@keyframes milkyGlow {
+	0%,
+	100% {
+		filter: drop-shadow(0 0 8px #c084fcaa) drop-shadow(0 0 20px #818cf855);
+	}
+	50% {
+		filter: drop-shadow(0 0 18px #f472b6cc) drop-shadow(0 0 40px #c084fc77);
+	}
+}
+
 @keyframes milkyShimmer {
 	0% {
 		background-position: 0% 50%;
