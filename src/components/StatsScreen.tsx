@@ -262,7 +262,9 @@ export function StatsScreen({
 					}}
 				>
 					{tab === "overview" && (
-						<div style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
+						<div
+							style={{ display: "flex", flexDirection: "column", gap: "40px" }}
+						>
 							<OverviewChart sessions={sessions} />
 							{sessions.length > 0 && (
 								<div>

@@ -70,12 +70,22 @@ function LineChart({
 		return PAD_T + plotH * (1 - v / maxVal);
 	}
 
-	const pts = values.map((v, i) => ({ x: xPos(i), y: yPos(v), v, s: sessions[i]! }));
+	const pts = values
+		.map((v, i) => {
+			const s = sessions[i];
+			if (!s) return null;
+			return { x: xPos(i), y: yPos(v), v, s };
+		})
+		.filter((p): p is NonNullable<typeof p> => p !== null);
 
-	const linePath = pts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ");
+	const linePath = pts
+		.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`)
+		.join(" ");
+	const first = pts[0];
+	const last = pts[pts.length - 1];
 	const areaPath =
-		pts.length > 0
-			? `${linePath} L${pts[pts.length - 1]!.x},${PAD_T + plotH} L${pts[0]!.x},${PAD_T + plotH} Z`
+		first && last
+			? `${linePath} L${last.x},${PAD_T + plotH} L${first.x},${PAD_T + plotH} Z`
 			: "";
 
 	const xLabels: { i: number; text: string }[] = [];
@@ -86,7 +96,10 @@ function LineChart({
 			xLabels.push({ i, text: `${d.getMonth() + 1}/${d.getDate()}` });
 		}
 		const last = sessions[n - 1];
-		if (last && (xLabels.length === 0 || xLabels[xLabels.length - 1]?.i !== n - 1)) {
+		if (
+			last &&
+			(xLabels.length === 0 || xLabels[xLabels.length - 1]?.i !== n - 1)
+		) {
 			const d = new Date(last.timestamp);
 			xLabels.push({ i: n - 1, text: `${d.getMonth() + 1}/${d.getDate()}` });
 		}
@@ -125,18 +138,47 @@ function LineChart({
 				})}
 
 				{/* y-axis */}
-				<line x1={PAD_L} y1={PAD_T} x2={PAD_L} y2={PAD_T + plotH} stroke="#444" strokeWidth="1" />
+				<line
+					x1={PAD_L}
+					y1={PAD_T}
+					x2={PAD_L}
+					y2={PAD_T + plotH}
+					stroke="#444"
+					strokeWidth="1"
+				/>
 
 				{/* baseline */}
-				<line x1={PAD_L} y1={PAD_T + plotH} x2={VW - PAD_R} y2={PAD_T + plotH} stroke="#444" strokeWidth="1" />
+				<line
+					x1={PAD_L}
+					y1={PAD_T + plotH}
+					x2={VW - PAD_R}
+					y2={PAD_T + plotH}
+					stroke="#444"
+					strokeWidth="1"
+				/>
 
 				{/* max label */}
-				<text x={PAD_L - 6} y={PAD_T + 4} fill="#666" fontSize="11" fontFamily="monospace" textAnchor="end">
+				<text
+					x={PAD_L - 6}
+					y={PAD_T + 4}
+					fill="#666"
+					fontSize="11"
+					fontFamily="monospace"
+					textAnchor="end"
+				>
 					{fmt(rawMax)}
 				</text>
 
 				{/* 0 label */}
-				<text x={PAD_L - 6} y={PAD_T + plotH} fill="#555" fontSize="11" fontFamily="monospace" textAnchor="end" dominantBaseline="auto">
+				<text
+					x={PAD_L - 6}
+					y={PAD_T + plotH}
+					fill="#555"
+					fontSize="11"
+					fontFamily="monospace"
+					textAnchor="end"
+					dominantBaseline="auto"
+				>
 					0
 				</text>
 
