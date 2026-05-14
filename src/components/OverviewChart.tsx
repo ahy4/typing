@@ -319,10 +319,14 @@ export function OverviewChart({ sessions }: Props) {
 		setOffset((o) => Math.min(o, Math.max(0, total - next)));
 	}
 	function panLeft() {
-		setOffset((o) => Math.min(maxOffset, o + Math.max(1, Math.floor(clampedWindow * 0.3))));
+		setOffset((o) =>
+			Math.min(maxOffset, o + Math.max(1, Math.floor(clampedWindow * 0.3))),
+		);
 	}
 	function panRight() {
-		setOffset((o) => Math.max(0, o - Math.max(1, Math.floor(clampedWindow * 0.3))));
+		setOffset((o) =>
+			Math.max(0, o - Math.max(1, Math.floor(clampedWindow * 0.3))),
+		);
 	}
 
 	const canZoomIn = clampedWindow > MIN_WINDOW;
@@ -354,6 +358,7 @@ export function OverviewChart({ sessions }: Props) {
 
 				<div style={{ display: "flex", gap: "4px", alignItems: "center" }}>
 					<button
+						type="button"
 						style={canPanLeft ? ZOOM_BTN : ZOOM_BTN_DISABLED}
 						onClick={canPanLeft ? panLeft : undefined}
 						title="古い方へ"
@@ -361,6 +366,7 @@ export function OverviewChart({ sessions }: Props) {
 						◀
 					</button>
 					<button
+						type="button"
 						style={canZoomIn ? ZOOM_BTN : ZOOM_BTN_DISABLED}
 						onClick={canZoomIn ? zoomIn : undefined}
 						title="拡大"
@@ -368,6 +374,7 @@ export function OverviewChart({ sessions }: Props) {
 						＋
 					</button>
 					<button
+						type="button"
 						style={canZoomOut ? ZOOM_BTN : ZOOM_BTN_DISABLED}
 						onClick={canZoomOut ? zoomOut : undefined}
 						title="縮小"
@@ -375,6 +382,7 @@ export function OverviewChart({ sessions }: Props) {
 						－
 					</button>
 					<button
+						type="button"
 						style={canPanRight ? ZOOM_BTN : ZOOM_BTN_DISABLED}
 						onClick={canPanRight ? panRight : undefined}
 						title="新しい方へ"
