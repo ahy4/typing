@@ -287,7 +287,9 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 						</span>
 						<span>
 							ミス{" "}
-							<span style={{ color: "#ff2244" }}>{displayState.totalErrors}</span>
+							<span style={{ color: "#ff2244" }}>
+								{displayState.totalErrors}
+							</span>
 						</span>
 						<span>
 							精度 <span style={{ color: "#ffee00" }}>{acc}%</span>
