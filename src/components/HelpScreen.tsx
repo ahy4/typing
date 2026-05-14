@@ -35,11 +35,17 @@ export function HelpScreen({ onBack }: Props) {
 					<div>
 						<div
 							style={{
-								fontFamily: "'Press Start 2P', monospace",
-								fontSize: "16px",
-								color: "#00ffff",
-								textShadow: "0 0 10px #00ffff, 0 0 20px #00ffff",
-								letterSpacing: "3px",
+								fontFamily: "'Dela Gothic One', sans-serif",
+								fontSize: "20px",
+								background:
+									"linear-gradient(90deg, #ff6eb4, #c084fc, #818cf8, #60a5fa, #c084fc, #ff6eb4)",
+								backgroundSize: "200% auto",
+								WebkitBackgroundClip: "text",
+								WebkitTextFillColor: "transparent",
+								backgroundClip: "text",
+								animation: "milkyShimmer 5s linear infinite",
+								filter: "drop-shadow(0 0 6px #c084fc88)",
+								letterSpacing: "2px",
 							}}
 						>
 							{"ミルキー★タイピング"}

@@ -72,12 +72,17 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 			>
 				<div
 					style={{
-						fontFamily: "'Press Start 2P', monospace",
-						fontSize: "42px",
-						color: "#00ffff",
-						textShadow: "0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff",
-						letterSpacing: "6px",
-						animation: "neonPulse 3s ease-in-out infinite",
+						fontFamily: "'Dela Gothic One', sans-serif",
+						fontSize: "48px",
+						background:
+							"linear-gradient(90deg, #ff6eb4, #c084fc, #818cf8, #60a5fa, #c084fc, #ff6eb4)",
+						backgroundSize: "200% auto",
+						WebkitBackgroundClip: "text",
+						WebkitTextFillColor: "transparent",
+						backgroundClip: "text",
+						animation: "milkyShimmer 5s linear infinite",
+						filter: "drop-shadow(0 0 12px #c084fc88)",
+						letterSpacing: "3px",
 					}}
 				>
 					{"ミルキー★タイピング"}
