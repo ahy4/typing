@@ -2,6 +2,7 @@ import { useState } from "react";
 import { loadReplays } from "../lib/storage";
 import type { ReplayData, SessionRecord } from "../lib/types";
 import { HeatmapView } from "./HeatmapView";
+import { OverviewChart } from "./OverviewChart";
 import { ReplayPlayer } from "./ReplayPlayer";
 
 interface Props {
@@ -19,7 +20,7 @@ export function StatsScreen({
 	onStartWithGhost,
 	onDeleteReplay,
 }: Props) {
-	const [tab, setTab] = useState<"heatmap" | "replays">("heatmap");
+	const [tab, setTab] = useState<"overview" | "replays">("overview");
 	const [watchingReplayId, setWatchingReplayId] = useState<string | null>(null);
 	const [heatmapReplay, setHeatmapReplay] = useState<ReplayData | null>(null);
 	const [replays, setReplays] = useState<ReplayData[]>(() => loadReplays());
@@ -223,7 +224,7 @@ export function StatsScreen({
 						flexShrink: 0,
 					}}
 				>
-					{(["heatmap", "replays"] as const).map((t) => (
+					{(["overview", "replays"] as const).map((t) => (
 						<button
 							type="button"
 							key={t}
@@ -247,7 +248,7 @@ export function StatsScreen({
 								marginBottom: "-1px",
 							}}
 						>
-							{t === "heatmap" ? "ヒートマップ" : "履歴"}
+							{t === "overview" ? "オーバービュー" : "履歴"}
 						</button>
 					))}
 				</div>
@@ -260,70 +261,8 @@ export function StatsScreen({
 						padding: "28px 32px",
 					}}
 				>
-					{tab === "heatmap" && (
-						<div>
-							{/* Heatmap source selector */}
-							<div
-								style={{
-									display: "flex",
-									gap: "10px",
-									marginBottom: "24px",
-									flexWrap: "wrap",
-								}}
-							>
-								<button
-									type="button"
-									onClick={() => setHeatmapReplay(null)}
-									style={{
-										padding: "8px 16px",
-										fontFamily: "'Press Start 2P', monospace",
-										fontSize: "9px",
-										border: `1px solid ${heatmapReplay === null ? "#00ffff" : "#7a30c0"}`,
-										color: heatmapReplay === null ? "#00ffff" : "#bbb",
-										background:
-											heatmapReplay === null
-												? "rgba(0,255,255,0.08)"
-												: "transparent",
-										cursor: "pointer",
-										letterSpacing: "1px",
-										transition: "all 0.15s",
-									}}
-								>
-									全セッション
-								</button>
-								{[...replays]
-									.reverse()
-									.slice(0, 8)
-									.map((r) => (
-										<button
-											type="button"
-											key={r.id}
-											onClick={() => setHeatmapReplay(r)}
-											style={{
-												padding: "8px 14px",
-												fontFamily: "'Share Tech Mono', monospace",
-												fontSize: "12px",
-												border: `1px solid ${heatmapReplay?.id === r.id ? "#ff00aa" : "#7a30c0"}`,
-												color: heatmapReplay?.id === r.id ? "#ff00aa" : "#bbb",
-												background:
-													heatmapReplay?.id === r.id
-														? "rgba(255,0,170,0.08)"
-														: "transparent",
-												cursor: "pointer",
-												transition: "all 0.15s",
-											}}
-										>
-											{new Date(r.timestamp).toLocaleDateString()}{" "}
-											{r.wpm.toFixed(1)}打/秒
-										</button>
-									))}
-							</div>
-							{heatmapReplay ? (
-								<HeatmapView replay={heatmapReplay} />
-							) : (
-								<HeatmapView sessions={sessions} />
-							)}
-						</div>
+					{tab === "overview" && (
+						<OverviewChart sessions={sessions} />
 					)}
 
 					{tab === "replays" && (
@@ -340,6 +279,53 @@ export function StatsScreen({
 							>
 								履歴一覧
 							</div>
+							{heatmapReplay && (
+								<div
+									style={{
+										marginBottom: "28px",
+										padding: "20px",
+										border: "1px solid #882255",
+										background: "rgba(255,0,170,0.04)",
+									}}
+								>
+									<div
+										style={{
+											display: "flex",
+											alignItems: "center",
+											gap: "16px",
+											marginBottom: "16px",
+										}}
+									>
+										<span
+											style={{
+												fontFamily: "'Press Start 2P', monospace",
+												fontSize: "9px",
+												color: "#ff00aa",
+												letterSpacing: "2px",
+											}}
+										>
+											ヒートマップ —{" "}
+											{new Date(heatmapReplay.timestamp).toLocaleString()}
+										</span>
+										<button
+											type="button"
+											onClick={() => setHeatmapReplay(null)}
+											style={{
+												fontFamily: "'Press Start 2P', monospace",
+												fontSize: "8px",
+												color: "#888",
+												background: "none",
+												border: "1px solid #555",
+												padding: "4px 10px",
+												cursor: "pointer",
+											}}
+										>
+											閉じる
+										</button>
+									</div>
+									<HeatmapView replay={heatmapReplay} />
+								</div>
+							)}
 							{replays.length === 0 && (
 								<p
 									style={{
@@ -414,10 +400,7 @@ export function StatsScreen({
 													label: "ヒートマップ",
 													color: "#ff00aa",
 													borderColor: "#882255",
-													action: () => {
-														setHeatmapReplay(r);
-														setTab("heatmap");
-													},
+													action: () => setHeatmapReplay(heatmapReplay?.id === r.id ? null : r),
 												},
 												{
 													label: "▶ 再生",
