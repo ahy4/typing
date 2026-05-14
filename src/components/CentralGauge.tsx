@@ -12,7 +12,7 @@ const MAX_KPS = 12;
 // Car-style speedometer: bottom-left (225°) → clockwise → bottom-right (135°), 270° sweep
 const START_DEG = 225;
 const TOTAL_DEG = 270;
-const ARC_LENGTH = SPEED_R * (TOTAL_DEG * Math.PI) / 180;
+const ARC_LENGTH = (SPEED_R * (TOTAL_DEG * Math.PI)) / 180;
 
 function polarToXY(cx: number, cy: number, r: number, deg: number) {
 	const rad = ((deg - 90) * Math.PI) / 180;
@@ -213,8 +213,8 @@ export function CentralGauge({
 				)}
 
 				{/* Tick marks */}
-				{ticks.map((tick, i) => (
-					<g key={i}>
+				{ticks.map((tick) => (
+					<g key={tick.value}>
 						<line
 							x1={tick.inner.x}
 							y1={tick.inner.y}
