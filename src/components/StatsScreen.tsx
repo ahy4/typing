@@ -83,9 +83,9 @@ export function StatsScreen({
 					style={{
 						fontFamily: "'Press Start 2P', monospace",
 						fontSize: "10px",
-						color: "#555",
+						color: "#bbb",
 						background: "none",
-						border: "1px solid #2a0050",
+						border: "1px solid #7a30c0",
 						padding: "10px 20px",
 						cursor: "pointer",
 						letterSpacing: "1px",
@@ -96,8 +96,8 @@ export function StatsScreen({
 						e.currentTarget.style.borderColor = "#00ffff";
 					}}
 					onMouseLeave={(e) => {
-						e.currentTarget.style.color = "#555";
-						e.currentTarget.style.borderColor = "#2a0050";
+						e.currentTarget.style.color = "#bbb";
+						e.currentTarget.style.borderColor = "#7a30c0";
 					}}
 				>
 					← 戻る
@@ -123,9 +123,9 @@ export function StatsScreen({
 					style={{
 						fontFamily: "'Press Start 2P', monospace",
 						fontSize: "9px",
-						color: "#441111",
+						color: "#cc5555",
 						background: "none",
-						border: "1px solid #440000",
+						border: "1px solid #883333",
 						padding: "10px 16px",
 						cursor: "pointer",
 						letterSpacing: "1px",
@@ -136,8 +136,8 @@ export function StatsScreen({
 						e.currentTarget.style.borderColor = "#ff2244";
 					}}
 					onMouseLeave={(e) => {
-						e.currentTarget.style.color = "#441111";
-						e.currentTarget.style.borderColor = "#440000";
+						e.currentTarget.style.color = "#cc5555";
+						e.currentTarget.style.borderColor = "#883333";
 					}}
 				>
 					データリセット
@@ -158,7 +158,7 @@ export function StatsScreen({
 					{
 						label: "セッション数",
 						value: String(sessions.length),
-						color: "#888",
+						color: "#aaa",
 					},
 					{
 						label: "平均 打/秒",
@@ -194,7 +194,7 @@ export function StatsScreen({
 							style={{
 								fontFamily: "'Press Start 2P', monospace",
 								fontSize: "9px",
-								color: "#444",
+								color: "#999",
 								textTransform: "uppercase",
 								letterSpacing: "2px",
 							}}
@@ -231,7 +231,7 @@ export function StatsScreen({
 							background: "none",
 							border: "none",
 							borderBottom: `3px solid ${tab === t ? "#00ffff" : "transparent"}`,
-							color: tab === t ? "#00ffff" : "#444",
+							color: tab === t ? "#00ffff" : "#999",
 							textShadow: tab === t ? "0 0 8px #00ffff44" : "none",
 							cursor: "pointer",
 							transition: "all 0.15s",
@@ -269,8 +269,8 @@ export function StatsScreen({
 									padding: "8px 16px",
 									fontFamily: "'Press Start 2P', monospace",
 									fontSize: "9px",
-									border: `1px solid ${heatmapReplay === null ? "#00ffff" : "#2a0050"}`,
-									color: heatmapReplay === null ? "#00ffff" : "#555",
+									border: `1px solid ${heatmapReplay === null ? "#00ffff" : "#7a30c0"}`,
+									color: heatmapReplay === null ? "#00ffff" : "#bbb",
 									background:
 										heatmapReplay === null
 											? "rgba(0,255,255,0.08)"
@@ -294,8 +294,8 @@ export function StatsScreen({
 											padding: "8px 14px",
 											fontFamily: "'Share Tech Mono', monospace",
 											fontSize: "12px",
-											border: `1px solid ${heatmapReplay?.id === r.id ? "#ff00aa" : "#2a0050"}`,
-											color: heatmapReplay?.id === r.id ? "#ff00aa" : "#555",
+											border: `1px solid ${heatmapReplay?.id === r.id ? "#ff00aa" : "#7a30c0"}`,
+											color: heatmapReplay?.id === r.id ? "#ff00aa" : "#bbb",
 											background:
 												heatmapReplay?.id === r.id
 													? "rgba(255,0,170,0.08)"
@@ -323,7 +323,7 @@ export function StatsScreen({
 							style={{
 								fontFamily: "'Press Start 2P', monospace",
 								fontSize: "10px",
-								color: "#333",
+								color: "#999",
 								letterSpacing: "3px",
 								textTransform: "uppercase",
 								marginBottom: "20px",
@@ -336,7 +336,7 @@ export function StatsScreen({
 								style={{
 									fontFamily: "'Share Tech Mono', monospace",
 									fontSize: "14px",
-									color: "#444",
+									color: "#888",
 									padding: "24px 0",
 								}}
 							>
@@ -360,7 +360,7 @@ export function StatsScreen({
 									style={{
 										fontFamily: "'Share Tech Mono', monospace",
 										fontSize: "13px",
-										color: "#555",
+										color: "#aaa",
 										minWidth: "180px",
 									}}
 								>
@@ -380,7 +380,7 @@ export function StatsScreen({
 									<span
 										style={{
 											fontSize: "10px",
-											color: "#444",
+											color: "#999",
 										}}
 									>
 										打/秒
@@ -404,7 +404,7 @@ export function StatsScreen({
 											{
 												label: "ヒートマップ",
 												color: "#ff00aa",
-												borderColor: "#440033",
+												borderColor: "#882255",
 												action: () => {
 													setHeatmapReplay(r);
 													setTab("heatmap");
@@ -412,20 +412,20 @@ export function StatsScreen({
 											},
 											{
 												label: "▶ 再生",
-												color: "#888",
-												borderColor: "#333",
+												color: "#cccccc",
+												borderColor: "#666666",
 												action: () => setWatchingReplayId(r.id),
 											},
 											{
 												label: "⚔ 対戦",
 												color: "#00ffff",
-												borderColor: "#004444",
+												borderColor: "#006666",
 												action: () => onStartWithGhost(r.id),
 											},
 											{
 												label: "削除",
-												color: "#441111",
-												borderColor: "#330000",
+												color: "#cc5555",
+												borderColor: "#882222",
 												action: () => handleDeleteReplay(r.id),
 											},
 										] as const
