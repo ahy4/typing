@@ -261,7 +261,30 @@ export function StatsScreen({
 						padding: "28px 32px",
 					}}
 				>
-					{tab === "overview" && <OverviewChart sessions={sessions} />}
+					{tab === "overview" && (
+						<div
+							style={{ display: "flex", flexDirection: "column", gap: "40px" }}
+						>
+							<OverviewChart sessions={sessions} />
+							{sessions.length > 0 && (
+								<div>
+									<div
+										style={{
+											fontFamily: "'Press Start 2P', monospace",
+											fontSize: "10px",
+											color: "#999",
+											letterSpacing: "3px",
+											textTransform: "uppercase",
+											marginBottom: "24px",
+										}}
+									>
+										キーヒートマップ — 全セッション平均
+									</div>
+									<HeatmapView sessions={sessions} />
+								</div>
+							)}
+						</div>
+					)}
 
 					{tab === "replays" && (
 						<div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
