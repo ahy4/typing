@@ -100,9 +100,16 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 	const secs = elapsedSec % 60;
 	const timeStr = `${mins}:${secs.toString().padStart(2, "0")}`;
 
-	// Multi-lap combo bars: completed laps = lastHealId, current partial = progressToHeal
-	const MAX_COMBO_BARS = 8;
-	const completedLaps = state.lastHealId;
+	// Multi-lap combo bars: track heals completed in the current unbroken combo run
+	const MAX_COMBO_BARS = 16;
+	const baseHealIdRef = useRef(0);
+	const prevComboRef = useRef(player.combo);
+	if (player.combo === 0 && prevComboRef.current > 0) {
+		// Combo just broke — reset the bar baseline so bars clear
+		baseHealIdRef.current = state.lastHealId;
+	}
+	prevComboRef.current = player.combo;
+	const currentRunLaps = state.lastHealId - baseHealIdRef.current;
 	const comboPct = progressToHeal * 100;
 
 	return (
@@ -272,8 +279,8 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							}}
 						>
 							{Array.from({ length: MAX_COMBO_BARS }, (_, i) => {
-								const isCompleted = i < completedLaps;
-								const isCurrent = i === completedLaps;
+								const isCompleted = i < currentRunLaps;
+								const isCurrent = i === currentRunLaps;
 								return (
 									<div
 										// biome-ignore lint/suspicious/noArrayIndexKey: fixed-size decorative list
