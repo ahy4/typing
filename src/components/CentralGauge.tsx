@@ -4,8 +4,8 @@ const SIZE = 260;
 const CX = SIZE / 2;
 const CY = SIZE / 2;
 const SPEED_R = 94;
-const TRACK_STROKE = 20;
-const PLAYER_STROKE = 14;
+const TRACK_STROKE = 24;
+const PLAYER_STROKE = 18;
 const GHOST_STROKE = 5;
 const MAX_KPS = 12;
 
@@ -77,10 +77,12 @@ export function CentralGauge({
 				onAnimationEnd={() => setGaugeAnim(null)}
 			>
 				<defs>
-					<filter id="speed-glow" x="-50%" y="-50%" width="200%" height="200%">
-						<feGaussianBlur stdDeviation="3" result="blur" />
+					<filter id="speed-glow" x="-60%" y="-60%" width="220%" height="220%">
+						<feGaussianBlur stdDeviation="2" result="blur1" />
+						<feGaussianBlur stdDeviation="7" result="blur2" />
 						<feMerge>
-							<feMergeNode in="blur" />
+							<feMergeNode in="blur2" />
+							<feMergeNode in="blur1" />
 							<feMergeNode in="SourceGraphic" />
 						</feMerge>
 					</filter>
@@ -113,6 +115,21 @@ export function CentralGauge({
 					strokeWidth={TRACK_STROKE}
 				/>
 
+				{/* White halo behind player arc */}
+				<circle
+					cx={CX}
+					cy={CY}
+					r={SPEED_R}
+					fill="none"
+					stroke="white"
+					strokeWidth={PLAYER_STROKE + 8}
+					strokeDasharray={speedCirc}
+					strokeDashoffset={playerOffset}
+					strokeLinecap="round"
+					transform={`rotate(-90 ${CX} ${CY})`}
+					opacity={0.06}
+					style={{ transition: "stroke-dashoffset 0.15s" }}
+				/>
 				{/* Player speed arc — rendered first (below), thicker */}
 				<circle
 					cx={CX}

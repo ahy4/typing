@@ -101,6 +101,7 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 	const timeStr = `${mins}:${secs.toString().padStart(2, "0")}`;
 
 	// Multi-lap combo bars: completed laps = lastHealId, current partial = progressToHeal
+	const MAX_COMBO_BARS = 8;
 	const completedLaps = state.lastHealId;
 	const comboPct = progressToHeal * 100;
 
@@ -135,71 +136,6 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 						}}
 					/>
 				))}
-			</div>
-
-			{/* HEADER */}
-			<div
-				style={{
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "space-between",
-					padding: "10px 20px",
-					borderBottom: "2px solid #ff00aa",
-					boxShadow: "0 0 20px #ff00aa, 0 0 40px rgba(255,0,170,0.3)",
-					background: "rgba(13,0,26,0.9)",
-					position: "relative",
-					zIndex: 1,
-					flexShrink: 0,
-				}}
-			>
-				{/* Logo */}
-				<div
-					style={{
-						fontFamily: "'Press Start 2P', monospace",
-						fontSize: "18px",
-						color: "#00ffff",
-						textShadow: "0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff",
-						letterSpacing: "3px",
-					}}
-				>
-					{"TYPE//DARK"}
-				</div>
-
-				{/* Header stats */}
-				<div
-					style={{
-						display: "flex",
-						gap: "20px",
-						fontSize: "14px",
-						color: "#888",
-						fontFamily: "'Share Tech Mono', monospace",
-					}}
-				>
-					<span>
-						正解{" "}
-						<span style={{ color: "#ffee00", textShadow: "0 0 8px #ffee00" }}>
-							{state.totalCorrect}
-						</span>
-					</span>
-					<span>
-						ミス{" "}
-						<span style={{ color: "#ff2244", textShadow: "0 0 8px #ff2244" }}>
-							{state.totalErrors}
-						</span>
-					</span>
-					<span>
-						精度{" "}
-						<span style={{ color: "#ffee00", textShadow: "0 0 8px #ffee00" }}>
-							{acc}%
-						</span>
-					</span>
-					<span>
-						TIME{" "}
-						<span style={{ color: "#ffee00", textShadow: "0 0 8px #ffee00" }}>
-							{timeStr}
-						</span>
-					</span>
-				</div>
 			</div>
 
 			{/* MAIN AREA */}
@@ -325,69 +261,60 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							)}
 						</div>
 
-						{/* Multi-lap combo bars */}
+						{/* Multi-lap combo bars — MAX_COMBO_BARS slots pre-allocated to avoid layout shift */}
 						<div
 							style={{
 								width: "100%",
-								height: "28px",
-								overflow: "hidden",
 								display: "flex",
-								flexDirection: "column-reverse",
+								flexDirection: "column",
 								gap: "2px",
 								padding: "0",
 							}}
 						>
-							{/* Current partial bar (newest — appears at bottom via column-reverse) */}
-							<div
-								style={{
-									height: "4px",
-									minHeight: "4px",
-									background: "#1a0030",
-									position: "relative",
-									overflow: "hidden",
-									flexShrink: 0,
-								}}
-							>
-								<div
-									style={{
-										height: "100%",
-										width: `${comboPct}%`,
-										background: `linear-gradient(90deg, ${sc}, #00ff66, #ffee00, ${sc})`,
-										backgroundSize: "200% 100%",
-										boxShadow: `0 0 8px ${sc}`,
-										animation:
-											player.combo > 0
-												? "comboShimmer 2s linear infinite"
-												: "none",
-										transition: "width 0.08s",
-									}}
-								/>
-							</div>
-							{/* Completed lap bars — stacked above the current bar */}
-							{Array.from({ length: completedLaps }, (_, i) => (
-								<div
-									// biome-ignore lint/suspicious/noArrayIndexKey: static decorative list based on lap count
-									key={i}
-									style={{
-										height: "4px",
-										minHeight: "4px",
-										background: "#1a0030",
-										position: "relative",
-										overflow: "hidden",
-										flexShrink: 0,
-									}}
-								>
+							{Array.from({ length: MAX_COMBO_BARS }, (_, i) => {
+								const isCompleted = i < completedLaps;
+								const isCurrent = i === completedLaps;
+								return (
 									<div
+										// biome-ignore lint/suspicious/noArrayIndexKey: fixed-size decorative list
+										key={i}
 										style={{
-											height: "100%",
-											width: "100%",
-											background: `linear-gradient(90deg, ${sc}99, #00ff6699, #ffee0099, ${sc}99)`,
-											backgroundSize: "200% 100%",
-											animation: "comboShimmer 3s linear infinite",
+											height: "4px",
+											background: "#1a0030",
+											position: "relative",
+											overflow: "hidden",
 										}}
-									/>
-								</div>
-							))}
+									>
+										{isCompleted && (
+											<div
+												style={{
+													height: "100%",
+													width: "100%",
+													background: `linear-gradient(90deg, ${sc}88, #00ff6688, #ffee0088, ${sc}88)`,
+													backgroundSize: "200% 100%",
+													animation: "comboShimmer 3s linear infinite",
+												}}
+											/>
+										)}
+										{isCurrent && (
+											<div
+												style={{
+													height: "100%",
+													width: `${comboPct}%`,
+													background: `linear-gradient(90deg, ${sc}, #00ff66, #ffee00, ${sc})`,
+													backgroundSize: "200% 100%",
+													boxShadow: `0 0 8px ${sc}`,
+													animation:
+														player.combo > 0
+															? "comboShimmer 2s linear infinite"
+															: "none",
+													transition: "width 0.08s",
+												}}
+											/>
+										)}
+									</div>
+								);
+							})}
 						</div>
 
 						{/* Central gauge + side stats */}

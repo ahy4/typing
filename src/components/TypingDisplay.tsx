@@ -32,10 +32,10 @@ export function TypingDisplay({
 				style={{
 					fontSize: "40px",
 					letterSpacing: "6px",
-					color: lastWrong ? "#ff6666" : "#aaaaaa",
+					color: lastWrong ? "#ff6666" : "#cccccc",
 					textShadow: lastWrong
 						? "0 0 12px #ff333388"
-						: "0 0 20px rgba(255,255,255,0.1)",
+						: "0 0 20px rgba(255,255,255,0.15)",
 					transition: "color 0.1s",
 					fontFamily: "'Share Tech Mono', monospace",
 				}}
@@ -84,7 +84,7 @@ export function TypingDisplay({
 				>
 					{remainingInCurrent}
 				</span>
-				<span style={{ color: "#333" }}>{pending}</span>
+				<span style={{ color: "#666" }}>{pending}</span>
 			</div>
 
 			{/* Kana pills */}
@@ -107,7 +107,7 @@ export function TypingDisplay({
 								.join("")}
 							style={{
 								padding: "4px 10px",
-								border: `1px solid ${isDone ? "#00cccc" : isCurrent ? "#00ffff" : "#333"}`,
+								border: `1px solid ${isDone ? "#00cccc" : isCurrent ? "#00ffff" : "#555"}`,
 								fontSize: "14px",
 								fontFamily: "'Share Tech Mono', monospace",
 								background: isDone
@@ -115,7 +115,7 @@ export function TypingDisplay({
 									: isCurrent
 										? "rgba(0,255,255,0.08)"
 										: "transparent",
-								color: isDone ? "#00ffff" : isCurrent ? "#88ffff" : "#333",
+								color: isDone ? "#00ffff" : isCurrent ? "#88ffff" : "#777",
 								boxShadow: isDone
 									? "0 0 6px rgba(0,255,255,0.4)"
 									: isCurrent
