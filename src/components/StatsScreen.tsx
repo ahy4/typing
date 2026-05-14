@@ -261,9 +261,7 @@ export function StatsScreen({
 						padding: "28px 32px",
 					}}
 				>
-					{tab === "overview" && (
-						<OverviewChart sessions={sessions} />
-					)}
+					{tab === "overview" && <OverviewChart sessions={sessions} />}
 
 					{tab === "replays" && (
 						<div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
@@ -400,7 +398,10 @@ export function StatsScreen({
 													label: "ヒートマップ",
 													color: "#ff00aa",
 													borderColor: "#882255",
-													action: () => setHeatmapReplay(heatmapReplay?.id === r.id ? null : r),
+													action: () =>
+														setHeatmapReplay(
+															heatmapReplay?.id === r.id ? null : r,
+														),
 												},
 												{
 													label: "▶ 再生",

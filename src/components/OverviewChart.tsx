@@ -69,14 +69,17 @@ function BarChart({
 	if (showXAxis && n > 0) {
 		const step = Math.max(1, Math.floor(n / 7));
 		for (let i = 0; i < n; i += step) {
-			const d = new Date(sessions[i]!.timestamp);
+			const d = new Date(sessions[i]?.timestamp ?? 0);
 			xLabels.push({
 				i,
 				text: `${d.getMonth() + 1}/${d.getDate()}`,
 			});
 		}
-		const last = sessions[n - 1]!;
-		if (xLabels.length === 0 || xLabels[xLabels.length - 1]!.i !== n - 1) {
+		const last = sessions[n - 1];
+		if (
+			last &&
+			(xLabels.length === 0 || xLabels[xLabels.length - 1]?.i !== n - 1)
+		) {
 			const d = new Date(last.timestamp);
 			xLabels.push({ i: n - 1, text: `${d.getMonth() + 1}/${d.getDate()}` });
 		}
