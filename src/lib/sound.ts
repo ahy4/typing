@@ -29,19 +29,21 @@ function playTone(
 	}
 }
 
-// Call once on a user-gesture to unlock AudioContext before the game starts
-export function unlockAudio(): void {
+// Call once on a user-gesture to unlock AudioContext before the game starts.
+// Returns a Promise that resolves once the context is running.
+export function unlockAudio(): Promise<void> {
 	try {
 		const ac = getCtx();
-		if (ac.state === "suspended") ac.resume();
 		// Play a zero-gain buffer so the context is truly unlocked
 		const buf = ac.createBuffer(1, 1, 22050);
 		const src = ac.createBufferSource();
 		src.buffer = buf;
 		src.connect(ac.destination);
 		src.start(0);
+		if (ac.state === "suspended") return ac.resume();
+		return Promise.resolve();
 	} catch {
-		// audio not available
+		return Promise.resolve();
 	}
 }
 
