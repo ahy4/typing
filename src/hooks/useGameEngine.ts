@@ -10,6 +10,7 @@ import {
 	playKeyTap,
 	playMiss,
 	playSegmentComplete,
+	unlockAudio,
 } from "../lib/sound";
 import {
 	clearAll,
@@ -228,6 +229,7 @@ export function useGameEngine() {
 	const preparedHasGhostRef = useRef(false);
 
 	const startGame = useCallback((ghostReplayId?: string) => {
+		unlockAudio();
 		cancelAnimationFrame(rafRef.current);
 		kpsWindowRef.current.reset();
 		streakRef.current = 0;
