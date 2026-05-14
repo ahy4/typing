@@ -9,13 +9,20 @@ const STEPS = ["3", "2", "1", "GO!"];
 const STEP_DURATION = 400;
 
 export function ReadyScreen({ onReady }: Props) {
-	const [step, setStep] = useState(0);
+	const [step, setStep] = useState(-1);
 
 	useEffect(() => {
-		unlockAudio();
+		let cancelled = false;
+		unlockAudio().then(() => {
+			if (!cancelled) setStep(0);
+		});
+		return () => {
+			cancelled = true;
+		};
 	}, []);
 
 	useEffect(() => {
+		if (step < 0) return;
 		playCountdownStep(step);
 		if (step >= STEPS.length - 1) {
 			const t = setTimeout(onReady, STEP_DURATION);
