@@ -114,8 +114,8 @@ export function GameOverScreen({ session, onStats }: Props) {
 					</div>
 					<div
 						style={{
-							fontSize: "10px",
-							color: "#444",
+							fontSize: "12px",
+							color: "#999",
 							textTransform: "uppercase",
 							letterSpacing: "3px",
 							fontFamily: "'Press Start 2P', monospace",
@@ -138,8 +138,8 @@ export function GameOverScreen({ session, onStats }: Props) {
 					</div>
 					<div
 						style={{
-							fontSize: "10px",
-							color: "#444",
+							fontSize: "12px",
+							color: "#999",
 							textTransform: "uppercase",
 							letterSpacing: "3px",
 							fontFamily: "'Press Start 2P', monospace",
@@ -154,15 +154,15 @@ export function GameOverScreen({ session, onStats }: Props) {
 						style={{
 							fontFamily: "'Press Start 2P', monospace",
 							fontSize: "36px",
-							color: "#888",
+							color: "#ccc",
 						}}
 					>
 						{session.sentences}
 					</div>
 					<div
 						style={{
-							fontSize: "10px",
-							color: "#444",
+							fontSize: "12px",
+							color: "#999",
 							textTransform: "uppercase",
 							letterSpacing: "3px",
 							fontFamily: "'Press Start 2P', monospace",
@@ -177,15 +177,15 @@ export function GameOverScreen({ session, onStats }: Props) {
 						style={{
 							fontFamily: "'Press Start 2P', monospace",
 							fontSize: "36px",
-							color: "#888",
+							color: "#ccc",
 						}}
 					>
 						{mins}:{secs.toString().padStart(2, "0")}
 					</div>
 					<div
 						style={{
-							fontSize: "10px",
-							color: "#444",
+							fontSize: "12px",
+							color: "#999",
 							textTransform: "uppercase",
 							letterSpacing: "3px",
 							fontFamily: "'Press Start 2P', monospace",
@@ -203,7 +203,7 @@ export function GameOverScreen({ session, onStats }: Props) {
 					width: "400px",
 					height: "1px",
 					background:
-						"linear-gradient(90deg, transparent, #2a0050, #00ffff44, #2a0050, transparent)",
+						"linear-gradient(90deg, transparent, #6611cc, #00ffff88, #6611cc, transparent)",
 					position: "relative",
 					zIndex: 1,
 				}}
@@ -236,8 +236,8 @@ export function GameOverScreen({ session, onStats }: Props) {
 				<div
 					style={{
 						fontFamily: "'Share Tech Mono', monospace",
-						fontSize: "14px",
-						color: "#444",
+						fontSize: "16px",
+						color: "#aaa",
 						letterSpacing: "4px",
 					}}
 				>
@@ -248,12 +248,12 @@ export function GameOverScreen({ session, onStats }: Props) {
 						type="button"
 						onClick={() => setShowReplay(true)}
 						style={{
-							padding: "12px 28px",
+							padding: "14px 32px",
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "10px",
-							color: "#555",
+							fontSize: "13px",
+							color: "#aaa",
 							background: "none",
-							border: "1px solid #2a0050",
+							border: "1px solid #6611cc",
 							cursor: "pointer",
 							letterSpacing: "1px",
 							transition: "all 0.15s",
@@ -263,8 +263,8 @@ export function GameOverScreen({ session, onStats }: Props) {
 							e.currentTarget.style.borderColor = "#00ffff";
 						}}
 						onMouseLeave={(e) => {
-							e.currentTarget.style.color = "#555";
-							e.currentTarget.style.borderColor = "#2a0050";
+							e.currentTarget.style.color = "#aaa";
+							e.currentTarget.style.borderColor = "#6611cc";
 						}}
 					>
 						リプレイ
@@ -273,12 +273,12 @@ export function GameOverScreen({ session, onStats }: Props) {
 						type="button"
 						onClick={onStats}
 						style={{
-							padding: "12px 28px",
+							padding: "14px 32px",
 							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "10px",
-							color: "#555",
+							fontSize: "13px",
+							color: "#aaa",
 							background: "none",
-							border: "1px solid #2a0050",
+							border: "1px solid #6611cc",
 							cursor: "pointer",
 							letterSpacing: "1px",
 							transition: "all 0.15s",
@@ -288,8 +288,8 @@ export function GameOverScreen({ session, onStats }: Props) {
 							e.currentTarget.style.borderColor = "#00ffff";
 						}}
 						onMouseLeave={(e) => {
-							e.currentTarget.style.color = "#555";
-							e.currentTarget.style.borderColor = "#2a0050";
+							e.currentTarget.style.color = "#aaa";
+							e.currentTarget.style.borderColor = "#6611cc";
 						}}
 					>
 						統計

@@ -56,12 +56,21 @@ export function StatsScreen({
 	return (
 		<div
 			style={{
-				display: "flex",
-				flexDirection: "column",
 				height: "100vh",
 				background: "var(--bg)",
 				overflow: "hidden",
 				position: "relative",
+				display: "flex",
+				justifyContent: "center",
+			}}
+		>
+		<div
+			style={{
+				display: "flex",
+				flexDirection: "column",
+				width: "100%",
+				maxWidth: "1100px",
+				height: "100%",
 			}}
 		>
 			{/* HEADER */}
@@ -463,6 +472,7 @@ export function StatsScreen({
 					</div>
 				)}
 			</div>
+		</div>
 		</div>
 	);
 }

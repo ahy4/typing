@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SlidingWindowKPS } from "../lib/ema";
 import {
+	LIFE_MAX,
 	applyDrain,
 	applyInput,
 	createRunnerState,
@@ -8,8 +9,8 @@ import {
 } from "../lib/runnerState";
 import { playKeyTap, playMiss, playSegmentComplete } from "../lib/sound";
 import type { ReplayData } from "../lib/types";
+import { CentralGauge } from "./CentralGauge";
 import { KeyboardDisplay } from "./KeyboardDisplay";
-import { SpeedMeter } from "./SpeedMeter";
 import { TypingDisplay } from "./TypingDisplay";
 
 interface Props {
@@ -17,10 +18,10 @@ interface Props {
 	onClose: () => void;
 }
 
-function lifeColor(life: number): string {
-	if (life > 60) return "#00ff88";
-	if (life > 30) return "#ffaa00";
-	return "#ff3333";
+function lifeColor(pct: number): string {
+	if (pct > 60) return "#00ffff";
+	if (pct > 30) return "#ffaa00";
+	return "#ff2244";
 }
 
 function comboColor(combo: number): string {
@@ -35,10 +36,20 @@ function comboColor(combo: number): string {
 	return colors[Math.floor(combo / 30) % colors.length] ?? "#00ffff";
 }
 
+function healStreakColor(streak: number): string {
+	if (streak >= 5) return "#ff44ff";
+	if (streak >= 4) return "#ff8800";
+	if (streak >= 3) return "#ffdd00";
+	if (streak >= 2) return "#00ff66";
+	if (streak >= 1) return "#00ffff";
+	return "#333344";
+}
+
 interface DisplayState extends RunnerState {
 	totalCorrect: number;
 	totalErrors: number;
 	lastKey: string;
+	healStreak: number;
 }
 
 function reconstructAt(
@@ -53,6 +64,7 @@ function reconstructAt(
 	let lastEventTime = 0;
 	let lastKey = "";
 	let lastWasWrong = false;
+	let healStreak = 0;
 
 	for (let i = 0; i < idx && i < replay.events.length; i++) {
 		const ev = replay.events[i];
@@ -63,12 +75,17 @@ function reconstructAt(
 		lastEventTime = ev.time;
 		lastKey = ev.key;
 
-		const { state } = applyInput(runner, ev, kps, lastWasWrong);
+		const { state, healAmount } = applyInput(runner, ev, kps, lastWasWrong);
 		runner = state;
 		lastWasWrong = !ev.correct;
 
-		if (ev.correct) totalCorrect++;
-		else totalErrors++;
+		if (ev.correct) {
+			totalCorrect++;
+			if (healAmount > 0) healStreak++;
+		} else {
+			totalErrors++;
+			healStreak = 0;
+		}
 	}
 
 	const refTime = currentTime !== undefined ? currentTime : lastEventTime;
@@ -79,6 +96,7 @@ function reconstructAt(
 		totalCorrect,
 		totalErrors,
 		lastKey,
+		healStreak,
 	};
 }
 
@@ -114,7 +132,6 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 			newIdx++;
 		}
 
-		// Play sounds for newly processed events (skip if catching up too many)
 		const fromIdx = lastSoundIdxRef.current;
 		if (newIdx > fromIdx && newIdx - fromIdx < 20) {
 			const stateAtFrom = reconstructAt(replay, fromIdx);
@@ -192,11 +209,11 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 	}
 
 	const sentence = replay.sentences[displayState.sentenceIdx];
-	const lifePct = Math.max(0, Math.min(100, displayState.life));
+	const lifePct = Math.max(0, Math.min(100, (displayState.life / LIFE_MAX) * 100));
 	const lc = lifeColor(lifePct);
 	const cc = comboColor(displayState.combo);
+	const sc = healStreakColor(displayState.healStreak);
 	const sentenceProgress = displayState.sentenceIdx;
-	const progressMax = Math.max(sentenceProgress, 1);
 	const acc =
 		displayState.totalCorrect + displayState.totalErrors > 0
 			? Math.round(
@@ -210,6 +227,18 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 	);
 	const totalTimeSec = Math.round(replay.totalTime / 1000);
 
+	const prevHealAt = displayState.nextHealAt - displayState.nextHealInterval;
+	const progressToHeal =
+		displayState.nextHealInterval > 0
+			? Math.min(
+					1,
+					Math.max(
+						0,
+						(displayState.combo - prevHealAt) / displayState.nextHealInterval,
+					),
+				)
+			: 0;
+
 	const nextKeys: string[] = (() => {
 		const ts = displayState.typingState;
 		const pos = ts.typed.length;
@@ -219,77 +248,192 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 		return [...new Set(fromCurrent)];
 	})();
 
+	const comboPct = progressToHeal * 100;
+
 	return (
 		<div
-			className="h-screen overflow-hidden flex justify-center"
-			style={{ background: "#050508" }}
+			className="h-screen overflow-hidden flex flex-col"
+			style={{ background: "var(--bg)", position: "relative" }}
 		>
-			<div className="flex h-full w-full" style={{ maxWidth: "1100px" }}>
-				{/* ── LIFE bar — left ── */}
+			{/* HEADER */}
+			<div
+				style={{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "space-between",
+					padding: "10px 20px",
+					borderBottom: "2px solid #cc44ff",
+					boxShadow: "0 0 20px #cc44ff66, 0 0 40px rgba(204,68,255,0.2)",
+					background: "rgba(13,0,26,0.9)",
+					position: "relative",
+					zIndex: 1,
+					flexShrink: 0,
+				}}
+			>
 				<div
-					className="w-16 shrink-0 relative"
-					style={{ background: "#080808" }}
+					style={{
+						fontFamily: "'Press Start 2P', monospace",
+						fontSize: "18px",
+						color: "#cc44ff",
+						textShadow: "0 0 10px #cc44ff, 0 0 20px #cc44ff",
+						letterSpacing: "3px",
+					}}
 				>
-					<div className="absolute inset-0 flex flex-col justify-end">
+					REPLAY
+				</div>
+
+				<div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+					<div
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "13px",
+							color: "#cc44ff",
+							textShadow: "0 0 6px #cc44ff",
+						}}
+					>
+						{sentenceProgress} クリア
+					</div>
+					<div
+						style={{
+							width: "200px",
+							height: "14px",
+							background: "#1a0030",
+							border: "1px solid #440066",
+							overflow: "hidden",
+						}}
+					>
 						<div
-							className="w-full transition-all duration-100"
 							style={{
-								height: `${lifePct}%`,
-								background: lc,
-								opacity: 0.45,
-								boxShadow: `0 0 18px ${lc}`,
+								height: "100%",
+								width: `${Math.min(100, sentenceProgress * 5)}%`,
+								background: "#cc44ff",
+								boxShadow: "0 0 8px #cc44ff",
+								transition: "width 0.3s",
 							}}
 						/>
 					</div>
-					<div className="absolute inset-0 flex items-center justify-center">
-						<span
-							className="text-[9px] font-mono uppercase tracking-widest select-none"
-							style={{ writingMode: "vertical-rl", color: lc, opacity: 0.75 }}
-						>
-							HP {Math.round(lifePct)}%
-						</span>
+					<div
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "13px",
+							color: "#cc44ff",
+							opacity: 0.6,
+						}}
+					>
+						{currentTimeSec}s / {totalTimeSec}s
 					</div>
 				</div>
 
-				{/* ── Main content ── */}
-				<div className="flex-1 flex flex-col min-w-0">
-					{/* Progress bar */}
-					<div className="pt-4 pb-3 flex justify-center">
-						<div className="w-full max-w-xl px-4 flex flex-col gap-2">
-							<div className="flex items-center gap-3">
-								<span
-									className="text-[11px] font-mono w-14 text-right uppercase tracking-wider shrink-0"
-									style={{ color: "#cc44ff" }}
-								>
-									リプレイ
-								</span>
-								<div
-									className="flex-1 h-4 rounded overflow-hidden"
-									style={{ background: "#111" }}
-								>
-									<div
-										className="h-full rounded transition-all duration-300"
-										style={{
-											width: `${(sentenceProgress / progressMax) * 100}%`,
-											background: "linear-gradient(90deg, #cc44ff, #8800ff)",
-											boxShadow: "0 0 8px #cc44ff44",
-										}}
-									/>
-								</div>
-								<span
-									className="text-[11px] font-mono w-16 shrink-0"
-									style={{ color: "#cc44ff" }}
-								>
-									{sentenceProgress} クリア
-								</span>
-							</div>
-						</div>
+				<div
+					style={{
+						display: "flex",
+						gap: "20px",
+						fontSize: "14px",
+						color: "#888",
+						fontFamily: "'Share Tech Mono', monospace",
+					}}
+				>
+					<span>
+						正解{" "}
+						<span style={{ color: "#00ff66" }}>{displayState.totalCorrect}</span>
+					</span>
+					<span>
+						ミス{" "}
+						<span style={{ color: "#ff2244" }}>{displayState.totalErrors}</span>
+					</span>
+					<span>
+						精度 <span style={{ color: "#ffee00" }}>{acc}%</span>
+					</span>
+				</div>
+			</div>
+
+			{/* MAIN AREA */}
+			<div className="flex flex-1 min-h-0" style={{ position: "relative", zIndex: 1 }}>
+				{/* LEFT HP BAR */}
+				<div
+					style={{
+						width: "120px",
+						flexShrink: 0,
+						background: "var(--panel)",
+						borderRight: "1px solid var(--border)",
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+						justifyContent: "center",
+						padding: "20px 16px",
+						gap: "10px",
+						position: "relative",
+					}}
+				>
+					<div
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "10px",
+							writingMode: "vertical-rl",
+							textOrientation: "mixed",
+							letterSpacing: "2px",
+							color: lc,
+							textShadow: `0 0 8px ${lc}`,
+						}}
+					>
+						PLAYER
 					</div>
+					<div
+						style={{
+							flex: 1,
+							width: "52px",
+							background: "#1a0030",
+							border: `2px solid ${lc}`,
+							position: "relative",
+							display: "flex",
+							flexDirection: "column",
+							justifyContent: "flex-end",
+							overflow: "hidden",
+						}}
+					>
+						<div
+							style={{
+								width: "100%",
+								height: `${lifePct}%`,
+								background: `linear-gradient(to top, ${lc}66, ${lc})`,
+								boxShadow: `0 0 16px ${lc}, inset 0 0 16px ${lc}33`,
+								transition: "height 0.05s",
+							}}
+						/>
+						{[...Array(5)].map((_, i) => (
+							<div
+								// biome-ignore lint/suspicious/noArrayIndexKey: decorative ticks
+								key={i}
+								style={{
+									position: "absolute",
+									top: `${(i + 1) * 20}%`,
+									left: 0,
+									right: 0,
+									height: "1px",
+									background: "rgba(255,255,255,0.1)",
+								}}
+							/>
+						))}
+					</div>
+					<div
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "13px",
+							color: lc,
+							textShadow: `0 0 6px ${lc}`,
+						}}
+					>
+						{Math.round(lifePct)}%
+					</div>
+				</div>
 
-					<div className="h-px" style={{ background: "#111" }} />
-
+				{/* CENTER */}
+				<div className="flex-1 flex flex-col min-w-0" style={{ overflow: "hidden" }}>
 					{/* Typing area */}
-					<div className="flex-1 flex flex-col items-center justify-center gap-8">
+					<div
+						className="flex-1 flex flex-col items-center justify-center"
+						style={{ padding: "16px 32px", gap: "12px" }}
+					>
 						{sentence ? (
 							<TypingDisplay
 								sentence={sentence}
@@ -297,40 +441,191 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 								lastWrong={false}
 							/>
 						) : (
-							<div className="text-gray-500 font-mono">読み込み中...</div>
+							<div
+								style={{
+									color: "#666",
+									fontFamily: "'Share Tech Mono', monospace",
+									fontSize: "16px",
+								}}
+							>
+								読み込み中...
+							</div>
 						)}
+					</div>
 
-						<div className="flex items-center gap-8">
-							<SpeedMeter
-								wpm={displayState.speed}
-								label="リプレイ"
-								color="#cc44ff"
-							/>
+					{/* Combo shimmer bar — synced with progressToHeal */}
+					<div
+						style={{
+							height: "4px",
+							background: "#1a0030",
+							position: "relative",
+							overflow: "hidden",
+						}}
+					>
+						<div
+							style={{
+								height: "100%",
+								width: `${comboPct}%`,
+								background: `linear-gradient(90deg, ${sc}, #00ff66, #ffee00, ${sc})`,
+								backgroundSize: "200% 100%",
+								boxShadow: `0 0 8px ${sc}`,
+								animation:
+									displayState.combo > 0 ? "comboShimmer 2s linear infinite" : "none",
+								transition: "width 0.08s",
+							}}
+						/>
+					</div>
+
+					{/* Central gauge + side stats */}
+					<div
+						style={{
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+							padding: "8px 20px",
+							gap: "32px",
+						}}
+					>
+						{/* Left side stats */}
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								gap: "18px",
+								minWidth: "120px",
+							}}
+						>
+							<div>
+								<div
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "10px",
+										color: "#666",
+										textTransform: "uppercase",
+										letterSpacing: "2px",
+										marginBottom: "5px",
+									}}
+								>
+									CORRECT
+								</div>
+								<div
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "24px",
+										color: "#00ff66",
+										textShadow: "0 0 8px #00ff66",
+									}}
+								>
+									{displayState.totalCorrect}
+								</div>
+							</div>
+							<div>
+								<div
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "10px",
+										color: "#666",
+										textTransform: "uppercase",
+										letterSpacing: "2px",
+										marginBottom: "5px",
+									}}
+								>
+									MISS
+								</div>
+								<div
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "24px",
+										color: "#ff2244",
+										textShadow: "0 0 8px #ff2244",
+									}}
+								>
+									{displayState.totalErrors}
+								</div>
+							</div>
 						</div>
 
-						<div className="flex gap-6 text-xs text-gray-600 font-mono">
-							<span>
-								コンボ <span style={{ color: cc }}>{displayState.combo}x</span>
-							</span>
-							<span>
-								正解{" "}
-								<span className="text-green-400">
-									{displayState.totalCorrect}
-								</span>
-							</span>
-							<span>
-								ミス{" "}
-								<span className="text-red-400">{displayState.totalErrors}</span>
-							</span>
-							<span>
-								精度 <span className="text-yellow-400">{acc}%</span>
-							</span>
-							<span className="text-gray-700">{currentTimeSec}s</span>
+						{/* Central gauge */}
+						<CentralGauge
+							progressToHeal={progressToHeal}
+							healStreak={displayState.healStreak}
+							streakColor={sc}
+							speed={displayState.speed}
+							combo={displayState.combo}
+							comboColor={cc}
+							hitCount={displayState.totalCorrect}
+							lastWrong={false}
+						/>
+
+						{/* Right side stats */}
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								gap: "18px",
+								minWidth: "120px",
+								alignItems: "flex-end",
+							}}
+						>
+							<div style={{ alignItems: "flex-end", display: "flex", flexDirection: "column" }}>
+								<div
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "10px",
+										color: "#666",
+										textTransform: "uppercase",
+										letterSpacing: "2px",
+										marginBottom: "5px",
+									}}
+								>
+									ACCURACY
+								</div>
+								<div
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "24px",
+										color: "#ffee00",
+										textShadow: "0 0 8px #ffee00",
+									}}
+								>
+									{acc}%
+								</div>
+							</div>
+							<div style={{ alignItems: "flex-end", display: "flex", flexDirection: "column" }}>
+								<div
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "10px",
+										color: "#666",
+										textTransform: "uppercase",
+										letterSpacing: "2px",
+										marginBottom: "5px",
+									}}
+								>
+									TIME
+								</div>
+								<div
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "24px",
+										color: "#aaa",
+									}}
+								>
+									{currentTimeSec}s
+								</div>
+							</div>
 						</div>
 					</div>
 
-					{/* Keyboard showing next expected keys */}
-					<div className="border-t border-gray-900 pb-1 flex justify-center">
+					{/* Keyboard */}
+					<div
+						style={{
+							borderTop: "1px solid var(--border)",
+							background: "rgba(0,0,0,0.5)",
+							display: "flex",
+							justifyContent: "center",
+						}}
+					>
 						<KeyboardDisplay
 							keyStats={[]}
 							highlight={
@@ -342,75 +637,151 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 							}
 						/>
 					</div>
-
-					{/* Seek + controls */}
-					<div className="px-4 py-2" style={{ borderTop: "1px solid #111" }}>
-						<input
-							type="range"
-							min="0"
-							max="100"
-							step="0.1"
-							value={seekPct}
-							onChange={handleSeek}
-							className="w-full accent-purple-400 mb-2"
-						/>
-						<div className="flex items-center justify-between text-[10px] text-gray-700 font-mono">
-							<button
-								type="button"
-								onClick={onClose}
-								className="px-4 py-1 border rounded transition-all font-mono text-xs"
-								style={{ borderColor: "#444", color: "#888" }}
-							>
-								← 戻る
-							</button>
-							<button
-								type="button"
-								onClick={playing ? stop : play}
-								className="px-4 py-1 border rounded transition-all font-mono text-xs"
-								style={{
-									borderColor: playing ? "#ff3333" : "#cc44ff",
-									color: playing ? "#ff3333" : "#cc44ff",
-									boxShadow: playing
-										? "0 0 6px #ff333344"
-										: "0 0 6px #cc44ff44",
-								}}
-							>
-								{playing ? "一時停止" : "再生"}
-							</button>
-							<span>
-								{currentTimeSec}s / {totalTimeSec}s
-							</span>
-						</div>
-					</div>
 				</div>
 
-				{/* ── Replay progress — right ── */}
+				{/* RIGHT — replay time progress bar */}
 				<div
-					className="w-16 shrink-0 relative"
-					style={{ background: "#080808" }}
+					style={{
+						width: "120px",
+						flexShrink: 0,
+						background: "var(--panel)",
+						borderLeft: "1px solid var(--border)",
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+						justifyContent: "center",
+						padding: "20px 16px",
+						gap: "10px",
+					}}
 				>
-					<div className="absolute inset-0 flex flex-col justify-end">
+					<div
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "10px",
+							writingMode: "vertical-rl",
+							textOrientation: "mixed",
+							letterSpacing: "2px",
+							color: "#cc44ff",
+							textShadow: "0 0 8px #cc44ff",
+						}}
+					>
+						TIME
+					</div>
+					<div
+						style={{
+							flex: 1,
+							width: "52px",
+							background: "#1a0030",
+							border: "2px solid #cc44ff",
+							position: "relative",
+							display: "flex",
+							flexDirection: "column",
+							justifyContent: "flex-end",
+							overflow: "hidden",
+						}}
+					>
 						<div
-							className="w-full transition-all duration-100"
 							style={{
+								width: "100%",
 								height: `${seekPct}%`,
-								background: "#cc44ff",
-								opacity: 0.45,
-								boxShadow: "0 0 18px #cc44ff88",
+								background: "linear-gradient(to top, #6600aa, #cc44ff)",
+								boxShadow: "0 0 16px #cc44ff, inset 0 0 16px rgba(204,68,255,0.3)",
+								transition: "height 0.05s",
 							}}
 						/>
 					</div>
-					<div className="absolute inset-0 flex items-center justify-center">
-						<span
-							className="text-[9px] font-mono uppercase tracking-widest select-none"
-							style={{
-								writingMode: "vertical-rl",
-								color: "#cc44ff",
-								opacity: 0.75,
-							}}
-						>
-							{currentTimeSec}s / {totalTimeSec}s
-						</span>
+					<div
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "10px",
+							color: "#cc44ff",
+							textShadow: "0 0 6px #cc44ff",
+							textAlign: "center",
+						}}
+					>
+						{currentTimeSec}s
+					</div>
+				</div>
+			</div>
+
+			{/* FOOTER: seek + controls */}
+			<div
+				style={{
+					padding: "8px 20px",
+					borderTop: "1px solid var(--border)",
+					background: "rgba(13,0,26,0.9)",
+					flexShrink: 0,
+					position: "relative",
+					zIndex: 1,
+				}}
+			>
+				<input
+					type="range"
+					min="0"
+					max="100"
+					step="0.1"
+					value={seekPct}
+					onChange={handleSeek}
+					style={{ width: "100%", accentColor: "#cc44ff", marginBottom: "8px" }}
+				/>
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "space-between",
+					}}
+				>
+					<button
+						type="button"
+						onClick={onClose}
+						style={{
+							padding: "6px 18px",
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "11px",
+							border: "1px solid #6611cc",
+							color: "#aaa",
+							background: "none",
+							cursor: "pointer",
+							letterSpacing: "1px",
+							transition: "all 0.15s",
+						}}
+						onMouseEnter={(e) => {
+							e.currentTarget.style.color = "#00ffff";
+							e.currentTarget.style.borderColor = "#00ffff";
+						}}
+						onMouseLeave={(e) => {
+							e.currentTarget.style.color = "#aaa";
+							e.currentTarget.style.borderColor = "#6611cc";
+						}}
+					>
+						← 戻る
+					</button>
+					<button
+						type="button"
+						onClick={playing ? stop : play}
+						style={{
+							padding: "6px 18px",
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "11px",
+							border: `1px solid ${playing ? "#ff3333" : "#cc44ff"}`,
+							color: playing ? "#ff3333" : "#cc44ff",
+							background: "none",
+							cursor: "pointer",
+							letterSpacing: "1px",
+							boxShadow: playing ? "0 0 6px #ff333344" : "0 0 6px #cc44ff44",
+							transition: "all 0.15s",
+						}}
+					>
+						{playing ? "一時停止" : "再生"}
+					</button>
+					<div
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "10px",
+							color: "#666",
+						}}
+					>
+						{currentTimeSec}s / {totalTimeSec}s
 					</div>
 				</div>
 			</div>
