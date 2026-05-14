@@ -1,6 +1,27 @@
 import { describe, expect, it } from "vitest";
 import { createTypingState, feedKey, parseKana } from "./romaji.ts";
 
+// Helper that returns the full FeedKeyResult (not just the string outcome)
+function typeDetailed(kana: string, input: string) {
+	let state = createTypingState(kana);
+	const results: Array<{
+		key: string;
+		result: string;
+		segmentCompleted: boolean;
+	}> = [];
+	for (const ch of input) {
+		const r = feedKey(state, ch);
+		results.push({
+			key: ch,
+			result: r.result,
+			segmentCompleted: r.segmentCompleted,
+		});
+		if (r.result === "wrong") break;
+		state = r.next;
+	}
+	return results;
+}
+
 // ── helpers ──────────────────────────────────────────────────────────────────
 
 function opts(kana: string): string[] {
@@ -284,5 +305,427 @@ describe("feedKey – full word typing", () => {
 		// うぉ requires who
 		expect(type("うぉ", "who")).toBe("all_complete");
 		expect(type("うぉ", "wo")).toBe("wrong@o"); // "who" starts with "w" so w passes, but wo is not a prefix of who
+	});
+});
+
+// ── っ edge cases ─────────────────────────────────────────────────────────────
+
+describe("っ – before vowel kana", () => {
+	it("っあ: no doubled consonant, only xtu/xtsu/ltu/ltsu", () => {
+		const opts = parseKana("っあ")[0]?.options ?? [];
+		expect(opts).toContain("xtu");
+		expect(opts).toContain("xtsu");
+		expect(opts).toContain("ltu");
+		expect(opts).toContain("ltsu");
+		// 'a' is a vowel, so no single-char doubled consonant
+		expect(opts.filter((o) => o.length === 1)).toHaveLength(0);
+	});
+
+	it("っあ: only xtu/ltsu paths accepted", () => {
+		expect(type("っあ", "xtu" + "a")).toBe("all_complete");
+		expect(type("っあ", "ltsu" + "a")).toBe("all_complete");
+		expect(type("っあ", "ltu" + "a")).toBe("all_complete");
+		expect(type("っあ", "xtsu" + "a")).toBe("all_complete");
+	});
+});
+
+describe("っ – doubled consonant variants", () => {
+	it("っか: kka and cca", () => {
+		expect(type("っか", "kka")).toBe("all_complete");
+		expect(type("っか", "cca")).toBe("all_complete");
+	});
+
+	it("っし: sshi / ssi / cci all work", () => {
+		expect(type("っし", "sshi")).toBe("all_complete");
+		expect(type("っし", "ssi")).toBe("all_complete");
+		// 'c' is a valid first consonant of し (ci)
+		expect(type("っし", "cci")).toBe("all_complete");
+	});
+
+	it("っち: tchi / tti / cchi all work", () => {
+		expect(type("っち", "tchi")).toBe("all_complete");
+		expect(type("っち", "tti")).toBe("all_complete");
+		expect(type("っち", "cchi")).toBe("all_complete");
+	});
+
+	it("っつ: ttsu and ttu work", () => {
+		expect(type("っつ", "ttsu")).toBe("all_complete");
+		expect(type("っつ", "ttu")).toBe("all_complete");
+	});
+
+	it("っふ: ffu (doubled f) and hhu (doubled h)", () => {
+		expect(type("っふ", "ffu")).toBe("all_complete");
+		expect(type("っふ", "hhu")).toBe("all_complete");
+	});
+});
+
+describe("っ – at end of string (no following kana)", () => {
+	it("standalone っ: only xtu/xtsu/ltu/ltsu accepted", () => {
+		const opts = parseKana("っ")[0]?.options ?? [];
+		expect(opts).toContain("xtu");
+		expect(opts).toContain("xtsu");
+		expect(opts).toContain("ltu");
+		expect(opts).toContain("ltsu");
+		// No consonant-only options when nothing follows
+		expect(opts.filter((o) => o.length === 1)).toHaveLength(0);
+	});
+
+	it("standalone っ types with xtu", () => {
+		expect(type("っ", "xtu")).toBe("all_complete");
+		expect(type("っ", "ltsu")).toBe("all_complete");
+	});
+});
+
+describe("っっ – consecutive small tsu (BUG DETECTION)", () => {
+	it("っっか: doubled-consonant 'k' path (kkka) works", () => {
+		expect(type("っっか", "kkka")).toBe("all_complete");
+	});
+
+	it("っっか: explicit xtu for each っ works", () => {
+		expect(type("っっか", "xtu" + "xtu" + "ka")).toBe("all_complete");
+		expect(type("っっか", "ltsu" + "ltsu" + "ka")).toBe("all_complete");
+		expect(type("っっか", "xtu" + "kka")).toBe("all_complete");
+		expect(type("っっか", "ltsu" + "kka")).toBe("all_complete");
+	});
+
+	it("っっか: spurious 'x'/'l' should NOT complete first っ as a doubled consonant", () => {
+		// expandXtu sees xtu/xtsu/ltu/ltsu and extracts 'x','l' as "consonants" – this is a bug.
+		// Typing 'x' alone (not a valid doubled consonant) should be wrong here.
+		expect(type("っっか", "xkka")).not.toBe("all_complete");
+		expect(type("っっか", "lkka")).not.toBe("all_complete");
+	});
+
+	it("first っ options should NOT contain 'x' or 'l' as single-char consonants", () => {
+		const firstOpts = parseKana("っっか")[0]?.options ?? [];
+		const singleCharOpts = firstOpts.filter((o) => o.length === 1);
+		// Only real doubled consonants (k, c) should appear as single chars
+		expect(singleCharOpts).not.toContain("x");
+		expect(singleCharOpts).not.toContain("l");
+	});
+});
+
+// ── ん edge cases ─────────────────────────────────────────────────────────────
+
+describe("ん – at end of word", () => {
+	it("bare n is NOT enough at end of word", () => {
+		expect(type("ほん", "hon")).toBe("incomplete");
+	});
+
+	it("nn / n' / xn complete ん at end of word", () => {
+		expect(type("ほん", "honn")).toBe("all_complete");
+		expect(type("ほん", "hon'")).toBe("all_complete");
+		// xn: type 'x' first then 'n' (not 'n' then 'x')
+		expect(type("ほん", "hoxn")).toBe("all_complete");
+	});
+});
+
+describe("ん – before ambiguous contexts", () => {
+	it("bare n NOT allowed before な (starts with n)", () => {
+		const opts = parseKana("んな")[0]?.options ?? [];
+		expect(opts).not.toContain("n");
+	});
+
+	it("bare n NOT allowed before ん itself", () => {
+		const opts = parseKana("んん")[0]?.options ?? [];
+		expect(opts).not.toContain("n");
+	});
+
+	it("bare n NOT allowed before や行", () => {
+		const opts = parseKana("んや")[0]?.options ?? [];
+		expect(opts).not.toContain("n");
+	});
+
+	it("んな: needs nnna (nn for ん, na for な)", () => {
+		expect(type("んな", "nna")).toBe("wrong@a"); // nn completes ん, then 'a' fails な
+		expect(type("んな", "nnna")).toBe("all_complete");
+	});
+
+	it("んん: needs nnnn", () => {
+		expect(type("んん", "nnnn")).toBe("all_complete");
+		expect(type("んん", "n'nn")).toBe("all_complete");
+	});
+});
+
+describe("ん – pendingComplete + segmentCompleted flag", () => {
+	it("'n' before consonant sets pendingComplete, implicit-complete fires on consonant", () => {
+		const results = typeDetailed("んか", "nka");
+		// 'n': pendingComplete – correct
+		expect(results[0]).toMatchObject({ key: "n", result: "correct" });
+		// 'k': implicit ん complete fires, then 'k' starts か – segmentCompleted=true
+		expect(results[1]).toMatchObject({
+			key: "k",
+			result: "correct",
+			segmentCompleted: true,
+		});
+		// 'a': finishes か
+		expect(results[2]).toMatchObject({ key: "a", result: "all_complete" });
+	});
+
+	it("'n' before consonant: two-n path also works (nn + ka)", () => {
+		expect(type("んか", "nnka")).toBe("all_complete");
+	});
+});
+
+// ── compound decomposition edge cases ────────────────────────────────────────
+
+describe("compound kana – decomposed typing", () => {
+	it("きょ: kyo (direct) and kilyo (decomposed)", () => {
+		expect(type("きょ", "kyo")).toBe("all_complete");
+		expect(type("きょ", "kilyo")).toBe("all_complete");
+		expect(type("きょ", "kixyo")).toBe("all_complete");
+	});
+
+	it("しゃ: sha (direct) and shilya (decomposed)", () => {
+		expect(type("しゃ", "sha")).toBe("all_complete");
+		expect(type("しゃ", "shilya")).toBe("all_complete");
+		expect(type("しゃ", "silya")).toBe("all_complete");
+	});
+
+	it("じぇ: je (direct) and jixe (decomposed)", () => {
+		expect(type("じぇ", "je")).toBe("all_complete");
+		expect(type("じぇ", "jixe")).toBe("all_complete");
+		expect(type("じぇ", "zixe")).toBe("all_complete");
+	});
+
+	it("きぃ: kyi (direct) and kixi / kili (decomposed)", () => {
+		expect(type("きぃ", "kyi")).toBe("all_complete");
+		expect(type("きぃ", "kixi")).toBe("all_complete");
+		expect(type("きぃ", "kili")).toBe("all_complete");
+	});
+
+	it("decomposed path: wrong small kana is rejected", () => {
+		// きょ typed as "kiyo" should fail (yo ≠ lyo/xyo)
+		expect(type("きょ", "kiyo")).toBe("wrong@y");
+	});
+});
+
+// ── special and archaic kana ──────────────────────────────────────────────────
+
+describe("special kana", () => {
+	it("ー (long vowel): typed as '-'", () => {
+		expect(type("ー", "-")).toBe("all_complete");
+	});
+
+	it("space: typed as ' '", () => {
+		expect(type(" ", " ")).toBe("all_complete");
+	});
+
+	it("ゐ (wi) and ゑ (we): typed as 'i' and 'e'", () => {
+		expect(type("ゐ", "i")).toBe("all_complete");
+		expect(type("ゑ", "e")).toBe("all_complete");
+	});
+
+	it("づ: du and dzu both accepted", () => {
+		expect(type("づ", "du")).toBe("all_complete");
+		expect(type("づ", "dzu")).toBe("all_complete");
+	});
+
+	it("ぢ: only di accepted (not ji or chi)", () => {
+		expect(accepts("ぢ", "di")).toBe(true);
+		expect(accepts("ぢ", "ji")).toBe(false);
+		expect(accepts("ぢ", "chi")).toBe(false);
+	});
+
+	it("ゔ: vu accepted", () => {
+		expect(type("ゔ", "vu")).toBe("all_complete");
+	});
+});
+
+// ── feedKey state machine edge cases ─────────────────────────────────────────
+
+describe("feedKey – state machine edge cases", () => {
+	it("typing into already-completed state returns wrong", () => {
+		const state = createTypingState("あ");
+		const r1 = feedKey(state, "a");
+		expect(r1.result).toBe("all_complete");
+		// feed more keys after completion
+		const r2 = feedKey(r1.next, "a");
+		expect(r2.result).toBe("wrong");
+	});
+
+	it("empty kana string starts as completed", () => {
+		const state = createTypingState("");
+		expect(state.completed).toBe(true);
+	});
+
+	it("wrong key leaves state unchanged", () => {
+		const state = createTypingState("か");
+		const r = feedKey(state, "z");
+		expect(r.result).toBe("wrong");
+		expect(r.next).toBe(state); // same reference
+	});
+
+	it("uppercase key is rejected (no option matches)", () => {
+		expect(type("か", "Ka")).toBe("wrong@K");
+		expect(type("あ", "A")).toBe("wrong@A");
+	});
+
+	it("partial xtu path: 'x' then wrong key is wrong (not silent complete)", () => {
+		// For a standalone っか, 'x' starts the xtu path (pendingComplete),
+		// then a key that can't extend it AND can't start the next segment is wrong.
+		// っか next segment is か(["ka","ca"]). After implicit complete of っ, 'z' fails か.
+		expect(type("っか", "xz")).toBe("wrong@z");
+	});
+});
+
+// ── multi-segment integration tests ──────────────────────────────────────────
+
+describe("feedKey – multi-segment integration", () => {
+	it("とうきょう → toukyou", () => {
+		expect(type("とうきょう", "toukyou")).toBe("all_complete");
+	});
+
+	it("にほんご → nihongo", () => {
+		expect(type("にほんご", "nihongo")).toBe("all_complete");
+	});
+
+	it("にほんご: bare n auto-completes before g", () => {
+		expect(type("にほんご", "nihongo")).toBe("all_complete");
+	});
+
+	it("さんぽ → sanpo (n before p)", () => {
+		expect(type("さんぽ", "sanpo")).toBe("all_complete");
+	});
+
+	it("まっちゃ → maccha / matcha / mattya", () => {
+		expect(type("まっちゃ", "maccha")).toBe("all_complete");
+		expect(type("まっちゃ", "matcha")).toBe("all_complete");
+		expect(type("まっちゃ", "mattya")).toBe("all_complete");
+	});
+
+	it("ほっかいどう → hokkaidou", () => {
+		expect(type("ほっかいどう", "hokkaidou")).toBe("all_complete");
+	});
+
+	it("んん at end of word: requires 4 n's", () => {
+		expect(type("んん", "nnnn")).toBe("all_complete");
+		expect(type("んん", "nn" + "n'")).toBe("all_complete");
+	});
+
+	it("っ before づ: doubled d", () => {
+		expect(type("っづ", "ddzu")).toBe("all_complete");
+		expect(type("っづ", "ddu")).toBe("all_complete");
+	});
+
+	it("っ before compound kana: っきゃ → kkya / kkilya", () => {
+		expect(type("っきゃ", "kkya")).toBe("all_complete");
+		// ゃ decomposes as lya (not lyo which is for ょ)
+		expect(type("っきゃ", "kkilya")).toBe("all_complete");
+	});
+
+	it("っ before じゃ: jja / zzya", () => {
+		expect(type("っじゃ", "jja")).toBe("all_complete");
+		expect(type("っじゃ", "zzya")).toBe("all_complete");
+	});
+
+	it("っ before しゃ: ssha / ssya", () => {
+		expect(type("っしゃ", "ssha")).toBe("all_complete");
+		expect(type("っしゃ", "ssya")).toBe("all_complete");
+	});
+
+	it("にほんご: n' and xn paths for ん", () => {
+		expect(type("にほんご", "niho" + "n'" + "go")).toBe("all_complete");
+		expect(type("にほんご", "nihoxngo")).toBe("all_complete");
+	});
+
+	it("にほんのき: ん before の (starts with n) requires nn", () => {
+		// の starts with 'n' → ambiguous → bare n not allowed
+		const opts = parseKana("んの")[0]?.options ?? [];
+		expect(opts).not.toContain("n");
+		expect(opts).toContain("nn");
+	});
+
+	it("ん before は行: bare n is OK", () => {
+		expect(type("んは", "nha")).toBe("all_complete");
+		expect(type("んほ", "nho")).toBe("all_complete");
+	});
+
+	it("ん before ら行: bare n is OK", () => {
+		expect(type("んら", "nra")).toBe("all_complete");
+	});
+
+	it("ん before わ: bare n is OK", () => {
+		expect(type("んわ", "nwa")).toBe("all_complete");
+	});
+
+	it("ん before ゐ (maps to 'i'): bare n is NOT OK (ambiguous)", () => {
+		const opts = parseKana("んゐ")[0]?.options ?? [];
+		expect(opts).not.toContain("n");
+	});
+
+	it("ん before ゑ (maps to 'e'): bare n is NOT OK (ambiguous)", () => {
+		const opts = parseKana("んゑ")[0]?.options ?? [];
+		expect(opts).not.toContain("n");
+	});
+});
+
+// ── pendingComplete wrong path (BUG DETECTION) ───────────────────────────────
+
+describe("pendingComplete – wrong key state consistency", () => {
+	// When ん has pendingComplete=true (bare n, before consonant) and the user
+	// types a wrong key that can't extend the pending option AND can't start the
+	// next segment, feedKey returns result="wrong" but next=<afterComplete state>.
+	// In the normal wrong path, next===currentState (no advancement).
+	// The inconsistency means ん can be silently "completed" on a wrong keystroke.
+
+	it("'n' + wrong key on んか: result is wrong", () => {
+		const state0 = createTypingState("んか");
+		const r1 = feedKey(state0, "n"); // pendingComplete
+		expect(r1.result).toBe("correct");
+		const r2 = feedKey(r1.next, "z"); // wrong key: can't extend, can't start か
+		expect(r2.result).toBe("wrong");
+	});
+
+	it("'n' + wrong key on んか: next state should still be on ん (BUG: is on か)", () => {
+		const state0 = createTypingState("んか");
+		const r1 = feedKey(state0, "n");
+		const r2 = feedKey(r1.next, "z");
+		// BUG: r2.next is afterComplete (segIdx=1, on か) instead of staying on ん
+		// Expected: segIdx=0 (still on ん), but actual: segIdx=1 (advanced to か)
+		expect(r2.next.segIdx).toBe(0); // currently fails → bug confirmed
+	});
+
+	it("normal wrong path does NOT advance state", () => {
+		// Sanity check: a plain wrong key keeps segIdx unchanged
+		const state0 = createTypingState("かき");
+		const r = feedKey(state0, "z");
+		expect(r.result).toBe("wrong");
+		expect(r.next.segIdx).toBe(0); // stays on か
+	});
+});
+
+// ── typedSegments accuracy ────────────────────────────────────────────────────
+
+describe("typedSegments tracking", () => {
+	it("records each completed segment's typed string", () => {
+		const state0 = createTypingState("かき");
+		const r1 = feedKey(state0, "k");
+		const r2 = feedKey(r1.next, "a"); // か complete
+		expect(r2.result).toBe("segment_complete");
+		expect(r2.next.typedSegments).toEqual(["ka"]);
+
+		const r3 = feedKey(r2.next, "k");
+		const r4 = feedKey(r3.next, "i"); // き complete
+		expect(r4.result).toBe("all_complete");
+		expect(r4.next.typedSegments).toEqual(["ka", "ki"]);
+	});
+
+	it("records the exact option used (not canonical)", () => {
+		// Type か using the 'ca' alias
+		const state0 = createTypingState("か");
+		const r1 = feedKey(state0, "c");
+		const r2 = feedKey(r1.next, "a");
+		expect(r2.result).toBe("all_complete");
+		expect(r2.next.typedSegments).toEqual(["ca"]);
+	});
+
+	it("records pending-complete segment with its implicit typed string", () => {
+		// Type んか with bare n for ん (pendingComplete path)
+		const state0 = createTypingState("んか");
+		const r1 = feedKey(state0, "n"); // pendingComplete
+		const r2 = feedKey(r1.next, "k"); // implicit complete ん, then 'k' starts か
+		expect(r2.segmentCompleted).toBe(true);
+		// ん should be recorded as "n" in typedSegments
+		expect(r2.next.typedSegments).toEqual(["n"]);
 	});
 });
