@@ -84,7 +84,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 				</div>
 				<div
 					style={{
-						color: "#444",
+						color: "#999",
 						fontSize: "13px",
 						letterSpacing: "5px",
 						textTransform: "uppercase",
@@ -120,7 +120,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						<div
 							style={{
 								fontSize: "10px",
-								color: "#444",
+								color: "#aaa",
 								textTransform: "uppercase",
 								letterSpacing: "3px",
 								fontFamily: "'Press Start 2P', monospace",
@@ -135,7 +135,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 							style={{
 								fontFamily: "'Press Start 2P', monospace",
 								fontSize: "40px",
-								color: "#888",
+								color: "#aaa",
 							}}
 						>
 							{sessionCount}
@@ -143,7 +143,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 						<div
 							style={{
 								fontSize: "10px",
-								color: "#444",
+								color: "#aaa",
 								textTransform: "uppercase",
 								letterSpacing: "3px",
 								fontFamily: "'Press Start 2P', monospace",
@@ -204,9 +204,9 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 							padding: "12px 32px",
 							fontFamily: "'Press Start 2P', monospace",
 							fontSize: "11px",
-							color: "#555",
+							color: "#bbb",
 							background: "none",
-							border: "1px solid #2a0050",
+							border: "1px solid #7a30c0",
 							cursor: "pointer",
 							letterSpacing: "2px",
 							transition: "all 0.15s",
@@ -217,8 +217,8 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 							e.currentTarget.style.boxShadow = "0 0 8px #00ffff44";
 						}}
 						onMouseLeave={(e) => {
-							e.currentTarget.style.color = "#555";
-							e.currentTarget.style.borderColor = "#2a0050";
+							e.currentTarget.style.color = "#bbb";
+							e.currentTarget.style.borderColor = "#7a30c0";
 							e.currentTarget.style.boxShadow = "none";
 						}}
 					>
@@ -231,9 +231,9 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 							padding: "12px 32px",
 							fontFamily: "'Press Start 2P', monospace",
 							fontSize: "11px",
-							color: "#555",
+							color: "#bbb",
 							background: "none",
-							border: "1px solid #2a0050",
+							border: "1px solid #7a30c0",
 							cursor: "pointer",
 							letterSpacing: "2px",
 							transition: "all 0.15s",
@@ -244,8 +244,8 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 							e.currentTarget.style.boxShadow = "0 0 8px #00ffff44";
 						}}
 						onMouseLeave={(e) => {
-							e.currentTarget.style.color = "#555";
-							e.currentTarget.style.borderColor = "#2a0050";
+							e.currentTarget.style.color = "#bbb";
+							e.currentTarget.style.borderColor = "#7a30c0";
 							e.currentTarget.style.boxShadow = "none";
 						}}
 					>
@@ -260,7 +260,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 					bottom: "16px",
 					fontFamily: "'Press Start 2P', monospace",
 					fontSize: "8px",
-					color: "#2a0050",
+					color: "#6a20a0",
 					zIndex: 1,
 					letterSpacing: "2px",
 				}}
