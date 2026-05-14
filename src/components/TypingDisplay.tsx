@@ -18,33 +18,65 @@ export function TypingDisplay({
 	const remainingInCurrent = current.slice(typed.length);
 
 	return (
-		<div className="flex flex-col gap-3 items-center select-none">
+		<div
+			style={{
+				display: "flex",
+				flexDirection: "column",
+				gap: "16px",
+				alignItems: "center",
+				userSelect: "none",
+			}}
+		>
 			{/* Japanese */}
 			<div
-				className="text-2xl font-bold tracking-wider transition-colors duration-100"
 				style={{
-					color: lastWrong ? "#ff6666" : "#e5e7eb",
-					textShadow: lastWrong ? "0 0 12px #ff333388" : "none",
+					fontSize: "40px",
+					letterSpacing: "6px",
+					color: lastWrong ? "#ff6666" : "#aaaaaa",
+					textShadow: lastWrong
+						? "0 0 12px #ff333388"
+						: "0 0 20px rgba(255,255,255,0.1)",
+					transition: "color 0.1s",
+					fontFamily: "'Share Tech Mono', monospace",
 				}}
 			>
 				{sentence.japanese}
 			</div>
 
 			{/* Romaji */}
-			<div className="font-mono text-xl tracking-widest flex items-center gap-0 flex-wrap justify-center">
-				{/* completed segments */}
+			<div
+				style={{
+					display: "flex",
+					alignItems: "baseline",
+					gap: "0",
+					fontFamily: "'Press Start 2P', monospace",
+					fontSize: "28px",
+					flexWrap: "wrap",
+					justifyContent: "center",
+					lineHeight: 1.7,
+				}}
+			>
 				<span
-					className="text-cyan-400"
-					style={{ textShadow: "0 0 8px #00ffff88" }}
+					style={{
+						color: "#00ffff",
+						textShadow: "0 0 12px #00ffff, 0 0 24px rgba(0,255,255,0.5)",
+					}}
 				>
 					{done}
 				</span>
-				{/* current segment: typed part */}
-				<span className="text-cyan-300">{typed}</span>
-				{/* current segment: remaining — shake + red when wrong */}
 				<span
-					className={`border-b-2 ${lastWrong ? "border-red-400 text-red-400" : "border-cyan-600 text-gray-400"}`}
 					style={{
+						color: "#88ffff",
+						textShadow: "0 0 8px #00ffff",
+					}}
+				>
+					{typed}
+				</span>
+				<span
+					style={{
+						color: lastWrong ? "#ff4444" : "#cccccc",
+						borderBottom: `3px solid ${lastWrong ? "#ff4444" : "#00ffff"}`,
+						paddingBottom: "2px",
 						minWidth: "1ch",
 						textShadow: lastWrong ? "0 0 8px #ff444488" : "none",
 						animation: lastWrong ? "wrongShake 0.18s ease" : "none",
@@ -52,29 +84,49 @@ export function TypingDisplay({
 				>
 					{remainingInCurrent}
 				</span>
-				{/* pending segments */}
-				<span className="text-gray-600">{pending}</span>
+				<span style={{ color: "#333" }}>{pending}</span>
 			</div>
 
-			{/* kana progress indicators */}
-			<div className="flex gap-1 flex-wrap justify-center">
-				{typingState.segments.map((seg, i) => (
-					<span
-						key={typingState.segments
-							.slice(0, i + 1)
-							.map((s) => s.kana)
-							.join("")}
-						className={`text-xs px-1 py-0.5 rounded border ${
-							i < typingState.segIdx
-								? "border-cyan-800 text-cyan-600 bg-cyan-950/30"
-								: i === typingState.segIdx
-									? "border-cyan-400 text-cyan-300 bg-cyan-900/30"
-									: "border-gray-800 text-gray-600"
-						}`}
-					>
-						{seg.kana}
-					</span>
-				))}
+			{/* Kana pills */}
+			<div
+				style={{
+					display: "flex",
+					gap: "6px",
+					flexWrap: "wrap",
+					justifyContent: "center",
+				}}
+			>
+				{typingState.segments.map((seg, i) => {
+					const isDone = i < typingState.segIdx;
+					const isCurrent = i === typingState.segIdx;
+					return (
+						<span
+							key={typingState.segments
+								.slice(0, i + 1)
+								.map((s) => s.kana)
+								.join("")}
+							style={{
+								padding: "4px 10px",
+								border: `1px solid ${isDone ? "#00cccc" : isCurrent ? "#00ffff" : "#333"}`,
+								fontSize: "14px",
+								fontFamily: "'Share Tech Mono', monospace",
+								background: isDone
+									? "rgba(0,255,255,0.15)"
+									: isCurrent
+										? "rgba(0,255,255,0.08)"
+										: "transparent",
+								color: isDone ? "#00ffff" : isCurrent ? "#88ffff" : "#333",
+								boxShadow: isDone
+									? "0 0 6px rgba(0,255,255,0.4)"
+									: isCurrent
+										? "0 0 4px rgba(0,255,255,0.3)"
+										: "none",
+							}}
+						>
+							{seg.kana}
+						</span>
+					);
+				})}
 			</div>
 		</div>
 	);

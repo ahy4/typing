@@ -6,12 +6,11 @@ interface Props {
 }
 
 const STEPS = ["3", "2", "1", "GO!"];
-const STEP_DURATION = 400; // ms per step
+const STEP_DURATION = 400;
 
 export function ReadyScreen({ onReady }: Props) {
 	const [step, setStep] = useState(0);
 
-	// Unlock AudioContext on the first user-gesture (the click/keypress that triggered this screen)
 	useEffect(() => {
 		unlockAudio();
 	}, []);
@@ -30,28 +29,35 @@ export function ReadyScreen({ onReady }: Props) {
 	const isGo = label === "GO!";
 
 	return (
-		<div className="flex flex-col items-center justify-center h-screen bg-[#0a0a0a] select-none">
+		<div
+			style={{
+				position: "fixed",
+				inset: 0,
+				zIndex: 50,
+				display: "flex",
+				flexDirection: "column",
+				alignItems: "center",
+				justifyContent: "center",
+				background: "rgba(7, 0, 16, 0.82)",
+				userSelect: "none",
+			}}
+		>
 			<div
 				key={step}
-				className="font-mono font-black tabular-nums"
 				style={{
-					fontSize: isGo ? "10rem" : "12rem",
+					fontFamily: "'Press Start 2P', monospace",
+					fontSize: isGo ? "80px" : "108px",
 					color: isGo ? "#00ffff" : "#ffffff",
 					textShadow: isGo
-						? "0 0 60px #00ffff, 0 0 120px #00ffff88"
-						: "0 0 40px #ffffff44",
+						? "0 0 40px #00ffff, 0 0 80px #00ffff, 0 0 120px #00ffff88"
+						: "0 0 20px rgba(255,255,255,0.6), 0 0 60px rgba(255,255,255,0.2)",
 					animation: "readyPop 0.25s ease-out",
 					lineHeight: 1,
+					letterSpacing: isGo ? "8px" : "4px",
 				}}
 			>
 				{label}
 			</div>
-			<style>{`
-				@keyframes readyPop {
-					from { transform: scale(1.5); opacity: 0; }
-					to   { transform: scale(1);   opacity: 1; }
-				}
-			`}</style>
 		</div>
 	);
 }

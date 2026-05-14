@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { GameState } from "../hooks/useGameEngine";
+import { LIFE_MAX } from "../lib/runnerState";
 import { CentralGauge } from "./CentralGauge";
 import { KeyboardDisplay } from "./KeyboardDisplay";
 import { TypingDisplay } from "./TypingDisplay";
@@ -10,17 +11,17 @@ interface Props {
 	onToggleKeyboard: () => void;
 }
 
-function lifeColor(life: number): string {
-	if (life > 60) return "#00ff88";
-	if (life > 30) return "#ffaa00";
-	return "#ff3333";
+function lifeColor(pct: number): string {
+	if (pct > 60) return "#00ffff";
+	if (pct > 30) return "#ffaa00";
+	return "#ff2244";
 }
 
 function healStreakColor(streak: number): string {
 	if (streak >= 5) return "#ff44ff";
 	if (streak >= 4) return "#ff8800";
 	if (streak >= 3) return "#ffdd00";
-	if (streak >= 2) return "#00ff88";
+	if (streak >= 2) return "#00ff66";
 	if (streak >= 1) return "#00ffff";
 	return "#333344";
 }
@@ -28,7 +29,7 @@ function healStreakColor(streak: number): string {
 function comboColor(combo: number): string {
 	const colors = [
 		"#00ffff",
-		"#00ff88",
+		"#00ff66",
 		"#ffaa00",
 		"#ff6600",
 		"#ff3366",
@@ -37,10 +38,23 @@ function comboColor(combo: number): string {
 	return colors[Math.floor(combo / 30) % colors.length] ?? "#00ffff";
 }
 
+const PARTICLES = [
+	{ left: "8%", color: "#00ffff", duration: "8s", delay: "0s" },
+	{ left: "22%", color: "#ff00aa", duration: "12s", delay: "2s" },
+	{ left: "38%", color: "#ffee00", duration: "7s", delay: "1s" },
+	{ left: "55%", color: "#00ffff", duration: "10s", delay: "3s" },
+	{ left: "70%", color: "#ff00aa", duration: "9s", delay: "0.5s" },
+	{ left: "85%", color: "#00ff66", duration: "11s", delay: "4s" },
+	{ left: "15%", color: "#ff8800", duration: "13s", delay: "1.5s" },
+	{ left: "50%", color: "#00ffff", duration: "6s", delay: "5s" },
+];
+
 export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 	const { player, ghost } = state;
 	const sentence = player.sentences[player.sentenceIdx];
-	const lifePct = Math.max(0, Math.min(100, player.life));
+
+	// Normalize life to 0-100% for display
+	const lifePct = Math.max(0, Math.min(100, (player.life / LIFE_MAX) * 100));
 	const lc = lifeColor(lifePct);
 	const cc = comboColor(player.combo);
 
@@ -66,7 +80,9 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 		}
 	}, [state.lastHealId, state.lastHealAmount]);
 
-	const ghostLifePct = ghost ? Math.max(0, Math.min(100, ghost.life)) : 0;
+	const ghostLifePct = ghost
+		? Math.max(0, Math.min(100, (ghost.life / LIFE_MAX) * 100))
+		: 0;
 	const acc =
 		state.totalCorrect + state.totalErrors > 0
 			? Math.round(
@@ -93,58 +109,303 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 	const myProgress = player.sentenceIdx;
 	const ghostProgress = ghost ? ghost.sentenceIdx : 0;
 
-	const PX_PER_CLEAR = 6;
+	const elapsedSec = Math.round(state.elapsed / 1000);
+	const mins = Math.floor(elapsedSec / 60);
+	const secs = elapsedSec % 60;
+	const timeStr = `${mins}:${secs.toString().padStart(2, "0")}`;
+
+	const comboMilestone = 100;
+	const comboPct =
+		player.combo === 0
+			? 0
+			: ((player.combo % comboMilestone) / comboMilestone) * 100 || 100;
+	const comboLevel = Math.floor(player.combo / comboMilestone);
+	const comboLevelColors = [
+		"#00ffff",
+		"#00ff66",
+		"#ffaa00",
+		"#ff6600",
+		"#ff3366",
+		"#cc00ff",
+	];
+	const comboBgColor =
+		comboLevelColors[comboLevel % comboLevelColors.length] ?? "#00ffff";
 
 	return (
 		<div
-			className="h-screen overflow-hidden flex justify-center"
-			style={{ background: "#050508" }}
+			className="h-screen overflow-hidden flex flex-col"
+			style={{ background: "var(--bg)", position: "relative" }}
 		>
-			<div className="flex h-full w-full" style={{ maxWidth: "1100px" }}>
-				{/* ── LIFE bar — left ── */}
+			{/* Floating particles */}
+			<div
+				style={{
+					position: "fixed",
+					inset: 0,
+					overflow: "hidden",
+					pointerEvents: "none",
+					zIndex: 0,
+				}}
+			>
+				{PARTICLES.map((p, i) => (
+					<div
+						// biome-ignore lint/suspicious/noArrayIndexKey: static list
+						key={i}
+						style={{
+							position: "absolute",
+							width: "2px",
+							height: "2px",
+							borderRadius: "50%",
+							background: p.color,
+							left: p.left,
+							animation: `float ${p.duration} linear infinite`,
+							animationDelay: p.delay,
+						}}
+					/>
+				))}
+			</div>
+
+			{/* HEADER */}
+			<div
+				style={{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "space-between",
+					padding: "10px 20px",
+					borderBottom: "2px solid #ff00aa",
+					boxShadow: "0 0 20px #ff00aa, 0 0 40px rgba(255,0,170,0.3)",
+					background: "rgba(13,0,26,0.9)",
+					position: "relative",
+					zIndex: 1,
+					flexShrink: 0,
+				}}
+			>
+				{/* Logo */}
 				<div
-					className="w-16 shrink-0 relative"
-					style={{ background: "#080808" }}
+					style={{
+						fontFamily: "'Press Start 2P', monospace",
+						fontSize: "18px",
+						color: "#00ffff",
+						textShadow: "0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff",
+						letterSpacing: "3px",
+					}}
 				>
-					<div className="absolute inset-0 flex flex-col justify-end">
+					{"TYPE//DARK"}
+				</div>
+
+				{/* Progress battle */}
+				<div
+					style={{
+						display: "flex",
+						alignItems: "center",
+						gap: "12px",
+					}}
+				>
+					<div
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "11px",
+							color: "#00ffff",
+							textShadow: "0 0 6px #00ffff",
+						}}
+					>
+						自分 {myProgress}
+					</div>
+					<div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
 						<div
-							className="w-full transition-all duration-100"
 							style={{
+								width: "160px",
+								height: "9px",
+								background: "#1a0030",
+								border: "1px solid #440088",
+								overflow: "hidden",
+							}}
+						>
+							<div
+								style={{
+									height: "100%",
+									width: `${Math.min(100, myProgress * 5)}%`,
+									background: "#00ffff",
+									boxShadow: "0 0 8px #00ffff",
+									transition: "width 0.3s",
+								}}
+							/>
+						</div>
+						<div
+							style={{
+								width: "160px",
+								height: "9px",
+								background: "#1a0030",
+								border: "1px solid #440088",
+								overflow: "hidden",
+							}}
+						>
+							<div
+								style={{
+									height: "100%",
+									width: ghost ? `${Math.min(100, ghostProgress * 5)}%` : "0%",
+									background: "#ff00aa",
+									boxShadow: "0 0 8px #ff00aa",
+									transition: "width 0.3s",
+									opacity: ghost ? 1 : 0.3,
+								}}
+							/>
+						</div>
+					</div>
+					<div
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "11px",
+							color: "#ff00aa",
+							textShadow: "0 0 6px #ff00aa",
+							opacity: ghost ? 1 : 0.35,
+						}}
+					>
+						GHO {ghostProgress}
+					</div>
+				</div>
+
+				{/* Header stats */}
+				<div
+					style={{
+						display: "flex",
+						gap: "20px",
+						fontSize: "13px",
+						color: "#666",
+						fontFamily: "'Share Tech Mono', monospace",
+					}}
+				>
+					<span>
+						正解{" "}
+						<span style={{ color: "#ffee00", textShadow: "0 0 8px #ffee00" }}>
+							{state.totalCorrect}
+						</span>
+					</span>
+					<span>
+						ミス{" "}
+						<span style={{ color: "#ff2244", textShadow: "0 0 8px #ff2244" }}>
+							{state.totalErrors}
+						</span>
+					</span>
+					<span>
+						精度{" "}
+						<span style={{ color: "#ffee00", textShadow: "0 0 8px #ffee00" }}>
+							{acc}%
+						</span>
+					</span>
+					<span>
+						TIME{" "}
+						<span style={{ color: "#ffee00", textShadow: "0 0 8px #ffee00" }}>
+							{timeStr}
+						</span>
+					</span>
+				</div>
+			</div>
+
+			{/* MAIN AREA */}
+			<div
+				className="flex flex-1 min-h-0"
+				style={{ position: "relative", zIndex: 1 }}
+			>
+				{/* LEFT HP BAR — PLAYER */}
+				<div
+					style={{
+						width: "80px",
+						flexShrink: 0,
+						background: "var(--panel)",
+						borderRight: "1px solid var(--border)",
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+						justifyContent: "center",
+						padding: "20px 10px",
+						gap: "10px",
+						position: "relative",
+					}}
+				>
+					<div
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "9px",
+							writingMode: "vertical-rl",
+							textOrientation: "mixed",
+							letterSpacing: "2px",
+							color: lc,
+							textShadow: `0 0 8px ${lc}`,
+						}}
+					>
+						PLAYER
+					</div>
+					<div
+						style={{
+							flex: 1,
+							width: "28px",
+							background: "#1a0030",
+							border: `1px solid ${lc}`,
+							position: "relative",
+							display: "flex",
+							flexDirection: "column",
+							justifyContent: "flex-end",
+							overflow: "hidden",
+						}}
+					>
+						<div
+							style={{
+								width: "100%",
 								height: `${lifePct}%`,
-								background: lc,
-								opacity: 0.45,
-								boxShadow: `0 0 18px ${lc}`,
+								background: `linear-gradient(to top, ${lc}66, ${lc})`,
+								boxShadow: `0 0 12px ${lc}, inset 0 0 12px ${lc}33`,
+								transition: "height 0.1s",
 							}}
 						/>
+						{[...Array(5)].map((_, i) => (
+							<div
+								// biome-ignore lint/suspicious/noArrayIndexKey: decorative ticks
+								key={i}
+								style={{
+									position: "absolute",
+									top: `${(i + 1) * 20}%`,
+									left: 0,
+									right: 0,
+									height: "1px",
+									background: "rgba(255,255,255,0.08)",
+								}}
+							/>
+						))}
 					</div>
-					<div className="absolute inset-0 flex items-center justify-center">
-						<span
-							className="text-[9px] font-mono uppercase tracking-widest select-none"
-							style={{ writingMode: "vertical-rl", color: lc, opacity: 0.75 }}
-						>
-							HP {Math.round(lifePct)}%
-						</span>
+					<div
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "11px",
+							color: lc,
+						}}
+					>
+						{Math.round(lifePct)}%
 					</div>
+
 					{healAnim && (
 						<>
 							<div
 								key={`flash-${healAnim.id}`}
-								className="absolute inset-0 pointer-events-none"
 								style={{
+									position: "absolute",
+									inset: 0,
 									background: sc,
 									animation: "healFlash 0.4s ease-out forwards",
+									pointerEvents: "none",
 								}}
 							/>
 							<span
 								key={healAnim.id}
-								className="absolute font-mono font-bold pointer-events-none select-none"
 								style={{
+									position: "absolute",
 									bottom: `${lifePct}%`,
 									left: "50%",
-									fontSize: "13px",
+									fontSize: "16px",
+									fontFamily: "'Press Start 2P', monospace",
 									color: sc,
 									textShadow: `0 0 10px ${sc}, 0 0 20px ${sc}`,
 									animation: "healFloat 1s ease-out forwards",
+									pointerEvents: "none",
 								}}
 								onAnimationEnd={() => setHealAnim(null)}
 							>
@@ -154,69 +415,16 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 					)}
 				</div>
 
-				{/* ── Main content ── */}
-				<div className="flex-1 flex flex-col min-w-0">
-					{/* Progress comparison */}
-					<div className="pt-4 pb-3 flex justify-center">
-						<div className="w-full max-w-xl px-4 flex flex-col gap-2">
-							<div className="flex items-center gap-3">
-								<span className="text-[11px] font-mono text-cyan-400 w-14 text-right uppercase tracking-wider shrink-0">
-									自分
-								</span>
-								<span className="text-[11px] font-mono text-cyan-400 w-16 shrink-0">
-									{myProgress} クリア
-								</span>
-								<div
-									className="flex-1 h-4 rounded overflow-hidden"
-									style={{ background: "#111" }}
-								>
-									<div
-										className="h-full rounded transition-all duration-300"
-										style={{
-											width: `${myProgress * PX_PER_CLEAR}px`,
-											background: "linear-gradient(90deg, #00ffff, #0088ff)",
-											boxShadow: "0 0 8px #00ffff44",
-										}}
-									/>
-								</div>
-							</div>
-
-							<div className="flex items-center gap-3">
-								<span
-									className="text-[11px] font-mono w-14 text-right uppercase tracking-wider shrink-0"
-									style={{ color: ghost ? "#cc44ff" : "#333" }}
-								>
-									ゴースト
-								</span>
-								<span
-									className="text-[11px] font-mono w-16 shrink-0"
-									style={{ color: ghost ? "#cc44ff" : "#333" }}
-								>
-									{ghost ? `${ghostProgress} クリア` : "— なし"}
-								</span>
-								<div
-									className="flex-1 h-4 rounded overflow-hidden"
-									style={{ background: "#111" }}
-								>
-									{ghost && (
-										<div
-											className="h-full rounded transition-all duration-100"
-											style={{
-												width: `${ghostProgress * PX_PER_CLEAR}px`,
-												background: "linear-gradient(90deg, #cc44ff, #8800ff)",
-												boxShadow: "0 0 8px #cc44ff44",
-											}}
-										/>
-									)}
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div className="h-px" style={{ background: "#111" }} />
-
+				{/* CENTER */}
+				<div
+					className="flex-1 flex flex-col min-w-0"
+					style={{ overflow: "hidden" }}
+				>
 					{/* Typing area */}
-					<div className="flex-1 flex flex-col items-center justify-center gap-6">
+					<div
+						className="flex-1 flex flex-col items-center justify-center"
+						style={{ padding: "20px 32px", gap: "16px" }}
+					>
 						{sentence ? (
 							<TypingDisplay
 								sentence={sentence}
@@ -224,9 +432,111 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 								lastWrong={state.lastWrong}
 							/>
 						) : (
-							<div className="text-gray-500 font-mono">読み込み中...</div>
+							<div
+								style={{
+									color: "#666",
+									fontFamily: "'Share Tech Mono', monospace",
+									fontSize: "16px",
+								}}
+							>
+								読み込み中...
+							</div>
 						)}
+					</div>
 
+					{/* Combo gauge — thin shimmer bar */}
+					<div
+						style={{
+							height: "4px",
+							background: "#1a0030",
+							position: "relative",
+							overflow: "hidden",
+						}}
+					>
+						<div
+							style={{
+								height: "100%",
+								width: `${comboPct}%`,
+								background: `linear-gradient(90deg, ${comboBgColor}, #00ff66, #ffee00, ${comboBgColor})`,
+								backgroundSize: "200% 100%",
+								boxShadow: `0 0 8px ${comboBgColor}`,
+								animation:
+									player.combo > 0 ? "comboShimmer 2s linear infinite" : "none",
+								transition: "width 0.1s",
+							}}
+						/>
+					</div>
+
+					{/* Central gauge + side stats */}
+					<div
+						style={{
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+							padding: "12px 20px",
+							gap: "32px",
+						}}
+					>
+						{/* Left side stats */}
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								gap: "18px",
+								minWidth: "120px",
+							}}
+						>
+							<div>
+								<div
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "10px",
+										color: "#444",
+										textTransform: "uppercase",
+										letterSpacing: "2px",
+										marginBottom: "5px",
+									}}
+								>
+									CORRECT
+								</div>
+								<div
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "24px",
+										color: "#00ff66",
+										textShadow: "0 0 8px #00ff66",
+									}}
+								>
+									{state.totalCorrect}
+								</div>
+							</div>
+							<div>
+								<div
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "10px",
+										color: "#444",
+										textTransform: "uppercase",
+										letterSpacing: "2px",
+										marginBottom: "5px",
+									}}
+								>
+									MISS
+								</div>
+								<div
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "24px",
+										color: "#ff2244",
+										textShadow: "0 0 8px #ff2244",
+									}}
+								>
+									{state.totalErrors}
+								</div>
+							</div>
+						</div>
+
+						{/* Central gauge */}
 						<CentralGauge
 							progressToHeal={progressToHeal}
 							healStreak={state.healStreak}
@@ -239,88 +549,229 @@ export function GameScreen({ state, showKeyboard, onToggleKeyboard }: Props) {
 							{...(ghost ? { ghostSpeed: ghost.speed } : {})}
 						/>
 
-						<div className="flex gap-6 text-xs text-gray-600 font-mono">
-							<span>
-								正解{" "}
-								<span className="text-green-400">{state.totalCorrect}</span>
-							</span>
-							<span>
-								ミス <span className="text-red-400">{state.totalErrors}</span>
-							</span>
-							<span>
-								精度 <span className="text-yellow-400">{acc}%</span>
-							</span>
-							<span className="text-gray-700">
-								{Math.round(state.elapsed / 1000)}s
-							</span>
+						{/* Right side stats */}
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								gap: "18px",
+								minWidth: "120px",
+								alignItems: "flex-end",
+							}}
+						>
+							<div
+								style={{
+									alignItems: "flex-end",
+									display: "flex",
+									flexDirection: "column",
+								}}
+							>
+								<div
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "10px",
+										color: "#444",
+										textTransform: "uppercase",
+										letterSpacing: "2px",
+										marginBottom: "5px",
+									}}
+								>
+									ACCURACY
+								</div>
+								<div
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "24px",
+										color: "#ffee00",
+										textShadow: "0 0 8px #ffee00",
+									}}
+								>
+									{acc}%
+								</div>
+							</div>
+							<div
+								style={{
+									alignItems: "flex-end",
+									display: "flex",
+									flexDirection: "column",
+								}}
+							>
+								<div
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "10px",
+										color: "#444",
+										textTransform: "uppercase",
+										letterSpacing: "2px",
+										marginBottom: "5px",
+									}}
+								>
+									TIME
+								</div>
+								<div
+									style={{
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "24px",
+										color: "#888",
+									}}
+								>
+									{timeStr}
+								</div>
+							</div>
 						</div>
 					</div>
 
+					{/* Keyboard */}
 					{showKeyboard && (
-						<div className="border-t border-gray-900 pb-1 flex justify-center">
+						<div
+							style={{
+								borderTop: "1px solid var(--border)",
+								background: "rgba(0,0,0,0.5)",
+								display: "flex",
+								justifyContent: "center",
+							}}
+						>
 							<KeyboardDisplay keyStats={[]} highlight={nextKeys} />
 						</div>
 					)}
-
-					<div
-						className="flex items-center justify-between px-4 py-1.5 text-[10px] text-gray-700 font-mono"
-						style={{ borderTop: "1px solid #111" }}
-					>
-						<span className="flex items-center gap-1.5">
-							<kbd
-								className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold"
-								style={{
-									background: "#222",
-									border: "1px solid #444",
-									color: "#aaa",
-									boxShadow: "0 1px 0 #555",
-								}}
-							>
-								ESC
-							</kbd>
-							<span>ゲーム終了</span>
-						</span>
-						<button
-							type="button"
-							onClick={onToggleKeyboard}
-							className="hover:text-gray-400 transition-colors"
-						>
-							KB: {showKeyboard ? "表示" : "非表示"}
-						</button>
-						<span style={{ color: lc }}>HP {Math.round(lifePct)}%</span>
-					</div>
 				</div>
 
-				{/* ── GHOST HP bar — right ── */}
+				{/* RIGHT HP BAR — GHOST */}
 				<div
-					className="w-16 shrink-0 relative"
-					style={{ background: "#080808" }}
+					style={{
+						width: "80px",
+						flexShrink: 0,
+						background: "var(--panel)",
+						borderLeft: "1px solid var(--border)",
+						display: "flex",
+						flexDirection: "column",
+						alignItems: "center",
+						justifyContent: "center",
+						padding: "20px 10px",
+						gap: "10px",
+					}}
 				>
-					<div className="absolute inset-0 flex flex-col justify-end">
+					<div
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "9px",
+							writingMode: "vertical-rl",
+							textOrientation: "mixed",
+							letterSpacing: "2px",
+							color: "#ff00aa",
+							textShadow: "0 0 8px #ff00aa",
+							opacity: ghost ? 1 : 0.3,
+						}}
+					>
+						GHOST
+					</div>
+					<div
+						style={{
+							flex: 1,
+							width: "28px",
+							background: "#1a0030",
+							border: `1px solid ${ghost ? "#ff00aa" : "#2a0050"}`,
+							position: "relative",
+							display: "flex",
+							flexDirection: "column",
+							justifyContent: "flex-end",
+							overflow: "hidden",
+						}}
+					>
 						{ghost && (
 							<div
-								className="w-full transition-all duration-100"
 								style={{
+									width: "100%",
 									height: `${ghostLifePct}%`,
-									background: "#cc44ff",
-									opacity: 0.45,
-									boxShadow: "0 0 18px #cc44ff88",
+									background: "linear-gradient(to top, #660044, #ff00aa)",
+									boxShadow:
+										"0 0 12px #ff00aa, inset 0 0 12px rgba(255,0,170,0.3)",
+									transition: "height 0.1s",
 								}}
 							/>
 						)}
+						{[...Array(5)].map((_, i) => (
+							<div
+								// biome-ignore lint/suspicious/noArrayIndexKey: decorative ticks
+								key={i}
+								style={{
+									position: "absolute",
+									top: `${(i + 1) * 20}%`,
+									left: 0,
+									right: 0,
+									height: "1px",
+									background: "rgba(255,255,255,0.08)",
+								}}
+							/>
+						))}
 					</div>
-					<div className="absolute inset-0 flex items-center justify-center">
-						<span
-							className="text-[9px] font-mono uppercase tracking-widest select-none"
-							style={{
-								writingMode: "vertical-rl",
-								color: "#cc44ff",
-								opacity: ghost ? 0.75 : 0.2,
-							}}
-						>
-							{ghost ? `ゴースト ${Math.round(ghostLifePct)}%` : "ゴーストなし"}
-						</span>
+					<div
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "11px",
+							color: "#ff00aa",
+							opacity: ghost ? 1 : 0.3,
+						}}
+					>
+						{ghost ? `${Math.round(ghostLifePct)}%` : "--"}
 					</div>
+				</div>
+			</div>
+
+			{/* FOOTER */}
+			<div
+				style={{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "space-between",
+					padding: "8px 20px",
+					borderTop: "1px solid var(--border)",
+					background: "rgba(13,0,26,0.9)",
+					fontFamily: "'Press Start 2P', monospace",
+					fontSize: "11px",
+					color: "#333",
+					flexShrink: 0,
+					position: "relative",
+					zIndex: 1,
+				}}
+			>
+				<div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+					<span
+						style={{
+							padding: "3px 8px",
+							border: "1px solid #333",
+							color: "#555",
+						}}
+					>
+						ESC
+					</span>
+					<span>QUIT</span>
+				</div>
+				<button
+					type="button"
+					onClick={onToggleKeyboard}
+					style={{
+						background: "none",
+						border: "1px solid #333",
+						color: "#555",
+						fontFamily: "'Press Start 2P', monospace",
+						fontSize: "11px",
+						padding: "3px 10px",
+						cursor: "pointer",
+					}}
+					onMouseEnter={(e) => {
+						e.currentTarget.style.borderColor = "#666";
+						e.currentTarget.style.color = "#aaa";
+					}}
+					onMouseLeave={(e) => {
+						e.currentTarget.style.borderColor = "#333";
+						e.currentTarget.style.color = "#555";
+					}}
+				>
+					KB: {showKeyboard ? "ON" : "OFF"}
+				</button>
+				<div style={{ color: lc, textShadow: `0 0 6px ${lc}` }}>
+					HP: {Math.round(lifePct)}%
 				</div>
 			</div>
 		</div>

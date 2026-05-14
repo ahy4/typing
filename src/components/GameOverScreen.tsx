@@ -8,6 +8,14 @@ interface Props {
 	onStats: () => void;
 }
 
+const PARTICLES = [
+	{ left: "10%", color: "#00ffff", duration: "8s", delay: "0s" },
+	{ left: "30%", color: "#ff00aa", duration: "11s", delay: "1.5s" },
+	{ left: "55%", color: "#ffee00", duration: "9s", delay: "0.5s" },
+	{ left: "75%", color: "#00ff66", duration: "13s", delay: "3s" },
+	{ left: "90%", color: "#ff00aa", duration: "7s", delay: "2s" },
+];
+
 export function GameOverScreen({ session, onStats }: Props) {
 	const [showReplay, setShowReplay] = useState(false);
 
@@ -25,82 +33,264 @@ export function GameOverScreen({ session, onStats }: Props) {
 	const secs = Math.floor((session.duration % 60000) / 1000);
 
 	return (
-		<div className="flex flex-col items-center justify-center h-screen bg-[#0a0a0a] gap-8 select-none">
+		<div
+			style={{
+				display: "flex",
+				flexDirection: "column",
+				alignItems: "center",
+				justifyContent: "center",
+				height: "100vh",
+				background: "var(--bg)",
+				gap: "44px",
+				userSelect: "none",
+				position: "relative",
+				overflow: "hidden",
+			}}
+		>
+			{/* Particles */}
 			<div
-				className="text-4xl font-black font-mono tracking-widest"
-				style={{ color: "#00ffcc", textShadow: "0 0 20px #00ffcc88" }}
+				style={{
+					position: "fixed",
+					inset: 0,
+					overflow: "hidden",
+					pointerEvents: "none",
+					zIndex: 0,
+				}}
 			>
-				リザルト
+				{PARTICLES.map((p, i) => (
+					<div
+						// biome-ignore lint/suspicious/noArrayIndexKey: static list
+						key={i}
+						style={{
+							position: "absolute",
+							width: "2px",
+							height: "2px",
+							borderRadius: "50%",
+							background: p.color,
+							left: p.left,
+							animation: `float ${p.duration} linear infinite`,
+							animationDelay: p.delay,
+						}}
+					/>
+				))}
 			</div>
 
-			{/* Results */}
-			<div className="grid grid-cols-2 gap-6 text-center">
+			{/* Title */}
+			<div
+				style={{
+					fontFamily: "'Press Start 2P', monospace",
+					fontSize: "32px",
+					color: "#00ffcc",
+					textShadow: "0 0 20px #00ffcc, 0 0 40px #00ffcc88",
+					letterSpacing: "6px",
+					position: "relative",
+					zIndex: 1,
+				}}
+			>
+				RESULT
+			</div>
+
+			{/* Results grid */}
+			<div
+				style={{
+					display: "grid",
+					gridTemplateColumns: "1fr 1fr",
+					gap: "32px 64px",
+					textAlign: "center",
+					position: "relative",
+					zIndex: 1,
+				}}
+			>
 				<div>
 					<div
-						className="text-5xl font-mono font-bold text-cyan-400"
-						style={{ textShadow: "0 0 20px #00ffff88" }}
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "48px",
+							color: "#00ffff",
+							textShadow: "0 0 20px #00ffff88",
+						}}
 					>
 						{session.wpm.toFixed(1)}
 					</div>
-					<div className="text-xs text-gray-600 uppercase tracking-widest mt-1">
+					<div
+						style={{
+							fontSize: "10px",
+							color: "#444",
+							textTransform: "uppercase",
+							letterSpacing: "3px",
+							fontFamily: "'Press Start 2P', monospace",
+							marginTop: "10px",
+						}}
+					>
 						打/秒
 					</div>
 				</div>
 				<div>
 					<div
-						className="text-5xl font-mono font-bold text-green-400"
-						style={{ textShadow: "0 0 20px #00ff8888" }}
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "48px",
+							color: "#00ff66",
+							textShadow: "0 0 20px #00ff6688",
+						}}
 					>
 						{acc}%
 					</div>
-					<div className="text-xs text-gray-600 uppercase tracking-widest mt-1">
+					<div
+						style={{
+							fontSize: "10px",
+							color: "#444",
+							textTransform: "uppercase",
+							letterSpacing: "3px",
+							fontFamily: "'Press Start 2P', monospace",
+							marginTop: "10px",
+						}}
+					>
 						正確率
 					</div>
 				</div>
 				<div>
-					<div className="text-3xl font-mono font-bold text-gray-300">
+					<div
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "36px",
+							color: "#888",
+						}}
+					>
 						{session.sentences}
 					</div>
-					<div className="text-xs text-gray-600 uppercase tracking-widest mt-1">
+					<div
+						style={{
+							fontSize: "10px",
+							color: "#444",
+							textTransform: "uppercase",
+							letterSpacing: "3px",
+							fontFamily: "'Press Start 2P', monospace",
+							marginTop: "10px",
+						}}
+					>
 						文章数
 					</div>
 				</div>
 				<div>
-					<div className="text-3xl font-mono font-bold text-gray-300">
+					<div
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "36px",
+							color: "#888",
+						}}
+					>
 						{mins}:{secs.toString().padStart(2, "0")}
 					</div>
-					<div className="text-xs text-gray-600 uppercase tracking-widest mt-1">
+					<div
+						style={{
+							fontSize: "10px",
+							color: "#444",
+							textTransform: "uppercase",
+							letterSpacing: "3px",
+							fontFamily: "'Press Start 2P', monospace",
+							marginTop: "10px",
+						}}
+					>
 						タイム
 					</div>
 				</div>
 			</div>
 
-			<div className="flex flex-col gap-3 items-center mt-4">
+			{/* Separator */}
+			<div
+				style={{
+					width: "400px",
+					height: "1px",
+					background:
+						"linear-gradient(90deg, transparent, #2a0050, #00ffff44, #2a0050, transparent)",
+					position: "relative",
+					zIndex: 1,
+				}}
+			/>
+
+			{/* Actions */}
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					gap: "16px",
+					alignItems: "center",
+					position: "relative",
+					zIndex: 1,
+				}}
+			>
 				<div
-					className="px-10 py-3 font-mono text-lg font-bold rounded border-2 select-none"
 					style={{
-						borderColor: "#00ffff",
+						padding: "20px 56px",
+						fontFamily: "'Press Start 2P', monospace",
+						fontSize: "16px",
+						border: "2px solid #00ffff",
 						color: "#00ffff",
 						boxShadow: "0 0 16px #00ffff44",
+						letterSpacing: "3px",
 					}}
 				>
 					もう一度
 				</div>
-				<div className="text-gray-500 text-sm font-mono tracking-widest">
+				<div
+					style={{
+						fontFamily: "'Share Tech Mono', monospace",
+						fontSize: "14px",
+						color: "#444",
+						letterSpacing: "4px",
+					}}
+				>
 					[ SPACE ] でもう一度
 				</div>
-				<div className="flex gap-3">
+				<div style={{ display: "flex", gap: "16px", marginTop: "8px" }}>
 					<button
 						type="button"
 						onClick={() => setShowReplay(true)}
-						className="px-6 py-2 font-mono text-sm text-gray-400 border border-gray-700 rounded hover:border-gray-500 hover:text-gray-200 transition-all"
+						style={{
+							padding: "12px 28px",
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "10px",
+							color: "#555",
+							background: "none",
+							border: "1px solid #2a0050",
+							cursor: "pointer",
+							letterSpacing: "1px",
+							transition: "all 0.15s",
+						}}
+						onMouseEnter={(e) => {
+							e.currentTarget.style.color = "#00ffff";
+							e.currentTarget.style.borderColor = "#00ffff";
+						}}
+						onMouseLeave={(e) => {
+							e.currentTarget.style.color = "#555";
+							e.currentTarget.style.borderColor = "#2a0050";
+						}}
 					>
-						リプレイ再生
+						リプレイ
 					</button>
 					<button
 						type="button"
 						onClick={onStats}
-						className="px-6 py-2 font-mono text-sm text-gray-400 border border-gray-700 rounded hover:border-gray-500 hover:text-gray-200 transition-all"
+						style={{
+							padding: "12px 28px",
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "10px",
+							color: "#555",
+							background: "none",
+							border: "1px solid #2a0050",
+							cursor: "pointer",
+							letterSpacing: "1px",
+							transition: "all 0.15s",
+						}}
+						onMouseEnter={(e) => {
+							e.currentTarget.style.color = "#00ffff";
+							e.currentTarget.style.borderColor = "#00ffff";
+						}}
+						onMouseLeave={(e) => {
+							e.currentTarget.style.color = "#555";
+							e.currentTarget.style.borderColor = "#2a0050";
+						}}
 					>
 						統計
 					</button>

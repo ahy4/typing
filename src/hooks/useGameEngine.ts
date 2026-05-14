@@ -267,9 +267,27 @@ export function useGameEngine() {
 				: getSentenceQueue(10);
 		preparedSentencesRef.current = sentences;
 
+		// Pre-initialize player so the GameScreen behind the countdown overlay
+		// shows the correct sentence and full HP (not the previous game's state).
+		const player = createRunnerState(sentences);
+		const initialGhost = preparedHasGhostRef.current
+			? (ghostTimelineRef.current[0] ?? null)
+			: null;
+
 		setState((prev) => ({
 			...prev,
 			phase: "ready",
+			player,
+			ghost: initialGhost,
+			sentences,
+			sentenceIdx: 0,
+			totalCorrect: 0,
+			totalErrors: 0,
+			elapsed: 0,
+			lastWrong: false,
+			lastHealAmount: 0,
+			lastHealId: 0,
+			healStreak: 0,
 			sessions: loadSessions(),
 		}));
 	}, []);
