@@ -1,10 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 
-// Underdamped spring: stiffness K, damping C → ζ ≈ 0.26 → bouncy overshoot
-const K = 160;
-const C = 7;
+interface SpringOpts {
+	k: number;
+	c: number;
+	jitterThreshold?: number;
+	jitterAmp?: number;
+	maxVal?: number;
+}
 
-function useSpringValue(target: number, maxVal: number) {
+function useSpring(target: number, opts: SpringOpts) {
+	const { k, c, jitterThreshold = 0, jitterAmp = 0, maxVal = 1 } = opts;
 	const [display, setDisplay] = useState(target);
 	const spring = useRef({ x: target, v: 0 });
 	const raf = useRef(0);
@@ -20,14 +25,14 @@ function useSpringValue(target: number, maxVal: number) {
 			t0.current = now;
 
 			const { x, v } = spring.current;
-			const a = K * (target - x) - C * v;
+			const a = k * (target - x) - c * v;
 			const v2 = v + a * dt;
 			const x2 = x + v2 * dt;
 			spring.current = { x: x2, v: v2 };
 
-			// High-speed vibration: random jitter proportional to speed
 			const ratio = Math.max(0, x2 / maxVal);
-			const jitter = ratio > 0.45 ? (Math.random() - 0.5) * 0.35 * ratio : 0;
+			const jitter =
+				ratio > jitterThreshold ? (Math.random() - 0.5) * jitterAmp * ratio : 0;
 			setDisplay(x2 + jitter);
 
 			if (Math.abs(x2 - target) > 0.004 || Math.abs(v2) > 0.004) {
@@ -40,7 +45,7 @@ function useSpringValue(target: number, maxVal: number) {
 
 		raf.current = requestAnimationFrame(tick);
 		return () => cancelAnimationFrame(raf.current);
-	}, [target, maxVal]);
+	}, [target, k, c, jitterThreshold, jitterAmp, maxVal]);
 
 	return display;
 }
@@ -58,8 +63,19 @@ export function SpeedMeter({
 	color = "#00ffff",
 	maxWpm = 12,
 }: Props) {
-	const animVal = useSpringValue(wpm, maxWpm);
-	const pct = Math.min(1.05, Math.max(0, animVal / maxWpm)); // allow slight overshoot past 100%
+	// Needle: hyper-responsive, big overshoot (ζ ≈ 0.11) + jitter at high speed
+	const needleVal = useSpring(wpm, {
+		k: 380,
+		c: 7,
+		jitterThreshold: 0.45,
+		jitterAmp: 0.45,
+		maxVal: maxWpm,
+	});
+	// Arc: sluggish, over-damped — lags behind the needle
+	const arcVal = useSpring(wpm, { k: 55, c: 9, maxVal: maxWpm });
+
+	const needlePct = Math.min(1.12, Math.max(0, needleVal / maxWpm));
+	const arcPct = Math.min(1.0, Math.max(0, arcVal / maxWpm));
 
 	const r = 36;
 	const cx = 44;
@@ -78,7 +94,7 @@ export function SpeedMeter({
 	const ARC_START = -220 + 90;
 	const ARC_RANGE = 260;
 	const trackPath = describeArc(ARC_START, ARC_START + ARC_RANGE, r);
-	const valuePath = describeArc(ARC_START, ARC_START + pct * ARC_RANGE, r);
+	const valuePath = describeArc(ARC_START, ARC_START + arcPct * ARC_RANGE, r);
 
 	// Color and glow shift: cool→hot as speed climbs
 	const ratio = Math.min(1, wpm / maxWpm);
@@ -89,7 +105,7 @@ export function SpeedMeter({
 	const arcColor = ratio > 0.75 ? "#ff6600" : ratio > 0.45 ? "#ffcc00" : color;
 
 	// Needle angle for the pointer
-	const needleAngle = ARC_START + pct * ARC_RANGE;
+	const needleAngle = ARC_START + needlePct * ARC_RANGE;
 	const needleRad = ((needleAngle - 90) * Math.PI) / 180;
 	const needleTip = {
 		x: cx + (r - 4) * Math.cos(needleRad),
