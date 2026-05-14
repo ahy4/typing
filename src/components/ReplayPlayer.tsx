@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SlidingWindowKPS } from "../lib/ema";
 import {
-	LIFE_MAX,
 	applyDrain,
 	applyInput,
 	createRunnerState,
+	LIFE_MAX,
 	type RunnerState,
 } from "../lib/runnerState";
 import { playKeyTap, playMiss, playSegmentComplete } from "../lib/sound";
@@ -209,7 +209,10 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 	}
 
 	const sentence = replay.sentences[displayState.sentenceIdx];
-	const lifePct = Math.max(0, Math.min(100, (displayState.life / LIFE_MAX) * 100));
+	const lifePct = Math.max(
+		0,
+		Math.min(100, (displayState.life / LIFE_MAX) * 100),
+	);
 	const lc = lifeColor(lifePct);
 	const cc = comboColor(displayState.combo);
 	const sc = healStreakColor(displayState.healStreak);
@@ -335,7 +338,9 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 				>
 					<span>
 						正解{" "}
-						<span style={{ color: "#00ff66" }}>{displayState.totalCorrect}</span>
+						<span style={{ color: "#00ff66" }}>
+							{displayState.totalCorrect}
+						</span>
 					</span>
 					<span>
 						ミス{" "}
@@ -348,7 +353,10 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 			</div>
 
 			{/* MAIN AREA */}
-			<div className="flex flex-1 min-h-0" style={{ position: "relative", zIndex: 1 }}>
+			<div
+				className="flex flex-1 min-h-0"
+				style={{ position: "relative", zIndex: 1 }}
+			>
 				{/* LEFT HP BAR */}
 				<div
 					style={{
@@ -428,7 +436,10 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 				</div>
 
 				{/* CENTER */}
-				<div className="flex-1 flex flex-col min-w-0" style={{ overflow: "hidden" }}>
+				<div
+					className="flex-1 flex flex-col min-w-0"
+					style={{ overflow: "hidden" }}
+				>
 					{/* Typing area */}
 					<div
 						className="flex-1 flex flex-col items-center justify-center"
@@ -470,7 +481,9 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 								backgroundSize: "200% 100%",
 								boxShadow: `0 0 8px ${sc}`,
 								animation:
-									displayState.combo > 0 ? "comboShimmer 2s linear infinite" : "none",
+									displayState.combo > 0
+										? "comboShimmer 2s linear infinite"
+										: "none",
 								transition: "width 0.08s",
 							}}
 						/>
@@ -567,7 +580,13 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 								alignItems: "flex-end",
 							}}
 						>
-							<div style={{ alignItems: "flex-end", display: "flex", flexDirection: "column" }}>
+							<div
+								style={{
+									alignItems: "flex-end",
+									display: "flex",
+									flexDirection: "column",
+								}}
+							>
 								<div
 									style={{
 										fontFamily: "'Press Start 2P', monospace",
@@ -591,7 +610,13 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 									{acc}%
 								</div>
 							</div>
-							<div style={{ alignItems: "flex-end", display: "flex", flexDirection: "column" }}>
+							<div
+								style={{
+									alignItems: "flex-end",
+									display: "flex",
+									flexDirection: "column",
+								}}
+							>
 								<div
 									style={{
 										fontFamily: "'Press Start 2P', monospace",
@@ -685,7 +710,8 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 								width: "100%",
 								height: `${seekPct}%`,
 								background: "linear-gradient(to top, #6600aa, #cc44ff)",
-								boxShadow: "0 0 16px #cc44ff, inset 0 0 16px rgba(204,68,255,0.3)",
+								boxShadow:
+									"0 0 16px #cc44ff, inset 0 0 16px rgba(204,68,255,0.3)",
 								transition: "height 0.05s",
 							}}
 						/>
