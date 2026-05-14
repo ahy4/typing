@@ -2,11 +2,12 @@ import type { SlidingWindowKPS } from "./ema";
 import { createTypingState, feedKey } from "./romaji";
 import type { InputEvent, Sentence } from "./types";
 
-export const LIFE_MAX = 200;
+export const LIFE_MAX = 400;
 export const LIFE_DRAIN_BASE = 0.08;
-export const LIFE_RECOVER_CORRECT = 0.06;
+export const LIFE_RECOVER_CORRECT = 0.12;
 export const LIFE_DRAIN_MISS = 10;
 export const KEYS_PER_COMBO = 10;
+export const COMBO_HEAL_MULTIPLIER = 2;
 
 // Unified state for any typing runner (player, ghost, replay).
 // Components render from this; they never care about the source.
@@ -80,7 +81,9 @@ export function applyInput(
 	kps?.update(event.time);
 	const newCombo = state.combo + 1;
 	const healTick =
-		newCombo === state.nextHealAt ? state.nextHealInterval / KEYS_PER_COMBO : 0;
+		newCombo === state.nextHealAt
+			? (state.nextHealInterval / KEYS_PER_COMBO) * COMBO_HEAL_MULTIPLIER
+			: 0;
 	const newNextHealAt =
 		healTick > 0
 			? state.nextHealAt + state.nextHealInterval + KEYS_PER_COMBO
