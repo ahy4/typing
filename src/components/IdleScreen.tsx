@@ -127,7 +127,7 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 								marginTop: "10px",
 							}}
 						>
-							最高打/秒
+							直近5回平均打/秒
 						</div>
 					</div>
 					<div>

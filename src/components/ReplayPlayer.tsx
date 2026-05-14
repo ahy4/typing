@@ -24,18 +24,6 @@ function lifeColor(pct: number): string {
 	return "#ff2244";
 }
 
-function comboColor(combo: number): string {
-	const colors = [
-		"#00ffff",
-		"#00ff88",
-		"#ffaa00",
-		"#ff6600",
-		"#ff3366",
-		"#cc00ff",
-	];
-	return colors[Math.floor(combo / 30) % colors.length] ?? "#00ffff";
-}
-
 function healStreakColor(streak: number): string {
 	if (streak >= 5) return "#ff44ff";
 	if (streak >= 4) return "#ff8800";
@@ -214,7 +202,6 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 		Math.min(100, (displayState.life / LIFE_MAX) * 100),
 	);
 	const lc = lifeColor(lifePct);
-	const cc = comboColor(displayState.combo);
 	const sc = healStreakColor(displayState.healStreak);
 	const sentenceProgress = displayState.sentenceIdx;
 	const acc =
@@ -560,12 +547,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 
 						{/* Central gauge */}
 						<CentralGauge
-							progressToHeal={progressToHeal}
-							healStreak={displayState.healStreak}
-							streakColor={sc}
 							speed={displayState.speed}
-							combo={displayState.combo}
-							comboColor={cc}
 							hitCount={displayState.totalCorrect}
 							lastWrong={false}
 						/>

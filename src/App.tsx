@@ -54,9 +54,11 @@ export default function App() {
 		return () => window.removeEventListener("popstate", handlePopState);
 	}, [setPhase]);
 
-	const bestWpm =
-		state.sessions.length > 0
-			? Math.max(...state.sessions.map((s) => s.wpm))
+	const recentSessions = state.sessions.slice(-5);
+	const avgWpm =
+		recentSessions.length > 0
+			? recentSessions.reduce((sum, s) => sum + s.wpm, 0) /
+				recentSessions.length
 			: 0;
 
 	return (
@@ -68,7 +70,7 @@ export default function App() {
 						onStart={startGame}
 						onStats={() => setPhase("stats")}
 						onHelp={() => setPhase("help")}
-						bestWpm={bestWpm}
+						bestWpm={avgWpm}
 						sessionCount={state.sessions.length}
 					/>
 				}
