@@ -13,10 +13,9 @@ description: タイピングゲーム用のお題（Sentence[]）を生成し、
 
 必要なツール:
 
-- `Read` — ファイル読み込み（既存 TOML 件数カウント等）
-- `Write` — 新規ファイル作成（`gomi/sentences_to_validate.json` 等）
-- `Edit` — 既存ファイルへの追記（末尾エントリを置換する形）
-- `Bash` — `npm run gen` 等の実行
+- `Read` — ファイル読み込み（プロンプトファイル・既存 TOML 件数カウント等）
+- `Write` — 一時ファイル作成（`gomi/sentences_to_validate.json` 等）
+- `Bash` — スクリプト実行・`npm run gen` 等
 - **`Agent`（Claude Code の Task ツールに相当）** — `description` / `subagent_type` / `model` / `prompt` の 4 引数を取り、子エージェントを dispatch する。利用可能なツール一覧で見つからない場合は ToolSearch で `select:Agent` または `select:Task` を試し、それでも無ければ「Agent dispatch ツールが必要です」と報告して中断
 
 cwd は **リポジトリルート**（`package.json` がある階層）で実行する。`scripts/validate-sentences.ts` は相対パスで参照される。
@@ -141,7 +140,8 @@ Write(file_path: "/abs/path/to/repo/gomi/sentences_to_validate.json",
 node --experimental-strip-types scripts/validate-sentences.ts --json gomi/sentences_to_validate.json
 ```
 
-Bash ツールは exit code ≠ 0 のときエラーとして表示される（`Error: ... (exit code N)` の形）。エラー表示が無ければ `0`、有る場合は表示された数値を見る。**exit 1 でも stdout は出力される**ので、エラー時も stdout を読むこと。
+- `--json` は JSON 形式で出力するフラグ（ファイルパスは別引数として渡す）
+- Bash ツールは exit code ≠ 0 のときエラーとして表示される（`Error: ... (exit code N)` の形）。エラー表示が無ければ `0`、有る場合は表示された数値を見る。**exit 1 でも stdout は出力される**ので、Bash ツールのテキスト出力全体から JSON 部分を読むこと。
 
 終了コードに応じた処理：
 - `0` → 全文有効
@@ -152,7 +152,9 @@ Bash ツールは exit code ≠ 0 のときエラーとして表示される（`
 **有効文が 0 件の場合はここで終了する**: 追記と `npm run gen` の実行をスキップし、「生成数 <合計取得数> 文 / LLM除外 <LLM除外数> 文 / フォーマット除外 <フォーマット除外数> 文 / 有効文 0 件」をユーザーに報告する。
 
 手順：
-1. ステップ 4 で保存済みの `gomi/sentences_to_validate.json` には validate 通過後の有効文が入っている。**ステップ 4-b で除外された NG 文**（`=== Errors (discard) ===` セクションに現れた jp）をメモリ上で除いた有効文リストを、改めて `Write` ツールで `gomi/sentences_to_validate.json` に上書き保存する（無効文を含まない最終リストにする）
+1. ステップ 4-b の結果を反映する:
+   - **exit 1 の場合**: stdout を `JSON.parse` して `errors` 配列の各 `jp` をメモリ上で除いた有効文リストを、`Write` ツールで `gomi/sentences_to_validate.json` に上書き保存する（無効文を含まない最終リストにする）
+   - **exit 0 の場合**: errors が空なのでリストは変わらない。この上書き保存はスキップしてよい
 2. `Bash` で以下のスクリプトを実行し、TOML に追記する:
    ```bash
    node scripts/append-sentences.mjs gomi/sentences_to_validate.json

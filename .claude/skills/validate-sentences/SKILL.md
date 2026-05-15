@@ -13,9 +13,8 @@ description: src/lib/sentences.tomlの既存お題を全件検証し、不適な
 
 必要なツール:
 
-- `Read` — ファイル読み込み
-- `Write` — 一時ファイル書き出し
-- `Edit` — sentences.toml からの削除
+- `Read` — ファイル読み込み（プロンプトファイル・sentences.toml 等）
+- `Write` — 一時ファイル書き出し（`gomi/sentences_to_validate.json`・`gomi/sentences_to_remove.json` 等）
 - `Bash` — スクリプト実行・`npm run gen`
 - **`Agent`** — LLM 検証サブエージェントの dispatch
 
@@ -216,7 +215,8 @@ Agent(
 node --experimental-strip-types scripts/validate-sentences.ts --json gomi/sentences_to_validate.json
 ```
 
-Bash ツールは exit code ≠ 0 のときエラーとして表示される（`Error: ... (exit code N)` の形）。**exit 1 でも stdout は出力される**ので、エラー時も stdout を読むこと。
+- `--json` は JSON 形式で出力するフラグ（ファイルパスは別引数として渡す）
+- Bash ツールは exit code ≠ 0 のときエラーとして表示される（`Error: ... (exit code N)` の形）。**exit 1 でも stdout は出力される**ので、Bash ツールのテキスト出力全体から JSON 部分を読むこと。
 
 終了コードに応じた処理：
 - `0` → 全文有効（エンジン-reject = 空とする）
@@ -227,6 +227,8 @@ Bash ツールは exit code ≠ 0 のときエラーとして表示される（`
 ## ステップ 5: 除外文を sentences.toml から削除する
 
 除外文セットが 0 件の場合はこのステップをスキップしてステップ 6 へ（完了報告に「除外すべき文はありませんでした」を含める）。
+
+除外 index セットの各 index に対応する jp 文字列は、ステップ 1 で作成した `{index, jp, kana}` リストを参照して取得する。
 
 除外する jp 文字列の配列を `Write` ツールで `gomi/sentences_to_remove.json` に書き出す:
 
