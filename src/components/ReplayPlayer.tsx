@@ -6,7 +6,12 @@ import {
 	createRunnerState,
 	type RunnerState,
 } from "../lib/runnerState";
-import { playKeyTap, playMiss, playSegmentComplete } from "../lib/sound";
+import {
+	playHeal,
+	playKeyTap,
+	playMiss,
+	playSegmentComplete,
+} from "../lib/sound";
 import type { ReplayData } from "../lib/types";
 import { GameScreen } from "./GameScreen";
 
@@ -19,6 +24,8 @@ interface DisplayState extends RunnerState {
 	totalCorrect: number;
 	totalErrors: number;
 	healStreak: number;
+	lastHealId: number;
+	lastHealAmount: number;
 }
 
 function reconstructAt(
@@ -33,6 +40,8 @@ function reconstructAt(
 	let lastEventTime = 0;
 	let lastWasWrong = false;
 	let healStreak = 0;
+	let lastHealId = 0;
+	let lastHealAmount = 0;
 
 	for (let i = 0; i < idx && i < replay.events.length; i++) {
 		const ev = replay.events[i];
@@ -48,7 +57,11 @@ function reconstructAt(
 
 		if (ev.correct) {
 			totalCorrect++;
-			if (healAmount > 0) healStreak++;
+			if (healAmount > 0) {
+				healStreak++;
+				lastHealId++;
+				lastHealAmount = healAmount;
+			}
 		} else {
 			totalErrors++;
 			healStreak = 0;
@@ -63,6 +76,8 @@ function reconstructAt(
 		totalCorrect,
 		totalErrors,
 		healStreak,
+		lastHealId,
+		lastHealAmount,
 	};
 }
 
@@ -101,23 +116,40 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 		const fromIdx = lastSoundIdxRef.current;
 		if (newIdx > fromIdx && newIdx - fromIdx < 20) {
 			const stateAtFrom = reconstructAt(replay, fromIdx);
-			let soundCombo = stateAtFrom.combo;
+			let soundRunner: RunnerState = stateAtFrom;
+			let soundLastWasWrong =
+				fromIdx > 0 ? !(replay.events[fromIdx - 1]?.correct ?? true) : false;
+			let soundHealStreak = stateAtFrom.healStreak;
 			let prevSegIdx = replay.events[fromIdx - 1]?.segmentIdx ?? -1;
 			for (let i = fromIdx; i < newIdx; i++) {
 				const ev = replay.events[i];
 				if (!ev) continue;
+				const { state: nextRunner, healAmount } = applyInput(
+					soundRunner,
+					ev,
+					null,
+					soundLastWasWrong,
+				);
+				soundLastWasWrong = !ev.correct;
 				if (!ev.correct) {
 					playMiss();
-					soundCombo = 0;
+					soundHealStreak = 0;
 				} else if (prevSegIdx !== -1 && ev.segmentIdx !== prevSegIdx) {
-					playSegmentComplete(soundCombo);
-					soundCombo++;
+					playSegmentComplete(soundRunner.combo);
 					prevSegIdx = ev.segmentIdx;
+					if (healAmount > 0) {
+						playHeal(soundHealStreak);
+						soundHealStreak++;
+					}
 				} else {
-					playKeyTap(soundCombo);
-					soundCombo++;
+					playKeyTap(soundRunner.combo);
 					prevSegIdx = ev.segmentIdx;
+					if (healAmount > 0) {
+						playHeal(soundHealStreak);
+						soundHealStreak++;
+					}
 				}
+				soundRunner = nextRunner;
 			}
 		}
 		lastSoundIdxRef.current = newIdx;
@@ -193,8 +225,8 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 			player={displayState}
 			ghost={null}
 			healStreak={displayState.healStreak}
-			lastHealId={0}
-			lastHealAmount={0}
+			lastHealId={displayState.lastHealId}
+			lastHealAmount={displayState.lastHealAmount}
 			totalCorrect={displayState.totalCorrect}
 			totalErrors={displayState.totalErrors}
 			elapsed={(seekPct / 100) * replay.totalTime}
