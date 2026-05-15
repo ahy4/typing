@@ -29,12 +29,15 @@ try {
 const { sentences: before = [] } = existing ? parse(existing) : {};
 
 const toAppend = sentences
-	.map((s) => `\n[[sentences]]\njp = ${JSON.stringify(s.jp)}\nkana = ${JSON.stringify(s.kana)}`)
+	.map(
+		(s) =>
+			`\n[[sentences]]\njp = ${JSON.stringify(s.jp)}\nkana = ${JSON.stringify(s.kana)}`,
+	)
 	.join("\n");
 
 const newContent = existing
-	? existing.trimEnd() + "\n" + toAppend + "\n"
-	: toAppend.trimStart() + "\n";
+	? `${existing.trimEnd()}\n${toAppend}\n`
+	: `${toAppend.trimStart()}\n`;
 
 writeFileSync(tomlPath, newContent, "utf-8");
 
