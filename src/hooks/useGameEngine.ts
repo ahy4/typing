@@ -10,6 +10,7 @@ import {
 	playKeyTap,
 	playMiss,
 	playSegmentComplete,
+	unlockAudio,
 } from "../lib/sound";
 import {
 	clearAll,
@@ -228,6 +229,7 @@ export function useGameEngine() {
 	const preparedHasGhostRef = useRef(false);
 
 	const startGame = useCallback((ghostReplayId?: string) => {
+		unlockAudio();
 		cancelAnimationFrame(rafRef.current);
 		kpsWindowRef.current.reset();
 		streakRef.current = 0;
@@ -433,7 +435,7 @@ export function useGameEngine() {
 			const needRefill =
 				s.sentences.length - newPlayer.sentenceIdx <= REFILL_AT;
 			if (needRefill) {
-				const extra = getSentenceQueue(10);
+				const extra = getSentenceQueue(10, newPlayer.speed);
 				finalPlayer = {
 					...newPlayer,
 					sentences: [...s.sentences, ...extra],

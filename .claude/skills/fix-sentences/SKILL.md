@@ -25,17 +25,17 @@ description: ユーザーが提示したNG例・NG理由にもとづいて、sen
 
 ## ステップ 2: sentences.toml の修正
 
-`src/lib/sentences.toml` を `Read` ツールで読み込み、対象エントリを特定する。
+`src/lib/sentences.toml` を `Read` ツールで読み込み、対象エントリを特定する。対象エントリが見つからない場合はユーザーに確認して（jp / kana の正確な値を再確認）、ここで作業を中断する（ステップ 3・4 も実施しない）。
 
 ### 削除の場合
 
 `Edit` ツールで該当の `[[sentences]]` ブロック（空行 + `[[sentences]]` + `jp = ...` + `kana = ...` の4行）をまるごと削除する。
 
-ファイル先頭のエントリで空行がない場合は3行（`[[sentences]]` + `jp = ...` + `kana = ...`）を削除する。
+ファイル先頭のエントリで空行がない場合は、`[[sentences]]` + `jp = ...` + `kana = ...` の3行と、続く区切り空行（次エントリとの間にある1行）もまとめて削除する。
 
 ### 修正の場合
 
-`Edit` ツールで該当の `kana = "..."` 行（または `jp = "..."` 行）のみを正しい値に置き換える。
+`Edit` ツールで該当の `kana = "..."` 行（または `jp = "..."` 行）のみを正しい値に置き換える。同じ kana 値を持つ別エントリが存在しうる場合は `jp = ...` 行と合わせた2行を `old_string` に指定して一意性を確保する。
 
 ### 変更後
 
@@ -43,7 +43,15 @@ description: ユーザーが提示したNG例・NG理由にもとづいて、sen
 
 ## ステップ 3: generate-sentences スキルの更新
 
-`.claude/skills/generate-sentences/SKILL.md` を `Read` ツールで読み込み、生成プロンプトと検証プロンプトの両方にNGパターンを追記する。
+生成プロンプトと検証プロンプトの両方にNGパターンを追記する。
+
+- **生成プロンプト**: `.claude/skills/generate-sentences/gen-prompt.md` を `Read` で読み込み、`## チェックリスト` セクションを更新する
+- **検証プロンプト**: `.claude/skills/generate-sentences/validate-prompt.md` を `Read` で読み込み、`## NG の例` テーブルを更新する
+
+**Read 後、追記する前に既存内容との重複を確認する。**
+- 同一の例が既に記載されている → スキップ（追記しない）
+- 類似のルールはあるが例が不足している → 新規追記ではなく、既存項目に例を追加する形で `Edit` する
+- 全く新しい観点 → 末尾または最も近い項目の直下に追記する
 
 ### 追記場所と形式
 
@@ -62,7 +70,7 @@ NGパターンの性質に応じて、既存の近いチェック項目の直下
 | <jp> | <kana> | <NG理由（簡潔に）> |
 ```
 
-判定基準（`## 判定基準` セクション）にも、同種のミスを説明する観点が不足していれば追記する。
+判定基準（`## 判定基準` セクション）は、**既存の項目（例: 読み誤り・助詞の誤用・多読み漢字など）でカバーされない新しい種類のNG** である場合のみ追記する。既存項目で説明できるなら追記不要。
 
 ### 追記の方針
 
@@ -73,7 +81,7 @@ NGパターンの性質に応じて、既存の近いチェック項目の直下
 ## ステップ 4: コミット
 
 ```bash
-git add src/lib/sentences.toml src/lib/generated/sentences.json .claude/skills/generate-sentences/SKILL.md
+git add src/lib/sentences.toml src/lib/generated/sentences.json .claude/skills/generate-sentences/gen-prompt.md .claude/skills/generate-sentences/validate-prompt.md
 git commit -m "fix: <変更内容を端的に表すメッセージ>"
 ```
 

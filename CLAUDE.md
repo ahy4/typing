@@ -49,13 +49,23 @@ interface RunnerState {
    Only `handleKey` may extend `player.sentences` at runtime. Ghost and replay runners
    use a fixed sentence list (from the recorded `ReplayData`).
 
+7. **Replay renders via `GameScreen`, not a separate layout.**
+   `ReplayPlayer` owns only replay-specific logic (seek state, RAF playback, sound,
+   `reconstructAt`). All UI — HP bar, typing display, combo bars, gauge, keyboard — is
+   provided by `GameScreen` through three slot props:
+   - `header` — REPLAY banner + sentence progress + aggregate stats
+   - `rightPanel` — vertical time-progress bar (replaces the ghost HP bar)
+   - `footer` — seek slider + play/pause + back button
+   Never reimplement the game layout inside `ReplayPlayer`. Any new element added to
+   `GameScreen` is automatically available in replay for free.
+
 ## File Map
 
 | File | Responsibility |
 |---|---|
 | `src/lib/runnerState.ts` | `RunnerState` type, `applyInput`, `applyDrain`, all HP/combo constants |
 | `src/hooks/useGameEngine.ts` | React hook; player keyboard input, ghost precompute, game lifecycle |
-| `src/components/GameScreen.tsx` | Live game UI; reads `state.player` and `state.ghost` |
-| `src/components/ReplayPlayer.tsx` | Replay scrubbing UI; uses `reconstructAt` via `applyInput` |
+| `src/components/GameScreen.tsx` | Game UI for both live play and replay; accepts `player: RunnerState` + slot props |
+| `src/components/ReplayPlayer.tsx` | Replay logic only (`reconstructAt`, seek, sound); renders via `GameScreen` slots |
 | `src/lib/romaji.ts` | Kana→romaji parsing and `feedKey` state machine |
 | `src/lib/types.ts` | Shared types (`InputEvent`, `ReplayData`, `Sentence`, …) |

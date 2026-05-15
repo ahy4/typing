@@ -99,7 +99,15 @@ export default function App() {
 					state.phase === "playing" || state.phase === "ready" ? (
 						<div style={{ position: "relative", height: "100vh" }}>
 							<GameScreen
-								state={state}
+								player={state.player}
+								ghost={state.ghost}
+								healStreak={state.healStreak}
+								lastHealId={state.lastHealId}
+								lastHealAmount={state.lastHealAmount}
+								totalCorrect={state.totalCorrect}
+								totalErrors={state.totalErrors}
+								elapsed={state.elapsed}
+								lastWrong={state.lastWrong}
 								showKeyboard={showKeyboard}
 								onToggleKeyboard={() => setShowKeyboard((v) => !v)}
 							/>
