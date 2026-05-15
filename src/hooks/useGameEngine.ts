@@ -39,7 +39,9 @@ export interface GhostTimelineEntry extends RunnerState {
 	time: number;
 }
 
-export function precomputeGhostTimeline(replay: ReplayData): GhostTimelineEntry[] {
+export function precomputeGhostTimeline(
+	replay: ReplayData,
+): GhostTimelineEntry[] {
 	const kps = new SlidingWindowKPS(KPS_WINDOW_SECONDS * 1000);
 	let runner = createRunnerState(replay.sentences);
 	const timeline: GhostTimelineEntry[] = [{ ...runner, time: 0 }];

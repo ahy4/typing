@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
+	type GhostTimelineEntry,
 	getGhostAt,
 	precomputeGhostTimeline,
-	type GhostTimelineEntry,
 } from "../hooks/useGameEngine";
 import { SlidingWindowKPS } from "../lib/ema";
 import {
@@ -90,7 +90,9 @@ function reconstructAt(
 export function ReplayPlayer({ replay, onClose }: Props) {
 	const ghostTimeline = useMemo(() => {
 		if (!replay.ghostReplayId) return [];
-		const ghostReplay = loadReplays().find((r) => r.id === replay.ghostReplayId);
+		const ghostReplay = loadReplays().find(
+			(r) => r.id === replay.ghostReplayId,
+		);
 		return ghostReplay ? precomputeGhostTimeline(ghostReplay) : [];
 	}, [replay.ghostReplayId]);
 
