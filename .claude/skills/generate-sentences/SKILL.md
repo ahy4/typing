@@ -138,16 +138,14 @@ Write(file_path: "/abs/path/to/repo/gomi/sentences_to_validate.json",
 ### 4-b. 検証スクリプトを実行
 
 ```bash
-node --experimental-strip-types scripts/validate-sentences.ts gomi/sentences_to_validate.json
+node --experimental-strip-types scripts/validate-sentences.ts --json gomi/sentences_to_validate.json
 ```
 
 Bash ツールは exit code ≠ 0 のときエラーとして表示される（`Error: ... (exit code N)` の形）。エラー表示が無ければ `0`、有る場合は表示された数値を見る。**exit 1 でも stdout は出力される**ので、エラー時も stdout を読むこと。
 
 終了コードに応じた処理：
 - `0` → 全文有効
-- `1` → stdout に出力される `=== Errors (discard) ===` セクションから NG 文の `jp` を抽出し、有効文リストから除外する。残った文を採用する（再実行は不要）\
-  行フォーマット: `  [jp文字列] 理由テキスト`（`[` と `]` の間が jp、`]` の後にスペース + 理由テキストが続く）\
-  抽出正規表現: `/^\s+\[(.+?)\]/` の第1キャプチャグループが jp。複数行ある場合は全行に適用する
+- `1` → stdout を `JSON.parse` し、`errors` 配列の各要素の `jp` を有効文リストから除外する。残った文を採用する（再実行は不要）
 
 ## ステップ 5: 有効な文を sentences.toml に追記し、JSON を再生成する
 
