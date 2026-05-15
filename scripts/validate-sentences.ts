@@ -91,12 +91,19 @@ export function validateSentence(s: RawSentence): ValidationError | null {
 const args = process.argv.slice(2);
 if (args.length === 0) {
 	console.error(
-		"Usage: node --experimental-strip-types scripts/validate-sentences.ts <path>",
+		"Usage: node --experimental-strip-types scripts/validate-sentences.ts [--json] <path>",
 	);
 	process.exit(1);
 }
 
-const raw = JSON.parse(readFileSync(args[0], "utf-8")) as RawSentence[];
+const jsonOutput = args.includes("--json");
+const filePath = args.find((a) => !a.startsWith("--"));
+if (!filePath) {
+	console.error("No file path provided.");
+	process.exit(1);
+}
+
+const raw = JSON.parse(readFileSync(filePath, "utf-8")) as RawSentence[];
 const errors: ValidationError[] = [];
 const valid: RawSentence[] = [];
 
@@ -109,18 +116,27 @@ for (const s of raw) {
 	}
 }
 
-console.log(`\nValidation results: ${raw.length} sentences checked`);
-console.log(`  ✓ valid:   ${valid.length}`);
-console.log(
-	`  ✗ errors:  ${errors.length}  (bad generation output — discard)\n`,
-);
+if (jsonOutput) {
+	console.log(
+		JSON.stringify({
+			valid: valid.map((s) => s.jp),
+			errors: errors.map((e) => ({ jp: e.sentence.jp, reason: e.reason })),
+		}),
+	);
+} else {
+	console.log(`\nValidation results: ${raw.length} sentences checked`);
+	console.log(`  ✓ valid:   ${valid.length}`);
+	console.log(
+		`  ✗ errors:  ${errors.length}  (bad generation output — discard)\n`,
+	);
 
-if (errors.length > 0) {
-	console.log("=== Errors (discard) ===");
-	for (const e of errors) {
-		console.log(`  [${e.sentence.jp}] ${e.reason}`);
+	if (errors.length > 0) {
+		console.log("=== Errors (discard) ===");
+		for (const e of errors) {
+			console.log(`  [${e.sentence.jp}] ${e.reason}`);
+		}
+		console.log();
 	}
-	console.log();
 }
 
 process.exit(errors.length > 0 ? 1 : 0);

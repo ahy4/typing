@@ -13,10 +13,9 @@ description: タイピングゲーム用のお題（Sentence[]）を生成し、
 
 必要なツール:
 
-- `Read` — ファイル読み込み（既存 TOML 件数カウント等）
-- `Write` — 新規ファイル作成（`gomi/sentences_to_validate.json` 等）
-- `Edit` — 既存ファイルへの追記（末尾エントリを置換する形）
-- `Bash` — `npm run gen` 等の実行
+- `Read` — ファイル読み込み（プロンプトファイル・既存 TOML 件数カウント等）
+- `Write` — 一時ファイル作成（`gomi/sentences_to_validate.json` 等）
+- `Bash` — スクリプト実行・`npm run gen` 等
 - **`Agent`（Claude Code の Task ツールに相当）** — `description` / `subagent_type` / `model` / `prompt` の 4 引数を取り、子エージェントを dispatch する。利用可能なツール一覧で見つからない場合は ToolSearch で `select:Agent` または `select:Task` を試し、それでも無ければ「Agent dispatch ツールが必要です」と報告して中断
 
 cwd は **リポジトリルート**（`package.json` がある階層）で実行する。`scripts/validate-sentences.ts` は相対パスで参照される。
@@ -138,37 +137,32 @@ Write(file_path: "/abs/path/to/repo/gomi/sentences_to_validate.json",
 ### 4-b. 検証スクリプトを実行
 
 ```bash
-node --experimental-strip-types scripts/validate-sentences.ts gomi/sentences_to_validate.json
+node --experimental-strip-types scripts/validate-sentences.ts --json gomi/sentences_to_validate.json
 ```
 
-Bash ツールは exit code ≠ 0 のときエラーとして表示される（`Error: ... (exit code N)` の形）。エラー表示が無ければ `0`、有る場合は表示された数値を見る。**exit 1 でも stdout は出力される**ので、エラー時も stdout を読むこと。
+- `--json` は JSON 形式で出力するフラグ（ファイルパスは別引数として渡す）
+- Bash ツールは exit code ≠ 0 のときエラーとして表示される（`Error: ... (exit code N)` の形）。エラー表示が無ければ `0`、有る場合は表示された数値を見る。**exit 1 でも stdout は出力される**ので、Bash ツールのテキスト出力全体から JSON 部分を読むこと。
 
 終了コードに応じた処理：
 - `0` → 全文有効
-- `1` → stdout に出力される `=== Errors (discard) ===` セクションから NG 文の `jp` を抽出し、有効文リストから除外する。残った文を採用する（再実行は不要）\
-  行フォーマット: `  [jp文字列] 理由テキスト`（`[` と `]` の間が jp、`]` の後にスペース + 理由テキストが続く）\
-  抽出正規表現: `/^\s+\[(.+?)\]/` の第1キャプチャグループが jp。複数行ある場合は全行に適用する
+- `1` → stdout を `JSON.parse` し、`errors` 配列の各要素の `jp` を有効文リストから除外する。残った文を採用する（再実行は不要）
 
 ## ステップ 5: 有効な文を sentences.toml に追記し、JSON を再生成する
 
 **有効文が 0 件の場合はここで終了する**: 追記と `npm run gen` の実行をスキップし、「生成数 <合計取得数> 文 / LLM除外 <LLM除外数> 文 / フォーマット除外 <フォーマット除外数> 文 / 有効文 0 件」をユーザーに報告する。
 
 手順：
-1. **既存件数のカウントと存在チェック**:
-   - 出力先ファイルが **存在する場合**: `Read` ツールで読み、`[[sentences]]` の出現回数を数えて既存件数とする
-   - 出力先ファイルが **存在しない場合**: 既存件数 = 0 として扱い、新規作成扱いで進める（エラーにしない）
-2. 全バッチの有効文を以下の TOML 形式に変換する（各エントリは先頭に空行を1行つける）:
+1. ステップ 4-b の結果を反映する:
+   - **exit 1 の場合**: stdout を `JSON.parse` して `errors` 配列の各 `jp` をメモリ上で除いた有効文リストを、`Write` ツールで `gomi/sentences_to_validate.json` に上書き保存する（無効文を含まない最終リストにする）
+   - **exit 0 の場合**: errors が空なのでリストは変わらない。この上書き保存はスキップしてよい
+2. `Bash` で以下のスクリプトを実行し、TOML に追記する:
+   ```bash
+   node scripts/append-sentences.mjs gomi/sentences_to_validate.json
    ```
-   (空行)
-   [[sentences]]
-   jp = "<jp>"
-   kana = "<kana>"
-   ```
-3. **追記の手段（既存内容は破壊しない）**:
-   - **既存ファイルあり**: `Read` で末尾を確認し、ファイル末尾が改行で終わっていなければ追記文字列の先頭にもう一段の `\n` を補う。`Edit` ツールで「既存ファイル末尾の最後の `[[sentences]]` エントリ **3 行**（`[[sentences]]` ヘッダ + jp 行 + kana 行）」を `old_string`、その直後に新エントリを連結した文字列を `new_string` にして置換する。**ユニーク性確保**: 3 行セットなら通常一意になるが、もし同一文が他にもあり Edit がエラーを返したら、直前の空行も含めて 4 行に拡張して再試行。Write で全文上書きはしない（巨大ファイル時のリスク回避）
-   - **新規作成**: `Write` ツールでファイル全体（空行を先頭につけずに `[[sentences]]\njp = ...\nkana = ...\n` から始める）を書き出す
-   - 追記文が多い場合は複数回に分けて Edit を実行する。1 回の Edit で追記できる上限は **6 文**（`new_string` = old_string 3 行 + 6 文 × 4 行 = 27 行）。2 回目以降の Edit は、前回 Edit の `new_string` の末尾 3 行（最後に追記したエントリ）を `old_string` にする（ファイルを再 `Read` しなくてよい）
-4. 追記後、`Bash` で `npm run gen` を実行（cwd はリポジトリルート前提）して `src/lib/generated/sentences.json` を再生成する
+   - スクリプトは `gomi/sentences_to_validate.json` を読み込み、`src/lib/sentences.toml` に TOML 形式で追記する
+   - 実行結果に `Appended N sentences (旧件数 → 新件数)` が表示される。この数値を報告に使う
+   - exit code ≠ 0 の場合はエラーメッセージを確認して原因を報告する
+3. 追記後、`Bash` で `npm run gen` を実行（cwd はリポジトリルート前提）して `src/lib/generated/sentences.json` を再生成する
 
 ファイルに書き出し後、結果をユーザーに報告する：
 - 生成バッチ数（スキップしたバッチがあれば「5バッチ中4バッチ有効」のように明記）/ 合計生成数（スキップバッチを除いて実際に取得できた文数）/ LLM検証除外数 / フォーマット検証除外数 / 合計有効数

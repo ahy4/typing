@@ -13,9 +13,8 @@ description: src/lib/sentences.tomlの既存お題を全件検証し、不適な
 
 必要なツール:
 
-- `Read` — ファイル読み込み
-- `Write` — 一時ファイル書き出し
-- `Edit` — sentences.toml からの削除
+- `Read` — ファイル読み込み（プロンプトファイル・sentences.toml 等）
+- `Write` — 一時ファイル書き出し（`gomi/sentences_to_validate.json`・`gomi/sentences_to_remove.json` 等）
 - `Bash` — スクリプト実行・`npm run gen`
 - **`Agent`** — LLM 検証サブエージェントの dispatch
 
@@ -213,14 +212,15 @@ Agent(
 ### 4-b. 検証スクリプトを実行
 
 ```bash
-node --experimental-strip-types scripts/validate-sentences.ts gomi/sentences_to_validate.json
+node --experimental-strip-types scripts/validate-sentences.ts --json gomi/sentences_to_validate.json
 ```
+
+- `--json` は JSON 形式で出力するフラグ（ファイルパスは別引数として渡す）
+- Bash ツールは exit code ≠ 0 のときエラーとして表示される（`Error: ... (exit code N)` の形）。**exit 1 でも stdout は出力される**ので、Bash ツールのテキスト出力全体から JSON 部分を読むこと。
 
 終了コードに応じた処理：
 - `0` → 全文有効（エンジン-reject = 空とする）
-- `1` → stdout に出力される `=== Errors (discard) ===` セクションから NG 文の `jp` を抽出し、エンジン-reject として記録する\
-  行フォーマット: `  [jp文字列] 理由テキスト`（`[` と `]` の間が jp、`]` の後にスペース + 理由テキストが続く）\
-  抽出正規表現: `/^\s+\[(.+?)\]/` の第1キャプチャグループが jp。複数行ある場合は全行に適用する
+- `1` → stdout を `JSON.parse` し、`errors` 配列の各要素の `jp` をエンジン-reject として記録する
 
 エンジン-reject は jp 文字列で記録されているため、ステップ 1 で作成したエントリリストから jp が一致する index を逆引きし、ステップ 2 の類似重複除外 index セットとステップ 3 の LLM-reject index セットと合算して、**最終的な除外 index セット**を確定する。
 
@@ -228,25 +228,22 @@ node --experimental-strip-types scripts/validate-sentences.ts gomi/sentences_to_
 
 除外文セットが 0 件の場合はこのステップをスキップしてステップ 6 へ（完了報告に「除外すべき文はありませんでした」を含める）。
 
-`Read` ツールで `src/lib/sentences.toml` を再読み込みし、除外文セットに含まれる各エントリを削除する。
+除外 index セットの各 index に対応する jp 文字列は、ステップ 1 で作成した `{index, jp, kana}` リストを参照して取得する。
 
-### 削除の手順（1 エントリずつ `Edit` で処理する）
+除外する jp 文字列の配列を `Write` ツールで `gomi/sentences_to_remove.json` に書き出す:
 
-各削除対象エントリについて：
-
-```
-old_string = "\n[[sentences]]\njp = \"<jp>\"\nkana = \"<kana>\""
-new_string = ""
+```json
+["jp文字列1", "jp文字列2", ...]
 ```
 
-ただし、ファイル先頭のエントリ（先頭の改行がない場合）は:
+その後 `Bash` でスクリプトを実行する:
 
-```
-old_string = "[[sentences]]\njp = \"<jp>\"\nkana = \"<kana>\"\n"
-new_string = ""
+```bash
+node scripts/remove-sentences.mjs gomi/sentences_to_remove.json
 ```
 
-**ユニーク性確保**: jp または kana が重複しているエントリが存在し Edit がエラーを返した場合は、前後の空行も含めた文字列で再試行する。
+- スクリプトは jp の一致で TOML からエントリを削除し、`Removed N sentences (旧件数 → 新件数)` を表示する
+- exit code ≠ 0 の場合はエラーメッセージを確認して原因を報告する
 
 削除後、`Bash` で `npm run gen` を実行して `src/lib/generated/sentences.json` を再生成する。
 
