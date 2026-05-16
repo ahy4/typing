@@ -17,7 +17,9 @@ import { parse } from "smol-toml";
 const [inputPath, outputPath] = process.argv.slice(2);
 
 if (!inputPath || !outputPath) {
-	console.error("Usage: node scripts/parse-batch.mjs <input.toml> <output.json>");
+	console.error(
+		"Usage: node scripts/parse-batch.mjs <input.toml> <output.json>",
+	);
 	process.exit(1);
 }
 
