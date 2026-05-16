@@ -35,11 +35,13 @@ const REFILL_AT = 3; // add more sentences when this many remain
 
 // Ghost timeline entry: RunnerState snapshot at a point in time.
 // Built offline from replay events; looked up by binary search during play.
-interface GhostTimelineEntry extends RunnerState {
+export interface GhostTimelineEntry extends RunnerState {
 	time: number;
 }
 
-function precomputeGhostTimeline(replay: ReplayData): GhostTimelineEntry[] {
+export function precomputeGhostTimeline(
+	replay: ReplayData,
+): GhostTimelineEntry[] {
 	const kps = new SlidingWindowKPS(KPS_WINDOW_SECONDS * 1000);
 	let runner = createRunnerState(replay.sentences);
 	const timeline: GhostTimelineEntry[] = [{ ...runner, time: 0 }];
@@ -59,7 +61,7 @@ function precomputeGhostTimeline(replay: ReplayData): GhostTimelineEntry[] {
 	return timeline;
 }
 
-function getGhostAt(
+export function getGhostAt(
 	timeline: GhostTimelineEntry[],
 	elapsed: number,
 ): GhostTimelineEntry | null {
@@ -108,6 +110,7 @@ export function useGameEngine() {
 	const bigramRef = useRef<Map<string, BigramStats>>(new Map());
 	const prevKeyRef = useRef<string>("");
 	const ghostTimelineRef = useRef<GhostTimelineEntry[]>([]);
+	const ghostReplayIdRef = useRef<string | null>(null);
 	const tickRef = useRef<(now: number) => void>(() => {});
 
 	const initialPlayer = createRunnerState([]);
@@ -157,6 +160,9 @@ export function useGameEngine() {
 			totalTime: duration,
 			wpm,
 			accuracy,
+			...(ghostReplayIdRef.current
+				? { ghostReplayId: ghostReplayIdRef.current }
+				: {}),
 		};
 
 		const session: SessionRecord = {
@@ -255,6 +261,7 @@ export function useGameEngine() {
 		ghostTimelineRef.current = ghostReplay
 			? precomputeGhostTimeline(ghostReplay)
 			: [];
+		ghostReplayIdRef.current = ghostReplay?.id ?? null;
 		preparedHasGhostRef.current = ghostReplay !== null;
 
 		// 履歴から対戦（ghostReplayId 指定）の場合はゴーストと同じお題で勝負

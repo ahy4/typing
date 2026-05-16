@@ -1,4 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+	type GhostTimelineEntry,
+	getGhostAt,
+	precomputeGhostTimeline,
+} from "../hooks/useGameEngine";
 import { SlidingWindowKPS } from "../lib/ema";
 import {
 	applyDrain,
@@ -12,6 +17,7 @@ import {
 	playMiss,
 	playSegmentComplete,
 } from "../lib/sound";
+import { loadReplays } from "../lib/storage";
 import type { ReplayData } from "../lib/types";
 import { GameScreen } from "./GameScreen";
 
@@ -82,6 +88,14 @@ function reconstructAt(
 }
 
 export function ReplayPlayer({ replay, onClose }: Props) {
+	const ghostTimeline = useMemo(() => {
+		if (!replay.ghostReplayId) return [];
+		const ghostReplay = loadReplays().find(
+			(r) => r.id === replay.ghostReplayId,
+		);
+		return ghostReplay ? precomputeGhostTimeline(ghostReplay) : [];
+	}, [replay.ghostReplayId]);
+
 	const [seekPct, setSeekPct] = useState(0);
 	const [playing, setPlaying] = useState(false);
 	const rafRef = useRef<number>(0);
@@ -92,6 +106,9 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 
 	const [displayState, setDisplayState] = useState<DisplayState>(() =>
 		reconstructAt(replay, 0),
+	);
+	const [ghostState, setGhostState] = useState<GhostTimelineEntry | null>(() =>
+		getGhostAt(ghostTimeline, 0),
 	);
 
 	const stop = useCallback(() => {
@@ -155,13 +172,14 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 		lastSoundIdxRef.current = newIdx;
 
 		setDisplayState(reconstructAt(replay, newIdx, elapsed));
+		setGhostState(getGhostAt(ghostTimeline, elapsed));
 
 		if (elapsed >= replay.totalTime) {
 			stop();
 			return;
 		}
 		rafRef.current = requestAnimationFrame(tickRef.current);
-	}, [replay, stop]);
+	}, [replay, stop, ghostTimeline]);
 
 	useEffect(() => {
 		tickRef.current = tick;
@@ -204,6 +222,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 			idx++;
 		lastSoundIdxRef.current = idx;
 		setDisplayState(reconstructAt(replay, idx, gameTime));
+		setGhostState(getGhostAt(ghostTimeline, gameTime));
 	}
 
 	const sentenceProgress = displayState.sentenceIdx;
@@ -223,7 +242,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 	return (
 		<GameScreen
 			player={displayState}
-			ghost={null}
+			ghost={ghostState}
 			healStreak={displayState.healStreak}
 			lastHealId={displayState.lastHealId}
 			lastHealAmount={displayState.lastHealAmount}
@@ -326,71 +345,6 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 						<span>
 							精度 <span style={{ color: "#ffee00" }}>{acc}%</span>
 						</span>
-					</div>
-				</div>
-			}
-			rightPanel={
-				<div
-					style={{
-						width: "120px",
-						flexShrink: 0,
-						background: "var(--panel)",
-						borderLeft: "1px solid var(--border)",
-						display: "flex",
-						flexDirection: "column",
-						alignItems: "center",
-						justifyContent: "center",
-						padding: "20px 16px",
-						gap: "10px",
-					}}
-				>
-					<div
-						style={{
-							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "10px",
-							writingMode: "vertical-rl",
-							textOrientation: "mixed",
-							letterSpacing: "2px",
-							color: "#cc44ff",
-							textShadow: "0 0 8px #cc44ff",
-						}}
-					>
-						TIME
-					</div>
-					<div
-						style={{
-							flex: 1,
-							width: "52px",
-							background: "#1a0030",
-							border: "2px solid #cc44ff",
-							position: "relative",
-							display: "flex",
-							flexDirection: "column",
-							justifyContent: "flex-end",
-							overflow: "hidden",
-						}}
-					>
-						<div
-							style={{
-								width: "100%",
-								height: `${seekPct}%`,
-								background: "linear-gradient(to top, #6600aa, #cc44ff)",
-								boxShadow:
-									"0 0 16px #cc44ff, inset 0 0 16px rgba(204,68,255,0.3)",
-								transition: "height 0.05s",
-							}}
-						/>
-					</div>
-					<div
-						style={{
-							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "10px",
-							color: "#cc44ff",
-							textShadow: "0 0 6px #cc44ff",
-							textAlign: "center",
-						}}
-					>
-						{currentTimeSec}s
 					</div>
 				</div>
 			}

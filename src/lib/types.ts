@@ -19,6 +19,7 @@ export interface ReplayData {
 	totalTime: number;
 	wpm: number;
 	accuracy: number;
+	ghostReplayId?: string;
 }
 
 export interface KeyStats {
