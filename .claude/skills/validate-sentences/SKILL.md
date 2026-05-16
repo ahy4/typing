@@ -117,7 +117,8 @@ node scripts/find-similar-sentences.mjs --filter-chunks gomi/recent_chunks.json 
 
 まず各島の入力ファイルを書き出す:
 
-- 島 i のデータを `Write` で `gomi/similar_islands/island_<i>.json` に書き出す（`[{"index": N, "jp": "...", "kana": "..."}, ...]` 形式）
+- ステップ 1 で取得した `recentIndices`（直近 N 件の index セット）を使い、各エントリに `"recent": true/false` を付与する
+- 島 i のデータを `Write` で `gomi/similar_islands/island_<i>.json` に書き出す（`[{"index": N, "jp": "...", "kana": "...", "recent": true}, ...]` 形式）
 - 出力先は `gomi/similar_results/island_<i>.json` とする（エージェントが書き出す）
 
 全 I 対象島のサブエージェントを **1 つのメッセージで同時起動**する:
