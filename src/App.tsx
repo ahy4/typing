@@ -5,6 +5,7 @@ import { GameScreen } from "./components/GameScreen";
 import { HelpScreen } from "./components/HelpScreen";
 import { IdleScreen } from "./components/IdleScreen";
 import { ReadyScreen } from "./components/ReadyScreen";
+import { SharedReplayLoader } from "./components/SharedReplayLoader";
 import { StatsScreen } from "./components/StatsScreen";
 import { useGameEngine } from "./hooks/useGameEngine";
 import { deleteReplay } from "./lib/storage";
@@ -35,9 +36,12 @@ export default function App() {
 
 	// phase → URL (app-driven transitions)
 	useEffect(() => {
-		const expectedPath = PHASE_TO_PATH[state.phase];
 		const currentPath = window.location.hash.slice(1) || "/";
-		if (currentPath !== expectedPath) {
+		// Don't override shared replay URLs while the game hasn't started yet
+		if (currentPath.startsWith("/replay?r=") && state.phase === "idle") return;
+
+		const expectedPath = PHASE_TO_PATH[state.phase];
+		if (currentPath.split("?")[0] !== expectedPath) {
 			navigate(expectedPath);
 		}
 	}, [state.phase, navigate]);
@@ -133,6 +137,10 @@ export default function App() {
 						<Navigate to="/" replace />
 					)
 				}
+			/>
+			<Route
+				path="/replay"
+				element={<SharedReplayLoader startGame={startGame} />}
 			/>
 			<Route path="*" element={<Navigate to="/" replace />} />
 		</Routes>
