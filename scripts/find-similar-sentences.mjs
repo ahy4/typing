@@ -4,14 +4,15 @@
  * A≈B and B≈C even if A and C are not directly similar.
  *
  * Usage:
- *   node scripts/find-similar-sentences.mjs [--threshold N]
+ *   node scripts/find-similar-sentences.mjs [--threshold N] [--output <path>]
  *
- * Output (stdout): JSON array of islands. Each island is an array of
+ * Output: JSON array of islands. Each island is an array of
  *   { index, jp, kana } objects. Only islands with 2+ members are output.
+ *   Written to --output file if specified, otherwise to stdout.
  * Exit codes: 0 — always (no similar pairs outputs [])
  */
 
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "smol-toml";
@@ -23,6 +24,9 @@ const args = process.argv.slice(2);
 const thresholdIdx = args.indexOf("--threshold");
 const THRESHOLD =
 	thresholdIdx !== -1 ? parseInt(args[thresholdIdx + 1], 10) : 3;
+const outputIdx = args.indexOf("--output");
+const OUTPUT_PATH =
+	outputIdx !== -1 ? resolve(root, args[outputIdx + 1]) : null;
 
 const { sentences } = parse(
 	readFileSync(resolve(root, "src/lib/sentences.toml"), "utf-8"),
@@ -82,4 +86,8 @@ for (let i = 0; i < sentences.length; i++) {
 }
 
 const islands = [...groups.values()].filter((g) => g.length >= 2);
-console.log(JSON.stringify(islands));
+if (OUTPUT_PATH) {
+	writeFileSync(OUTPUT_PATH, JSON.stringify(islands));
+} else {
+	console.log(JSON.stringify(islands));
+}
