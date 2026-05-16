@@ -39,10 +39,6 @@ jp = "プログラミングは論理的思考を鍛える"
 kana = "ぷろぐらみんぐはろんりてきしこうをきたえる"
 
 [[sentences]]
-jp = "冬の朝は布団から出るのが辛い"
-kana = "ふゆのあさはふとんからでるのがつらい"
-
-[[sentences]]
 jp = "夕焼け空がオレンジ色に染まっている"
 kana = "ゆうやけぞらがおれんじいろにそまっている"
 
@@ -77,10 +73,6 @@ kana = "りょこうはあたらしいはっけんとであいをもたらす"
 [[sentences]]
 jp = "朝日が昇る山頂で深呼吸する"
 kana = "あさひがのぼるさんちょうでしんこきゅうする"
-
-[[sentences]]
-jp = "友達とカラオケで熱唱した"
-kana = "ともだちとからおけでねっしょうした"
 
 [[sentences]]
 jp = "冷たいアイスが食べたい気分だ"
@@ -191,18 +183,6 @@ jp = "星空を眺めると心が落ち着く"
 kana = "ほしぞらをながめるとこころがおちつく"
 
 [[sentences]]
-jp = "毎朝コーヒーを飲むのが習慣です"
-kana = "まいあさこーひーをのむのがしゅうかんです"
-
-[[sentences]]
-jp = "友達と映画を見に行った"
-kana = "ともだちとえいがをみにいった"
-
-[[sentences]]
-jp = "スマートフォンの電池が切れた"
-kana = "すまーとふぉんのでんちがきれた"
-
-[[sentences]]
 jp = "桜の季節は本当に美しい"
 kana = "さくらのきせつはほんとうにうつくしい"
 
@@ -245,10 +225,6 @@ kana = "としょかんでさんこうしょをかりている"
 [[sentences]]
 jp = "朝日が昇る季節になった"
 kana = "あさひがのぼるきせつになった"
-
-[[sentences]]
-jp = "友達とカラオケで熱唱した"
-kana = "ともだちとからおけでねっしょうした"
 
 [[sentences]]
 jp = "USB接続してファイルを転送する"
@@ -305,10 +281,6 @@ kana = "としょかんでかりたほんがおもしろい"
 [[sentences]]
 jp = "プレゼン資料を作り直すはめになった"
 kana = "ぷれぜんしりょうをつくりなおすはめになった"
-
-[[sentences]]
-jp = "季節の変わり目は風邪をひきやすい"
-kana = "きせつのかわりめはかぜをひきやすい"
 
 [[sentences]]
 jp = "野菜の値段が最近上がっている"
@@ -411,10 +383,6 @@ jp = "おばあちゃんと一緒に天ぷらを作った"
 kana = "おばあちゃんといっしょにてんぷらをつくった"
 
 [[sentences]]
-jp = "スマートフォンの充電が切れてしまった"
-kana = "すまーとふぉんのじゅうでんがきれてしまった"
-
-[[sentences]]
 jp = "猫が窓から外の景色を眺めている"
 kana = "ねこがまどからそとのけしきをながめている"
 
@@ -449,10 +417,6 @@ kana = "usbせつぞくしてでーたをてんそうする"
 [[sentences]]
 jp = "ピアノの練習を毎日している"
 kana = "ぴあののれんしゅうをまいにちしている"
-
-[[sentences]]
-jp = "夜空に星がいっぱい輝いている"
-kana = "よぞらにほしがいっぱいかがやいている"
 
 [[sentences]]
 jp = "この季節は桜が美しい"
@@ -519,14 +483,6 @@ jp = "野菜たっぷりの味噌汁は健康的だ"
 kana = "やさいたっぷりのみそしるはけんこうてきだ"
 
 [[sentences]]
-jp = "新しい靴を履いて散歩に出かけた"
-kana = "あたらしいくつをはいてさんぽにでかけた"
-
-[[sentences]]
-jp = "毎朝コーヒーを飲む習慣がある"
-kana = "まいあさこーひーをのむしゅうかんがある"
-
-[[sentences]]
 jp = "新しい靴を買ってしまった"
 kana = "あたらしいくつをかってしまった"
 
@@ -583,10 +539,6 @@ jp = "冬は温かい鍋が食べたくなる"
 kana = "ふゆはあたたかいなべがたべたくなる"
 
 [[sentences]]
-jp = "図書館で静かに本を読むのが好きだ"
-kana = "としょかんでしずかにほんをよむのがすきだ"
-
-[[sentences]]
 jp = "山登りで新しい景色を発見できた"
 kana = "やまのぼりであたらしいけしきをはっけんできた"
 
@@ -609,10 +561,6 @@ kana = "あのえいがはどうでしたか"
 [[sentences]]
 jp = "風邪をひいてしまった気がする"
 kana = "かぜをひいてしまったきがする"
-
-[[sentences]]
-jp = "友達と一緒に映画を見に行った"
-kana = "ともだちといっしょにえいがをみにいった"
 
 [[sentences]]
 jp = "今年の夏は特に暑かった"
@@ -695,10 +643,6 @@ jp = "家族で温泉旅行に行ってしまった"
 kana = "かぞくでおんせんりょこうにいってしまった"
 
 [[sentences]]
-jp = "毎朝コーヒーを飲むのが習慣です"
-kana = "まいあさこーひーをのむのがしゅうかんです"
-
-[[sentences]]
 jp = "山頂から見える景色は本当に素晴らしい"
 kana = "さんちょうからみえるけしきはほんとうにすばらしい"
 
@@ -763,16 +707,8 @@ jp = "朝日が綺麗だ"
 kana = "あさひがきれいだ"
 
 [[sentences]]
-jp = "友達と映画を見た"
-kana = "ともだちとえいがをみた"
-
-[[sentences]]
 jp = "美味しいケーキを食べたい"
 kana = "おいしいけーきをたべたい"
-
-[[sentences]]
-jp = "新しい靴を買う"
-kana = "あたらしいくつをかう"
 
 [[sentences]]
 jp = "猫は可愛らしい"
@@ -847,10 +783,6 @@ jp = "柿のジャムが好物"
 kana = "かきのじゃむがこうぶつ"
 
 [[sentences]]
-jp = "図書館で勉強する"
-kana = "としょかんでべんきょうする"
-
-[[sentences]]
 jp = "七夕祭りに行く"
 kana = "たなばたまつりにいく"
 
@@ -903,10 +835,6 @@ jp = "嬉しくて笑った"
 kana = "うれしくてわらった"
 
 [[sentences]]
-jp = "駅に着いた"
-kana = "えきについた"
-
-[[sentences]]
 jp = "値段は安い"
 kana = "ねだんはやすい"
 
@@ -915,20 +843,12 @@ jp = "朝焼けが美しい"
 kana = "あさやけがうつくしい"
 
 [[sentences]]
-jp = "友達と映画を見た"
-kana = "ともだちとえいがをみた"
-
-[[sentences]]
 jp = "コーヒーを飲みながら読書する"
 kana = "こーひーをのみながらどくしょする"
 
 [[sentences]]
 jp = "宝くじが当たったらしい"
 kana = "たからくじがあたったらしい"
-
-[[sentences]]
-jp = "朝日が山々を照らしている"
-kana = "あさひがやまやまをてらしている"
 
 [[sentences]]
 jp = "新しい靴を試してみた"
@@ -945,18 +865,6 @@ kana = "じてんしゃでえきにむかう"
 [[sentences]]
 jp = "冷たいアイスが食べたい"
 kana = "つめたいあいすがたべたい"
-
-[[sentences]]
-jp = "雨の日は静か"
-kana = "あめのひはしずか"
-
-[[sentences]]
-jp = "走るのが好き"
-kana = "はしるのがすき"
-
-[[sentences]]
-jp = "友達と遊ぶ"
-kana = "ともだちとあそぶ"
 
 [[sentences]]
 jp = "猫が庭で遊んでいる"
@@ -985,10 +893,6 @@ kana = "ほんをよみたい"
 [[sentences]]
 jp = "今日は何曜日"
 kana = "きょうはなんようび"
-
-[[sentences]]
-jp = "朝食を食べた"
-kana = "ちょうしょくをたべた"
 
 [[sentences]]
 jp = "春の桜が満開だ"
@@ -1079,10 +983,6 @@ jp = "料理が好き"
 kana = "りょうりがすき"
 
 [[sentences]]
-jp = "走るのは楽しい"
-kana = "はしるのはたのしい"
-
-[[sentences]]
 jp = "光合成は植物の重要な機能だ"
 kana = "こうごうせいはしょくぶつのじゅうようなきのうだ"
 
@@ -1097,10 +997,6 @@ kana = "でにむはかじゅあるふぁっしょんのていばん"
 [[sentences]]
 jp = "野生動物の保護は急務である"
 kana = "やせいどうぶつのほごはきゅうむである"
-
-[[sentences]]
-jp = "猫がソファで寝ている"
-kana = "ねこがそふぁでねている"
 
 [[sentences]]
 jp = "電車で駅に着いた"
@@ -1127,16 +1023,8 @@ jp = "空が青い"
 kana = "そらがあおい"
 
 [[sentences]]
-jp = "朝日が昇った"
-kana = "あさひがのぼった"
-
-[[sentences]]
 jp = "卵焼きを作る"
 kana = "たまごやきをつくる"
-
-[[sentences]]
-jp = "電車に乗った"
-kana = "でんしゃにのった"
 
 [[sentences]]
 jp = "春の花が咲く"
@@ -1163,18 +1051,6 @@ jp = "朝日が山々を照らす"
 kana = "あさひがやまやまをてらす"
 
 [[sentences]]
-jp = "スマートフォンを充電する"
-kana = "すまーとふぉんをじゅうでんする"
-
-[[sentences]]
-jp = "友達と野球をした"
-kana = "ともだちとやきゅうをした"
-
-[[sentences]]
-jp = "コーヒーの香りが好きだ"
-kana = "こーひーのかおりがすきだ"
-
-[[sentences]]
 jp = "3割引のセールだ"
 kana = "3わりびきのせーるだ"
 
@@ -1185,10 +1061,6 @@ kana = "ぱすぽーとをなくした"
 [[sentences]]
 jp = "筋トレで筋肉が増える"
 kana = "きんとれできんにくがふえる"
-
-[[sentences]]
-jp = "犬と散歩する"
-kana = "いぬとさんぽする"
 
 [[sentences]]
 jp = "映画を見た"
@@ -1209,10 +1081,6 @@ kana = "いしゃにしんさつされる"
 [[sentences]]
 jp = "正月の準備だ"
 kana = "しょうがつのじゅんびだ"
-
-[[sentences]]
-jp = "音楽が好きだ"
-kana = "おんがくがすきだ"
 
 [[sentences]]
 jp = "春の雲は移ろいやすい"
@@ -1255,10 +1123,6 @@ jp = "言葉の意味は文脈で変わる"
 kana = "ことばのいみはぶんみゃくでかわる"
 
 [[sentences]]
-jp = "野球の試合を見る"
-kana = "やきゅうのしあいをみる"
-
-[[sentences]]
 jp = "プログラミングは楽しい"
 kana = "ぷろぐらみんぐはたのしい"
 
@@ -1277,10 +1141,6 @@ kana = "きゅうりょうであたらしいくつをかう"
 [[sentences]]
 jp = "そばは日本の食べ物"
 kana = "そばはにほんのたべもの"
-
-[[sentences]]
-jp = "毎日歯を磨く"
-kana = "まいにちはをみがく"
 
 [[sentences]]
 jp = "兄弟と仲良くする"
@@ -1363,10 +1223,6 @@ jp = "猫が可愛い"
 kana = "ねこがかわいい"
 
 [[sentences]]
-jp = "本を読むのが好き"
-kana = "ほんをよむのがすき"
-
-[[sentences]]
 jp = "春の桜が綺麗だ"
 kana = "はるのさくらがきれいだ"
 
@@ -1401,10 +1257,6 @@ kana = "りさいくるはたいせつ"
 [[sentences]]
 jp = "言葉遊びは楽しい"
 kana = "ことばあそびはたのしい"
-
-[[sentences]]
-jp = "図書館で勉強する"
-kana = "としょかんでべんきょうする"
 
 [[sentences]]
 jp = "野球の試合に勝った"
@@ -1471,20 +1323,8 @@ jp = "毎週土曜に習い事がある"
 kana = "まいしゅうどようにならいごとがある"
 
 [[sentences]]
-jp = "木漏れ日の中を歩く"
-kana = "こもれびのなかをあるく"
-
-[[sentences]]
 jp = "パソコンで仕事をする"
 kana = "ぱそこんでしごとをする"
-
-[[sentences]]
-jp = "朝日が山の向こうから昇ってきた"
-kana = "あさひがやまのむこうからのぼってきた"
-
-[[sentences]]
-jp = "友達とカラオケで熱唱した"
-kana = "ともだちとからおけでねっしょうした"
 
 [[sentences]]
 jp = "図書館で借りた本が面白い"
@@ -1505,10 +1345,6 @@ kana = "きのうのかいぎであたらしいきかくがきまった"
 [[sentences]]
 jp = "毎週木曜日に運動教室がある"
 kana = "まいしゅうもくようびにうんどうきょうしつがある"
-
-[[sentences]]
-jp = "朝日が山の向こうから昇る"
-kana = "あさひがやまのむこうからのぼる"
 
 [[sentences]]
 jp = "コーヒーを飲みながら本を読む"
@@ -1537,14 +1373,6 @@ kana = "きっぷをかいさつぐちにとおす"
 [[sentences]]
 jp = "3時間勉強して疲れた"
 kana = "3じかんべんきょうしてつかれた"
-
-[[sentences]]
-jp = "夜空に星がきらめく"
-kana = "よぞらにほしがきらめく"
-
-[[sentences]]
-jp = "毎朝コーヒーを飲む習慣がある"
-kana = "まいあさこーひーをのむしゅうかんがある"
 
 [[sentences]]
 jp = "山登りは体と心を鍛える"
@@ -1593,10 +1421,6 @@ kana = "ねこがまどべでひるねをしていた"
 [[sentences]]
 jp = "プログラミングは楽しい仕事だ"
 kana = "ぷろぐらみんぐはたのしいしごとだ"
-
-[[sentences]]
-jp = "夜空に星がきらめいている"
-kana = "よぞらにほしがきらめいている"
 
 [[sentences]]
 jp = "発表の準備をきちんとするべき"
@@ -1659,14 +1483,6 @@ jp = "子どもが元気に走り回っている"
 kana = "こどもがげんきにはしりまわっている"
 
 [[sentences]]
-jp = "図書館で新しい本を借りた"
-kana = "としょかんであたらしいほんをかりた"
-
-[[sentences]]
-jp = "友達とカラオケで熱唱した"
-kana = "ともだちとからおけでねっしょうした"
-
-[[sentences]]
 jp = "USB接続してファイルをコピーする"
 kana = "usbせつぞくしてふぁいるをこぴーする"
 
@@ -1727,24 +1543,12 @@ jp = "朝日が窓から差し込んでいた"
 kana = "あさひがまどからさしこんでいた"
 
 [[sentences]]
-jp = "コーヒーの香りが好きだ"
-kana = "こーひーのかおりがすきだ"
-
-[[sentences]]
 jp = "桜の花びらが舞い落ちる"
 kana = "さくらのはなびらがまいおちる"
 
 [[sentences]]
 jp = "駅まで急いで走った"
 kana = "えきまでいそいではしった"
-
-[[sentences]]
-jp = "スマートフォンの充電が切れた"
-kana = "すまーとふぉんのじゅうでんがきれた"
-
-[[sentences]]
-jp = "図書館で静かに本を読む"
-kana = "としょかんでしずかにほんをよむ"
 
 [[sentences]]
 jp = "会議の資料を準備している"
@@ -1843,14 +1647,6 @@ jp = "切符を改札で通す"
 kana = "きっぷをかいさつでとおす"
 
 [[sentences]]
-jp = "夜空に星がたくさん輝いている"
-kana = "よぞらにほしがたくさんかがやいている"
-
-[[sentences]]
-jp = "土産に最中をもらった"
-kana = "みやげにもなかをもらった"
-
-[[sentences]]
 jp = "毎朝の散歩が日課だ"
 kana = "まいあさのさんぽがにっかだ"
 
@@ -1861,10 +1657,6 @@ kana = "かいぎは30ふんでおわった"
 [[sentences]]
 jp = "冷たい牛乳を一気飲みした"
 kana = "つめたいぎゅうにゅうをいっきのみした"
-
-[[sentences]]
-jp = "映画館で新作を見た"
-kana = "えいがかんでしんさくをみた"
 
 [[sentences]]
 jp = "野菜炒めを作る手順は簡単だ"
@@ -1883,28 +1675,12 @@ jp = "朝の光が窓から差し込む"
 kana = "あさのひかりがまどからさしこむ"
 
 [[sentences]]
-jp = "コーヒーの香りが好きだ"
-kana = "こーひーのかおりがすきだ"
-
-[[sentences]]
-jp = "猫が日向で寝ている"
-kana = "ねこがひなたでねている"
-
-[[sentences]]
 jp = "本を読むのが趣味です"
 kana = "ほんをよむのがしゅみです"
 
 [[sentences]]
 jp = "USBケーブルを接続した"
 kana = "usbけーぶるをせつぞくした"
-
-[[sentences]]
-jp = "夜空に星が輝いている"
-kana = "よぞらにほしがかがやいている"
-
-[[sentences]]
-jp = "友達と映画を見た"
-kana = "ともだちとえいがをみた"
 
 [[sentences]]
 jp = "木漏れ日が心地よい"
@@ -1955,10 +1731,6 @@ jp = "朝日が東の山から昇ってきた"
 kana = "あさひがひがしのやまからのぼってきた"
 
 [[sentences]]
-jp = "新しい靴を履いて散歩に出かけた"
-kana = "あたらしいくつをはいてさんぽにでかけた"
-
-[[sentences]]
 jp = "パスタを塩辛く作ってしまった"
 kana = "ぱすたをしおからくつくってしまった"
 
@@ -1985,10 +1757,6 @@ kana = "あたたかいすーぷがからだにしみわたった"
 [[sentences]]
 jp = "彼女と海の近くでピクニックをした"
 kana = "かのじょとうみのちかくでぴくにっくをした"
-
-[[sentences]]
-jp = "夜空の星がきれいに輝いていた"
-kana = "よぞらのほしがきれいにかがやいていた"
 
 [[sentences]]
 jp = "祖母が作った天ぷらは油がきつい"
@@ -2037,10 +1805,6 @@ kana = "はるのさくらはとてもうつくしい"
 [[sentences]]
 jp = "朝食でトーストを食べた"
 kana = "ちょうしょくでとーすとをたべた"
-
-[[sentences]]
-jp = "スマートフォンのバッテリーが切れた"
-kana = "すまーとふぉんのばってりーがきれた"
 
 [[sentences]]
 jp = "友達と山頂でお昼を食べる"
@@ -2099,10 +1863,6 @@ jp = "自転車で渋滞を避けて帰宅する"
 kana = "じてんしゃでじゅうたいをさけてきたくする"
 
 [[sentences]]
-jp = "朝日が山の頂上から昇る"
-kana = "あさひがやまのちょうじょうからのぼる"
-
-[[sentences]]
 jp = "コーヒーの香りが部屋に満ちている"
 kana = "こーひーのかおりがへやにみちている"
 
@@ -2121,10 +1881,6 @@ kana = "としょかんでかりたほんをよみおわった"
 [[sentences]]
 jp = "海の波音を聞きながら散歩した"
 kana = "うみのなみおとをききながらさんぽした"
-
-[[sentences]]
-jp = "スマートフォンのアプリをダウンロードする"
-kana = "すまーとふぉんのあぷりをだうんろーどする"
 
 [[sentences]]
 jp = "母が作った揚げ物は本当に美味しい"
@@ -2183,10 +1939,6 @@ jp = "カレーの香りが部屋に漂う"
 kana = "かれーのかおりがへやにただよう"
 
 [[sentences]]
-jp = "スマートフォンのアプリを更新する"
-kana = "すまーとふぉんのあぷりをこうしんする"
-
-[[sentences]]
 jp = "桜の花びらが風に舞う"
 kana = "さくらのはなびらがかぜにまう"
 
@@ -2199,20 +1951,12 @@ jp = "冬の夜空に星が輝く"
 kana = "ふゆのよぞらにほしがかがやく"
 
 [[sentences]]
-jp = "毎朝のコーヒーは欠かせない"
-kana = "まいあさのこーひーはかかせない"
-
-[[sentences]]
 jp = "会議の資料を印刷する"
 kana = "かいぎのしりょうをいんさつする"
 
 [[sentences]]
 jp = "子猫が毛糸玉で遊んでいる"
 kana = "こねこがけいとだまであそんでいる"
-
-[[sentences]]
-jp = "海辺で貝殻を探す"
-kana = "うみべでかいがらをさがす"
 
 [[sentences]]
 jp = "雨の日は散歩が気持ちよい"
@@ -2247,16 +1991,8 @@ jp = "朝日が山の頂上を照らしている"
 kana = "あさひがやまのちょうじょうをてらしている"
 
 [[sentences]]
-jp = "コーヒーの香りが部屋に漂う"
-kana = "こーひーのかおりがへやにただよう"
-
-[[sentences]]
 jp = "友達と駅前で約束した時間に集合する"
 kana = "ともだちとえきまえでやくそくしたじかんにしゅうごうする"
-
-[[sentences]]
-jp = "桜の花びらが風に舞っている"
-kana = "さくらのはなびらがかぜにまっている"
 
 [[sentences]]
 jp = "スマートフォンの電池が減っている"
@@ -2265,10 +2001,6 @@ kana = "すまーとふぉんのでんちがへっている"
 [[sentences]]
 jp = "夜空の星がきらめいて美しい"
 kana = "よぞらのほしがきらめいてうつくしい"
-
-[[sentences]]
-jp = "図書館で静かに本を読む"
-kana = "としょかんでしずかにほんをよむ"
 
 [[sentences]]
 jp = "雨の日は傘を忘れないように気をつける"
@@ -2391,10 +2123,6 @@ jp = "春のそよ風が頬を撫でた"
 kana = "はるのそよかぜがほおをなでた"
 
 [[sentences]]
-jp = "夜空に輝く星がきれいだ"
-kana = "よぞらにかがやくほしがきれいだ"
-
-[[sentences]]
 jp = "コーヒーを飲む"
 kana = "こーひーをのむ"
 
@@ -2409,10 +2137,6 @@ kana = "はるのさくらがさいた"
 [[sentences]]
 jp = "USB接続する"
 kana = "usbせつぞくする"
-
-[[sentences]]
-jp = "友達と野球をする"
-kana = "ともだちとやきゅうをする"
 
 [[sentences]]
 jp = "夏は海へ行きたい"
@@ -2483,10 +2207,6 @@ jp = "駅前のカフェで友達と会った"
 kana = "えきまえのかふぇでともだちとあった"
 
 [[sentences]]
-jp = "スマートフォンの充電が切れた"
-kana = "すまーとふぉんのじゅうでんがきれた"
-
-[[sentences]]
 jp = "紅葉の季節は何月だろうか"
 kana = "こうようのきせつはなんがつだろうか"
 
@@ -2547,28 +2267,12 @@ jp = "朝日が山の頂上に昇っている"
 kana = "あさひがやまのちょうじょうにのぼっている"
 
 [[sentences]]
-jp = "友達とカラオケで熱唱した"
-kana = "ともだちとからおけでねっしょうした"
-
-[[sentences]]
-jp = "冷たいアイスクリームが食べたい"
-kana = "つめたいあいすくりーむがたべたい"
-
-[[sentences]]
 jp = "コンピューターを使ってプログラムを書く"
 kana = "こんぴゅーたーをつかってぷろぐらむをかく"
 
 [[sentences]]
 jp = "図書館で借りた本を読み終わった"
 kana = "としょかんでかりたほんをよみおわった"
-
-[[sentences]]
-jp = "桜の花びらが風に舞っている"
-kana = "さくらのはなびらがかぜにまっている"
-
-[[sentences]]
-jp = "スマートフォンのアプリをダウンロードする"
-kana = "すまーとふぉんのあぷりをだうんろーどする"
 
 [[sentences]]
 jp = "明け方に鳥の声で目が覚めた"
@@ -2595,10 +2299,6 @@ jp = "雨の日は気分が落ち込みやすい"
 kana = "あめのひはきぶんがおちこみやすい"
 
 [[sentences]]
-jp = "木漏れ日の中を歩く"
-kana = "こもれびのなかをあるく"
-
-[[sentences]]
 jp = "発表の準備を念入りにする"
 kana = "はっぴょうのじゅんびをねんいりにする"
 
@@ -2619,20 +2319,12 @@ jp = "朝日が山頂から昇る"
 kana = "あさひがさんちょうからのぼる"
 
 [[sentences]]
-jp = "猫がソファで寝ている"
-kana = "ねこがそふぁでねている"
-
-[[sentences]]
 jp = "コーヒーは苦手な飲み物だ"
 kana = "こーひーはにがてなのみものだ"
 
 [[sentences]]
 jp = "友人と映画館に行く"
 kana = "ゆうじんとえいがかんにいく"
-
-[[sentences]]
-jp = "冷たいアイスクリームが食べたい"
-kana = "つめたいあいすくりーむがたべたい"
 
 [[sentences]]
 jp = "USB接続がうまくいかない"
@@ -2663,16 +2355,8 @@ jp = "子供たちは公園で遊ぶ"
 kana = "こどもたちはこうえんであそぶ"
 
 [[sentences]]
-jp = "発表の準備を進める"
-kana = "はっぴょうのじゅんびをすすめる"
-
-[[sentences]]
 jp = "複雑な計算ができない"
 kana = "ふくざつなけいさんができない"
-
-[[sentences]]
-jp = "雨の日は外出しない"
-kana = "あめのひはがいしゅつしない"
 
 [[sentences]]
 jp = "土産として饅頭を買う"
@@ -2705,10 +2389,6 @@ kana = "ともだちとやきゅうをしてあせをかいた"
 [[sentences]]
 jp = "新しい靴を買ったら足が痛い"
 kana = "あたらしいくつをかったらあしがいたい"
-
-[[sentences]]
-jp = "図書館で本を3冊借りた"
-kana = "としょかんでほんを3さつかりた"
 
 [[sentences]]
 jp = "台風で電車が遅れている"
@@ -2755,10 +2435,6 @@ jp = "子どもが公園で遊ぶのが好きだ"
 kana = "こどもがこうえんであそぶのがすきだ"
 
 [[sentences]]
-jp = "インターネットの接続が悪い"
-kana = "いんたーねっとのせつぞくがわるい"
-
-[[sentences]]
 jp = "南の海で海水浴をしたい"
 kana = "みなみのうみでかいすいよくをしたい"
 
@@ -2767,24 +2443,12 @@ jp = "コーヒーを飲む"
 kana = "こーひーをのむ"
 
 [[sentences]]
-jp = "友達と遊んだ"
-kana = "ともだちとあそんだ"
-
-[[sentences]]
 jp = "3時間勉強した"
 kana = "3じかんべんきょうした"
 
 [[sentences]]
-jp = "毎朝のコーヒーは欠かせない習慣です"
-kana = "まいあさのこーひーはかかせないしゅうかんです"
-
-[[sentences]]
 jp = "桜の花が咲いている"
 kana = "さくらのはながさいている"
-
-[[sentences]]
-jp = "スマートフォンを充電する"
-kana = "すまーとふぉんをじゅうでんする"
 
 [[sentences]]
 jp = "疲れたから休みたい"
@@ -2811,10 +2475,6 @@ jp = "USBを接続した"
 kana = "usbをせつぞくした"
 
 [[sentences]]
-jp = "発表の準備をする"
-kana = "はっぴょうのじゅんびをする"
-
-[[sentences]]
 jp = "冷たい水が気持ちいい"
 kana = "つめたいみずがきもちいい"
 
@@ -2827,20 +2487,8 @@ jp = "映画館で映画を見た"
 kana = "えいがかんでえいがをみた"
 
 [[sentences]]
-jp = "図書館で本を借りる"
-kana = "としょかんでほんをかりる"
-
-[[sentences]]
-jp = "台風が近づいている"
-kana = "たいふうがちかづいている"
-
-[[sentences]]
 jp = "雨に濡れた"
 kana = "あめにぬれた"
-
-[[sentences]]
-jp = "友達と遊ぶ予定"
-kana = "ともだちとあそぶよてい"
 
 [[sentences]]
 jp = "読書は好きですか"
@@ -2875,10 +2523,6 @@ jp = "祖母と一緒に歩く"
 kana = "そぼといっしょにあるく"
 
 [[sentences]]
-jp = "台風が近づいている"
-kana = "たいふうがちかづいている"
-
-[[sentences]]
 jp = "駅の改札を通る"
 kana = "えきのかいさつをとおる"
 
@@ -2909,10 +2553,6 @@ kana = "おぼんやすみのけいかくをたてた"
 [[sentences]]
 jp = "猫が窓辺で寝ている"
 kana = "ねこがまどべでねている"
-
-[[sentences]]
-jp = "コーヒーの香りが好きだ"
-kana = "こーひーのかおりがすきだ"
 
 [[sentences]]
 jp = "図書館で本を探している"
@@ -2959,10 +2599,6 @@ jp = "山頂から眺める風景は壮大だ"
 kana = "さんちょうからながめるふうけいはそうだいだ"
 
 [[sentences]]
-jp = "スマートフォンの充電が切れてしまった"
-kana = "すまーとふぉんのじゅうでんがきれてしまった"
-
-[[sentences]]
 jp = "駅前のカフェで3時間勉強した"
 kana = "えきまえのかふぇで3じかんべんきょうした"
 
@@ -2979,10 +2615,6 @@ jp = "コーヒーを飲む"
 kana = "こーひーをのむ"
 
 [[sentences]]
-jp = "友達と遊んだ"
-kana = "ともだちとあそんだ"
-
-[[sentences]]
 jp = "図書館で本を読む習慣がある"
 kana = "としょかんでほんをよむしゅうかんがある"
 
@@ -2991,24 +2623,12 @@ jp = "桜が満開だ"
 kana = "さくらがまんかいだ"
 
 [[sentences]]
-jp = "疲れて眠い"
-kana = "つかれてねむい"
-
-[[sentences]]
 jp = "野菜をきんぴらにする"
 kana = "やさいをきんぴらにする"
 
 [[sentences]]
 jp = "毎日ウォーキングしている"
 kana = "まいにちうぉーきんぐしている"
-
-[[sentences]]
-jp = "スマートフォンのアプリを更新した"
-kana = "すまーとふぉんのあぷりをこうしんした"
-
-[[sentences]]
-jp = "夜空に星がきらめく"
-kana = "よぞらにほしがきらめく"
 
 [[sentences]]
 jp = "明日の会議で発表する"
@@ -3047,10 +2667,6 @@ jp = "コーヒーを飲む"
 kana = "こーひーをのむ"
 
 [[sentences]]
-jp = "友達と遊んだ"
-kana = "ともだちとあそんだ"
-
-[[sentences]]
 jp = "本を読む習慣がある"
 kana = "ほんをよむしゅうかんがある"
 
@@ -3069,10 +2685,6 @@ kana = "すぽーつたいかいでゆうしょうした"
 [[sentences]]
 jp = "USB接続する"
 kana = "usbせつぞくする"
-
-[[sentences]]
-jp = "夜空に星が輝いている"
-kana = "よぞらにほしがかがやいている"
 
 [[sentences]]
 jp = "食事の準備を完了した"
@@ -3155,24 +2767,12 @@ jp = "駅前のカフェで待ち合わせた"
 kana = "えきまえのかふぇでまちあわせた"
 
 [[sentences]]
-jp = "夜空に星が輝く"
-kana = "よぞらにほしがかがやく"
-
-[[sentences]]
 jp = "キャンプで焚き火をした"
 kana = "きゃんぷでたきびをした"
 
 [[sentences]]
-jp = "スマートフォンの電池が切れた"
-kana = "すまーとふぉんのでんちがきれた"
-
-[[sentences]]
 jp = "兄妹と一緒に映画を見た"
 kana = "あにいもうとといっしょにえいがをみた"
-
-[[sentences]]
-jp = "図書館で静かに勉強する"
-kana = "としょかんでしずかにべんきょうする"
 
 [[sentences]]
 jp = "雨の日は布団の中でゆっくり過ごしたい"
@@ -3191,18 +2791,6 @@ jp = "旅行で秋田県に行くつもり"
 kana = "りょこうであきたけんにいくつもり"
 
 [[sentences]]
-jp = "友達と野球をする"
-kana = "ともだちとやきゅうをする"
-
-[[sentences]]
-jp = "山頂から景色を眺める"
-kana = "さんちょうからけしきをながめる"
-
-[[sentences]]
-jp = "映画は面白かった"
-kana = "えいがはおもしろかった"
-
-[[sentences]]
 jp = "3時に起床する"
 kana = "3じにきしょうする"
 
@@ -3219,10 +2807,6 @@ jp = "毎日走って鍛える"
 kana = "まいにちはしってきたえる"
 
 [[sentences]]
-jp = "図書館で本を借りる"
-kana = "としょかんでほんをかりる"
-
-[[sentences]]
 jp = "会議が長引いている"
 kana = "かいぎがながびいている"
 
@@ -3233,14 +2817,6 @@ kana = "せつぶんにまめをまく"
 [[sentences]]
 jp = "土産は何にしよう"
 kana = "みやげはなんにしよう"
-
-[[sentences]]
-jp = "スマートフォンの電池が切れた"
-kana = "すまーとふぉんのでんちがきれた"
-
-[[sentences]]
-jp = "夜空に星が輝いている"
-kana = "よぞらにほしがかがやいている"
 
 [[sentences]]
 jp = "木漏れ日が気持ちいい"
@@ -3255,20 +2831,12 @@ jp = "友人と森を散歩した"
 kana = "ゆうじんともりをさんぽした"
 
 [[sentences]]
-jp = "スマートフォンのアプリを更新する"
-kana = "すまーとふぉんのあぷりをこうしんする"
-
-[[sentences]]
 jp = "冷たいコーヒーが好きです"
 kana = "つめたいこーひーがすきです"
 
 [[sentences]]
 jp = "雨が降ると気分が沈む"
 kana = "あめがふるときぶんがしずむ"
-
-[[sentences]]
-jp = "犬の散歩を毎日する"
-kana = "いぬのさんぽをまいにちする"
 
 [[sentences]]
 jp = "料理は人生の喜びだ"
@@ -3293,10 +2861,6 @@ kana = "ぱそこんがこわれてしまった"
 [[sentences]]
 jp = "試験の準備をしている"
 kana = "しけんのじゅんびをしている"
-
-[[sentences]]
-jp = "海辺で貝殻を探す"
-kana = "うみべでかいがらをさがす"
 
 [[sentences]]
 jp = "夜空の星が綺麗だ"
@@ -3335,10 +2899,6 @@ jp = "昨日買った本を読んでいる"
 kana = "きのうかったほんをよんでいる"
 
 [[sentences]]
-jp = "猫と遊ぶ"
-kana = "ねことあそぶ"
-
-[[sentences]]
 jp = "旅行に行きたい"
 kana = "りょこうにいきたい"
 
@@ -3349,10 +2909,6 @@ kana = "あめがふる"
 [[sentences]]
 jp = "美味しい食事"
 kana = "おいしいしょくじ"
-
-[[sentences]]
-jp = "音楽を聴く"
-kana = "おんがくをきく"
 
 [[sentences]]
 jp = "健康第一"
@@ -3379,10 +2935,6 @@ jp = "学校で学ぶ"
 kana = "がっこうでまなぶ"
 
 [[sentences]]
-jp = "笑顔が素敵"
-kana = "えがおがすてき"
-
-[[sentences]]
 jp = "朝日"
 kana = "あさひ"
 
@@ -3401,10 +2953,6 @@ kana = "そらをとぶとりたち"
 [[sentences]]
 jp = "美味しいご飯"
 kana = "おいしいごはん"
-
-[[sentences]]
-jp = "森の中を歩く"
-kana = "もりのなかをあるく"
 
 [[sentences]]
 jp = "友達と野球"
@@ -3469,10 +3017,6 @@ kana = "おいしいけーき"
 [[sentences]]
 jp = "春の桜が満開"
 kana = "はるのさくらがまんかい"
-
-[[sentences]]
-jp = "野球の試合"
-kana = "やきゅうのしあい"
 
 [[sentences]]
 jp = "プログラミング言語"
@@ -3543,20 +3087,8 @@ jp = "美味しい"
 kana = "おいしい"
 
 [[sentences]]
-jp = "新しい靴を買いました"
-kana = "あたらしいくつをかいました"
-
-[[sentences]]
-jp = "走るのは楽しい"
-kana = "はしるのはたのしい"
-
-[[sentences]]
 jp = "冬の星は綺麗です"
 kana = "ふゆのほしはきれいです"
-
-[[sentences]]
-jp = "友達と遊ぶ"
-kana = "ともだちとあそぶ"
 
 [[sentences]]
 jp = "技術は世界を変える"
@@ -3643,10 +3175,6 @@ jp = "駅まで走る"
 kana = "えきまではしる"
 
 [[sentences]]
-jp = "夜空に星が輝いている"
-kana = "よぞらにほしがかがやいている"
-
-[[sentences]]
 jp = "味噌汁を作る"
 kana = "みそしるをつくる"
 
@@ -3717,10 +3245,6 @@ kana = "はれたそらをみあげる"
 [[sentences]]
 jp = "パスタの作り方"
 kana = "ぱすたのつくりかた"
-
-[[sentences]]
-jp = "犬と散歩する"
-kana = "いぬとさんぽする"
 
 [[sentences]]
 jp = "七転び八起き"
@@ -3871,10 +3395,6 @@ jp = "ことわざは生きた知恵である"
 kana = "ことわざはいきたちえである"
 
 [[sentences]]
-jp = "図書館で勉強した"
-kana = "としょかんでべんきょうした"
-
-[[sentences]]
 jp = "梅雨の季節は蒸し蒸ししている"
 kana = "つゆのきせつはむしむししている"
 
@@ -3925,10 +3445,6 @@ kana = "びょういんでしんさつをうける"
 [[sentences]]
 jp = "両親と食事"
 kana = "りょうしんとしょくじ"
-
-[[sentences]]
-jp = "ゲームをする"
-kana = "げーむをする"
 
 [[sentences]]
 jp = "電車で通勤"
@@ -4007,10 +3523,6 @@ jp = "料理を作ります"
 kana = "りょうりをつくります"
 
 [[sentences]]
-jp = "犬と散歩"
-kana = "いぬとさんぽ"
-
-[[sentences]]
 jp = "継続は力"
 kana = "けいぞくはちから"
 
@@ -4025,14 +3537,6 @@ kana = "ちきゅうかんきょうほぜんかつどう"
 [[sentences]]
 jp = "コーヒーを飲む"
 kana = "こーひーをのむ"
-
-[[sentences]]
-jp = "雲が流れていく"
-kana = "くもがながれていく"
-
-[[sentences]]
-jp = "野球の試合"
-kana = "やきゅうのしあい"
 
 [[sentences]]
 jp = "プログラミング言語"
@@ -4071,10 +3575,6 @@ jp = "映画を見に行く"
 kana = "えいがをみにいく"
 
 [[sentences]]
-jp = "バスで移動する"
-kana = "ばすでいどうする"
-
-[[sentences]]
 jp = "母の手作り料理"
 kana = "ははのてづくりりょうり"
 
@@ -4087,10 +3587,6 @@ jp = "急がば回れ"
 kana = "いそがばまわれ"
 
 [[sentences]]
-jp = "図書館で本を借りる"
-kana = "としょかんでほんをかりる"
-
-[[sentences]]
 jp = "新年の抱負を語る"
 kana = "しんねんのほうふをかたる"
 
@@ -4101,10 +3597,6 @@ kana = "おいしいわしょくをたべた"
 [[sentences]]
 jp = "春風が心地よい"
 kana = "はるかぜがここちよい"
-
-[[sentences]]
-jp = "野球の試合を見に行く"
-kana = "やきゅうのしあいをみにいく"
 
 [[sentences]]
 jp = "プログラミングは面白い"
@@ -4125,10 +3617,6 @@ kana = "きょうとへりょこうにいく"
 [[sentences]]
 jp = "映画を見るのが好き"
 kana = "えいがをみるのがすき"
-
-[[sentences]]
-jp = "電車で出かける"
-kana = "でんしゃででかける"
 
 [[sentences]]
 jp = "雲一つない晴天だ"
@@ -4161,10 +3649,6 @@ kana = "あさごはんをたべる"
 [[sentences]]
 jp = "春の桜"
 kana = "はるのさくら"
-
-[[sentences]]
-jp = "野球の試合"
-kana = "やきゅうのしあい"
 
 [[sentences]]
 jp = "プログラミングは楽しい"
@@ -4219,16 +3703,8 @@ jp = "春の桜が咲いている"
 kana = "はるのさくらがさいている"
 
 [[sentences]]
-jp = "野球の試合は楽しい"
-kana = "やきゅうのしあいはたのしい"
-
-[[sentences]]
 jp = "プログラミング言語を学ぶ"
 kana = "ぷろぐらみんぐげんごをまなぶ"
-
-[[sentences]]
-jp = "図書館で勉強する"
-kana = "としょかんでべんきょうする"
 
 [[sentences]]
 jp = "喜びに満ちた顔"
@@ -4281,10 +3757,6 @@ kana = "だいがくのさーくるにはいった"
 [[sentences]]
 jp = "クリスマスは冬の楽しい行事"
 kana = "くりすますはふゆのたのしいぎょうじ"
-
-[[sentences]]
-jp = "雨の日は傘を持つ"
-kana = "あめのひはかさをもつ"
 
 [[sentences]]
 jp = "コーヒーは苦い"
@@ -4343,10 +3815,6 @@ jp = "温かいコーヒーが好きです"
 kana = "あたたかいこーひーがすきです"
 
 [[sentences]]
-jp = "雨の日は傘を持つ"
-kana = "あめのひはかさをもつ"
-
-[[sentences]]
 jp = "新鮮な野菜を買いました"
 kana = "しんせんなやさいをかいました"
 
@@ -4385,10 +3853,6 @@ kana = "りょこうにいきたいきもちがある"
 [[sentences]]
 jp = "子供たちが元気に走る"
 kana = "こどもたちがげんきにはしる"
-
-[[sentences]]
-jp = "季節の変わり目に風邪を引きやすい"
-kana = "きせつのかわりめにかぜをひきやすい"
 
 [[sentences]]
 jp = "家族で食事をする時間は大事"
@@ -4451,14 +3915,6 @@ jp = "漫画を描く楽しさ"
 kana = "まんがをかくたのしさ"
 
 [[sentences]]
-jp = "電車で通勤する"
-kana = "でんしゃでつうきんする"
-
-[[sentences]]
-jp = "新しい洋服を買った"
-kana = "あたらしいようふくをかった"
-
-[[sentences]]
 jp = "風呂で疲れが取れる"
 kana = "ふろでつかれがとれる"
 
@@ -4477,10 +3933,6 @@ kana = "おいしいらーめん"
 [[sentences]]
 jp = "春の桜"
 kana = "はるのさくら"
-
-[[sentences]]
-jp = "野球の試合"
-kana = "やきゅうのしあい"
 
 [[sentences]]
 jp = "プログラミング"
@@ -4519,10 +3971,6 @@ jp = "料理の作り方"
 kana = "りょうりのつくりかた"
 
 [[sentences]]
-jp = "犬と散歩"
-kana = "いぬとさんぽ"
-
-[[sentences]]
 jp = "彼は病気で学校を休んだ"
 kana = "かれはびょうきでがっこうをやすんだ"
 
@@ -4537,10 +3985,6 @@ kana = "おいしいらーめん"
 [[sentences]]
 jp = "桜の花が咲いている"
 kana = "さくらのはながさいている"
-
-[[sentences]]
-jp = "野球の試合"
-kana = "やきゅうのしあい"
 
 [[sentences]]
 jp = "プログラミング"
@@ -4563,10 +4007,6 @@ jp = "両親と食事をする"
 kana = "りょうしんとしょくじをする"
 
 [[sentences]]
-jp = "電車で通勤する"
-kana = "でんしゃでつうきんする"
-
-[[sentences]]
 jp = "雨の日は傘が必要"
 kana = "あめのひはかさがひつよう"
 
@@ -4587,10 +4027,6 @@ jp = "環境を守ることが大切"
 kana = "かんきょうをまもることがたいせつ"
 
 [[sentences]]
-jp = "朝日が昇った"
-kana = "あさひがのぼった"
-
-[[sentences]]
 jp = "雨が降っています"
 kana = "あめがふっています"
 
@@ -4599,20 +4035,12 @@ jp = "美味しいケーキ"
 kana = "おいしいけーき"
 
 [[sentences]]
-jp = "友達と遊ぶ"
-kana = "ともだちとあそぶ"
-
-[[sentences]]
 jp = "山へハイキングに行った"
 kana = "やまへはいきんぐにいった"
 
 [[sentences]]
 jp = "コンピュータの操作"
 kana = "こんぴゅーたのそうさ"
-
-[[sentences]]
-jp = "本を読むのが好き"
-kana = "ほんをよむのがすき"
 
 [[sentences]]
 jp = "幸せな気持ち"
@@ -4631,10 +4059,6 @@ jp = "親子で映画を見た"
 kana = "おやこでえいがをみた"
 
 [[sentences]]
-jp = "野球の試合"
-kana = "やきゅうのしあい"
-
-[[sentences]]
 jp = "駅から家まで歩いた"
 kana = "えきからいえまであるいた"
 
@@ -4649,10 +4073,6 @@ kana = "きのうはゆきがつもった"
 [[sentences]]
 jp = "犬の散歩は毎日の習慣"
 kana = "いぬのさんぽはまいにちのしゅうかん"
-
-[[sentences]]
-jp = "朝日が昇った"
-kana = "あさひがのぼった"
 
 [[sentences]]
 jp = "水を飲む"
@@ -4727,10 +4147,6 @@ jp = "大学の図書館"
 kana = "だいがくのとしょかん"
 
 [[sentences]]
-jp = "友達と遊ぶ"
-kana = "ともだちとあそぶ"
-
-[[sentences]]
 jp = "得意な料理を作る"
 kana = "とくいなりょうりをつくる"
 
@@ -4769,10 +4185,6 @@ kana = "しんせんなとまと"
 [[sentences]]
 jp = "春の桜が咲いている"
 kana = "はるのさくらがさいている"
-
-[[sentences]]
-jp = "野球の試合"
-kana = "やきゅうのしあい"
 
 [[sentences]]
 jp = "プログラムのバグを修正する"
@@ -4879,10 +4291,6 @@ jp = "映画を見に行く"
 kana = "えいがをみにいく"
 
 [[sentences]]
-jp = "電車で通勤する"
-kana = "でんしゃでつうきんする"
-
-[[sentences]]
 jp = "雨の日は憂鬱"
 kana = "あめのひはゆううつ"
 
@@ -4967,10 +4375,6 @@ jp = "甘いお菓子"
 kana = "あまいおかし"
 
 [[sentences]]
-jp = "野球の試合"
-kana = "やきゅうのしあい"
-
-[[sentences]]
 jp = "データベース"
 kana = "でーたべーす"
 
@@ -5011,10 +4415,6 @@ jp = "コース料理を食べる"
 kana = "こーすりょうりをたべる"
 
 [[sentences]]
-jp = "犬と散歩する"
-kana = "いぬとさんぽする"
-
-[[sentences]]
 jp = "転ばぬ先の杖"
 kana = "ころばぬさきのつえ"
 
@@ -5029,10 +4429,6 @@ kana = "おしょうがつがきた"
 [[sentences]]
 jp = "新鮮なりんご"
 kana = "しんせんなりんご"
-
-[[sentences]]
-jp = "雨の中を走る"
-kana = "あめのなかをはしる"
 
 [[sentences]]
 jp = "友達と約束"
@@ -5087,10 +4483,6 @@ jp = "美味しいラーメンを食べた"
 kana = "おいしいらーめんをたべた"
 
 [[sentences]]
-jp = "窓から風が吹く"
-kana = "まどからかぜがふく"
-
-[[sentences]]
 jp = "新しい洋服を買う"
 kana = "あたらしいようふくをかう"
 
@@ -5113,14 +4505,6 @@ kana = "きょうかしょをよむ"
 [[sentences]]
 jp = "会議が始まった"
 kana = "かいぎがはじまった"
-
-[[sentences]]
-jp = "雨の日は静かだ"
-kana = "あめのひはしずかだ"
-
-[[sentences]]
-jp = "山頂から景色を眺める"
-kana = "さんちょうからけしきをながめる"
 
 [[sentences]]
 jp = "本を3冊買った"
@@ -5167,10 +4551,6 @@ jp = "今日の天気"
 kana = "きょうのてんき"
 
 [[sentences]]
-jp = "走るのは楽しい"
-kana = "はしるのはたのしい"
-
-[[sentences]]
 jp = "パソコンの画面"
 kana = "ぱそこんのがめん"
 
@@ -5199,20 +4579,12 @@ jp = "子供と遊ぶ"
 kana = "こどもとあそぶ"
 
 [[sentences]]
-jp = "ゲームをする"
-kana = "げーむをする"
-
-[[sentences]]
 jp = "電車で移動中"
 kana = "でんしゃでいどうちゅう"
 
 [[sentences]]
 jp = "新しい服が欲しい"
 kana = "あたらしいふくがほしい"
-
-[[sentences]]
-jp = "部屋を片付ける"
-kana = "へやをかたづける"
 
 [[sentences]]
 jp = "犬と猫が好き"
@@ -5257,10 +4629,6 @@ kana = "かぞくとのじかん"
 [[sentences]]
 jp = "映画を見に行く"
 kana = "えいがをみにいく"
-
-[[sentences]]
-jp = "バスで移動する"
-kana = "ばすでいどうする"
 
 [[sentences]]
 jp = "晴天の朝"
@@ -5331,10 +4699,6 @@ jp = "美味しいご飯"
 kana = "おいしいごはん"
 
 [[sentences]]
-jp = "猫と遊ぶ"
-kana = "ねことあそぶ"
-
-[[sentences]]
 jp = "七転び八起き"
 kana = "ななころびやおき"
 
@@ -5385,10 +4749,6 @@ kana = "かぞくとすごすじかん"
 [[sentences]]
 jp = "映画を見る"
 kana = "えいがをみる"
-
-[[sentences]]
-jp = "バスで移動する"
-kana = "ばすでいどうする"
 
 [[sentences]]
 jp = "ご飯を作る"
@@ -5447,24 +4807,12 @@ jp = "映画を見に行く"
 kana = "えいがをみにいく"
 
 [[sentences]]
-jp = "バスで移動する"
-kana = "ばすでいどうする"
-
-[[sentences]]
 jp = "料理をする"
 kana = "りょうりをする"
 
 [[sentences]]
-jp = "犬と遊ぶ"
-kana = "いぬとあそぶ"
-
-[[sentences]]
 jp = "時は金なり"
 kana = "ときはかねなり"
-
-[[sentences]]
-jp = "図書館で勉強する"
-kana = "としょかんでべんきょうする"
 
 [[sentences]]
 jp = "七夕祭りが開催された"
@@ -5479,16 +4827,8 @@ jp = "山の頂上まで登った"
 kana = "やまのちょうじょうまでのぼった"
 
 [[sentences]]
-jp = "野球の試合は楽しい"
-kana = "やきゅうのしあいはたのしい"
-
-[[sentences]]
 jp = "新しいソフトウェア"
 kana = "あたらしいそふとうぇあ"
-
-[[sentences]]
-jp = "図書館で本を読む"
-kana = "としょかんでほんをよむ"
 
 [[sentences]]
 jp = "仕事の締め切りが近い"
@@ -5535,10 +4875,6 @@ jp = "昔話の桃太郎は有名だ"
 kana = "むかしばなしのももたろうはゆうめいだ"
 
 [[sentences]]
-jp = "朝日が昇った"
-kana = "あさひがのぼった"
-
-[[sentences]]
 jp = "美味しいコーヒー"
 kana = "おいしいこーひー"
 
@@ -5553,10 +4889,6 @@ kana = "やきゅうのしあいがはじまる"
 [[sentences]]
 jp = "プログラミングは楽しい"
 kana = "ぷろぐらみんぐはたのしい"
-
-[[sentences]]
-jp = "図書館で勉強した"
-kana = "としょかんでべんきょうした"
 
 [[sentences]]
 jp = "営業成績が良好だ"
@@ -5597,10 +4929,6 @@ kana = "だいがくのしんがっきがはじまった"
 [[sentences]]
 jp = "七夕祭りに行きたい"
 kana = "たなばたまつりにいきたい"
-
-[[sentences]]
-jp = "雨の日は傘を持つ"
-kana = "あめのひはかさをもつ"
 
 [[sentences]]
 jp = "美味しいコーヒー"
@@ -5671,16 +4999,8 @@ jp = "春の桜は綺麗"
 kana = "はるのさくらはきれい"
 
 [[sentences]]
-jp = "野球の試合"
-kana = "やきゅうのしあい"
-
-[[sentences]]
 jp = "プログラミングは楽しい"
 kana = "ぷろぐらみんぐはたのしい"
-
-[[sentences]]
-jp = "図書館で本を読む"
-kana = "としょかんでほんをよむ"
 
 [[sentences]]
 jp = "営業成績が上がった"
@@ -5703,10 +5023,6 @@ jp = "ビデオゲームが好き"
 kana = "びでおげーむがすき"
 
 [[sentences]]
-jp = "電車で出勤する"
-kana = "でんしゃでしゅっきんする"
-
-[[sentences]]
 jp = "雪が降っている"
 kana = "ゆきがふっている"
 
@@ -5719,16 +5035,8 @@ jp = "大学のキャンパスは広い"
 kana = "だいがくのきゃんぱすはひろい"
 
 [[sentences]]
-jp = "新しい洋服を買った"
-kana = "あたらしいようふくをかった"
-
-[[sentences]]
 jp = "美味しいケーキ"
 kana = "おいしいけーき"
-
-[[sentences]]
-jp = "雨の日は静か"
-kana = "あめのひはしずか"
 
 [[sentences]]
 jp = "コンピューターは便利"
@@ -5737,10 +5045,6 @@ kana = "こんぴゅーたーはべんり"
 [[sentences]]
 jp = "本を読む時間"
 kana = "ほんをよむじかん"
-
-[[sentences]]
-jp = "友達と遊ぶ"
-kana = "ともだちとあそぶ"
 
 [[sentences]]
 jp = "毎日運動する"
@@ -5827,14 +5131,6 @@ jp = "映画を見に行く"
 kana = "えいがをみにいく"
 
 [[sentences]]
-jp = "電車で通勤する"
-kana = "でんしゃでつうきんする"
-
-[[sentences]]
-jp = "部屋を片付ける"
-kana = "へやをかたづける"
-
-[[sentences]]
 jp = "宇宙は広い"
 kana = "うちゅうはひろい"
 
@@ -5851,10 +5147,6 @@ jp = "春の桜"
 kana = "はるのさくら"
 
 [[sentences]]
-jp = "野球の試合"
-kana = "やきゅうのしあい"
-
-[[sentences]]
 jp = "プログラミング言語"
 kana = "ぷろぐらみんぐげんご"
 
@@ -5869,10 +5161,6 @@ kana = "かいしゃのしごと"
 [[sentences]]
 jp = "京都へ旅行"
 kana = "きょうとへりょこう"
-
-[[sentences]]
-jp = "新しい靴を買う"
-kana = "あたらしいくつをかう"
 
 [[sentences]]
 jp = "病院で診察"
@@ -5943,20 +5231,12 @@ jp = "映画を見るのは好きだ"
 kana = "えいがをみるのはすきだ"
 
 [[sentences]]
-jp = "電車で通勤する"
-kana = "でんしゃでつうきんする"
-
-[[sentences]]
 jp = "案ずるより産むが易し"
 kana = "あんずるよりうむがやすし"
 
 [[sentences]]
 jp = "大学図書館で勉強中"
 kana = "だいがくとしょかんでべんきょうちゅう"
-
-[[sentences]]
-jp = "朝日が昇った"
-kana = "あさひがのぼった"
 
 [[sentences]]
 jp = "技術を学ぶのは楽しい"
@@ -6007,16 +5287,8 @@ jp = "毎週金曜日に映画を見る"
 kana = "まいしゅうきんようびにえいがをみる"
 
 [[sentences]]
-jp = "友達と野球をする"
-kana = "ともだちとやきゅうをする"
-
-[[sentences]]
 jp = "映画を見た"
 kana = "えいがをみた"
-
-[[sentences]]
-jp = "音楽を聴く"
-kana = "おんがくをきく"
 
 [[sentences]]
 jp = "山に登りたい"
@@ -6025,10 +5297,6 @@ kana = "やまにのぼりたい"
 [[sentences]]
 jp = "犬の散歩をする"
 kana = "いぬのさんぽをする"
-
-[[sentences]]
-jp = "電車で出かける"
-kana = "でんしゃででかける"
 
 [[sentences]]
 jp = "本を読む"
@@ -6063,20 +5331,12 @@ jp = "友達と話す"
 kana = "ともだちとはなす"
 
 [[sentences]]
-jp = "図書館で本を読む"
-kana = "としょかんでほんをよむ"
-
-[[sentences]]
 jp = "包丁で野菜を切る"
 kana = "ほうちょうでやさいをきる"
 
 [[sentences]]
 jp = "病院に行く"
 kana = "びょういんにいく"
-
-[[sentences]]
-jp = "犬と散歩する"
-kana = "いぬとさんぽする"
 
 [[sentences]]
 jp = "駅前で友人と会う"
@@ -6103,10 +5363,6 @@ jp = "野球は楽しい運動だ"
 kana = "やきゅうはたのしいうんどうだ"
 
 [[sentences]]
-jp = "本を読むのが好き"
-kana = "ほんをよむのがすき"
-
-[[sentences]]
 jp = "喜びに満ちた表情"
 kana = "よろこびにみちたひょうじょう"
 
@@ -6125,10 +5381,6 @@ kana = "しんゆうとあそびにいく"
 [[sentences]]
 jp = "映画鑑賞が趣味です"
 kana = "えいがかんしょうがしゅみです"
-
-[[sentences]]
-jp = "電車で出勤する"
-kana = "でんしゃでしゅっきんする"
 
 [[sentences]]
 jp = "曇りの空を見上げる"
@@ -6219,16 +5471,8 @@ jp = "毎朝コーヒーを飲む"
 kana = "まいあさこーひーをのむ"
 
 [[sentences]]
-jp = "友達と野球をした"
-kana = "ともだちとやきゅうをした"
-
-[[sentences]]
 jp = "プログラミングは難しい"
 kana = "ぷろぐらみんぐはむずかしい"
-
-[[sentences]]
-jp = "図書館で勉強する"
-kana = "としょかんでべんきょうする"
 
 [[sentences]]
 jp = "会社の会議は長い"
@@ -6279,10 +5523,6 @@ jp = "美味しいカレーを作る"
 kana = "おいしいかれーをつくる"
 
 [[sentences]]
-jp = "森の中を歩く"
-kana = "もりのなかをあるく"
-
-[[sentences]]
 jp = "嬉しくて笑顔になる"
 kana = "うれしくてえがおになる"
 
@@ -6297,10 +5537,6 @@ kana = "えをかくのがすき"
 [[sentences]]
 jp = "電車で移動する"
 kana = "でんしゃでいどうする"
-
-[[sentences]]
-jp = "犬と遊ぶ"
-kana = "いぬとあそぶ"
 
 [[sentences]]
 jp = "教室で勉強する"
@@ -6393,10 +5629,6 @@ kana = "げーむであそぶ"
 [[sentences]]
 jp = "電車で通学する"
 kana = "でんしゃでつうがくする"
-
-[[sentences]]
-jp = "雨の日は静かだ"
-kana = "あめのひはしずかだ"
 
 [[sentences]]
 jp = "味噌汁を作る"
@@ -6555,10 +5787,6 @@ jp = "山に登る"
 kana = "やまにのぼる"
 
 [[sentences]]
-jp = "心が躍る"
-kana = "こころがおどる"
-
-[[sentences]]
 jp = "夢を見る"
 kana = "ゆめをみる"
 
@@ -6651,10 +5879,6 @@ jp = "雨が降る"
 kana = "あめがふる"
 
 [[sentences]]
-jp = "朝日が昇る"
-kana = "あさひがのぼる"
-
-[[sentences]]
 jp = "水を飲む"
 kana = "みずをのむ"
 
@@ -6719,16 +5943,8 @@ jp = "砂が散る"
 kana = "すながちる"
 
 [[sentences]]
-jp = "朝日が昇る"
-kana = "あさひがのぼる"
-
-[[sentences]]
 jp = "雪が積もった"
 kana = "ゆきがつもった"
-
-[[sentences]]
-jp = "犬と散歩する"
-kana = "いぬとさんぽする"
 
 [[sentences]]
 jp = "本を読む"
@@ -6815,10 +6031,6 @@ jp = "本を読む"
 kana = "ほんをよむ"
 
 [[sentences]]
-jp = "朝日が昇る"
-kana = "あさひがのぼる"
-
-[[sentences]]
 jp = "風が強い"
 kana = "かぜがつよい"
 
@@ -6859,16 +6071,8 @@ jp = "手紙を書く"
 kana = "てがみをかく"
 
 [[sentences]]
-jp = "夜空を見上げる"
-kana = "よぞらをみあげる"
-
-[[sentences]]
 jp = "美味しい料理"
 kana = "おいしいりょうり"
-
-[[sentences]]
-jp = "心が躍る"
-kana = "こころがおどる"
 
 [[sentences]]
 jp = "希望の光"
@@ -7319,10 +6523,6 @@ jp = "手で持つ"
 kana = "てでもつ"
 
 [[sentences]]
-jp = "雨の日は外出しない"
-kana = "あめのひはがいしゅつしない"
-
-[[sentences]]
 jp = "歯を磨く"
 kana = "はをみがく"
 
@@ -7341,10 +6541,6 @@ kana = "あしがはやい"
 [[sentences]]
 jp = "背が高い"
 kana = "せがたかい"
-
-[[sentences]]
-jp = "氷が冷たい"
-kana = "こおりがつめたい"
 
 [[sentences]]
 jp = "塩をふる"
@@ -7945,3 +7141,5847 @@ kana = "かたち"
 [[sentences]]
 jp = "紐"
 kana = "ひも"
+
+[[sentences]]
+jp = "犬"
+kana = "いぬ"
+
+[[sentences]]
+jp = "猫"
+kana = "ねこ"
+
+[[sentences]]
+jp = "風"
+kana = "かぜ"
+
+[[sentences]]
+jp = "雨"
+kana = "あめ"
+
+[[sentences]]
+jp = "山"
+kana = "やま"
+
+[[sentences]]
+jp = "海"
+kana = "うみ"
+
+[[sentences]]
+jp = "火"
+kana = "ひ"
+
+[[sentences]]
+jp = "水"
+kana = "みず"
+
+[[sentences]]
+jp = "木"
+kana = "き"
+
+[[sentences]]
+jp = "花"
+kana = "はな"
+
+[[sentences]]
+jp = "鳥"
+kana = "とり"
+
+[[sentences]]
+jp = "魚"
+kana = "さかな"
+
+[[sentences]]
+jp = "虫"
+kana = "むし"
+
+[[sentences]]
+jp = "月"
+kana = "つき"
+
+[[sentences]]
+jp = "星"
+kana = "ほし"
+
+[[sentences]]
+jp = "雲"
+kana = "くも"
+
+[[sentences]]
+jp = "雪"
+kana = "ゆき"
+
+[[sentences]]
+jp = "葉"
+kana = "は"
+
+[[sentences]]
+jp = "草"
+kana = "くさ"
+
+[[sentences]]
+jp = "糸"
+kana = "いと"
+
+[[sentences]]
+jp = "紐"
+kana = "ひも"
+
+[[sentences]]
+jp = "玉"
+kana = "たま"
+
+[[sentences]]
+jp = "輪"
+kana = "わ"
+
+[[sentences]]
+jp = "橋"
+kana = "はし"
+
+[[sentences]]
+jp = "池"
+kana = "いけ"
+
+[[sentences]]
+jp = "岩"
+kana = "いわ"
+
+[[sentences]]
+jp = "砂"
+kana = "すな"
+
+[[sentences]]
+jp = "塚"
+kana = "つか"
+
+[[sentences]]
+jp = "峰"
+kana = "みね"
+
+[[sentences]]
+jp = "金"
+kana = "きん"
+
+[[sentences]]
+jp = "土"
+kana = "つち"
+
+[[sentences]]
+jp = "日"
+kana = "ひ"
+
+[[sentences]]
+jp = "目"
+kana = "め"
+
+[[sentences]]
+jp = "耳"
+kana = "みみ"
+
+[[sentences]]
+jp = "米"
+kana = "こめ"
+
+[[sentences]]
+jp = "門"
+kana = "もん"
+
+[[sentences]]
+jp = "男"
+kana = "おとこ"
+
+[[sentences]]
+jp = "女"
+kana = "おんな"
+
+[[sentences]]
+jp = "子"
+kana = "こ"
+
+[[sentences]]
+jp = "手"
+kana = "て"
+
+[[sentences]]
+jp = "足"
+kana = "あし"
+
+[[sentences]]
+jp = "口"
+kana = "くち"
+
+[[sentences]]
+jp = "心"
+kana = "こころ"
+
+[[sentences]]
+jp = "力"
+kana = "ちから"
+
+[[sentences]]
+jp = "太陽"
+kana = "たいよう"
+
+[[sentences]]
+jp = "蝶"
+kana = "ちょう"
+
+[[sentences]]
+jp = "蜂"
+kana = "はち"
+
+[[sentences]]
+jp = "石"
+kana = "いし"
+
+[[sentences]]
+jp = "竹"
+kana = "たけ"
+
+[[sentences]]
+jp = "松"
+kana = "まつ"
+
+[[sentences]]
+jp = "梅"
+kana = "うめ"
+
+[[sentences]]
+jp = "桜"
+kana = "さくら"
+
+[[sentences]]
+jp = "柿"
+kana = "かき"
+
+[[sentences]]
+jp = "空"
+kana = "そら"
+
+[[sentences]]
+jp = "氷"
+kana = "こおり"
+
+[[sentences]]
+jp = "蛙"
+kana = "かえる"
+
+[[sentences]]
+jp = "蜘蛛"
+kana = "くも"
+
+[[sentences]]
+jp = "蝦"
+kana = "えび"
+
+[[sentences]]
+jp = "蟹"
+kana = "かに"
+
+[[sentences]]
+jp = "光"
+kana = "ひかり"
+
+[[sentences]]
+jp = "色"
+kana = "いろ"
+
+[[sentences]]
+jp = "音"
+kana = "おと"
+
+[[sentences]]
+jp = "夢"
+kana = "ゆめ"
+
+[[sentences]]
+jp = "果"
+kana = "か"
+
+[[sentences]]
+jp = "種"
+kana = "たね"
+
+[[sentences]]
+jp = "塩"
+kana = "しお"
+
+[[sentences]]
+jp = "布"
+kana = "ぬの"
+
+[[sentences]]
+jp = "綱"
+kana = "つな"
+
+[[sentences]]
+jp = "縄"
+kana = "なわ"
+
+[[sentences]]
+jp = "結"
+kana = "むすぶ"
+
+[[sentences]]
+jp = "木の葉"
+kana = "このは"
+
+[[sentences]]
+jp = "川"
+kana = "かわ"
+
+[[sentences]]
+jp = "道"
+kana = "みち"
+
+[[sentences]]
+jp = "家"
+kana = "いえ"
+
+[[sentences]]
+jp = "窓"
+kana = "まど"
+
+[[sentences]]
+jp = "扉"
+kana = "とびら"
+
+[[sentences]]
+jp = "鐘"
+kana = "かね"
+
+[[sentences]]
+jp = "鍵"
+kana = "かぎ"
+
+[[sentences]]
+jp = "靴"
+kana = "くつ"
+
+[[sentences]]
+jp = "帽子"
+kana = "ぼうし"
+
+[[sentences]]
+jp = "根"
+kana = "ね"
+
+[[sentences]]
+jp = "蛇"
+kana = "へび"
+
+[[sentences]]
+jp = "亀"
+kana = "かめ"
+
+[[sentences]]
+jp = "象"
+kana = "ぞう"
+
+[[sentences]]
+jp = "船"
+kana = "ふね"
+
+[[sentences]]
+jp = "車"
+kana = "くるま"
+
+[[sentences]]
+jp = "実"
+kana = "み"
+
+[[sentences]]
+jp = "玉子"
+kana = "たまご"
+
+[[sentences]]
+jp = "豆"
+kana = "まめ"
+
+[[sentences]]
+jp = "茶"
+kana = "ちゃ"
+
+[[sentences]]
+jp = "馬"
+kana = "うま"
+
+[[sentences]]
+jp = "牛"
+kana = "うし"
+
+[[sentences]]
+jp = "豚"
+kana = "ぶた"
+
+[[sentences]]
+jp = "羊"
+kana = "ひつじ"
+
+[[sentences]]
+jp = "舟"
+kana = "ふね"
+
+[[sentences]]
+jp = "塔"
+kana = "とう"
+
+[[sentences]]
+jp = "井"
+kana = "い"
+
+[[sentences]]
+jp = "糖"
+kana = "さとう"
+
+[[sentences]]
+jp = "肉"
+kana = "にく"
+
+[[sentences]]
+jp = "卵"
+kana = "たまご"
+
+[[sentences]]
+jp = "鼻"
+kana = "はな"
+
+[[sentences]]
+jp = "歯"
+kana = "は"
+
+[[sentences]]
+jp = "爪"
+kana = "つめ"
+
+[[sentences]]
+jp = "髪"
+kana = "かみ"
+
+[[sentences]]
+jp = "肌"
+kana = "はだ"
+
+[[sentences]]
+jp = "骨"
+kana = "ほね"
+
+[[sentences]]
+jp = "血"
+kana = "ち"
+
+[[sentences]]
+jp = "涙"
+kana = "なみだ"
+
+[[sentences]]
+jp = "夜"
+kana = "よる"
+
+[[sentences]]
+jp = "朝"
+kana = "あさ"
+
+[[sentences]]
+jp = "昼"
+kana = "ひる"
+
+[[sentences]]
+jp = "春"
+kana = "はる"
+
+[[sentences]]
+jp = "夏"
+kana = "なつ"
+
+[[sentences]]
+jp = "秋"
+kana = "あき"
+
+[[sentences]]
+jp = "冬"
+kana = "ふゆ"
+
+[[sentences]]
+jp = "赤"
+kana = "あか"
+
+[[sentences]]
+jp = "青"
+kana = "あお"
+
+[[sentences]]
+jp = "絵"
+kana = "え"
+
+[[sentences]]
+jp = "本"
+kana = "ほん"
+
+[[sentences]]
+jp = "幹"
+kana = "みき"
+
+[[sentences]]
+jp = "枝"
+kana = "えだ"
+
+[[sentences]]
+jp = "樹"
+kana = "き"
+
+[[sentences]]
+jp = "林"
+kana = "はやし"
+
+[[sentences]]
+jp = "栗"
+kana = "くり"
+
+[[sentences]]
+jp = "犬"
+kana = "いぬ"
+
+[[sentences]]
+jp = "猫"
+kana = "ねこ"
+
+[[sentences]]
+jp = "風"
+kana = "かぜ"
+
+[[sentences]]
+jp = "雨"
+kana = "あめ"
+
+[[sentences]]
+jp = "山"
+kana = "やま"
+
+[[sentences]]
+jp = "海"
+kana = "うみ"
+
+[[sentences]]
+jp = "火"
+kana = "ひ"
+
+[[sentences]]
+jp = "水"
+kana = "みず"
+
+[[sentences]]
+jp = "木"
+kana = "き"
+
+[[sentences]]
+jp = "花"
+kana = "はな"
+
+[[sentences]]
+jp = "鳥"
+kana = "とり"
+
+[[sentences]]
+jp = "魚"
+kana = "さかな"
+
+[[sentences]]
+jp = "星"
+kana = "ほし"
+
+[[sentences]]
+jp = "月"
+kana = "つき"
+
+[[sentences]]
+jp = "太陽"
+kana = "たいよう"
+
+[[sentences]]
+jp = "雲"
+kana = "くも"
+
+[[sentences]]
+jp = "雪"
+kana = "ゆき"
+
+[[sentences]]
+jp = "石"
+kana = "いし"
+
+[[sentences]]
+jp = "砂"
+kana = "すな"
+
+[[sentences]]
+jp = "紐"
+kana = "ひも"
+
+[[sentences]]
+jp = "塩"
+kana = "しお"
+
+[[sentences]]
+jp = "蜂"
+kana = "はち"
+
+[[sentences]]
+jp = "蛇"
+kana = "へび"
+
+[[sentences]]
+jp = "栗"
+kana = "くり"
+
+[[sentences]]
+jp = "竹"
+kana = "たけ"
+
+[[sentences]]
+jp = "梅"
+kana = "うめ"
+
+[[sentences]]
+jp = "柿"
+kana = "かき"
+
+[[sentences]]
+jp = "蛙"
+kana = "かえる"
+
+[[sentences]]
+jp = "丹"
+kana = "に"
+
+[[sentences]]
+jp = "麦"
+kana = "むぎ"
+
+[[sentences]]
+jp = "紙"
+kana = "かみ"
+
+[[sentences]]
+jp = "土"
+kana = "つち"
+
+[[sentences]]
+jp = "金"
+kana = "きん"
+
+[[sentences]]
+jp = "銀"
+kana = "ぎん"
+
+[[sentences]]
+jp = "虫"
+kana = "むし"
+
+[[sentences]]
+jp = "夜"
+kana = "よる"
+
+[[sentences]]
+jp = "朝"
+kana = "あさ"
+
+[[sentences]]
+jp = "昼"
+kana = "ひる"
+
+[[sentences]]
+jp = "冬"
+kana = "ふゆ"
+
+[[sentences]]
+jp = "春"
+kana = "はる"
+
+[[sentences]]
+jp = "夏"
+kana = "なつ"
+
+[[sentences]]
+jp = "秋"
+kana = "あき"
+
+[[sentences]]
+jp = "橋"
+kana = "はし"
+
+[[sentences]]
+jp = "道"
+kana = "みち"
+
+[[sentences]]
+jp = "島"
+kana = "しま"
+
+[[sentences]]
+jp = "米"
+kana = "こめ"
+
+[[sentences]]
+jp = "松"
+kana = "まつ"
+
+[[sentences]]
+jp = "馬"
+kana = "うま"
+
+[[sentences]]
+jp = "牛"
+kana = "うし"
+
+[[sentences]]
+jp = "豚"
+kana = "ぶた"
+
+[[sentences]]
+jp = "羊"
+kana = "ひつじ"
+
+[[sentences]]
+jp = "鶏"
+kana = "にわとり"
+
+[[sentences]]
+jp = "草"
+kana = "くさ"
+
+[[sentences]]
+jp = "氷"
+kana = "こおり"
+
+[[sentences]]
+jp = "兎"
+kana = "うさぎ"
+
+[[sentences]]
+jp = "鹿"
+kana = "しか"
+
+[[sentences]]
+jp = "熊"
+kana = "くま"
+
+[[sentences]]
+jp = "狼"
+kana = "おおかみ"
+
+[[sentences]]
+jp = "苗"
+kana = "なえ"
+
+[[sentences]]
+jp = "茶"
+kana = "ちゃ"
+
+[[sentences]]
+jp = "肉"
+kana = "にく"
+
+[[sentences]]
+jp = "卵"
+kana = "たまご"
+
+[[sentences]]
+jp = "豆"
+kana = "まめ"
+
+[[sentences]]
+jp = "油"
+kana = "あぶら"
+
+[[sentences]]
+jp = "糸"
+kana = "いと"
+
+[[sentences]]
+jp = "瓦"
+kana = "かわら"
+
+[[sentences]]
+jp = "川"
+kana = "かわ"
+
+[[sentences]]
+jp = "葉"
+kana = "は"
+
+[[sentences]]
+jp = "蝶"
+kana = "ちょう"
+
+[[sentences]]
+jp = "家"
+kana = "いえ"
+
+[[sentences]]
+jp = "門"
+kana = "もん"
+
+[[sentences]]
+jp = "人"
+kana = "ひと"
+
+[[sentences]]
+jp = "森"
+kana = "もり"
+
+[[sentences]]
+jp = "車"
+kana = "くるま"
+
+[[sentences]]
+jp = "電車"
+kana = "でんしゃ"
+
+[[sentences]]
+jp = "船"
+kana = "ふね"
+
+[[sentences]]
+jp = "飛行機"
+kana = "ひこうき"
+
+[[sentences]]
+jp = "公園"
+kana = "こうえん"
+
+[[sentences]]
+jp = "学校"
+kana = "がっこう"
+
+[[sentences]]
+jp = "病院"
+kana = "びょういん"
+
+[[sentences]]
+jp = "樹"
+kana = "き"
+
+[[sentences]]
+jp = "食べ物"
+kana = "たべもの"
+
+[[sentences]]
+jp = "飲み物"
+kana = "のみもの"
+
+[[sentences]]
+jp = "桜"
+kana = "さくら"
+
+[[sentences]]
+jp = "紅葉"
+kana = "こうよう"
+
+[[sentences]]
+jp = "本"
+kana = "ほん"
+
+[[sentences]]
+jp = "食事"
+kana = "しょくじ"
+
+[[sentences]]
+jp = "歩く"
+kana = "あるく"
+
+[[sentences]]
+jp = "走る"
+kana = "はしる"
+
+[[sentences]]
+jp = "笑う"
+kana = "わらう"
+
+[[sentences]]
+jp = "泣く"
+kana = "なく"
+
+[[sentences]]
+jp = "木漏れ日"
+kana = "こもれび"
+
+[[sentences]]
+jp = "光"
+kana = "ひかり"
+
+[[sentences]]
+jp = "影"
+kana = "かげ"
+
+[[sentences]]
+jp = "夜空"
+kana = "よぞら"
+
+[[sentences]]
+jp = "朝日"
+kana = "あさひ"
+
+[[sentences]]
+jp = "夕焼け"
+kana = "ゆうやけ"
+
+[[sentences]]
+jp = "波"
+kana = "なみ"
+
+[[sentences]]
+jp = "崖"
+kana = "がけ"
+
+[[sentences]]
+jp = "土産"
+kana = "みやげ"
+
+[[sentences]]
+jp = "便"
+kana = "びん"
+
+[[sentences]]
+jp = "虹"
+kana = "にじ"
+
+[[sentences]]
+jp = "滝"
+kana = "たき"
+
+[[sentences]]
+jp = "砂浜"
+kana = "すなはま"
+
+[[sentences]]
+jp = "岩"
+kana = "いわ"
+
+[[sentences]]
+jp = "泉"
+kana = "いずみ"
+
+[[sentences]]
+jp = "風車"
+kana = "かざぐるま"
+
+[[sentences]]
+jp = "杉"
+kana = "すぎ"
+
+[[sentences]]
+jp = "果物"
+kana = "くだもの"
+
+[[sentences]]
+jp = "種子"
+kana = "しゅし"
+
+[[sentences]]
+jp = "亀"
+kana = "かめ"
+
+[[sentences]]
+jp = "象"
+kana = "ぞう"
+
+[[sentences]]
+jp = "虎"
+kana = "とら"
+
+[[sentences]]
+jp = "狐"
+kana = "きつね"
+
+[[sentences]]
+jp = "鼠"
+kana = "ねずみ"
+
+[[sentences]]
+jp = "音"
+kana = "おと"
+
+[[sentences]]
+jp = "色"
+kana = "いろ"
+
+[[sentences]]
+jp = "香"
+kana = "かおり"
+
+[[sentences]]
+jp = "味"
+kana = "あじ"
+
+[[sentences]]
+jp = "手"
+kana = "て"
+
+[[sentences]]
+jp = "足"
+kana = "あし"
+
+[[sentences]]
+jp = "目"
+kana = "め"
+
+[[sentences]]
+jp = "耳"
+kana = "みみ"
+
+[[sentences]]
+jp = "口"
+kana = "くち"
+
+[[sentences]]
+jp = "鼻"
+kana = "はな"
+
+[[sentences]]
+jp = "糖"
+kana = "さとう"
+
+[[sentences]]
+jp = "空"
+kana = "そら"
+
+[[sentences]]
+jp = "窓"
+kana = "まど"
+
+[[sentences]]
+jp = "扉"
+kana = "とびら"
+
+[[sentences]]
+jp = "机"
+kana = "つくえ"
+
+[[sentences]]
+jp = "椅子"
+kana = "いす"
+
+[[sentences]]
+jp = "鉛筆"
+kana = "えんぴつ"
+
+[[sentences]]
+jp = "山道"
+kana = "やまみち"
+
+[[sentences]]
+jp = "秋空"
+kana = "あきぞら"
+
+[[sentences]]
+jp = "朝起きて歯を磨く"
+kana = "あさおきてはをみがく"
+
+[[sentences]]
+jp = "外は晴れている"
+kana = "そとははれている"
+
+[[sentences]]
+jp = "猫が可愛く見える"
+kana = "ねこがかわいくみえる"
+
+[[sentences]]
+jp = "コーヒーは好きです"
+kana = "こーひーはすきです"
+
+[[sentences]]
+jp = "本を図書館で借りた"
+kana = "ほんをとしょかんでかりた"
+
+[[sentences]]
+jp = "駅まで走っていく"
+kana = "えきまではしっていく"
+
+[[sentences]]
+jp = "雨が降っている"
+kana = "あめがふっている"
+
+[[sentences]]
+jp = "靴を新しく買った"
+kana = "くつをあたらしくかった"
+
+[[sentences]]
+jp = "スポーツをしたい"
+kana = "すぽーつをしたい"
+
+[[sentences]]
+jp = "会議は午後三時"
+kana = "かいぎはごごさんじ"
+
+[[sentences]]
+jp = "桜が満開だ"
+kana = "さくらがまんかいだ"
+
+[[sentences]]
+jp = "子供が遊んでいる"
+kana = "こどもがあそんでいる"
+
+[[sentences]]
+jp = "値段が上がった"
+kana = "ねだんがあがった"
+
+[[sentences]]
+jp = "セール品を探す"
+kana = "せーるひんをさがす"
+
+[[sentences]]
+jp = "病院へ行きました"
+kana = "びょういんへいきました"
+
+[[sentences]]
+jp = "家具を移動する"
+kana = "かぐをいどうする"
+
+[[sentences]]
+jp = "緊張して声が出ない"
+kana = "きんちょうしてこえがでない"
+
+[[sentences]]
+jp = "ランチを食べる"
+kana = "らんちをたべる"
+
+[[sentences]]
+jp = "部活を頑張った"
+kana = "ぶかつをがんばった"
+
+[[sentences]]
+jp = "服を洗濯する"
+kana = "ふくをせんたくする"
+
+[[sentences]]
+jp = "アプリを削除した"
+kana = "あぷりをさくじょした"
+
+[[sentences]]
+jp = "音楽を聞きながら"
+kana = "おんがくをききながら"
+
+[[sentences]]
+jp = "自転車で出かける"
+kana = "じてんしゃででかける"
+
+[[sentences]]
+jp = "季節が変わっている"
+kana = "きせつがかわっている"
+
+[[sentences]]
+jp = "猫を抱く"
+kana = "ねこをだく"
+
+[[sentences]]
+jp = "雨が降った"
+kana = "あめがふった"
+
+[[sentences]]
+jp = "走りたい"
+kana = "はしりたい"
+
+[[sentences]]
+jp = "本を読む"
+kana = "ほんをよむ"
+
+[[sentences]]
+jp = "咳がでた"
+kana = "せきがでた"
+
+[[sentences]]
+jp = "歌った"
+kana = "うたった"
+
+[[sentences]]
+jp = "川を渡る"
+kana = "かわをわたる"
+
+[[sentences]]
+jp = "星が輝く"
+kana = "ほしがかがやく"
+
+[[sentences]]
+jp = "笑う"
+kana = "わらう"
+
+[[sentences]]
+jp = "手紙を書く"
+kana = "てがみをかく"
+
+[[sentences]]
+jp = "苦い"
+kana = "にがい"
+
+[[sentences]]
+jp = "火をつける"
+kana = "ひをつける"
+
+[[sentences]]
+jp = "昼寝をした"
+kana = "ひるねをした"
+
+[[sentences]]
+jp = "月が出た"
+kana = "つきがでた"
+
+[[sentences]]
+jp = "蜂が飛ぶ"
+kana = "はちがとぶ"
+
+[[sentences]]
+jp = "柳が揺れ"
+kana = "やなぎがゆれ"
+
+[[sentences]]
+jp = "靴を脱ぐ"
+kana = "くつをぬぐ"
+
+[[sentences]]
+jp = "波が高い"
+kana = "なみがたかい"
+
+[[sentences]]
+jp = "草を刈る"
+kana = "くさをかる"
+
+[[sentences]]
+jp = "布を織る"
+kana = "ぬのをおる"
+
+[[sentences]]
+jp = "鳥が鳴く"
+kana = "とりがなく"
+
+[[sentences]]
+jp = "木が倒れた"
+kana = "きがたおれた"
+
+[[sentences]]
+jp = "塩辛い"
+kana = "しおからい"
+
+[[sentences]]
+jp = "耳を澄ます"
+kana = "みみをすます"
+
+[[sentences]]
+jp = "輪ゴムをかける"
+kana = "わごむをかける"
+
+[[sentences]]
+jp = "薬を飲む"
+kana = "くすりをのむ"
+
+[[sentences]]
+jp = "米を炊く"
+kana = "こめをたく"
+
+[[sentences]]
+jp = "輝いている"
+kana = "かがやいている"
+
+[[sentences]]
+jp = "猫が寝ている"
+kana = "ねこがねている"
+
+[[sentences]]
+jp = "お母さんを手伝う"
+kana = "おかあさんをてつだう"
+
+[[sentences]]
+jp = "海で泳ぐ"
+kana = "うみでおよぐ"
+
+[[sentences]]
+jp = "パンを焼く"
+kana = "ぱんをやく"
+
+[[sentences]]
+jp = "星が光る"
+kana = "ほしがひかる"
+
+[[sentences]]
+jp = "木が揺れる"
+kana = "きがゆれる"
+
+[[sentences]]
+jp = "歌を歌う"
+kana = "うたをうたう"
+
+[[sentences]]
+jp = "空を飛ぶ"
+kana = "そらをとぶ"
+
+[[sentences]]
+jp = "火を消す"
+kana = "ひをけす"
+
+[[sentences]]
+jp = "風が吹く"
+kana = "かぜがふく"
+
+[[sentences]]
+jp = "雲が浮かぶ"
+kana = "くもがうかぶ"
+
+[[sentences]]
+jp = "声が聞こえる"
+kana = "こえがきこえる"
+
+[[sentences]]
+jp = "窓を開ける"
+kana = "まどをあける"
+
+[[sentences]]
+jp = "顔を洗う"
+kana = "かおをあらう"
+
+[[sentences]]
+jp = "汗を拭く"
+kana = "あせをふく"
+
+[[sentences]]
+jp = "植物を育てる"
+kana = "しょくぶつをそだてる"
+
+[[sentences]]
+jp = "橋を渡る"
+kana = "はしをわたる"
+
+[[sentences]]
+jp = "光が差す"
+kana = "ひかりがさす"
+
+[[sentences]]
+jp = "足が痛い"
+kana = "あしがいたい"
+
+[[sentences]]
+jp = "袋に入れる"
+kana = "ふくろにいれる"
+
+[[sentences]]
+jp = "朝起きる"
+kana = "あさおきる"
+
+[[sentences]]
+jp = "歯を磨く"
+kana = "はをみがく"
+
+[[sentences]]
+jp = "夜桜を見る"
+kana = "よざくらをみる"
+
+[[sentences]]
+jp = "海に泳ぐ"
+kana = "うみにおよぐ"
+
+[[sentences]]
+jp = "雨が降る"
+kana = "あめがふる"
+
+[[sentences]]
+jp = "新聞を読む"
+kana = "しんぶんをよむ"
+
+[[sentences]]
+jp = "猫が鳴く"
+kana = "ねこがなく"
+
+[[sentences]]
+jp = "風が強い"
+kana = "かぜがつよい"
+
+[[sentences]]
+jp = "花を摘む"
+kana = "はなをつむ"
+
+[[sentences]]
+jp = "絵を描く"
+kana = "えをかく"
+
+[[sentences]]
+jp = "声が高い"
+kana = "こえがたかい"
+
+[[sentences]]
+jp = "土が濡れる"
+kana = "つちがぬれる"
+
+[[sentences]]
+jp = "木に登る"
+kana = "きにのぼる"
+
+[[sentences]]
+jp = "米粒を数える"
+kana = "こめつぶをかぞえる"
+
+[[sentences]]
+jp = "笛を吹く"
+kana = "ふえをふく"
+
+[[sentences]]
+jp = "重い荷物"
+kana = "おもいにもつ"
+
+[[sentences]]
+jp = "針を刺す"
+kana = "はりをさす"
+
+[[sentences]]
+jp = "岩に当たる"
+kana = "いわにあたる"
+
+[[sentences]]
+jp = "油を注ぐ"
+kana = "あぶらをそそぐ"
+
+[[sentences]]
+jp = "塩を振る"
+kana = "しおをふる"
+
+[[sentences]]
+jp = "朝のコーヒーを飲む"
+kana = "あさのこーひーをのむ"
+
+[[sentences]]
+jp = "雨の日は散歩に行きたい"
+kana = "あめのひはさんぽにいきたい"
+
+[[sentences]]
+jp = "猫が日向ぼっこしている"
+kana = "ねこがひなたぼっこしている"
+
+[[sentences]]
+jp = "本を3冊読み終わった"
+kana = "ほんを3さつよみおわった"
+
+[[sentences]]
+jp = "山の頂上から眺めがいい"
+kana = "やまのちょうじょうからながめがいい"
+
+[[sentences]]
+jp = "桜が満開で美しかった"
+kana = "さくらがまんかいでうつくしかった"
+
+[[sentences]]
+jp = "彼女とデートの約束をした"
+kana = "かのじょとでーとのやくそくをした"
+
+[[sentences]]
+jp = "電車で通勤するのは疲れる"
+kana = "でんしゃでつうきんするのはつかれる"
+
+[[sentences]]
+jp = "給料日は月末だから待つ"
+kana = "きゅうりょうびはつきまつだからまつ"
+
+[[sentences]]
+jp = "好物のラーメンを食べる"
+kana = "こうぶつのらーめんをたべる"
+
+[[sentences]]
+jp = "星空がきれいに見える夜"
+kana = "ほしぞらがきれいにみえるよる"
+
+[[sentences]]
+jp = "筋トレで腕が痛くなった"
+kana = "きんとれでうでがいたくなった"
+
+[[sentences]]
+jp = "睡眠不足で集中できない"
+kana = "すいみんぶそくでしゅうちゅうできない"
+
+[[sentences]]
+jp = "ホテルの窓から景色が良い"
+kana = "ほてるのまどからけしきがよい"
+
+[[sentences]]
+jp = "家具を移動するのは大変だ"
+kana = "かぐをいどうするのはたいへんだ"
+
+[[sentences]]
+jp = "ゴミを分別して捨てる"
+kana = "ごみをぶんべつしてすてる"
+
+[[sentences]]
+jp = "実験で化学反応を観察した"
+kana = "じっけんでかがくはんのうをかんさつした"
+
+[[sentences]]
+jp = "伝統工芸の技術は素晴らしい"
+kana = "でんとうこうげいのぎじゅつはすばらしい"
+
+[[sentences]]
+jp = "コーヒーが冷めた"
+kana = "こーひーがさめた"
+
+[[sentences]]
+jp = "友人と運動する"
+kana = "ゆうじんとうんどうする"
+
+[[sentences]]
+jp = "音楽を聴く時間"
+kana = "おんがくをきくじかん"
+
+[[sentences]]
+jp = "海に泳ぎに行く"
+kana = "うみにおよぎにいく"
+
+[[sentences]]
+jp = "靴を脱ぐ前に"
+kana = "くつをぬぐまえに"
+
+[[sentences]]
+jp = "電車で会社に行く"
+kana = "でんしゃでかいしゃにいく"
+
+[[sentences]]
+jp = "新しい服を買った"
+kana = "あたらしいふくをかった"
+
+[[sentences]]
+jp = "映画を見に出かける"
+kana = "えいがをみにでかける"
+
+[[sentences]]
+jp = "駅前でカフェに入る"
+kana = "えきまえでかふぇにはいる"
+
+[[sentences]]
+jp = "昼寝をして目覚める"
+kana = "ひるねをしてめさめる"
+
+[[sentences]]
+jp = "部屋を片付けた"
+kana = "へやをかたづけた"
+
+[[sentences]]
+jp = "花が綺麗に咲く"
+kana = "はながきれいにさく"
+
+[[sentences]]
+jp = "紙に文字を書く"
+kana = "かみにもじをかく"
+
+[[sentences]]
+jp = "窓から風が入る"
+kana = "まどからかぜがはいる"
+
+[[sentences]]
+jp = "温泉に浸かりたい"
+kana = "おんせんにつかりたい"
+
+[[sentences]]
+jp = "街を散歩する"
+kana = "まちをさんぽする"
+
+[[sentences]]
+jp = "木の根元で休む"
+kana = "きのねもとでやすむ"
+
+[[sentences]]
+jp = "塩辛い食べ物"
+kana = "しおからいたべもの"
+
+[[sentences]]
+jp = "墨汁を使って描く"
+kana = "ぼくじゅうをつかってえがく"
+
+[[sentences]]
+jp = "薬を飲んでから寝る"
+kana = "くすりをのんでからねる"
+
+[[sentences]]
+jp = "砂浜で遊ぶ子供"
+kana = "すなはまであそぶこども"
+
+[[sentences]]
+jp = "雨の日は気分が重い"
+kana = "あめのひはきぶんがおもい"
+
+[[sentences]]
+jp = "紅茶を淹れる"
+kana = "こうちゃをいれる"
+
+[[sentences]]
+jp = "風が吹いている"
+kana = "かぜがふいている"
+
+[[sentences]]
+jp = "夜空は綺麗だ"
+kana = "よぞらはきれいだ"
+
+[[sentences]]
+jp = "友達と笑った"
+kana = "ともだちとわらった"
+
+[[sentences]]
+jp = "星が瞬く"
+kana = "ほしがまたたく"
+
+[[sentences]]
+jp = "梅干しが酸っぱい"
+kana = "うめぼしがすっぱい"
+
+[[sentences]]
+jp = "白い雪が降った"
+kana = "しろいゆきがふった"
+
+[[sentences]]
+jp = "走る速度が遅い"
+kana = "はしるそくどがおそい"
+
+[[sentences]]
+jp = "鳥が鳴いている"
+kana = "とりがないている"
+
+[[sentences]]
+jp = "砂浜を歩く"
+kana = "すなはまをあるく"
+
+[[sentences]]
+jp = "カレーを作る"
+kana = "かれーをつくる"
+
+[[sentences]]
+jp = "背中が痛い"
+kana = "せなかがいたい"
+
+[[sentences]]
+jp = "髪を切った"
+kana = "かみをきった"
+
+[[sentences]]
+jp = "雪だるまを作った"
+kana = "ゆきだるまをつくった"
+
+[[sentences]]
+jp = "靴が新しい"
+kana = "くつがあたらしい"
+
+[[sentences]]
+jp = "鍵を持っている"
+kana = "かぎをもっている"
+
+[[sentences]]
+jp = "声が大きい"
+kana = "こえがおおきい"
+
+[[sentences]]
+jp = "紅茶を飲む"
+kana = "こうちゃをのむ"
+
+[[sentences]]
+jp = "本を読んだ"
+kana = "ほんをよんだ"
+
+[[sentences]]
+jp = "星が輝いている"
+kana = "ほしがかがやいている"
+
+[[sentences]]
+jp = "山に登る"
+kana = "やまにのぼる"
+
+[[sentences]]
+jp = "走って疲れた"
+kana = "はしってつかれた"
+
+[[sentences]]
+jp = "川が流れる"
+kana = "かわながれる"
+
+[[sentences]]
+jp = "空が青い"
+kana = "そらがあおい"
+
+[[sentences]]
+jp = "食べ物が美味しい"
+kana = "たべものがおいしい"
+
+[[sentences]]
+jp = "机の上がきれい"
+kana = "つくえのうえがきれい"
+
+[[sentences]]
+jp = "海が見える"
+kana = "うみがみえる"
+
+[[sentences]]
+jp = "雪が降っている"
+kana = "ゆきがふっている"
+
+[[sentences]]
+jp = "鳥が歌う"
+kana = "とりがうたう"
+
+[[sentences]]
+jp = "手をつなぐ"
+kana = "てをつなぐ"
+
+[[sentences]]
+jp = "働く毎日"
+kana = "はたらくまいにち"
+
+[[sentences]]
+jp = "夜中に起きた"
+kana = "よなかにおきた"
+
+[[sentences]]
+jp = "信号が赤になった"
+kana = "しんごうがあかになった"
+
+[[sentences]]
+jp = "月が明るい"
+kana = "つきがあかるい"
+
+[[sentences]]
+jp = "人混みに疲れた"
+kana = "ひとごみにつかれた"
+
+[[sentences]]
+jp = "友達と笑う"
+kana = "ともだちとわらう"
+
+[[sentences]]
+jp = "紅葉が美しい"
+kana = "こうようがうつくしい"
+
+[[sentences]]
+jp = "桜を見に行く"
+kana = "さくらをみにいく"
+
+[[sentences]]
+jp = "母が料理する"
+kana = "ははがりょうりする"
+
+[[sentences]]
+jp = "犬が走った"
+kana = "いぬがはしった"
+
+[[sentences]]
+jp = "勉強に集中する"
+kana = "べんきょうにしゅうちゅうする"
+
+[[sentences]]
+jp = "木漏れ日が優しい"
+kana = "こもれびがやさしい"
+
+[[sentences]]
+jp = "花がいっぱい咲く"
+kana = "はながいっぱいさく"
+
+[[sentences]]
+jp = "鳥が歌っている"
+kana = "とりがうたっている"
+
+[[sentences]]
+jp = "坂道を上る"
+kana = "さかみちをのぼる"
+
+[[sentences]]
+jp = "靴が小さい"
+kana = "くつがちいさい"
+
+[[sentences]]
+jp = "雪が積もった"
+kana = "ゆきがつもった"
+
+[[sentences]]
+jp = "電話をかける"
+kana = "でんわをかける"
+
+[[sentences]]
+jp = "月が出ている"
+kana = "つきがでている"
+
+[[sentences]]
+jp = "笑顔で話す"
+kana = "えがおではなす"
+
+[[sentences]]
+jp = "猫が昼寝している"
+kana = "ねこがひるねしている"
+
+[[sentences]]
+jp = "友人と映画を見た"
+kana = "ゆうじんとえいがをみた"
+
+[[sentences]]
+jp = "駅に着いた時刻は"
+kana = "えきについたじこくは"
+
+[[sentences]]
+jp = "野菜を炒める"
+kana = "やさいをいためる"
+
+[[sentences]]
+jp = "スマホの充電をする"
+kana = "すまほのじゅうでんをする"
+
+[[sentences]]
+jp = "試験の準備が大事だ"
+kana = "しけんのじゅんびがたいじだ"
+
+[[sentences]]
+jp = "会議は3時から始まる"
+kana = "かいぎは3じからはじまる"
+
+[[sentences]]
+jp = "昨日の天気は晴れだった"
+kana = "きのうのてんきははれだった"
+
+[[sentences]]
+jp = "兄が大学に合格した"
+kana = "あにがだいがくにごうかくした"
+
+[[sentences]]
+jp = "庭の木が大きくなった"
+kana = "にわのきがおおきくなった"
+
+[[sentences]]
+jp = "朝食はパンとジャム"
+kana = "ちょうしょくはぱんとじゃむ"
+
+[[sentences]]
+jp = "母が料理を作っている"
+kana = "ははがりょうりをつくっている"
+
+[[sentences]]
+jp = "毎週金曜日は外食する"
+kana = "まいしゅうきんようびはがいしょくする"
+
+[[sentences]]
+jp = "花火大会が来月ある"
+kana = "はなびたいかいがらいげつある"
+
+[[sentences]]
+jp = "季節が秋へ移ろう"
+kana = "きせつがあきへうつろう"
+
+[[sentences]]
+jp = "自転車で通勤する"
+kana = "じてんしゃでつうきんする"
+
+[[sentences]]
+jp = "インターネットは便利だ"
+kana = "いんたーねっとはべんりだ"
+
+[[sentences]]
+jp = "家族と旅行に行きたい"
+kana = "かぞくとりょこうにいきたい"
+
+[[sentences]]
+jp = "病院で診察を受けた"
+kana = "びょういんでしんさつをうけた"
+
+[[sentences]]
+jp = "祖父が物語を話す"
+kana = "そふがものがたりをはなす"
+
+[[sentences]]
+jp = "駅で友達を待つ"
+kana = "えきでともだちをまつ"
+
+[[sentences]]
+jp = "夜空に星が光る"
+kana = "よぞらにほしがひかる"
+
+[[sentences]]
+jp = "野菜をみじん切りにする"
+kana = "やさいをみじんぎりにする"
+
+[[sentences]]
+jp = "走った後は疲れた"
+kana = "はしったあとはつかれた"
+
+[[sentences]]
+jp = "音楽を大音量で聴く"
+kana = "おんがくをだいおんりょうできく"
+
+[[sentences]]
+jp = "忘れ物を取りに戻る"
+kana = "わすれものをとりにもどる"
+
+[[sentences]]
+jp = "絵の具で絵を描く"
+kana = "えのぐでえをかく"
+
+[[sentences]]
+jp = "季節が秋へ変わった"
+kana = "きせつがあきへかわった"
+
+[[sentences]]
+jp = "犬が元気に走り回る"
+kana = "いぬがげんきにはしりまわる"
+
+[[sentences]]
+jp = "桜の下で花見をする"
+kana = "さくらのしたではなみをする"
+
+[[sentences]]
+jp = "風邪で寝込んでしまった"
+kana = "かぜでねこんでしまった"
+
+[[sentences]]
+jp = "土産を家族に配る"
+kana = "みやげをかぞくにくばる"
+
+[[sentences]]
+jp = "鮮やかな色で染まる"
+kana = "あざやかないろでそまる"
+
+[[sentences]]
+jp = "賞状を受け取った"
+kana = "しょうじょうをうけとった"
+
+[[sentences]]
+jp = "昼間は暑く夜は涼しい"
+kana = "ひるまはあつくよるはすずしい"
+
+[[sentences]]
+jp = "砂浜で貝を拾う"
+kana = "すなはまでかいをひろう"
+
+[[sentences]]
+jp = "机の上が散らかっている"
+kana = "つくえのうえがちらかっている"
+
+[[sentences]]
+jp = "笑顔で挨拶をする"
+kana = "えがおであいさつをする"
+
+[[sentences]]
+jp = "雲が流れて消える"
+kana = "くもがながれてきえる"
+
+[[sentences]]
+jp = "苦手な科目を頑張る"
+kana = "にがてなかもくをがんばる"
+
+[[sentences]]
+jp = "雨が降りました"
+kana = "あめがふりました"
+
+[[sentences]]
+jp = "カレーを作った"
+kana = "かれーをつくった"
+
+[[sentences]]
+jp = "歯を磨いた"
+kana = "はをみがいた"
+
+[[sentences]]
+jp = "スマートフォンを充電した"
+kana = "すまーとふぉんをじゅうでんした"
+
+[[sentences]]
+jp = "星空がきれいだ"
+kana = "ほしぞらがきれいだ"
+
+[[sentences]]
+jp = "映画を見たい"
+kana = "えいがをみたい"
+
+[[sentences]]
+jp = "音楽を聴いた"
+kana = "おんがくをきいた"
+
+[[sentences]]
+jp = "犬が走っている"
+kana = "いぬがはしっている"
+
+[[sentences]]
+jp = "プリンを食べた"
+kana = "ぷりんをたべた"
+
+[[sentences]]
+jp = "木漏れ日が美しい"
+kana = "こもれびがうつくしい"
+
+[[sentences]]
+jp = "メール送信完了"
+kana = "めーるそうしんかんりょう"
+
+[[sentences]]
+jp = "友人が来訪した"
+kana = "ゆうじんがらいほうした"
+
+[[sentences]]
+jp = "インターネットが遅い"
+kana = "いんたーねっとがおそい"
+
+[[sentences]]
+jp = "紙飛行機を折った"
+kana = "かみひこうきをおった"
+
+[[sentences]]
+jp = "冷たい水を飲む"
+kana = "つめたいみずをのむ"
+
+[[sentences]]
+jp = "プログラムを書いた"
+kana = "ぷろぐらむをかいた"
+
+[[sentences]]
+jp = "夜景を写真に撮った"
+kana = "やけいをしゃしんにとった"
+
+[[sentences]]
+jp = "雨が降り始めた"
+kana = "あめがふりはじめた"
+
+[[sentences]]
+jp = "本を読む習慣"
+kana = "ほんをよむしゅうかん"
+
+[[sentences]]
+jp = "コーヒーが好き"
+kana = "こーひーがすき"
+
+[[sentences]]
+jp = "仕事が終わった"
+kana = "しごとがおわった"
+
+[[sentences]]
+jp = "犬の散歩へ行く"
+kana = "いぬのさんぽへいく"
+
+[[sentences]]
+jp = "映画を見に行った"
+kana = "えいがをみにいった"
+
+[[sentences]]
+jp = "夜中に目が覚めた"
+kana = "よなかにめがさめた"
+
+[[sentences]]
+jp = "美味しいご飯だ"
+kana = "おいしいごはんだ"
+
+[[sentences]]
+jp = "風が強く吹いた"
+kana = "かぜがつよくふいた"
+
+[[sentences]]
+jp = "病院に行く予定"
+kana = "びょういんにいくよてい"
+
+[[sentences]]
+jp = "誕生日パーティ開催"
+kana = "たんじょうびぱーてぃかいさい"
+
+[[sentences]]
+jp = "肉じゃがを作った"
+kana = "にくじゃがをつくった"
+
+[[sentences]]
+jp = "授業の準備をする"
+kana = "じゅぎょうのじゅんびをする"
+
+[[sentences]]
+jp = "橋を渡ってきた"
+kana = "はしをわたってきた"
+
+[[sentences]]
+jp = "寒い日が続いた"
+kana = "さむいひがつづいた"
+
+[[sentences]]
+jp = "計画を変更した"
+kana = "けいかくをへんこうした"
+
+[[sentences]]
+jp = "花火大会に行く"
+kana = "はなびたいかいにいく"
+
+[[sentences]]
+jp = "机の上は散らかった"
+kana = "つくえのうえはちらかった"
+
+[[sentences]]
+jp = "肩が凝ってしまった"
+kana = "かたがこってしまった"
+
+[[sentences]]
+jp = "週末は休息する"
+kana = "しゅうまつはきゅうそくする"
+
+[[sentences]]
+jp = "朝ごはんを食べた"
+kana = "あさごはんをたべた"
+
+[[sentences]]
+jp = "天気がいい日だ"
+kana = "てんきがいいひだ"
+
+[[sentences]]
+jp = "友達と話した"
+kana = "ともだちとはなした"
+
+[[sentences]]
+jp = "コーヒーが好きだ"
+kana = "こーひーがすきだ"
+
+[[sentences]]
+jp = "本を読んでいる"
+kana = "ほんをよんでいる"
+
+[[sentences]]
+jp = "宿題をやる"
+kana = "しゅくだいをやる"
+
+[[sentences]]
+jp = "音楽を聞いている"
+kana = "おんがくをきいている"
+
+[[sentences]]
+jp = "手紙を書いた"
+kana = "てがみをかいた"
+
+[[sentences]]
+jp = "白い雲が浮かぶ"
+kana = "しろいくもがうかぶ"
+
+[[sentences]]
+jp = "野菜を切る"
+kana = "やさいをきる"
+
+[[sentences]]
+jp = "試験に落ちた"
+kana = "しけんにおちた"
+
+[[sentences]]
+jp = "鳥が空を飛ぶ"
+kana = "とりがそらをとぶ"
+
+[[sentences]]
+jp = "靴を履いて出かける"
+kana = "くつをはいてでかける"
+
+[[sentences]]
+jp = "商品の値段を確認する"
+kana = "しょうひんのねだんをかくにんする"
+
+[[sentences]]
+jp = "食卓に家族が集まる"
+kana = "しょくたくにかぞくがあつまる"
+
+[[sentences]]
+jp = "パソコンの電源をつける"
+kana = "ぱそこんのでんげんをつける"
+
+[[sentences]]
+jp = "花瓶に花を活ける"
+kana = "かびんにはなをいける"
+
+[[sentences]]
+jp = "猫がいびきをかく"
+kana = "ねこがいびきをかく"
+
+[[sentences]]
+jp = "スポーツが好き"
+kana = "すぽーつがすき"
+
+[[sentences]]
+jp = "コーヒーを飲む"
+kana = "こーひーをのむ"
+
+[[sentences]]
+jp = "メールを送信する"
+kana = "めーるをそうしんする"
+
+[[sentences]]
+jp = "旅行の準備をする"
+kana = "りょこうのじゅんびをする"
+
+[[sentences]]
+jp = "料理が得意です"
+kana = "りょうりがとくいです"
+
+[[sentences]]
+jp = "家の掃除をする"
+kana = "いえのそうじをする"
+
+[[sentences]]
+jp = "ゴミを出す時間"
+kana = "ごみをだすじかん"
+
+[[sentences]]
+jp = "夜空の星が光る"
+kana = "よぞらのほしがひかる"
+
+[[sentences]]
+jp = "朝寝坊してしまった"
+kana = "あさねぼうしてしまった"
+
+[[sentences]]
+jp = "アプリをインストール"
+kana = "あぷりをいんすとーる"
+
+[[sentences]]
+jp = "節約生活を心がける"
+kana = "せつやくせいかつをこころがける"
+
+[[sentences]]
+jp = "筋トレは毎日する"
+kana = "きんとれはまいにちする"
+
+[[sentences]]
+jp = "スーパーで買い物"
+kana = "すーぱーでかいもの"
+
+[[sentences]]
+jp = "写真を撮るのが好き"
+kana = "しゃしんをとるのがすき"
+
+[[sentences]]
+jp = "正月は家族と過ごす"
+kana = "しょうがつはかぞくとすごす"
+
+[[sentences]]
+jp = "友達と会える"
+kana = "ともだちとあえる"
+
+[[sentences]]
+jp = "鳥が飛ぶ"
+kana = "とりがとぶ"
+
+[[sentences]]
+jp = "夜空が美しい"
+kana = "よぞらがうつくしい"
+
+[[sentences]]
+jp = "足が速い"
+kana = "あしがはやい"
+
+[[sentences]]
+jp = "計算が難しい"
+kana = "けいさんがむずかしい"
+
+[[sentences]]
+jp = "映画を観たい"
+kana = "えいがをみたい"
+
+[[sentences]]
+jp = "料理は楽しい"
+kana = "りょうりはたのしい"
+
+[[sentences]]
+jp = "木漏れ日がいい"
+kana = "こもれびがいい"
+
+[[sentences]]
+jp = "虫の声が聞こえる"
+kana = "むしのこえがきこえる"
+
+[[sentences]]
+jp = "空気が冷たい"
+kana = "くうきがつめたい"
+
+[[sentences]]
+jp = "切符を買う"
+kana = "きっぷをかう"
+
+[[sentences]]
+jp = "朝日が昇ってきた"
+kana = "あさひがのぼってきた"
+
+[[sentences]]
+jp = "雨の中を走った"
+kana = "あめのなかをはしった"
+
+[[sentences]]
+jp = "机の上を片付けた"
+kana = "つくえのうえをかたづけた"
+
+[[sentences]]
+jp = "星空が美しかった"
+kana = "ほしぞらがうつくしかった"
+
+[[sentences]]
+jp = "駅で切符を買う"
+kana = "えきできっぷをかう"
+
+[[sentences]]
+jp = "ケーキを三個食べた"
+kana = "けーきを3こたべた"
+
+[[sentences]]
+jp = "図書館で本を借りた"
+kana = "としょかんでほんをかりた"
+
+[[sentences]]
+jp = "紅葉が色づいている"
+kana = "こうようがいろづいている"
+
+[[sentences]]
+jp = "朝食にパンを食べた"
+kana = "ちょうしょくにぱんをたべた"
+
+[[sentences]]
+jp = "自転車で公園に行った"
+kana = "じてんしゃでこうえんにいった"
+
+[[sentences]]
+jp = "空気が澄んでいた"
+kana = "くうきがすんでいた"
+
+[[sentences]]
+jp = "仕事の締め切りは金曜日"
+kana = "しごとのしめきりはきんようび"
+
+[[sentences]]
+jp = "海での泳ぎは楽しかった"
+kana = "うみでのおよぎはたのしかった"
+
+[[sentences]]
+jp = "電話がかかってきた"
+kana = "でんわがかかってきた"
+
+[[sentences]]
+jp = "祭りで金魚すくいをした"
+kana = "まつりできんぎょすくいをした"
+
+[[sentences]]
+jp = "雪が積もっている"
+kana = "ゆきがつもっている"
+
+[[sentences]]
+jp = "子どもが絵を描いている"
+kana = "こどもがえをかいている"
+
+[[sentences]]
+jp = "部屋の窓を開けた"
+kana = "へやのまどをあけた"
+
+[[sentences]]
+jp = "駅弁を食べながら移動"
+kana = "えきべんをたべながらいどう"
+
+[[sentences]]
+jp = "薬を飲むのを忘れた"
+kana = "くすりをのむのをわすれた"
+
+[[sentences]]
+jp = "写真を撮って保存した"
+kana = "しゃしんをとってほぞんした"
+
+[[sentences]]
+jp = "夜景が輝いていた"
+kana = "やけいがかがやいていた"
+
+[[sentences]]
+jp = "パソコンが故障した"
+kana = "ぱそこんがこしょうした"
+
+[[sentences]]
+jp = "朝日が東の空に輝いている"
+kana = "あさひがひがしのそらにかがやいている"
+
+[[sentences]]
+jp = "友達と映画館へ行った"
+kana = "ともだちとえいがかんへいった"
+
+[[sentences]]
+jp = "昨日は雨だったから散歩できなかった"
+kana = "きのうはあめだったからさんぽできなかった"
+
+[[sentences]]
+jp = "ケーキを食べたらおいしかった"
+kana = "けーきをたべたらおいしかった"
+
+[[sentences]]
+jp = "今夜は星がきれいに見える"
+kana = "こんやはほしがきれいにみえる"
+
+[[sentences]]
+jp = "運動会で一等賞をとった"
+kana = "うんどうかいでいっとうしょうをとった"
+
+[[sentences]]
+jp = "冷たいジュースを一気に飲んだ"
+kana = "つめたいじゅーすをいっきにのんだ"
+
+[[sentences]]
+jp = "毎週金曜日は早く帰宅する"
+kana = "まいしゅうきんようびははやくきたくする"
+
+[[sentences]]
+jp = "パソコンの画面が壊れてしまった"
+kana = "ぱそこんのがめんがこわれてしまった"
+
+[[sentences]]
+jp = "母さんが得意な料理はカレーだ"
+kana = "かあさんがとくいなりょうりはかれーだ"
+
+[[sentences]]
+jp = "新しい靴を買ったので足が疲れた"
+kana = "あたらしいくつをかったのであしがつかれた"
+
+[[sentences]]
+jp = "古い家を建て直すことにした"
+kana = "ふるいいえをたてなおすことにした"
+
+[[sentences]]
+jp = "紅葉狩りに山へ登った"
+kana = "こうようがりにやまへのぼった"
+
+[[sentences]]
+jp = "祖父の家で泊まることになった"
+kana = "そふのいえでとまることになった"
+
+[[sentences]]
+jp = "台風が近づいているみたいだ"
+kana = "たいふうがちかづいているみたいだ"
+
+[[sentences]]
+jp = "誕生日にプレゼントをもらった"
+kana = "たんじょうびにぷれぜんとをもらった"
+
+[[sentences]]
+jp = "野球の試合を見に行きたい"
+kana = "やきゅうのしあいをみにいきたい"
+
+[[sentences]]
+jp = "毎日一時間ジョギングをしている"
+kana = "まいにちいちじかんじょぎんぐをしている"
+
+[[sentences]]
+jp = "外は風が強く吹いている"
+kana = "そとはかぜがつよくふいている"
+
+[[sentences]]
+jp = "冬休みはどこへ行く予定ですか"
+kana = "ふゆやすみはどこへいくよていですか"
+
+[[sentences]]
+jp = "指を切ってしまい病院へ行った"
+kana = "ゆびをきってしまいびょういんへいった"
+
+[[sentences]]
+jp = "インターネットで商品を注文した"
+kana = "いんたーねっとでしょうひんをちゅうもんした"
+
+[[sentences]]
+jp = "去年の春は桜がきれいだった"
+kana = "きょねんのはるはさくらがきれいだった"
+
+[[sentences]]
+jp = "朝食はパンとヨーグルトだ"
+kana = "ちょうしょくはぱんとよーぐるとだ"
+
+[[sentences]]
+jp = "庭の桜が満開です"
+kana = "にわのさくらがまんかいです"
+
+[[sentences]]
+jp = "猫が毛布の上で寝ている"
+kana = "ねこがもうふのうえでねている"
+
+[[sentences]]
+jp = "きのこ狩りに行きたい"
+kana = "きのこがりにいきたい"
+
+[[sentences]]
+jp = "音楽を聴きながら勉強する"
+kana = "おんがくをききながらべんきょうする"
+
+[[sentences]]
+jp = "この絵本は面白い話だ"
+kana = "このえほんはおもしろいはなしだ"
+
+[[sentences]]
+jp = "海でビーチバレーをした"
+kana = "うみでびーちばれーをした"
+
+[[sentences]]
+jp = "病院で予約を取った"
+kana = "びょういんでよやくをとった"
+
+[[sentences]]
+jp = "部屋の掃除をしなくては"
+kana = "へやのそうじをしなくては"
+
+[[sentences]]
+jp = "砂糖を少し減らしました"
+kana = "さとうをすこしへらしました"
+
+[[sentences]]
+jp = "窓から星が見える"
+kana = "まどからほしがみえる"
+
+[[sentences]]
+jp = "蜂が花の周りを飛んでいた"
+kana = "はちがはなのまわりをとんでいた"
+
+[[sentences]]
+jp = "バスが時間に遅れた"
+kana = "ばすがじかんにおくれた"
+
+[[sentences]]
+jp = "木漏れ日がきれいだ"
+kana = "こもれびがきれいだ"
+
+[[sentences]]
+jp = "辞書で意味を調べる"
+kana = "じしょでいみをしらべる"
+
+[[sentences]]
+jp = "風が強く吹いている"
+kana = "かぜがつよくふいている"
+
+[[sentences]]
+jp = "おにぎりを作ってもらった"
+kana = "おにぎりをつくってもらった"
+
+[[sentences]]
+jp = "実験は成功しなかった"
+kana = "じっけんはせいこうしなかった"
+
+[[sentences]]
+jp = "兄弟と一緒に遊んだ"
+kana = "きょうだいといっしょにあそんだ"
+
+[[sentences]]
+jp = "これは土産です"
+kana = "これはみやげです"
+
+[[sentences]]
+jp = "雪が積もり始めた"
+kana = "ゆきがつもりはじめた"
+
+[[sentences]]
+jp = "銀河系はとても広い"
+kana = "ぎんがけいはとてもひろい"
+
+[[sentences]]
+jp = "友達と熱く議論した"
+kana = "ともだちとあつくぎろんした"
+
+[[sentences]]
+jp = "雨の日は読書が好きだ"
+kana = "あめのひはどくしょがすきだ"
+
+[[sentences]]
+jp = "塩辛い味が後に残った"
+kana = "しおからいあじがあとにのこった"
+
+[[sentences]]
+jp = "急な坂道を上るのは大変"
+kana = "きゅうなさかみちをのぼるのはたいへん"
+
+[[sentences]]
+jp = "運動会で足が速いと褒められた"
+kana = "うんどうかいであしがはやいとほめられた"
+
+[[sentences]]
+jp = "映画館で感動して泣いてしまった"
+kana = "えいがかんでかんどうしてないてしまった"
+
+[[sentences]]
+jp = "毎週木曜日に野菜を買う"
+kana = "まいしゅうもくようびにやさいをかう"
+
+[[sentences]]
+jp = "会議は3時間も続いた"
+kana = "かいぎは3じかんもつづいた"
+
+[[sentences]]
+jp = "紅葉狩りに出かけたい"
+kana = "こうようがりにでかけたい"
+
+[[sentences]]
+jp = "冷たいアイスクリームを食べた"
+kana = "つめたいあいすくりーむをたべた"
+
+[[sentences]]
+jp = "子供たちが元気に遊んでいる"
+kana = "こどもたちがげんきにあそんでいる"
+
+[[sentences]]
+jp = "新幹線で東京へ出張した"
+kana = "しんかんせんでとうきょうへしゅっちょうした"
+
+[[sentences]]
+jp = "台風が来たので外出を控えた"
+kana = "たいふうがきたのでがいしゅつをひかえた"
+
+[[sentences]]
+jp = "焦った気持ちを落ち着かせた"
+kana = "あせったきもちをおちつかせた"
+
+[[sentences]]
+jp = "ケーキの上にいちごを乗せる"
+kana = "けーきのうえにいちごをのせる"
+
+[[sentences]]
+jp = "駅前の商店街は活気がある"
+kana = "えきまえのしょうてんがいはかっきがある"
+
+[[sentences]]
+jp = "木漏れ日の下で昼寝をした"
+kana = "こもれびのしたでひるねをした"
+
+[[sentences]]
+jp = "上司の指示を間違えて理解した"
+kana = "じょうしのしじをまちがえてりかいした"
+
+[[sentences]]
+jp = "質問があれば手を挙げてください"
+kana = "しつもんがあればてをあげてください"
+
+[[sentences]]
+jp = "音楽を聴きながら勉強するのは難しい"
+kana = "おんがくをききながらべんきょうするのはむずかしい"
+
+[[sentences]]
+jp = "土産を買い忘れて後悔した"
+kana = "みやげをかいわすれてこうかいした"
+
+[[sentences]]
+jp = "信号が赤なので渡るのを待とう"
+kana = "しんごうがあかなのでわたるのをまとう"
+
+[[sentences]]
+jp = "部屋の模様替えをして気分が変わった"
+kana = "へやのもようがえをしてきぶんがかわった"
+
+[[sentences]]
+jp = "水を飲む"
+kana = "みずをのむ"
+
+[[sentences]]
+jp = "犬が走る"
+kana = "いぬがはしる"
+
+[[sentences]]
+jp = "雨が降る"
+kana = "あめがふる"
+
+[[sentences]]
+jp = "花が咲く"
+kana = "はながさく"
+
+[[sentences]]
+jp = "本を読む"
+kana = "ほんをよむ"
+
+[[sentences]]
+jp = "ご飯を食べる"
+kana = "ごはんをたべる"
+
+[[sentences]]
+jp = "風が吹く"
+kana = "かぜがふく"
+
+[[sentences]]
+jp = "星が光る"
+kana = "ほしがひかる"
+
+[[sentences]]
+jp = "鳥が飛ぶ"
+kana = "とりがとぶ"
+
+[[sentences]]
+jp = "木に登る"
+kana = "きにのぼる"
+
+[[sentences]]
+jp = "手を洗う"
+kana = "てをあらう"
+
+[[sentences]]
+jp = "歯を磨く"
+kana = "はをみがく"
+
+[[sentences]]
+jp = "靴を履く"
+kana = "くつをはく"
+
+[[sentences]]
+jp = "扉を開ける"
+kana = "どあをあける"
+
+[[sentences]]
+jp = "箱を閉じる"
+kana = "はこをとじる"
+
+[[sentences]]
+jp = "勉強が難しい"
+kana = "べんきょうがむずかしい"
+
+[[sentences]]
+jp = "試験に合格する"
+kana = "しけんにごうかくする"
+
+[[sentences]]
+jp = "映画を見た"
+kana = "えいがをみた"
+
+[[sentences]]
+jp = "春がやってきた"
+kana = "はるがやってきた"
+
+[[sentences]]
+jp = "夏は暑い"
+kana = "なつはあつい"
+
+[[sentences]]
+jp = "秋は涼しい"
+kana = "あきはすずしい"
+
+[[sentences]]
+jp = "冬は寒い"
+kana = "ふゆはさむい"
+
+[[sentences]]
+jp = "月が出ている"
+kana = "つきがでている"
+
+[[sentences]]
+jp = "空が青い"
+kana = "そらがあおい"
+
+[[sentences]]
+jp = "毎朝コーヒーを飲む"
+kana = "まいあさこーひーをのむ"
+
+[[sentences]]
+jp = "図書館で勉強している"
+kana = "としょかんでべんきょうしている"
+
+[[sentences]]
+jp = "昨日の試験はとても難しかった"
+kana = "きのうのしけんはとてもむずかしかった"
+
+[[sentences]]
+jp = "パンを焼くいい匂いがする"
+kana = "ぱんをやくいいにおいがする"
+
+[[sentences]]
+jp = "駅までの道が混雑していた"
+kana = "えきまでのみちがこんざつしていた"
+
+[[sentences]]
+jp = "温泉に入ると疲労が取れる"
+kana = "おんせんにはいるとひろうがとれる"
+
+[[sentences]]
+jp = "新しい服を買いたい気分だ"
+kana = "あたらしいふくをかいたいきぶんだ"
+
+[[sentences]]
+jp = "部活動で野球を頑張っている"
+kana = "ぶかつどうでやきゅうをがんばっている"
+
+[[sentences]]
+jp = "冬休みに実家へ帰省する"
+kana = "ふゆやすみにじっかへきせいする"
+
+[[sentences]]
+jp = "昼食のお弁当が美味しい"
+kana = "ちゅうしょくのおべんとうがおいしい"
+
+[[sentences]]
+jp = "メールの返信を忘れていた"
+kana = "めーるのへんしんをわすれていた"
+
+[[sentences]]
+jp = "クリスマスツリーを飾った"
+kana = "くりすますつりーをかざった"
+
+[[sentences]]
+jp = "信号を待つ間に歌った"
+kana = "しんごうをまつあいだにうたった"
+
+[[sentences]]
+jp = "子猫がとても可愛らしい"
+kana = "こねこがとてもかわいらしい"
+
+[[sentences]]
+jp = "寝坊してしまい後悔した"
+kana = "ねぼうしてしまいこうかいした"
+
+[[sentences]]
+jp = "海辺で砂浜を散歩した"
+kana = "うみべですなはまをさんぽした"
+
+[[sentences]]
+jp = "読書会に参加する予定だ"
+kana = "どくしょかいにさんかするよていだ"
+
+[[sentences]]
+jp = "発表の準備をようやく終えた"
+kana = "はっぴょうのじゅんびをようやくおえた"
+
+[[sentences]]
+jp = "旅行先で迷子になってしまった"
+kana = "りょこうさきでまいごになってしまった"
+
+[[sentences]]
+jp = "野菜炒めを作るのは簡単だ"
+kana = "やさいいためをつくるのはかんたんだ"
+
+[[sentences]]
+jp = "ゲームで高得点を取りたい"
+kana = "げーむでこうとくてんをとりたい"
+
+[[sentences]]
+jp = "切符を駅で買わなければならない"
+kana = "きっぷをえきでかわなければならない"
+
+[[sentences]]
+jp = "友達とカラオケに行く予定"
+kana = "ともだちとからおけにいくよてい"
+
+[[sentences]]
+jp = "病院の待合室で長く待たされた"
+kana = "びょういんのたいあいしつでながくまたされた"
+
+[[sentences]]
+jp = "秋の紅葉狩りへ家族で出かけた"
+kana = "あきのこうようかりへかぞくででかけた"
+
+[[sentences]]
+jp = "雨の日は外出したくない気分"
+kana = "あめのひはがいしゅつしたくないきぶん"
+
+[[sentences]]
+jp = "昨日の試験は難しい問題ばかり"
+kana = "きのうのしけんはむずかしいもんだいばかり"
+
+[[sentences]]
+jp = "ケーキを食べるのは大好きです"
+kana = "けーきをたべるのはだいすきです"
+
+[[sentences]]
+jp = "電車が遅れたので会社に遅刻した"
+kana = "でんしゃがおくれたのでかいしゃにちこくした"
+
+[[sentences]]
+jp = "木漏れ日の中で読書をする"
+kana = "こもれびのなかでどくしょをする"
+
+[[sentences]]
+jp = "映画館で新作映画を見た"
+kana = "えいがかんでしんさくえいがをみた"
+
+[[sentences]]
+jp = "駅前の居酒屋で同僚と飲んだ"
+kana = "えきまえのいざかやでどうりょうとのんだ"
+
+[[sentences]]
+jp = "卒業式は感動的な式典だった"
+kana = "そつぎょうしきはかんどうてきなしきてんだった"
+
+[[sentences]]
+jp = "花火大会に行く約束をした"
+kana = "はなびたいかいにいくやくそくをした"
+
+[[sentences]]
+jp = "毎週水曜日にジムで運動する"
+kana = "まいしゅうすいようびにじむでうんどうする"
+
+[[sentences]]
+jp = "給食のスパゲティはおいしい"
+kana = "きゅうしょくのすぱげてぃはおいしい"
+
+[[sentences]]
+jp = "土産物屋で珍しい品を見つけた"
+kana = "みやげものやでめずらしいしなをみつけた"
+
+[[sentences]]
+jp = "節分の豆まきは楽しい行事"
+kana = "せつぶんのまめまきはたのしいぎょうじ"
+
+[[sentences]]
+jp = "旅行の荷物をまとめるのは大変"
+kana = "りょこうのにもつをまとめるのはたいへん"
+
+[[sentences]]
+jp = "クリーニング店へ服を持ち込んだ"
+kana = "くりーにんぐてんへふくをもちこんだ"
+
+[[sentences]]
+jp = "疲れたので早寝することにした"
+kana = "つかれたのではやねすることにした"
+
+[[sentences]]
+jp = "パソコンの修理に出した"
+kana = "ぱそこんのしゅうりにだした"
+
+[[sentences]]
+jp = "セール品をまとめて買い込んだ"
+kana = "せーるひんをまとめてかいこんだ"
+
+[[sentences]]
+jp = "武士の時代は遠い過去だ"
+kana = "ぶしのじだいはとおいかこだ"
+
+[[sentences]]
+jp = "猫がソファで昼寝をしている"
+kana = "ねこがそふぁでひるねをしている"
+
+[[sentences]]
+jp = "冷たい水を一杯飲みたい"
+kana = "つめたいみずをいっぱいのみたい"
+
+[[sentences]]
+jp = "パソコンの調子が悪くなった"
+kana = "ぱそこんのちょうしがわるくなった"
+
+[[sentences]]
+jp = "スポーツの試合に出たい"
+kana = "すぽーつのしあいにでたい"
+
+[[sentences]]
+jp = "夏祭りで花火を見た"
+kana = "なつまつりではなびをみた"
+
+[[sentences]]
+jp = "新しい靴を買い忘れた"
+kana = "あたらしいくつをかいわすれた"
+
+[[sentences]]
+jp = "駅前のカフェで待つ"
+kana = "えきまえのかふぇでまつ"
+
+[[sentences]]
+jp = "昨日のテストは難しかった"
+kana = "きのうのてすとはむずかしかった"
+
+[[sentences]]
+jp = "買い物はオンラインが便利だ"
+kana = "かいものはおんらいんがべんりだ"
+
+[[sentences]]
+jp = "部屋の片付けが必要だ"
+kana = "へやのかたづけがひつようだ"
+
+[[sentences]]
+jp = "木漏れ日が優しく降る"
+kana = "こもれびがやさしくふる"
+
+[[sentences]]
+jp = "スマートフォンを落とした"
+kana = "すまーとふぉんをおとした"
+
+[[sentences]]
+jp = "公園を散歩している"
+kana = "こうえんをさんぽしている"
+
+[[sentences]]
+jp = "秋の紅葉がきれいだ"
+kana = "あきのこうようがきれいだ"
+
+[[sentences]]
+jp = "誕生日のプレゼントを選ぶ"
+kana = "たんじょうびのぷれぜんとをえらぶ"
+
+[[sentences]]
+jp = "雨の音を聞いていた"
+kana = "あめのおとをきいていた"
+
+[[sentences]]
+jp = "クラスメートと仲が良い"
+kana = "くらすめーととなかがよい"
+
+[[sentences]]
+jp = "毎日の運動は大事だ"
+kana = "まいにちのうんどうはだいじだ"
+
+[[sentences]]
+jp = "社会人になって気付く"
+kana = "しゃかいじんになってきづく"
+
+[[sentences]]
+jp = "鳥の声で目が覚めた"
+kana = "とりのこえでめがさめた"
+
+[[sentences]]
+jp = "土産に饅頭を選んだ"
+kana = "みやげにまんじゅうをえらんだ"
+
+[[sentences]]
+jp = "レストランの予約を取った"
+kana = "れすとらんのよやくをとった"
+
+[[sentences]]
+jp = "朝日が山の向こう側から昇る"
+kana = "あさひがやまのむこうがわからのぼる"
+
+[[sentences]]
+jp = "冷たいコーヒーを飲みながら本を読んだ"
+kana = "つめたいこーひーをのみながらほんをよんだ"
+
+[[sentences]]
+jp = "友達と熱唱してカラオケが楽しかった"
+kana = "ともだちとねっしょうしてからおけがたのしかった"
+
+[[sentences]]
+jp = "雨の日は自転車に乗るのが危ない"
+kana = "あめのひはじてんしゃにのるのがあぶない"
+
+[[sentences]]
+jp = "新しい服を買ったから試着してみた"
+kana = "あたらしいふくをかったからしちゃくしてみた"
+
+[[sentences]]
+jp = "野菜をたくさん食べるのは健康に良い"
+kana = "やさいをたくさんたべるのはけんこうによい"
+
+[[sentences]]
+jp = "猫がベッドの上で気持ちよさそうに寝ている"
+kana = "ねこがべっどのうえできもちよさそうにねている"
+
+[[sentences]]
+jp = "図書館で静かに勉強していた学生たち"
+kana = "としょかんでしずかにべんきょうしていたがくせいたち"
+
+[[sentences]]
+jp = "スマートフォンのバッテリーが切れそうだ"
+kana = "すまーとふぉんのばってりーがきれそうだ"
+
+[[sentences]]
+jp = "運動会で走るのはとても疲れてしまった"
+kana = "うんどうかいではしるのはとてもつかれてしまった"
+
+[[sentences]]
+jp = "誕生日のケーキはチョコレート味が好きです"
+kana = "たんじょうびのけーきはちょこれーとあじがすきです"
+
+[[sentences]]
+jp = "パスポートを紛失してしまい困っている"
+kana = "ぱすぽーとをふんしつしてしまいこまっている"
+
+[[sentences]]
+jp = "レストランの予約を取ったが行けなくなった"
+kana = "れすとらんのよやくをとったがいけなくなった"
+
+[[sentences]]
+jp = "松茸ご飯はこの季節の定番料理だね"
+kana = "まつたけごはんはこのきせつのていばんりょうりだね"
+
+[[sentences]]
+jp = "ダイエットで3キロ体重が減ったよ"
+kana = "だいえっとで3きろたいじゅうがへったよ"
+
+[[sentences]]
+jp = "病院で処方された薬を毎日飲んでいる"
+kana = "びょういんでしょほうされたくすりをまいにちのんでいる"
+
+[[sentences]]
+jp = "家の引っ越しで荷物をいっぱい整理した"
+kana = "いえのひっこしでにもつをいっぱいせいりした"
+
+[[sentences]]
+jp = "インターネットで検索して調べることが多い"
+kana = "いんたーねっとでけんさくしてしらべることがおおい"
+
+[[sentences]]
+jp = "映画館で見た最新作はとても感動した"
+kana = "えいがかんでみたさいしんさくはとてもかんどうした"
+
+[[sentences]]
+jp = "昨日買ったお土産を同僚に配った"
+kana = "きのうかったおみやげをどうりょうにくばった"
+
+[[sentences]]
+jp = "バスで30分かかって駅に着いた"
+kana = "ばすで30ぷんかかってえきについた"
+
+[[sentences]]
+jp = "節分の豆まきは家族の恒例行事です"
+kana = "せつぶんのまめまきはかぞくのこうれいぎょうじです"
+
+[[sentences]]
+jp = "クラシック音楽を聞きながら仕事をする"
+kana = "くらしっくおんがくをききながらしごとをする"
+
+[[sentences]]
+jp = "実験で化学反応を観察するのが面白い"
+kana = "じっけんでかがくはんのうをかんさつするのがおもしろい"
+
+[[sentences]]
+jp = "江戸時代の歴史について調べている最中"
+kana = "えどじだいのれきしについてしらべているさいちゅう"
+
+[[sentences]]
+jp = "ゴミの分別は環境保全に大事だ"
+kana = "ごみのぶんべつはかんきょうほぜんにだいじだ"
+
+[[sentences]]
+jp = "友達と駅で待ち合わせをした"
+kana = "ともだちとえきでまちあわせをした"
+
+[[sentences]]
+jp = "弟が野球の試合に出場する"
+kana = "おとうとがやきゅうのしあいにしゅつじょうする"
+
+[[sentences]]
+jp = "夜中に突然目が覚めてしまった"
+kana = "よなかにとつぜんめがさめてしまった"
+
+[[sentences]]
+jp = "コーヒーに砂糖とミルクを入れる"
+kana = "こーひーにさとうとみるくをいれる"
+
+[[sentences]]
+jp = "映画館で最新作を見に行った"
+kana = "えいがかんでさいしんさくをみにいった"
+
+[[sentences]]
+jp = "姉が新しい服を試着している"
+kana = "あねがあたらしいふくをしちゃくしている"
+
+[[sentences]]
+jp = "会社の締め切りまであと一週間だ"
+kana = "かいしゃのしめきりまであといっしゅうかんだ"
+
+[[sentences]]
+jp = "医者に処方された薬を飲む"
+kana = "いしゃにしょほうされたくすりをのむ"
+
+[[sentences]]
+jp = "季節の花が壊れないように気をつける"
+kana = "きせつのはながこわれないようにきをつける"
+
+[[sentences]]
+jp = "兄弟で力を合わせて荷物を運んだ"
+kana = "きょうだいでちからをあわせてにもつをはこんだ"
+
+[[sentences]]
+jp = "雨の日は靴が濡れるので気をつける"
+kana = "あめのひはくつがぬれるのできをつける"
+
+[[sentences]]
+jp = "パソコンのウイルス対策をアップデート"
+kana = "ぱそこんのういるすたいさくをあっぷでーと"
+
+[[sentences]]
+jp = "卒業式で緊張して言葉が出ない"
+kana = "そつぎょうしきできんちょうしてことばがでない"
+
+[[sentences]]
+jp = "銀行で口座を開設する手続きをした"
+kana = "ぎんこうでこうざをかいせつするてつづきをした"
+
+[[sentences]]
+jp = "旅行の計画を立てるのは楽しい"
+kana = "りょこうのけいかくをたてるのはたのしい"
+
+[[sentences]]
+jp = "部屋の片付けをしたら気分が爽快"
+kana = "へやのかたづけをしたらきぶんがそうかい"
+
+[[sentences]]
+jp = "疲れた時は温かい食事が欲しくなる"
+kana = "つかれたときはあたたかいしょくじがほしくなる"
+
+[[sentences]]
+jp = "論文の提出期限がもう迫っている"
+kana = "ろんぶんのていしゅつきげんがもうせまっている"
+
+[[sentences]]
+jp = "信号待ちの間に携帯メールを確認"
+kana = "しんごうまちのあいだにけいたいめーるをかくにん"
+
+[[sentences]]
+jp = "工事の音がうるさくて眠れなかった"
+kana = "こうじのおとがうるさくてねむれなかった"
+
+[[sentences]]
+jp = "隣の家の庭に美しい花が咲いている"
+kana = "となりのいえのにわにうつくしいはながさいている"
+
+[[sentences]]
+jp = "朝日が昇って新しい一日が始まった"
+kana = "あさひがのぼってあたらしいいちにちがはじまった"
+
+[[sentences]]
+jp = "秋の夜空に星がきれいに輝いている"
+kana = "あきのよぞらにほしがきれいにかがやいている"
+
+[[sentences]]
+jp = "駅前のスーパーで安いセールをやっている"
+kana = "えきまえのすーぱーでやすいせーるをやっている"
+
+[[sentences]]
+jp = "図書館で借りた本を今夜中に読む"
+kana = "としょかんでかりたほんをこんやちゅうによむ"
+
+[[sentences]]
+jp = "会議の資料を締め切りまでに作成する"
+kana = "かいぎのしりょうをしめきりまでにさくせいする"
+
+[[sentences]]
+jp = "新しいアプリをスマートフォンに入れた"
+kana = "あたらしいあぷりをすまーとふぉんにいれた"
+
+[[sentences]]
+jp = "木漏れ日の中で昼寝をするのが好きだ"
+kana = "こもれびのなかでひるねをするのがすきだ"
+
+[[sentences]]
+jp = "母が作った天ぷらはいつも美味しい"
+kana = "ははがつくったてんぷらはいつもおいしい"
+
+[[sentences]]
+jp = "疲れた体を温かいお風呂で癒す"
+kana = "つかれたからだをあたたかいおふろでいやす"
+
+[[sentences]]
+jp = "切符を買ってから電車に乗る"
+kana = "きっぷをかってからでんしゃにのる"
+
+[[sentences]]
+jp = "発表の準備をする時間が足りない"
+kana = "はっぴょうのじゅんびをするじかんがたりない"
+
+[[sentences]]
+jp = "毎日の散歩で近所の犬と遊ぶ"
+kana = "まいにちのさんぽできんじょのいぬとあそぶ"
+
+[[sentences]]
+jp = "土産に買った焼き菓子を家族に配る"
+kana = "みやげにかったやきがしをかぞくにくばる"
+
+[[sentences]]
+jp = "急な残業で夜遅くまで仕事をした"
+kana = "きゅうなざんぎょうでよるおそくまでしごとをした"
+
+[[sentences]]
+jp = "桜が満開で公園は大勢の人でいっぱいだ"
+kana = "さくらがまんかいでこうえんはおおぜいのひとでいっぱいだ"
+
+[[sentences]]
+jp = "子供の時から好きなゲームをやり続けている"
+kana = "こどものときからすきなげーむをやりつづけている"
+
+[[sentences]]
+jp = "紐を結ぶのに何度も失敗してしまった"
+kana = "ひもをむすぶのになんどもしっぱいしてしまった"
+
+[[sentences]]
+jp = "白い羽毛布団は洗濯機で洗えないらしい"
+kana = "しろいはもうぶとんはせんたくきであらえないらしい"
+
+[[sentences]]
+jp = "最近読んだ本が面白くて一気に読んだ"
+kana = "さいきんよんだほんがおもしろくていっきによんだ"
+
+[[sentences]]
+jp = "朝日が差し込む窓から目覚めた"
+kana = "あさひがさしこむまどからめざめた"
+
+[[sentences]]
+jp = "駅弁を買ってから電車に乗った"
+kana = "えきべんをかってからでんしゃにのった"
+
+[[sentences]]
+jp = "紅葉の季節が一番好きです"
+kana = "こうようのきせつがいちばんすきです"
+
+[[sentences]]
+jp = "コーヒーの香りが部屋中に漂っている"
+kana = "こーひーのかおりがへやじゅうにただよっている"
+
+[[sentences]]
+jp = "友達と一緒に映画を見た後で食事した"
+kana = "ともだちといっしょにえいがをみたあとでしょくじした"
+
+[[sentences]]
+jp = "最近の天気はずっと雨が続いている"
+kana = "さいきんのてんきはずっとあめがつづいている"
+
+[[sentences]]
+jp = "会議の資料を印刷して配布する必要がある"
+kana = "かいぎのしりょうをいんさつしてはいふするひつようがある"
+
+[[sentences]]
+jp = "子猫が庭で遊んでいるのを見つけた"
+kana = "こねこがにわであそんでいるのをみつけた"
+
+[[sentences]]
+jp = "新しい靴が足に合わなくて困っている"
+kana = "あたらしいくつがあしにあわなくてこまっている"
+
+[[sentences]]
+jp = "図書館で借りた本を三冊読破した"
+kana = "としょかんでかりたほんをさんさつどくはした"
+
+[[sentences]]
+jp = "スマートフォンの充電がすぐになくなってしまう"
+kana = "すまーとふぉんのじゅうでんがすぐになくなってしまう"
+
+[[sentences]]
+jp = "父さんと一緒に庭の樹木を剪定した"
+kana = "とうさんといっしょににわのじゅもくをせんていした"
+
+[[sentences]]
+jp = "昨日の夜中に雷が鳴ったから寝不足だ"
+kana = "きのうのよなかにかみなりがなったからねぶそくだ"
+
+[[sentences]]
+jp = "ホテルの窓からは素晴らしい景色が見える"
+kana = "ほてるのまどからはすばらしいけしきがみえる"
+
+[[sentences]]
+jp = "パスポートの更新手続きが終わった"
+kana = "ぱすぽーとのこうしんてつづきがおわった"
+
+[[sentences]]
+jp = "プレゼンテーションの準備で残業が続いている"
+kana = "ぷれぜんてーしょんのじゅんびでざんぎょうがつづいている"
+
+[[sentences]]
+jp = "歴史の授業は江戸時代について学習した"
+kana = "れきしのじゅぎょうはえどじだいについてがくしゅうした"
+
+[[sentences]]
+jp = "ダイエットのために毎日ウォーキングを続ける"
+kana = "だいえっとのためにまいにちうぉーきんぐをつづける"
+
+[[sentences]]
+jp = "修学旅行で訪れた古都は本当に素敵だった"
+kana = "しゅうがくりょこうでおとずれたことはほんとうにすてきだった"
+
+[[sentences]]
+jp = "近所の川で蛍を見たのは子どもの時だ"
+kana = "きんじょのかわでほたるをみたのはこどものときだ"
+
+[[sentences]]
+jp = "値段が安くなるまで買い控えることにした"
+kana = "ねだんがやすくなるまでかいひかえることにした"
+
+[[sentences]]
+jp = "塩辛い漬物が食卓に並ぶのが嬉しい"
+kana = "しおからいつけものがしょくたくにならぶのがうれしい"
+
+[[sentences]]
+jp = "冬の星空は澄み切っていて綺麗に見える"
+kana = "ふゆのほしぞらはすみきっていてきれいにみえる"
+
+[[sentences]]
+jp = "カラオケで熱唱して気分がすっきりした"
+kana = "からおけでねっしょうしてきぶんがすっきりした"
+
+[[sentences]]
+jp = "引っ越しの準備で家具の整理が大変だ"
+kana = "ひっこしのじゅんびでかぐのせいりがたいへんだ"
+
+[[sentences]]
+jp = "音楽祭で演奏された曲が心に残った"
+kana = "おんがくさいでえんそうされたきょくがこころにのこった"
+
+[[sentences]]
+jp = "ゴミ分別ルールを守って廃棄物を処理する"
+kana = "ごみぶんべつるーるをまもってはいきぶつをしょりする"
+
+[[sentences]]
+jp = "細胞の構造について化学の実験で学んだ"
+kana = "さいぼうのこうぞうについてかがくのじっけんでまなんだ"
+
+[[sentences]]
+jp = "毎朝起きたら最初にコーヒーを飲む"
+kana = "まいあさおきたらさいしょにこーひーをのむ"
+
+[[sentences]]
+jp = "友達と一緒に図書館で勉強した"
+kana = "ともだちといっしょにとしょかんでべんきょうした"
+
+[[sentences]]
+jp = "新しい靴を買ったので歩きやすい"
+kana = "あたらしいくつをかったのであるきやすい"
+
+[[sentences]]
+jp = "今日の夜空には月がきれいに見える"
+kana = "きょうのよぞらにはつきがきれいにみえる"
+
+[[sentences]]
+jp = "スマートフォンのアプリをインストールした"
+kana = "すまーとふぉんのあぷりをいんすとーるした"
+
+[[sentences]]
+jp = "野菜を切って炒めるだけで簡単だ"
+kana = "やさいをきっていためるだけでかんたんだ"
+
+[[sentences]]
+jp = "子どもが公園で遊ぶのが大好きです"
+kana = "こどもがこうえんであそぶのがだいすきです"
+
+[[sentences]]
+jp = "試験の前日は十分に寝ておくべき"
+kana = "しけんのぜんじつはじゅうぶんにねておくべき"
+
+[[sentences]]
+jp = "台風が来るので外出を控えよう"
+kana = "たいふうがくるのでがいしゅつをひかえよう"
+
+[[sentences]]
+jp = "あの映画はとても面白くて感動した"
+kana = "あのえいがはとてもおもしろくてかんどうした"
+
+[[sentences]]
+jp = "桜の季節になると春らしい天気になる"
+kana = "さくらのきせつになるとはるらしいてんきになる"
+
+[[sentences]]
+jp = "私たちは毎週木曜日に会議をする"
+kana = "わたしたちはまいしゅうもくようびにかいぎをする"
+
+[[sentences]]
+jp = "彼女は英語が得意で発音がいい"
+kana = "かのじょはえいごがとくいではつおんがいい"
+
+[[sentences]]
+jp = "冬は乾燥しているから保湿が大事だ"
+kana = "ふゆはかんそうしているからほしつがたいじだ"
+
+[[sentences]]
+jp = "音楽を聴きながら運動するのが好き"
+kana = "おんがくをききながらうんどうするのがすき"
+
+[[sentences]]
+jp = "パスポートを忘れたら出国できない"
+kana = "ぱすぽーとをわすれたらしゅっこくできない"
+
+[[sentences]]
+jp = "この本を読んで人生が変わった気がする"
+kana = "このほんをよんでじんせいがかわったきがする"
+
+[[sentences]]
+jp = "疲れたから今晩は早めに寝る予定だ"
+kana = "つかれたからこんばんははやめにねるよていだ"
+
+[[sentences]]
+jp = "旅行のために去年から貯金している"
+kana = "りょこうのためにきょねんからちょきんしている"
+
+[[sentences]]
+jp = "自転車に乗るときはヘルメットを被ろう"
+kana = "じてんしゃにのるときはへるめっとをかぶろう"
+
+[[sentences]]
+jp = "祖母は毎日新聞を読むのが習慣です"
+kana = "そぼはまいにちしんぶんをよむのがしゅうかんです"
+
+[[sentences]]
+jp = "このコーヒー豆は香りが強くておいしい"
+kana = "このこーひーまめはかおりがつよくておいしい"
+
+[[sentences]]
+jp = "スーパーでセールをしているので買い物に行く"
+kana = "すーぱーでせーるをしているのでかいものにいく"
+
+[[sentences]]
+jp = "雨の日は気分が憂鬱になりやすい傾向"
+kana = "あめのひはきぶんがゆううつになりやすいけいこう"
+
+[[sentences]]
+jp = "医者に処方された薬を飲んでいる"
+kana = "いしゃにしょほうされたくすりをのんでいる"
+
+[[sentences]]
+jp = "窓を開けて新鮮な空気を部屋に入れる"
+kana = "まどをあけてしんせんなくうきをへやにいれる"
+
+[[sentences]]
+jp = "今朝は冷たい水で顔を洗った"
+kana = "けさはつめたいみずでかおをあらった"
+
+[[sentences]]
+jp = "季節の移ろいを感じながら散歩をする"
+kana = "きせつのうつろいをかんじながらさんぽをする"
+
+[[sentences]]
+jp = "友達とランチのお店を探している"
+kana = "ともだちとらんちのおみせをさがしている"
+
+[[sentences]]
+jp = "試験前は毎晩図書館で勉強する"
+kana = "しけんまえはまいばんとしょかんでべんきょうする"
+
+[[sentences]]
+jp = "新しいスマートフォンを買う予定だ"
+kana = "あたらしいすまーとふぉんをかうよていだ"
+
+[[sentences]]
+jp = "夜空に輝く星がとても美しい"
+kana = "よぞらにかがやくほしがとてもうつくしい"
+
+[[sentences]]
+jp = "家の前でバスケットボールを練習している"
+kana = "いえのまえでばすけっとぼーるをれんしゅうしている"
+
+[[sentences]]
+jp = "子どもの頃よく木登りをして遊んだ"
+kana = "こどものころよくきのぼりをしてあそんだ"
+
+[[sentences]]
+jp = "テレビでニュースを見ながら夜食を食べる"
+kana = "てれびでにゅーすをみながらやしょくをたべる"
+
+[[sentences]]
+jp = "桜の花が満開に咲いている季節がきた"
+kana = "さくらのはながまんかいにさいているきせつがきた"
+
+[[sentences]]
+jp = "親友からのメールを読んで思わず笑った"
+kana = "しんゆうからのめーるをよんでおもわずわらった"
+
+[[sentences]]
+jp = "パソコンの画面が急に真っ黒になった"
+kana = "ぱそこんのがめんがきゅうにまっくろになった"
+
+[[sentences]]
+jp = "スーパーで安売りしている野菜を買った"
+kana = "すーぱーでやすうりしているやさいをかった"
+
+[[sentences]]
+jp = "心配な気持ちがずっと心の奥にある"
+kana = "しんぱいなきもちがずっとこころのおくにある"
+
+[[sentences]]
+jp = "海辺で拾った貝殻をお土産にした"
+kana = "うみべでひろったかいがらをおみやげにした"
+
+[[sentences]]
+jp = "机の上が散らかっているので片付けよう"
+kana = "つくえのうえがちらかっているのでかたづけよう"
+
+[[sentences]]
+jp = "毎週日曜日に家族でテニスをしている"
+kana = "まいしゅうにちようびにかぞくでてにすをしている"
+
+[[sentences]]
+jp = "最近読んだ本がとても面白かった"
+kana = "さいきんよんだほんがとてもおもしろかった"
+
+[[sentences]]
+jp = "駅前の新しいカフェでお茶をしよう"
+kana = "えきまえのあたらしいかふぇでおちゃをしよう"
+
+[[sentences]]
+jp = "祖母は毎年正月に手作りの餅を作る"
+kana = "そぼはまいとしょうがつにてづくりのもちをつくる"
+
+[[sentences]]
+jp = "雪が降っている夜はとても静かだ"
+kana = "ゆきがふっているよるはとてもしずかだ"
+
+[[sentences]]
+jp = "病院の待合室で長い時間待つことになった"
+kana = "びょういんのまちあいしつでながいじかんまつことになった"
+
+[[sentences]]
+jp = "転勤になったので新しい街に引っ越した"
+kana = "てんきんになったのであたらしいまちにひっこした"
+
+[[sentences]]
+jp = "セールの時期は混雑しているお店が多い"
+kana = "せーるのじきはこんざつしているおみせがおおい"
+
+[[sentences]]
+jp = "古い写真を見ると昔のことを思い出す"
+kana = "ふるいしゃしんをみるとむかしのことをおもいだす"
+
+[[sentences]]
+jp = "朝日が山の向こうから顔を出した"
+kana = "あさひがやまのむこうからかおをだした"
+
+[[sentences]]
+jp = "友達とカラオケで熱唱するのが好きだ"
+kana = "ともだちとからおけでねっしょうするのがすきだ"
+
+[[sentences]]
+jp = "コーヒーの香りを吸い込むと気持ちが落ち着く"
+kana = "こーひーのかおりをすいこむときもちがおちつく"
+
+[[sentences]]
+jp = "ハイキングで足が筋肉痛になってしまった"
+kana = "はいきんぐであしがきんにくつうになってしまった"
+
+[[sentences]]
+jp = "節分の豆まきはいつも家族で楽しむ"
+kana = "せつぶんのまめまきはいつもかぞくでたのしむ"
+
+[[sentences]]
+jp = "スーパーで特売品を見つけて買い物が楽しい"
+kana = "すーぱーでとくばいひんをみつけてかいものがたのしい"
+
+[[sentences]]
+jp = "寝坊してしまい朝の準備が大変だった"
+kana = "ねぼうしてしまいあさのじゅんびがたいへんだった"
+
+[[sentences]]
+jp = "映画館で最新作を見ると感動してしまう"
+kana = "えいがかんでさいしんさくをみるとかんどうしてしまう"
+
+[[sentences]]
+jp = "キャンプで焚き火を囲んで話をするのが好き"
+kana = "きゃんぷでたきびをかこんではなしをするのがすき"
+
+[[sentences]]
+jp = "USB接続がうまくいかずに困っている状態だ"
+kana = "usbせつぞくがうまくいかずにこまっているじょうたいだ"
+
+[[sentences]]
+jp = "桜の季節は毎年お花見に出かけるのが習慣"
+kana = "さくらのきせつはまいねんおはなみにでかけるのがしゅうかん"
+
+[[sentences]]
+jp = "雨の日は本を読みながらここあを飲むのが好き"
+kana = "あめのひはほんをよみながらここあをのむのがすき"
+
+[[sentences]]
+jp = "新しい靴を買ったのでおろしておきたい気分だ"
+kana = "あたらしいくつをかったのでおろしておきたいきぶんだ"
+
+[[sentences]]
+jp = "電車で席を譲ったら感謝されて嬉しかった"
+kana = "でんしゃでせきをゆずったらかんしゃされてうれしかった"
+
+[[sentences]]
+jp = "冬の夜空に輝く星たちはとても美しい"
+kana = "ふゆのよぞらにかがやくほしたちはとてもうつくしい"
+
+[[sentences]]
+jp = "ゴミ分別をきちんとするのは大切な習慣である"
+kana = "ごみぶんべつをきちんとするのはたいせつなしゅうかんである"
+
+[[sentences]]
+jp = "会議の準備が間に合わなくて締め切りが危ない"
+kana = "かいぎのじゅんびがまにあわなくてしめきりがあぶない"
+
+[[sentences]]
+jp = "プレゼンテーションで緊張して声が震えてしまった"
+kana = "ぷれぜんてーしょんできんちょうしてこえがふるえてしまった"
+
+[[sentences]]
+jp = "自転車で坂道を下るときは速度がすぐに上がる"
+kana = "じてんしゃでさかみちをおるときはそくどがすぐにあがる"
+
+[[sentences]]
+jp = "猫がじゃれついてきたので思わず笑ってしまう"
+kana = "ねこがじゃれついてきたのでおもわずわらってしまう"
+
+[[sentences]]
+jp = "朝食を食べ忘れたからお腹がすごく空いている"
+kana = "ちょうしょくをたべわすれたからおなかがすごくあいている"
+
+[[sentences]]
+jp = "切符を買い忘れて駅員さんに相談するはめになった"
+kana = "きっぷをかいわすれてえきいんさんにそうだんするはめになった"
+
+[[sentences]]
+jp = "お祭りの屋台でたこ焼きを食べるのは最高だ"
+kana = "おまつりのやたいでたこやきをたべるのはさいこうだ"
+
+[[sentences]]
+jp = "インターネットで調べたレシピを参考に料理した"
+kana = "いんたーねっとでしらべたれしぴをさんこうにりょうりした"
+
+[[sentences]]
+jp = "毎朝早起きして散歩する習慣がある"
+kana = "まいあさはやおきしてさんぽするしゅうかんがある"
+
+[[sentences]]
+jp = "新しい靴を買ったから足が痛くなった"
+kana = "あたらしいくつをかったからあしがいたくなった"
+
+[[sentences]]
+jp = "この映画はすごく面白かった"
+kana = "このえいがはすごくおもしろかった"
+
+[[sentences]]
+jp = "カフェでコーヒーを飲みながら本を読む"
+kana = "かふぇでこーひーをのみながらほんをよむ"
+
+[[sentences]]
+jp = "友達と約束した時間に遅刻してしまった"
+kana = "ともだちとやくそくしたじかんにちこくしてしまった"
+
+[[sentences]]
+jp = "台風が来ているから外出は控えようね"
+kana = "たいふうがきているからがいしゅつはひかえようね"
+
+[[sentences]]
+jp = "桜の季節は本当に美しい景色ばかりだ"
+kana = "さくらのきせつはほんとうにうつくしいけしきばかりだ"
+
+[[sentences]]
+jp = "会議の資料を印刷するのを忘れた"
+kana = "かいぎのしりょうをいんさつするのをわすれた"
+
+[[sentences]]
+jp = "子どもが熱を出しているので学校を休んだ"
+kana = "こどもがねつをだしているのでがっこうをやすんだ"
+
+[[sentences]]
+jp = "正月には実家に帰って家族と過ごす"
+kana = "しょうがつにはじっかにかえってかぞくとすごす"
+
+[[sentences]]
+jp = "図書館で借りた本がもう一週間だ"
+kana = "としょかんでかりたほんがもういっしゅうかんだ"
+
+[[sentences]]
+jp = "晩ご飯は何を食べたいか決めてください"
+kana = "ばんごはんはなにをたべたいかきめてください"
+
+[[sentences]]
+jp = "昨日買ったお菓子がもうなくなった"
+kana = "きのうかったおかしがもうなくなった"
+
+[[sentences]]
+jp = "電車が遅延しているので駅は混雑している"
+kana = "でんしゃがちえんしているのでえきはこんざつしている"
+
+[[sentences]]
+jp = "プレゼンテーションが上手くいって嬉しい"
+kana = "ぷれぜんてーしょんがうまくいってうれしい"
+
+[[sentences]]
+jp = "苦手な教科の勉強をもっとしなければならない"
+kana = "にがてなきょうかのべんきょうをもっとしなければならない"
+
+[[sentences]]
+jp = "新しいアプリをダウンロードして試してみた"
+kana = "あたらしいあぷりをだうんろーどしてためしてみた"
+
+[[sentences]]
+jp = "寝坊してしまったから朝食を食べなかった"
+kana = "ねぼうしてしまったからちょうしょくをたべなかった"
+
+[[sentences]]
+jp = "雨の日は窓から景色を見るのが好きだ"
+kana = "あめのひはまどからけしきをみるのがすきだ"
+
+[[sentences]]
+jp = "音楽を聴きながら勉強するのは集中できない"
+kana = "おんがくをききながらべんきょうするのはしゅうちゅうできない"
+
+[[sentences]]
+jp = "週末は家族でお出かけする予定です"
+kana = "しゅうまつはかぞくでおでかけするよていです"
+
+[[sentences]]
+jp = "冬は野菜が高くなるので節約が大変だ"
+kana = "ふゆはやさいがたかくなるのでせつやくがたいへんだ"
+
+[[sentences]]
+jp = "犬と一緒に公園を走るのは楽しい"
+kana = "いぬといっしょにこうえんをはしるのはたのしい"
+
+[[sentences]]
+jp = "試験の結果が返却されたので確認した"
+kana = "しけんのけっかがへんきゃくされたのでかくにんした"
+
+[[sentences]]
+jp = "スーパーで安売りしているから買い物に行こう"
+kana = "すーぱーでやすうりしているからかいものにいこう"
+
+[[sentences]]
+jp = "朝の支度を急いでいます"
+kana = "あさのしたくをいそいでいます"
+
+[[sentences]]
+jp = "今日は冬なのに暖かい"
+kana = "きょうはふゆなのにあたたかい"
+
+[[sentences]]
+jp = "図書館で本を三冊借りた"
+kana = "としょかんでほんをさんさつかりた"
+
+[[sentences]]
+jp = "キーボードを新しく買った"
+kana = "きーぼーどをあたらしくかった"
+
+[[sentences]]
+jp = "コーヒーを飲みながら作業した"
+kana = "こーひーをのみながらさぎょうした"
+
+[[sentences]]
+jp = "海で貝殻をたくさん拾った"
+kana = "うみでかいがらをたくさんひろった"
+
+[[sentences]]
+jp = "桜が満開になりました"
+kana = "さくらがまんかいになりました"
+
+[[sentences]]
+jp = "会議の準備をしないといけない"
+kana = "かいぎのじゅんびをしないといけない"
+
+[[sentences]]
+jp = "駅から家まで歩いて帰った"
+kana = "えきからいえまであるいてかえった"
+
+[[sentences]]
+jp = "メールの返信をやっと書いた"
+kana = "めーるのへんしんをやっとかいた"
+
+[[sentences]]
+jp = "猫がソファの上で寝ている"
+kana = "ねこがそふぁのうえでねている"
+
+[[sentences]]
+jp = "病院で血液検査を受けた"
+kana = "びょういんでけつえきけんさをうけた"
+
+[[sentences]]
+jp = "節分の豆まきをしました"
+kana = "せつぶんのまめまきをしました"
+
+[[sentences]]
+jp = "自転車で坂道を上った"
+kana = "じてんしゃでさかみちをのぼった"
+
+[[sentences]]
+jp = "雨の日は散歩に行きたくない"
+kana = "あめのひはさんぽにいきたくない"
+
+[[sentences]]
+jp = "部屋の掃除を今朝した"
+kana = "へやのそうじをけさした"
+
+[[sentences]]
+jp = "スーパーでセール品を探した"
+kana = "すーぱーでせーるひんをさがした"
+
+[[sentences]]
+jp = "パスポートを紛失してしまった"
+kana = "ぱすぽーとをふんしつしてしまった"
+
+[[sentences]]
+jp = "英語の授業は退屈だった"
+kana = "えいごのじゅぎょうはたいくつだった"
+
+[[sentences]]
+jp = "冬の星空は本当にきれいだ"
+kana = "ふゆのほしぞらはほんとうにきれいだ"
+
+[[sentences]]
+jp = "ダイエットのため毎日歩いている"
+kana = "だいえっとのためまいにちあるいている"
+
+[[sentences]]
+jp = "修学旅行が来月に決まった"
+kana = "しゅうがくりょこうがらいげつにきまった"
+
+[[sentences]]
+jp = "化学実験の結果がおかしい"
+kana = "かがくじっけんのけっかがおかしい"
+
+[[sentences]]
+jp = "江戸時代の武士の話を聞いた"
+kana = "えどじだいのぶしのはなしをきいた"
+
+[[sentences]]
+jp = "休日は好きなゲームをしたい"
+kana = "きゅうじつはすきなげーむをしたい"
+
+[[sentences]]
+jp = "朝起きたら窓を開けて新鮮な空気を吸う"
+kana = "あさおきたらまどをあけてしんせんなくうきをすう"
+
+[[sentences]]
+jp = "駅のホームで電車の到着を待っている"
+kana = "えきのほーむででんしゃのとうちゃくをまっている"
+
+[[sentences]]
+jp = "友達とカフェでコーヒーを飲みながら話す"
+kana = "ともだちとかふぇでこーひーをのみながらはなす"
+
+[[sentences]]
+jp = "図書館で借りた本をゆっくり読む"
+kana = "としょかんでかりたほんをゆっくりよむ"
+
+[[sentences]]
+jp = "夜空に輝く星を眺めるのが好きだ"
+kana = "よぞらにかがやくほしをながめるのがすきだ"
+
+[[sentences]]
+jp = "今週末は山に登ってハイキングする予定"
+kana = "こんしゅうまつはやまにのぼってはいきんぐするよてい"
+
+[[sentences]]
+jp = "仕事の会議は朝10時から始まるらしい"
+kana = "しごとのかいぎはあさ10じからはじまるらしい"
+
+[[sentences]]
+jp = "スーパーで週末の食材を買い物する"
+kana = "すーぱーでしゅうまつのしょくざいをかいものする"
+
+[[sentences]]
+jp = "雨の日は傘を持ってゆっくり歩く"
+kana = "あめのひはかさをもってゆっくりあるく"
+
+[[sentences]]
+jp = "パソコンの画面をずっと見て目が疲れた"
+kana = "ぱそこんのがめんをずっとみてめがつかれた"
+
+[[sentences]]
+jp = "新しい服を買ったから友達に見せたい"
+kana = "あたらしいふくをかったからともだちにみせたい"
+
+[[sentences]]
+jp = "野菜をたくさん食べて健康を保つ"
+kana = "やさいをたくさんたべてけんこうをたもつ"
+
+[[sentences]]
+jp = "子どもの頃に遊んだ公園が懐かしい"
+kana = "こどものころにあそんだこうえんがなつかしい"
+
+[[sentences]]
+jp = "試験勉強が大変だから夜遅くまで起きてる"
+kana = "しけんべんきょうがたいへんだからよるおそくまでおきてる"
+
+[[sentences]]
+jp = "桜の季節は春だから花見に行きたい"
+kana = "さくらのきせつははるだからはなみにいきたい"
+
+[[sentences]]
+jp = "映画館でみんなで映画を見るのが楽しみ"
+kana = "えいがかんでみんなでえいがをみるのがたのしみ"
+
+[[sentences]]
+jp = "冬になると寒くなるから厚い服を着る"
+kana = "ふゆになるとさむくなるからあついふくをきる"
+
+[[sentences]]
+jp = "毎日の運動は体と心を健康に保つ"
+kana = "まいにちのうんどうはからだとこころをけんこうにたもつ"
+
+[[sentences]]
+jp = "好きな曲をスマートフォンで聴いてリラックス"
+kana = "すきなきょくをすまーとふぉんできいてりらっくす"
+
+[[sentences]]
+jp = "プレゼンの準備に時間をかけて頑張った"
+kana = "ぷれぜんのじゅんびにじかんをかけてがんばった"
+
+[[sentences]]
+jp = "毎週土曜日は家族で一緒にご飯を食べる"
+kana = "まいしゅうどようびはかぞくでいっしょにごはんをたべる"
+
+[[sentences]]
+jp = "発表の時に緊張してしまって声が小さかった"
+kana = "はっぴょうのときにきんちょうしてしまってこえがちいさかった"
+
+[[sentences]]
+jp = "バスケットボールの試合で全力を尽くした"
+kana = "ばすけっとぼーるのしあいでぜんりょくをつくした"
+
+[[sentences]]
+jp = "海辺を散歩して波の音を聞くのが好き"
+kana = "うみべをさんぽしてなみのおとをきくのがすき"
+
+[[sentences]]
+jp = "誕生日ケーキをみんなで食べてお祝いする"
+kana = "たんじょうびけーきをみんなでたべておいわいする"
+
+[[sentences]]
+jp = "昨日は忙しくて寝る時間がほとんどなかった"
+kana = "きのうはいそがしくてねるじかんがほとんどなかった"
+
+[[sentences]]
+jp = "来月の出張でニューヨークへ行く予定です"
+kana = "らいげつのしゅっちょうでにゅーよーくへいくよていです"
+
+[[sentences]]
+jp = "昨日の会議は緊張したな"
+kana = "きのうのかいぎはきんちょうしたな"
+
+[[sentences]]
+jp = "兄弟と野球をして遊んだ"
+kana = "きょうだいとやきゅうをしてあそんだ"
+
+[[sentences]]
+jp = "この料理は塩辛すぎるかもしれない"
+kana = "このりょうりはしおからすぎるかもしれない"
+
+[[sentences]]
+jp = "時間がないので急いで準備する"
+kana = "じかんがないのでいそいでじゅんびする"
+
+[[sentences]]
+jp = "風が強い日は洗濯物が飛ぶ"
+kana = "かぜがつよいひはせんたくものがとぶ"
+
+[[sentences]]
+jp = "来月の試験に合格したいです"
+kana = "らいげつのしけんにごうかくしたいです"
+
+[[sentences]]
+jp = "朝日が昇る光景は美しい"
+kana = "あさひがのぼるこうけいはうつくしい"
+
+[[sentences]]
+jp = "パン屋さんで焼きたてのパンを買った"
+kana = "ぱんやさんでやきたてのぱんをかった"
+
+[[sentences]]
+jp = "運動会で百メートル走に出た"
+kana = "うんどうかいでひゃくめーとるそうにでた"
+
+[[sentences]]
+jp = "最近寝不足で体調が悪い"
+kana = "さいきんねぶそくでたいちょうがわるい"
+
+[[sentences]]
+jp = "桜の季節になると花見に行く"
+kana = "さくらのきせつになるとはなみにいく"
+
+[[sentences]]
+jp = "兄が大学に進学することにした"
+kana = "あにがだいがくにしんがくすることにした"
+
+[[sentences]]
+jp = "歯医者の治療は痛いのが嫌だ"
+kana = "はいしゃのちりょうはいたいのがいやだ"
+
+[[sentences]]
+jp = "電車で移動する時間が長い"
+kana = "でんしゃでいどうするじかんがながい"
+
+[[sentences]]
+jp = "誕生日に友人からプレゼントをもらった"
+kana = "たんじょうびにゆうじんからぷれぜんとをもらった"
+
+[[sentences]]
+jp = "祖母が作ったご飯はおいしい"
+kana = "そぼがつくったごはんはおいしい"
+
+[[sentences]]
+jp = "雨が降っているので傘を持って行く"
+kana = "あめがふっているのでかさをもっていく"
+
+[[sentences]]
+jp = "部活動で新しい友達ができた"
+kana = "ぶかつどうであたらしいともだちができた"
+
+[[sentences]]
+jp = "インターネットで記事を読むことが好き"
+kana = "いんたーねっとできじをよむことがすき"
+
+[[sentences]]
+jp = "季節の変わり目は体が疲れやすい"
+kana = "きせつのかわりめはからだがつかれやすい"
+
+[[sentences]]
+jp = "ごみ分別を正しくするのは大切だ"
+kana = "ごみぶんべつをただしくするのはたいせつだ"
+
+[[sentences]]
+jp = "家族と旅行の計画を立てている"
+kana = "かぞくとりょこうのけいかくをたてている"
+
+[[sentences]]
+jp = "友人と熱く盛り上がった議論"
+kana = "ゆうじんとあつくもりあがったぎろん"
+
+[[sentences]]
+jp = "新しい料理に挑戦するのは楽しい"
+kana = "あたらしいりょうりにちょうせんするのはたのしい"
+
+[[sentences]]
+jp = "スマートフォンの画面が壊れた"
+kana = "すまーとふぉんのがめんがこわれた"
+
+[[sentences]]
+jp = "週末は家族でキャンプに出かける"
+kana = "しゅうまつはかぞくできゃんぷにでかける"
+
+[[sentences]]
+jp = "雨の日は散歩をしたくない気分"
+kana = "あめのひはさんぽをしたくないきぶん"
+
+[[sentences]]
+jp = "会議の締め切りまであと三日だ"
+kana = "かいぎのしめきりまであとみっかだ"
+
+[[sentences]]
+jp = "桜の季節が近づいてきた春"
+kana = "さくらのきせつがちかづいてきたはる"
+
+[[sentences]]
+jp = "子どもの頃はよく野球をしていた"
+kana = "こどものころはよくやきゅうをしていた"
+
+[[sentences]]
+jp = "甘いお菓子よりも塩辛い方が好き"
+kana = "あまいおかしよりもしおからいほうがすき"
+
+[[sentences]]
+jp = "毎日のジョギングで体が強くなった"
+kana = "まいにちのじょぎんぐでからだがつよくなった"
+
+[[sentences]]
+jp = "昨日の試験は思ったより難しかった"
+kana = "きのうのしけんはおもったよりむずかしかった"
+
+[[sentences]]
+jp = "駅前の商店街は人でいっぱい"
+kana = "えきまえのしょうてんがいはひとでいっぱい"
+
+[[sentences]]
+jp = "大事な書類を誤って削除してしまった"
+kana = "だいじなしょるいをあやまってさくじょしてしまった"
+
+[[sentences]]
+jp = "夜空に輝く星を数えてみた"
+kana = "よぞらにかがやくほしをかぞえてみた"
+
+[[sentences]]
+jp = "風邪をひいて一週間学校を休んだ"
+kana = "かぜをひいていっしゅうかんがっこうをやすんだ"
+
+[[sentences]]
+jp = "ビデオゲームにはまってしまった今年"
+kana = "びでおげーむにはまってしまったことし"
+
+[[sentences]]
+jp = "祖母が作った天ぷらはいつも絶品だ"
+kana = "そぼがつくったてんぷらはいつもぜっぴんだ"
+
+[[sentences]]
+jp = "電車での通勤ラッシュは疲れる"
+kana = "でんしゃでのつうきんらっしゅはつかれる"
+
+[[sentences]]
+jp = "冬は毎年スキー場へ行くのが楽しみ"
+kana = "ふゆはまいとししきーじょうへいくのがたのしみ"
+
+[[sentences]]
+jp = "新しい髪型に切ってもらった"
+kana = "あたらしいかみがたにきってもらった"
+
+[[sentences]]
+jp = "蝉の鳴く声は夏の風物詩である"
+kana = "せみのなくこえはなつのふうぶつしである"
+
+[[sentences]]
+jp = "親友との約束を忘れてしまった"
+kana = "しんゆうとのやくそくをわすれてしまった"
+
+[[sentences]]
+jp = "焼き立てのパンの香りは最高だ"
+kana = "やきたてのぱんのかおりはさいこうだ"
+
+[[sentences]]
+jp = "子どもの成長は本当に早いものだ"
+kana = "こどものせいちょうはほんとうにはやいものだ"
+
+[[sentences]]
+jp = "友達と約束した時間に遅刻した"
+kana = "ともだちとやくそくしたじかんにちこくした"
+
+[[sentences]]
+jp = "週末は山登りに行く予定だ"
+kana = "しゅうまつはやまのぼりにいくよていだ"
+
+[[sentences]]
+jp = "新しい靴を履いて足が痛い"
+kana = "あたらしいくつをはいてあしがいたい"
+
+[[sentences]]
+jp = "電車の中で子どもが泣いている"
+kana = "でんしゃのなかでこどもがないている"
+
+[[sentences]]
+jp = "毎日運動すると体が軽くなる"
+kana = "まいにちうんどうするとからだがかるくなる"
+
+[[sentences]]
+jp = "雨の日は外に出たくない気分だ"
+kana = "あめのひはそとにでたくないきぶんだ"
+
+[[sentences]]
+jp = "最近ストレスで眠れなくなった"
+kana = "さいきんすとれすでねむれなくなった"
+
+[[sentences]]
+jp = "部屋の片付けをしたら気持ちがいい"
+kana = "へやのかたづけをしたらきもちがいい"
+
+[[sentences]]
+jp = "キャンプで焚き火をしながら歌った"
+kana = "きゃんぷでたきびをしながらうたった"
+
+[[sentences]]
+jp = "冷たいアイスクリームを食べたい"
+kana = "つめたいあいすくりーむをたべたい"
+
+[[sentences]]
+jp = "ゴミ分別のルールを守ることが大事"
+kana = "ごみぶんべつのるーるをまもることがだいじ"
+
+[[sentences]]
+jp = "祖母が昔話をしてくれた時懐かしい"
+kana = "そぼがむかしばなしをしてくれたときなつかしい"
+
+[[sentences]]
+jp = "買い物リストを作ってから出かける"
+kana = "かいものりすとをつくってからでかける"
+
+[[sentences]]
+jp = "会議で新しい企画が採用されました"
+kana = "かいぎであたらしいきかくがさいようされました"
+
+[[sentences]]
+jp = "家族で温泉に泊まる旅行をした"
+kana = "かぞくでおんせんにとまるりょこうをした"
+
+[[sentences]]
+jp = "朝日が昇る景色を写真に撮った"
+kana = "あさひがのぼるけしきをしゃしんにとった"
+
+[[sentences]]
+jp = "誕生日にケーキを焼いてお祝いした"
+kana = "たんじょうびにけーきをやいておいわいした"
+
+[[sentences]]
+jp = "通勤時間に本を読む習慣がある"
+kana = "つうきんじかんにほんをよむしゅうかんがある"
+
+[[sentences]]
+jp = "自転車で駅まで行くのに十分でいい"
+kana = "じてんしゃでえきまでいくのにじゅっぷんでいい"
+
+[[sentences]]
+jp = "朝日が窓から入ってくる"
+kana = "あさひがまどからはいってくる"
+
+[[sentences]]
+jp = "友達と一緒に映画を見た"
+kana = "ともだちといっしょにえいがをみた"
+
+[[sentences]]
+jp = "雨が降っているから傘が必要"
+kana = "あめがふっているからかさがひつよう"
+
+[[sentences]]
+jp = "毎日のジョギングは健康的だ"
+kana = "まいにちのじょぎんぐはけんこうてきだ"
+
+[[sentences]]
+jp = "会社の会議は昼間に開かれます"
+kana = "かいしゃのかいぎはひるまにひらかれます"
+
+[[sentences]]
+jp = "夜空に星がたくさん見える"
+kana = "よぞらにほしがたくさんみえる"
+
+[[sentences]]
+jp = "駅前の商店街はいつも人が多い"
+kana = "えきまえのしょうてんがいはいつもひとがおおい"
+
+[[sentences]]
+jp = "猫は日向ぼっこが好きらしい"
+kana = "ねこはひなたぼっこがすきらしい"
+
+[[sentences]]
+jp = "お弁当を作るのに時間がかかった"
+kana = "おべんとうをつくるのにじかんがかかった"
+
+[[sentences]]
+jp = "インターネットの速度が遅くなった"
+kana = "いんたーねっとのそくどがおそくなった"
+
+[[sentences]]
+jp = "新しい服を買ったので嬉しい"
+kana = "あたらしいふくをかったのでうれしい"
+
+[[sentences]]
+jp = "台風が近づいているようだ"
+kana = "たいふうがちかづいているようだ"
+
+[[sentences]]
+jp = "朝食にトーストとコーヒーを食べた"
+kana = "ちょうしょくにとーすととこーひーをたべた"
+
+[[sentences]]
+jp = "試験の勉強をしなくてはいけない"
+kana = "しけんのべんきょうをしなくてはいけない"
+
+[[sentences]]
+jp = "自転車でスーパーに買い物に行く"
+kana = "じてんしゃですーぱーにかいものにいく"
+
+[[sentences]]
+jp = "祖母が畑で野菜を育てている"
+kana = "そぼがはたけでやさいをそだてている"
+
+[[sentences]]
+jp = "音楽を聴くことでストレスが解消される"
+kana = "おんがくをきくことですとれすがかいしょうされる"
+
+[[sentences]]
+jp = "昨日の夜は寝坊をしてしまった"
+kana = "きのうのよるはねぼうをしてしまった"
+
+[[sentences]]
+jp = "紅葉の季節は景色が美しくなる"
+kana = "こうようのきせつはけしきがうつくしくなる"
+
+[[sentences]]
+jp = "駅まで歩くのに十分かかります"
+kana = "えきまであるくのにじゅっぷんかかります"
+
+[[sentences]]
+jp = "プレゼンテーションの準備が進まない"
+kana = "ぷれぜんてーしょんのじゅんびがすすまない"
+
+[[sentences]]
+jp = "週末に友人と温泉に行く予定だ"
+kana = "しゅうまつにゆうじんとおんせんにいくよていだ"
+
+[[sentences]]
+jp = "携帯電話がないと不安になります"
+kana = "けいたいでんわがないとふあんになります"
+
+[[sentences]]
+jp = "昼食は弁当屋で定食を買いました"
+kana = "ちゅうしょくはべんとうやでていしょくをかいました"
+
+[[sentences]]
+jp = "仕事の締め切りがもう間もなくです"
+kana = "しごとのしめきりがもうまもなくです"
+
+[[sentences]]
+jp = "朝焼けは本当に綺麗だった"
+kana = "あさやけはほんとうにきれいだった"
+
+[[sentences]]
+jp = "新しいスマートフォンを買った"
+kana = "あたらしいすまーとふぉんをかった"
+
+[[sentences]]
+jp = "友達と映画館へ行く予定です"
+kana = "ともだちとえいがかんへいくよていです"
+
+[[sentences]]
+jp = "雨の日は外出が億劫になる"
+kana = "あめのひはがいしゅつがおっくうになる"
+
+[[sentences]]
+jp = "昼休みにお弁当を食べるのが好き"
+kana = "ひるやすみにおべんとうをたべるのがすき"
+
+[[sentences]]
+jp = "夏休みは家族と海へ行く計画だ"
+kana = "なつやすみはかぞくとうみへいくけいかくだ"
+
+[[sentences]]
+jp = "運動会で全力を尽くしてしまった"
+kana = "うんどうかいでぜんりょくをつくしてしまった"
+
+[[sentences]]
+jp = "街灯の光が夜道を優しく照らしていた"
+kana = "がいとうのひかりがよみちをやさしくてらしていた"
+
+[[sentences]]
+jp = "パソコンの調子が悪くなってしまった"
+kana = "ぱそこんのちょうしがわるくなってしまった"
+
+[[sentences]]
+jp = "紅葉の季節が大好きな時期である"
+kana = "こうようのきせつがだいすきなじきである"
+
+[[sentences]]
+jp = "毎週木曜日は会議が入っている"
+kana = "まいしゅうもくようびはかいぎがはいっている"
+
+[[sentences]]
+jp = "試験勉強に四時間も費やした"
+kana = "しけんべんきょうによじかんもついやした"
+
+[[sentences]]
+jp = "冷蔵庫にジャムが残っていたはずだ"
+kana = "れいぞうこにじゃむがのこっていたはずだ"
+
+[[sentences]]
+jp = "クリスマスプレゼントを用意する必要がある"
+kana = "くりすますぷれぜんとをよういするひつようがある"
+
+[[sentences]]
+jp = "夜景を眺めるのが息抜きになっている"
+kana = "やけいをながめるのがいきぬきになっている"
+
+[[sentences]]
+jp = "携帯電話の充電がもう切れかけている"
+kana = "けいたいでんわのじゅうでんがもうきれかけている"
+
+[[sentences]]
+jp = "薬局で常備薬を買うついでに寄った"
+kana = "やっきょくでじょうびやくをかうついでによった"
+
+[[sentences]]
+jp = "社員旅行で京都の寺院を見学した"
+kana = "しゃいんりょこうできょうとのじいんをけんがくした"
+
+[[sentences]]
+jp = "祖父が昔の話をしてくれるのが好き"
+kana = "そふがむかしのはなしをしてくれるのがすき"
+
+[[sentences]]
+jp = "最近は野菜を意識的に食べるようにしている"
+kana = "さいきんはやさいをいしきてきにたべるようにしている"
+
+[[sentences]]
+jp = "風が強い日は洗濯物が飛ばされてしまう"
+kana = "かぜがつよいひはせんたくものがとばされてしまう"
+
+[[sentences]]
+jp = "子供の頃は友達と外でよく遊んだ"
+kana = "こどものころはともだちとそとでよくあそんだ"
+
+[[sentences]]
+jp = "インターネットで調べるのはとても便利だ"
+kana = "いんたーねっとでしらべるのはとてもべんりだ"
+
+[[sentences]]
+jp = "花火大会の日取りをメールで確認した"
+kana = "はなびたいかいのひどりをめーるでかくにんした"
+
+[[sentences]]
+jp = "節分の日に豆をまく伝統がある"
+kana = "せつぶんのひにまめをまくでんとうがある"
+
+[[sentences]]
+jp = "誕生日ケーキを食べる瞬間が至福だ"
+kana = "たんじょうびけーきをたべるしゅんかんがしふくだ"
+
+[[sentences]]
+jp = "朝日が山の向こうから昇った"
+kana = "あさひがやまのむこうからのぼった"
+
+[[sentences]]
+jp = "兄は毎日図書館で本を借りている"
+kana = "あにはまいにちとしょかんでほんをかりている"
+
+[[sentences]]
+jp = "妹がケーキを焼いて喜んでいた"
+kana = "いもうとがけーきをやいてよろこんでいた"
+
+[[sentences]]
+jp = "公園で友達と野球をして遊んだ"
+kana = "こうえんでともだちとやきゅうをしてあそんだ"
+
+[[sentences]]
+jp = "雨の日は部屋で映画を見ることにした"
+kana = "あめのひはへやでえいがをみることにした"
+
+[[sentences]]
+jp = "祖母がおいしいみそ汁を作ってくれた"
+kana = "そぼがおいしいみそしるをつくってくれた"
+
+[[sentences]]
+jp = "電車の中で高校の友人に会ってびっくりした"
+kana = "でんしゃのなかでこうこうのゆうじんにあってびっくりした"
+
+[[sentences]]
+jp = "夏休みは田舎の祖父母の家へ行く予定だ"
+kana = "なつやすみはいなかのそふぼのいえへいくよていだ"
+
+[[sentences]]
+jp = "毎週木曜日は合唱部の練習がある"
+kana = "まいしゅうもくようびはがっしょうぶのれんしゅうがある"
+
+[[sentences]]
+jp = "姉妹で力を合わせて家の掃除をした"
+kana = "しまいでちからをあわせていえのそうじをした"
+
+[[sentences]]
+jp = "駅前の新しいカフェでコーヒーを飲んだ"
+kana = "えきまえのあたらしいかふぇでこーひーをのんだ"
+
+[[sentences]]
+jp = "試験まであと十日しかないので勉強が忙しい"
+kana = "しけんまであととおかしかないのでべんきょうがいそがしい"
+
+[[sentences]]
+jp = "海辺で拾った貝殻を花瓶に飾っている"
+kana = "うみべでひろったかいがらをかびんにかざっている"
+
+[[sentences]]
+jp = "来月は新しい学年になるので緊張している"
+kana = "らいげつはあたらしいがくねんになるのできんちょうしている"
+
+[[sentences]]
+jp = "犬の散歩をしながら近所を一周した"
+kana = "いぬのさんぽをしながらきんじょをいっしゅうした"
+
+[[sentences]]
+jp = "母は毎晩晩ご飯を作るのに二時間かかる"
+kana = "はははまいばんばんごはんをつくるのににじかんかかる"
+
+[[sentences]]
+jp = "昨日は友達の誕生日パーティーに参加した"
+kana = "きのうはともだちのたんじょうびぱーてぃーにさんかした"
+
+[[sentences]]
+jp = "窓から見える夜景がとても美しかった"
+kana = "まどからみえるやけいがとてもうつくしかった"
+
+[[sentences]]
+jp = "体育の授業でバレーボールをしたので疲れた"
+kana = "たいいくのじゅぎょうでばれーぼーるをしたのでつかれた"
+
+[[sentences]]
+jp = "机の上の書類を整理して片付けることにした"
+kana = "つくえのうえのしょるいをせいりしてかたづけることにした"
+
+[[sentences]]
+jp = "祝日には家族みんなで時間をかけて食事をする"
+kana = "しゅくじつにはかぞくみんなでじかんをかけてしょくじをする"
+
+[[sentences]]
+jp = "春が来ると桜の花が一斉に咲き始める"
+kana = "はるがくるとさくらのはながいっせいにさきはじめる"
+
+[[sentences]]
+jp = "仕事から帰宅したら家族で夕飯を一緒に食べた"
+kana = "しごとからきたくしたらかぞくでゆうはんをいっしょにたべた"
+
+[[sentences]]
+jp = "台風の影響で学校が休みになった"
+kana = "たいふうのえいきょうでがっこうがやすみになった"
+
+[[sentences]]
+jp = "夏休みは海で泳ぐのが楽しい"
+kana = "なつやすみはうみでおよぐのがたのしい"
+
+[[sentences]]
+jp = "会社の会議は三時間も続いた"
+kana = "かいしゃのかいぎはさんじかんもつづいた"
+
+[[sentences]]
+jp = "兄弟でテニスの試合をした"
+kana = "きょうだいでてにすのしあいをした"
+
+[[sentences]]
+jp = "毎晩十時に寝るようにしている"
+kana = "まいばんじゅうじにねるようにしている"
+
+[[sentences]]
+jp = "祖母の料理はいつもおいしい"
+kana = "そぼのりょうりはいつもおいしい"
+
+[[sentences]]
+jp = "冬の朝は霜が降りているね"
+kana = "ふゆのあさはしもがおりているね"
+
+[[sentences]]
+jp = "駅から家まで徒歩十五分かかる"
+kana = "えきからいえまでとほじゅうごふんかかる"
+
+[[sentences]]
+jp = "新聞を読む習慣が大事だ"
+kana = "しんぶんをよむしゅうかんがたいじだ"
+
+[[sentences]]
+jp = "兄は毎日ジムで筋トレしている"
+kana = "あにはまいにちじむできんとれしている"
+
+[[sentences]]
+jp = "母の誕生日にケーキを焼いた"
+kana = "ははのたんじょうびにけーきをやいた"
+
+[[sentences]]
+jp = "雨の日は傘を忘れないようにする"
+kana = "あめのひはかさをわすれないようにする"
+
+[[sentences]]
+jp = "夜空の星がきれいに見えている"
+kana = "よぞらのほしがきれいにみえている"
+
+[[sentences]]
+jp = "引っ越しの準備が大変だった"
+kana = "ひっこしのじゅんびがたいへんだった"
+
+[[sentences]]
+jp = "毎月の支払いは大きな負担です"
+kana = "まいつきのしはらいはおおきなふたんです"
+
+[[sentences]]
+jp = "今年の文化祭はとても盛り上がった"
+kana = "ことしのぶんかさいはとてももりあがった"
+
+[[sentences]]
+jp = "父親は毎朝散歩に出かける"
+kana = "ちちおやはまいあささんぽにでかける"
+
+[[sentences]]
+jp = "インターネットは生活に不可欠だ"
+kana = "いんたーねっとはせいかつにふかけつだ"
+
+[[sentences]]
+jp = "毎年のお盆は実家に帰省する"
+kana = "まいとしのおぼんはじっかにきせいする"
+
+[[sentences]]
+jp = "近所の公園で子供たちが遊んでいた"
+kana = "きんじょのこうえんでこどもたちがあそんでいた"
+
+[[sentences]]
+jp = "友達とカフェで長時間おしゃべりした"
+kana = "ともだちとかふぇでちょうじかんおしゃべりした"
+
+[[sentences]]
+jp = "秋の紅葉は本当に美しくて感動した"
+kana = "あきのこうようはほんとうにうつくしくてかんどうした"
+
+[[sentences]]
+jp = "スマートフォンのアプリをたくさん入れた"
+kana = "すまーとふぉんのあぷりをたくさんいれた"
+
+[[sentences]]
+jp = "毎日の筋トレで体が引き締まってきた"
+kana = "まいにちのきんとれでからだがひきしまってきた"
+
+[[sentences]]
+jp = "雨の日は外に出たくなくて家にいた"
+kana = "あめのひはそとにでたくなくていえにいた"
+
+[[sentences]]
+jp = "好きな歌手のコンサートに行きたいな"
+kana = "すきなかしゅのこんさーとにいきたいな"
+
+[[sentences]]
+jp = "試験に合格するため毎日勉強している"
+kana = "しけんにごうかくするためまいにちべんきょうしている"
+
+[[sentences]]
+jp = "新しい服を買ったら気分が上がった"
+kana = "あたらしいふくをかったらきぶんがあがった"
+
+[[sentences]]
+jp = "夜中にラーメンを食べるのは最高だ"
+kana = "よなかにらーめんをたべるのはさいこうだ"
+
+[[sentences]]
+jp = "図書館で好きな本を見つけることができた"
+kana = "としょかんですきなほんをみつけることができた"
+
+[[sentences]]
+jp = "駅から家までの道のりは歩いて十分です"
+kana = "えきからいえまでのみちのりはあるいてじゅっぷんです"
+
+[[sentences]]
+jp = "去年の夏は海で泳いで楽しかったよ"
+kana = "きょねんのなつはうみでおよいでたのしかったよ"
+
+[[sentences]]
+jp = "映画を見た後はいつも感想を言い合った"
+kana = "えいがをみたあとはいつもかんそうをいいあった"
+
+[[sentences]]
+jp = "近所の公園でジョギングをしている"
+kana = "きんじょのこうえんでじょぎんぐをしている"
+
+[[sentences]]
+jp = "料理の腕前を磨くために毎日練習した"
+kana = "りょうりのうでまえをみがくためにまいにちれんしゅうした"
+
+[[sentences]]
+jp = "パソコンの画面が突然真っ黒になった"
+kana = "ぱそこんのがめんがとつぜんまっくろになった"
+
+[[sentences]]
+jp = "冬の朝は布団から出たくないほど寒い"
+kana = "ふゆのあさはふとんからでたくないほどさむい"
+
+[[sentences]]
+jp = "友人の誕生日パーティーはとても盛り上がった"
+kana = "ゆうじんのたんじょうびぱーてぃーはとてももりあがった"
+
+[[sentences]]
+jp = "旅先で食べた郷土料理は忘れられない"
+kana = "たびさきでたべたきょうどりょうりはわすれられない"
+
+[[sentences]]
+jp = "毎朝のジョギングで心身ともに健康になった"
+kana = "まいあさのじょぎんぐでしんしんともにけんこうになった"
+
+[[sentences]]
+jp = "バスが遅れたので会議に間に合わなかった"
+kana = "ばすがおくれたのでかいぎにまにあわなかった"
+
+[[sentences]]
+jp = "昔の友達と久しぶりに会って話題が尽きない"
+kana = "むかしのともだちとひさしぶりにあってわだいがつきない"
+
+[[sentences]]
+jp = "星がきれいに見える夜は別格だと思う"
+kana = "ほしがきれいにみえるよるはべっかくだとおもう"
+
+[[sentences]]
+jp = "インターネットで欲しい商品の情報を調べた"
+kana = "いんたーねっとでほしいしょうひんのじょうほうをしらべた"
+
+[[sentences]]
+jp = "週末は温泉に行ってリラックスしたい"
+kana = "しゅうまつはおんせんにいってりらっくすしたい"
+
+[[sentences]]
+jp = "兄弟と一緒にビデオゲームをしていた"
+kana = "きょうだいといっしょにびでおげーむをしていた"
+
+[[sentences]]
+jp = "駅前のカフェで友達と待ち合わせた"
+kana = "えきまえのかふぇでともだちとまちあわせた"
+
+[[sentences]]
+jp = "毎週末は図書館で読書をするのが楽しみ"
+kana = "まいしゅうまつはとしょかんでどくしょをするのがたのしみ"
+
+[[sentences]]
+jp = "この季節は花粉症に悩まされてしまう"
+kana = "このきせつはかふんしょうになやまされてしまう"
+
+[[sentences]]
+jp = "新しい靴を買ったら歩きやすくなった"
+kana = "あたらしいくつをかったらあるきやすくなった"
+
+[[sentences]]
+jp = "夜空に浮かぶ星がとても綺麗に見えている"
+kana = "よぞらにうかぶほしがとてもきれいにみえている"
+
+[[sentences]]
+jp = "毎朝のコーヒーは欠かせない習慣になっている"
+kana = "まいあさのこーひーはかかせないしゅうかんになっている"
+
+[[sentences]]
+jp = "兄がプロジェクトの成功を喜んでいる様子"
+kana = "あにがぷろじぇくとのせいこうをよろこんでいるようす"
+
+[[sentences]]
+jp = "春の芽吹きを見ると心が穏やかになる"
+kana = "はるのめぶきをみるとこころがおだやかになる"
+
+[[sentences]]
+jp = "会議の資料をパワーポイントで作った"
+kana = "かいぎのしりょうをぱわーぽいんとでつくった"
+
+[[sentences]]
+jp = "子どもの頃に読んだ本をもう一度読み返す"
+kana = "こどものころによんだほんをもういちどよみかえす"
+
+[[sentences]]
+jp = "音楽フェスティバルのチケットが売り切れた"
+kana = "おんがくふぇすてぃばるのちけっとがうりきれた"
+
+[[sentences]]
+jp = "犬との散歩は毎日の日課になっていますね"
+kana = "いぬとのさんぽはまいにちのにっかになっていますね"
+
+[[sentences]]
+jp = "パスポート更新の手続きが面倒くさい"
+kana = "ぱすぽーとこうしんのてつづきがめんどうくさい"
+
+[[sentences]]
+jp = "職場の同僚とランチに行くことにした"
+kana = "しょくばのどうりょうとらんちにいくことにした"
+
+[[sentences]]
+jp = "野菜たっぷりのスープが体に優しい味"
+kana = "やさいたっぷりのすーぷがからだにやさしいあじ"
+
+[[sentences]]
+jp = "スマートフォンのアプリを更新したばかり"
+kana = "すまーとふぉんのあぷりをこうしんしたばかり"
+
+[[sentences]]
+jp = "冬のセールで欲しかった服が安く買えた"
+kana = "ふゆのせーるでほしかったふくがやすくかえた"
+
+[[sentences]]
+jp = "雨の日は映画館に行くのが好きですね"
+kana = "あめのひはえいがかんにいくのがすきですね"
+
+[[sentences]]
+jp = "南国の島でゆっくり休暇を過ごしたい"
+kana = "なんこくのしまでゆっくりきゅうかをすごしたい"
+
+[[sentences]]
+jp = "祖母が作った料理は本当に美味しい"
+kana = "そぼがつくったりょうりはほんとうにおいしい"
+
+[[sentences]]
+jp = "海水浴場は夏休みになると混雑するね"
+kana = "かいすいよくじょうはなつやすみになるとこんざつするね"
+
+[[sentences]]
+jp = "新聞を毎朝読んで世の中を知る"
+kana = "しんぶんをまいあさよんでよのなかをしる"
+
+[[sentences]]
+jp = "図書館で静かに本を読んだ"
+kana = "としょかんでしずかにほんをよんだ"
+
+[[sentences]]
+jp = "冷たい雨の中を傘をさして歩いた"
+kana = "つめたいあめのなかをかさをさしてあるいた"
+
+[[sentences]]
+jp = "試験に合格して嬉しさが込み上げた"
+kana = "しけんにごうかくしてうれしさがこみあげた"
+
+[[sentences]]
+jp = "会議の資料をメールで送付した"
+kana = "かいぎのしりょうをめーるでそうふした"
+
+[[sentences]]
+jp = "駅で切符を買って電車に乗り込んだ"
+kana = "えきできっぷをかってでんしゃにのりこんだ"
+
+[[sentences]]
+jp = "緊張しながら発表の準備を整えた"
+kana = "きんちょうしながらはっぴょうのじゅんびをととのえた"
+
+[[sentences]]
+jp = "ボランティア活動に参加して気づいた"
+kana = "ぼらんてぃあかつどうにさんかしてきづいた"
+
+[[sentences]]
+jp = "バスの時間を確認して駅に向かった"
+kana = "ばすのじかんをかくにんしてえきにむかった"
+
+[[sentences]]
+jp = "美容院で髪型を新しくしてもらった"
+kana = "びよういんでかみがたをあたらしくしてもらった"
+
+[[sentences]]
+jp = "家族で温泉旅行に出かけることになった"
+kana = "かぞくでおんせんりょこうにでかけることになった"
+
+[[sentences]]
+jp = "恋人と映画館で新作映画を観た"
+kana = "こいびととえいがかんでしんさくえいがをみた"
+
+[[sentences]]
+jp = "毎日欠かさず筋トレを続けている"
+kana = "まいにちかかさずきんとれをつづけている"
+
+[[sentences]]
+jp = "台風が接近しているから外出は控えよう"
+kana = "たいふうがせっきんしているからがいしゅつはひかえよう"
+
+[[sentences]]
+jp = "祭りの屋台で焼きそばを食べた"
+kana = "まつりのやたいでやきそばをたべた"
+
+[[sentences]]
+jp = "近所の人と顔を合わせて挨拶した"
+kana = "きんじょのひととかおをあわせてあいさつした"
+
+[[sentences]]
+jp = "引っ越しの荷物を整理するのが大変"
+kana = "ひっこしのにもつをせいりするのがたいへん"
+
+[[sentences]]
+jp = "ゲーム大会で優勝して賞品をもらった"
+kana = "げーむたいかいでゆうしょうしてしょうひんをもらった"
+
+[[sentences]]
+jp = "夏祭りで花火を見るのが楽しみ"
+kana = "なつまつりではなびをみるのがたのしみ"
+
+[[sentences]]
+jp = "毎週土曜日は図書館へ行く習慣"
+kana = "まいしゅうどようびはとしょかんへいくしゅうかん"
+
+[[sentences]]
+jp = "料理の味付けが難しく感じる"
+kana = "りょうりのあじつけがむずかしくかんじる"
+
+[[sentences]]
+jp = "犬の散歩は毎日の日課です"
+kana = "いぬのさんぽはまいにちのにっかです"
+
+[[sentences]]
+jp = "スマートフォンの充電を忘れた"
+kana = "すまーとふぉんのじゅうでんをわすれた"
+
+[[sentences]]
+jp = "秋の紅葉は本当に美しい景色"
+kana = "あきのこうようはほんとうにうつくしいけしき"
+
+[[sentences]]
+jp = "毎晩の歯磨きは習慣になった"
+kana = "まいばんのはみがきはしゅうかんになった"
+
+[[sentences]]
+jp = "コーヒーの香りは朝を元気にする"
+kana = "こーひーのかおりはあさをげんきにする"
+
+[[sentences]]
+jp = "山登りで疲れたけど気持ちよい"
+kana = "やまのぼりでつかれたけどきもちよい"
+
+[[sentences]]
+jp = "試験の準備は計画的に進めるべき"
+kana = "しけんのじゅんびはけいかくてきにすすめるべき"
+
+[[sentences]]
+jp = "隣の家に引っ越してきた新しい家族"
+kana = "となりのいえにひっこしてきたあたらしいかぞく"
+
+[[sentences]]
+jp = "週末は友人とカラオケへ行く予定"
+kana = "しゅうまつはゆうじんとからおけへいくよてい"
+
+[[sentences]]
+jp = "祖母のお誕生日パーティーを開催した"
+kana = "そぼのおたんじょうびぱーてぃーをかいさいした"
+
+[[sentences]]
+jp = "英語の勉強は毎日続けることが大事"
+kana = "えいごのべんきょうはまいにちつづけることがだいじ"
+
+[[sentences]]
+jp = "駅前のスーパーはセール期間中です"
+kana = "えきまえのすーぱーはせーるきかんちゅうです"
+
+[[sentences]]
+jp = "サッカーの試合は日曜日に予定されている"
+kana = "さっかーのしあいはにちようびによていされている"
+
+[[sentences]]
+jp = "母親の手料理は本当に美味しい"
+kana = "ははおやのてりょうりはほんとうにおいしい"
+
+[[sentences]]
+jp = "朝早く起きるのは健康的だ"
+kana = "あさはやくおきるのはけんこうてきだ"
+
+[[sentences]]
+jp = "新しい靴を買ったばかりです"
+kana = "あたらしいくつをかったばかりです"
+
+[[sentences]]
+jp = "友達と映画を見に行きたい"
+kana = "ともだちとえいがをみにいきたい"
+
+[[sentences]]
+jp = "冬の寒さは本当に厳しいね"
+kana = "ふゆのさむさはほんとうにきびしいね"
+
+[[sentences]]
+jp = "毎日の運動は体に良い影響を与える"
+kana = "まいにちのうんどうはからだにいいえいきょうをあたえる"
+
+[[sentences]]
+jp = "昨日買った本がとても面白い"
+kana = "きのうかったほんがとてもおもしろい"
+
+[[sentences]]
+jp = "朝日が昇ってきた山々を照らしていた"
+kana = "あさひがのぼってきたやまやまをてらしていた"
+
+[[sentences]]
+jp = "映画館で新作を見た後にラーメンを食べにいった"
+kana = "えいがかんでしんさくをみたあとにらーめんをたべにいった"
+
+[[sentences]]
+jp = "パソコンの動きが遅いので修理に出すことにした"
+kana = "ぱそこんのうごきがおそいのでしゅうりにだすことにした"
+
+[[sentences]]
+jp = "駅から家まで十分で着くので通勤は楽である"
+kana = "えきからいえまでじゅっぷんでつくのでつうきんはらくである"
+
+[[sentences]]
+jp = "夏休みは海へ行って泳いだり遊んだりして過ごした"
+kana = "なつやすみはうみへいっておよいだりあそんだりしてすごした"
+
+[[sentences]]
+jp = "冬の寒さが厳しかったので暖房をつけて過ごしていた"
+kana = "ふゆのさむさがきびしかったのでだんぼうをつけてすごしていた"
+
+[[sentences]]
+jp = "誕生日に友人からプレゼントをもらって嬉しかった"
+kana = "たんじょうびにゆうじんからぷれぜんとをもらってうれしかった"
+
+[[sentences]]
+jp = "朝起きて歯を磨いた後で朝食を食べた"
+kana = "あさおきてはをみがいたあとであさしょくをたべた"
+
+[[sentences]]
+jp = "友達とカラオケで熱唱して喉が疲れた"
+kana = "ともだちとからおけでねっしょうしてのどがつかれた"
+
+[[sentences]]
+jp = "コーヒーの香りは朝の目覚めを促すらしい"
+kana = "こーひーのかおりはあさのめざめをうながすらしい"
+
+[[sentences]]
+jp = "桜の季節になると花見に行く習慣がある"
+kana = "さくらのきせつになるとはなみにいくしゅうかんがある"
+
+[[sentences]]
+jp = "図書館で静かに本を読んで知識を深める"
+kana = "としょかんでしずかにほんをよんでちしきをふかめる"
+
+[[sentences]]
+jp = "スマートフォンのアプリをダウンロードした"
+kana = "すまーとふぉんのあぷりをだうんろーどした"
+
+[[sentences]]
+jp = "今年の夏休みは海に行って泳ぐ予定だ"
+kana = "ことしのなつやすみはうみにいっておよぐよていだ"
+
+[[sentences]]
+jp = "運動不足なので毎日散歩をするようにした"
+kana = "うんどうぶそくなのでまいにちさんぽをするようにした"
+
+[[sentences]]
+jp = "この店のラーメンは本当に美味しくて毎週来る"
+kana = "このみせのらーめんはほんとうにおいしくてまいしゅうくる"
+
+[[sentences]]
+jp = "パスポートを更新するために役所に申請した"
+kana = "ぱすぽーとをこうしんするためにやくしょにしんせいした"
+
+[[sentences]]
+jp = "インターネットで安い商品を見つけて買った"
+kana = "いんたーねっとでやすいしょうひんをみつけてかった"
+
+[[sentences]]
+jp = "スポーツジムで筋トレをして体を鍛えている"
+kana = "すぽーつじむできんとれをしてからだをきたえている"
+
+[[sentences]]
+jp = "冬の夜空には星がいっぱい輝いて見える"
+kana = "ふゆのよぞらにはほしがいっぱいかがやいてみえる"
+
+[[sentences]]
+jp = "新年の抱負として毎日運動する計画を立てた"
+kana = "しんねんのほうふとしてまいにちうんどうするけいかくをたてた"
+
+[[sentences]]
+jp = "料理の味付けに塩加減を工夫するのが大切"
+kana = "りょうりのあじつけにしおかげんをくふうするのがたいせつ"
+
+[[sentences]]
+jp = "猫の毛並みはふわふわで触ると気持ちよい"
+kana = "ねこのけなみはふわふわでさわるときもちよい"
+
+[[sentences]]
+jp = "映画館でポップコーンを食べながら映画を観た"
+kana = "えいがかんでぽっぷこーんをたべながらえいがをみた"
+
+[[sentences]]
+jp = "プレゼンテーションの準備を徹夜してやり遂げた"
+kana = "ぷれぜんてーしょんのじゅんびをてつやしてやりとげた"
+
+[[sentences]]
+jp = "子どもの頃はよく祖父母の家で遊んだ思い出"
+kana = "こどものころはよくそふぼのいえであそんだおもいで"
+
+[[sentences]]
+jp = "江戸時代の武士の生活について歴史の勉強をした"
+kana = "えどじだいのぶしのせいかつについてれきしのべんきょうをした"
+
+[[sentences]]
+jp = "誕生日のケーキを友人とシェアして食べた"
+kana = "たんじょうびのけーきをゆうじんとしぇあしてたべた"
+
+[[sentences]]
+jp = "天気予報を確認してから運動会に備えた"
+kana = "てんきよほうをかくにんしてからうんどうかいにそなえた"
+
+[[sentences]]
+jp = "仕事が終わった後で同僚と居酒屋に寄った"
+kana = "しごとがおわったあとでどうりょうといざかやによった"
+
+[[sentences]]
+jp = "毎朝起きてからラジオ体操をする"
+kana = "まいあさおきてかららじおたいそうをする"
+
+[[sentences]]
+jp = "友達とカフェで長時間話し込んだ"
+kana = "ともだちとかふぇでちょうじかんはなしこんだ"
+
+[[sentences]]
+jp = "新しいスニーカーを買ったら歩きやすい"
+kana = "あたらしいすにーかーをかったらあるきやすい"
+
+[[sentences]]
+jp = "宇宙ステーションの写真を見て感動した"
+kana = "うちゅうすてーしょんのしゃしんをみてかんどうした"
+
+[[sentences]]
+jp = "仕事の締め切りまであと一週間しかない"
+kana = "しごとのしめきりまであといっしゅうかんしかない"
+
+[[sentences]]
+jp = "納豆ご飯は朝食の定番メニューである"
+kana = "なっとうごはんはちょうしょくのていばんめにゅーである"
+
+[[sentences]]
+jp = "疲れた時は温かいスープが飲みたくなる"
+kana = "つかれたときはあたたかいすーぷがのみたくなる"
+
+[[sentences]]
+jp = "雨の日の庭で虹が出ているのを発見した"
+kana = "あめのひのにわでにじがでているのをはっけんした"
+
+[[sentences]]
+jp = "祖母が作った和菓子はとても美味しい"
+kana = "そぼがつくったわがしはとてもおいしい"
+
+[[sentences]]
+jp = "運動会でリレーの選手として参加した"
+kana = "うんどうかいでりれーのせんしゅとしてさんかした"
+
+[[sentences]]
+jp = "スマートフォンのバッテリーがすぐなくなる"
+kana = "すまーとふぉんのばってりーがすぐなくなる"
+
+[[sentences]]
+jp = "正月の初詣で願い事を書いて祈った"
+kana = "しょうがつのはつもうででねがいごとをかいていのった"
+
+[[sentences]]
+jp = "科学の実験でドライアイスが昇華する様子を見た"
+kana = "かがくのじっけんでどらいあいすがしょうかするようすをみた"
+
+[[sentences]]
+jp = "転勤で新しい土地への引っ越しが決まった"
+kana = "てんきんであたらしいとちへのひっこしがきまった"
+
+[[sentences]]
+jp = "歴史の授業で江戸時代の文化について学ぶ"
+kana = "れきしのじゅぎょうでえどじだいのぶんかについてまなぶ"
+
+[[sentences]]
+jp = "焦った時に深呼吸するとリラックスできる"
+kana = "あせったときにしんこきゅうするとりらっくすできる"
+
+[[sentences]]
+jp = "海水浴場で砂浜に寝転んで空を見上げた"
+kana = "かいすいよくじょうですなはまにねころんでそらをみあげた"
+
+[[sentences]]
+jp = "妹のピアノの発表会を見に行った"
+kana = "いもうとのぴあののはっぴょうかいをみにいった"
+
+[[sentences]]
+jp = "節分の豆まきで家中に豆が散らばった"
+kana = "せつぶんのまめまきでいえじゅうにまめがちらばった"
+
+[[sentences]]
+jp = "駅前の交差点で信号を待つ時間が長い"
+kana = "えきまえのこうさてんでしんごうをまつじかんがながい"
+
+[[sentences]]
+jp = "実家から届いた荷物の中に懐かしい物があった"
+kana = "じっかからとどいたにもつのなかになつかしいものがあった"
+
+[[sentences]]
+jp = "母親と一緒に料理をしながら家族の話をした"
+kana = "ははおやといっしょにりょうりをしながらかぞくのはなしをした"
+
+[[sentences]]
+jp = "朝日が昇る風景は本当に美しい"
+kana = "あさひがのぼるふうけいはほんとうにうつくしい"
+
+[[sentences]]
+jp = "海辺で拾った貝殻を眺めている"
+kana = "かいへでひろったかいがらをながめている"
+
+[[sentences]]
+jp = "雨の中を傘を差して歩いた"
+kana = "あめのなかをかさをさしてあるいた"
+
+[[sentences]]
+jp = "友達と久しぶりに再会できて嬉しい"
+kana = "ともだちとひさしぶりにさいかいできてうれしい"
+
+[[sentences]]
+jp = "毎日の運動は健康の秘訣らしい"
+kana = "まいにちのうんどうはけんこうのひけつらしい"
+
+[[sentences]]
+jp = "季節が変わると新しい服が欲しくなる"
+kana = "きせつがかわるとあたらしいふくがほしくなる"
+
+[[sentences]]
+jp = "会議の資料を用意するのに時間がかかった"
+kana = "かいぎのしりょうをようういするのにじかんがかかった"
+
+[[sentences]]
+jp = "試験に合格したので友人と祝杯を上げた"
+kana = "しけんにごうかくしたのでゆうじんとしゅくはいをあげた"
+
+[[sentences]]
+jp = "電話の画面を見すぎて目が疲れている"
+kana = "でんわのがめんをみすぎてめがつかれている"
+
+[[sentences]]
+jp = "昨日の映画は予想外に面白かった"
+kana = "きのうのえいがはよそうがいにおもしろかった"
+
+[[sentences]]
+jp = "公園で子どもたちが元気に遊んでいた"
+kana = "こうえんでこどもたちがげんきにあそんでいた"
+
+[[sentences]]
+jp = "駅前のカフェでコーヒーを飲む習慣"
+kana = "えきまえのかふぇでこーひーをのむしゅうかん"
+
+[[sentences]]
+jp = "旅行の思い出は一生大事にしたい"
+kana = "りょこうのおもいではいっしょうたいじにしたい"
+
+[[sentences]]
+jp = "週末は家の片付けと洗濯をすることにした"
+kana = "しゅうまつはいえのかたづけとせんたくをすることにした"
+
+[[sentences]]
+jp = "スーパーで食材を買って夕食を作った"
+kana = "すーぱーでしょくざいをかってゆうしょくをつくった"
+
+[[sentences]]
+jp = "冬の夜空に星がたくさん輝いている"
+kana = "ふゆのよぞらにほしがたくさんかがやいている"
+
+[[sentences]]
+jp = "仕事のストレスを運動で解消している"
+kana = "しごとのすとれすをうんどうでかいしょうしている"
+
+[[sentences]]
+jp = "祖母の料理の味を忘れることができない"
+kana = "そぼのりょうりのあじをわすれることができない"
+
+[[sentences]]
+jp = "自転車で通勤するのは体に良い運動だ"
+kana = "じてんしゃできつうきんするのはからだにいいうんどうだ"
+
+[[sentences]]
+jp = "緑茶のさっぱりとした味が大好きです"
+kana = "りょくちゃのさっぱりとしたあじがだいすきです"
+
+[[sentences]]
+jp = "子どもの頃よく遊んだ野原を訪ねた"
+kana = "こどものころよくあそんだのはらをたずねた"
+
+[[sentences]]
+jp = "音楽を聴きながら家事をするのが楽しい"
+kana = "おんがくをききながらかじをするのがたのしい"
+
+[[sentences]]
+jp = "去年の夏は記録的な猛暑だったらしい"
+kana = "きょねんのなつはきろくてきなもうしょだったらしい"
+
+[[sentences]]
+jp = "パソコンの調子が悪くなったので修理に出した"
+kana = "ぱそこんのちょうしがわるくなったのでしゅうりにだした"
+
+[[sentences]]
+jp = "週刊誌の記事に自分の名前を見つけた"
+kana = "しゅうかんしのきじにじぶんのなまえをみつけた"
+
+[[sentences]]
+jp = "朝日が昇る山々を見つめた"
+kana = "あさひがのぼるやまやまをみつめた"
+
+[[sentences]]
+jp = "友達と海辺で貝殻を探した"
+kana = "ともだちとうみべでかいがらをさがした"
+
+[[sentences]]
+jp = "夕食の準備で玉ねぎを切った"
+kana = "ゆうしょくのじゅんびでたまねぎをきった"
+
+[[sentences]]
+jp = "図書館で借りた本は面白かった"
+kana = "としょかんでかりたほんはおもしろかった"
+
+[[sentences]]
+jp = "スマートフォンの画面が割れてしまった"
+kana = "すまーとふぉんのがめんがわれてしまった"
+
+[[sentences]]
+jp = "運動会で友人と力一杯走った"
+kana = "うんどうかいでゆうじんとちからいっぱいはしった"
+
+[[sentences]]
+jp = "駅前のスーパーで安い野菜を買った"
+kana = "えきまえのすーぱーでやすいやさいをかった"
+
+[[sentences]]
+jp = "寝坊して朝食を食べずに出かけた"
+kana = "ねぼうしてちょうしょくをたべずにでかけた"
+
+[[sentences]]
+jp = "昨日の試験は難しかったと思う"
+kana = "きのうのしけんはむずかしかったとおもう"
+
+[[sentences]]
+jp = "音楽を聴きながら勉強するのが習慣"
+kana = "おんがくをききながらべんきょうするのがしゅうかん"
+
+[[sentences]]
+jp = "両親が旅行から帰ってくるのを待った"
+kana = "りょうしんがりょこうからかえってくるのをまった"
+
+[[sentences]]
+jp = "毎週土曜日にテニスをしている"
+kana = "まいしゅうどようびにてにすをしている"
+
+[[sentences]]
+jp = "映画館でコーヒーを飲みながら映画を見た"
+kana = "えいがかんでこーひーをのみながらえいがをみた"
+
+[[sentences]]
+jp = "冬の朝は霜が降りて美しい光景だ"
+kana = "ふゆのあさはしもがおりてうつくしいこうけいだ"
+
+[[sentences]]
+jp = "犬の散歩で公園を歩くのは楽しい"
+kana = "いぬのさんぽでこうえんをあるくのはたのしい"
+
+[[sentences]]
+jp = "おばあちゃんが作ったお菓子を食べた"
+kana = "おばあちゃんがつくったおかしをたべた"
+
+[[sentences]]
+jp = "桜の花びらが風に舞っている光景は美しい"
+kana = "さくらのはなびらがかぜにまっているこうけいはうつくしい"
+
+[[sentences]]
+jp = "病院で医者に診てもらったら治った"
+kana = "びょういんでいしゃにみてもらったらなおった"
+
+[[sentences]]
+jp = "夜空の星を数えながら眠くなった"
+kana = "よぞらのほしをかぞえながらねむくなった"
+
+[[sentences]]
+jp = "週末は家族でショッピングに行く予定"
+kana = "しゅうまつはかぞくでしょっぴんぐにいくよてい"
+
+[[sentences]]
+jp = "新しい靴を履いて歩くと足が痛くなる"
+kana = "あたらしいくつをはいてあるくとあしがいたくなる"
+
+[[sentences]]
+jp = "パソコンのファイルを整理したら楽になった"
+kana = "ぱそこんのふぁいるをせいりしたららくになった"
+
+[[sentences]]
+jp = "兄さんがギターを弾いているのを聞いた"
+kana = "あにさんがぎたーをひいているのをきいた"
+
+[[sentences]]
+jp = "バスで街へ行ってお土産を買った"
+kana = "ばすでまちへいっておみやげをかった"
+
+[[sentences]]
+jp = "雪の日は外で遊ぶのが最高だった"
+kana = "ゆきのひはそとであそぶのがさいこうだった"
+
+[[sentences]]
+jp = "田舎の祖母の家に泊まりに行く"
+kana = "いなかのそぼのいえにとまりにいく"
+
+[[sentences]]
+jp = "友達と熱唱して声がかれてしまった"
+kana = "ともだちとねっしょうしてこえがかれてしまった"
+
+[[sentences]]
+jp = "発表の準備をするのに時間がかかった"
+kana = "はっぴょうのじゅんびをするのにじかんがかかった"
+
+[[sentences]]
+jp = "切符を買ってから駅のホームに向かった"
+kana = "きっぷをかってからえきのほーむにむかった"
+
+[[sentences]]
+jp = "夜空に輝く星々を眺めるのが好きです"
+kana = "よぞらにかがやくほしぼしをながめるのがすきです"
+
+[[sentences]]
+jp = "木漏れ日の中で本を読む時間は最高だ"
+kana = "こもれびのなかでほんをよむじかんはさいこうだ"
+
+[[sentences]]
+jp = "土産に購入したお菓子は大人気だった"
+kana = "みやげにこうにゅうしたおかしはだいにんきだった"
+
+[[sentences]]
+jp = "冷たいアイスクリームを食べて涼しくなった"
+kana = "つめたいあいすくりーむをたべてすずしくなった"
+
+[[sentences]]
+jp = "パスポートを紛失して困っているんです"
+kana = "ぱすぽーとをふんしつしてこまっているんです"
+
+[[sentences]]
+jp = "授業中に居眠りをしてしまい反省した"
+kana = "じゅぎょうちゅうにいねむりをしてしまいはんせいした"
+
+[[sentences]]
+jp = "修学旅行で京都の古い寺を見学しました"
+kana = "しゅうがくりょこうできょうとのふるいてらをけんがくしました"
+
+[[sentences]]
+jp = "給食のカレーはいつも何杯もおかわりしたい"
+kana = "きゅうしょくのかれーはいつもなんぱいもおかわりしたい"
+
+[[sentences]]
+jp = "文化祭でバンド演奏して大盛況だった"
+kana = "ぶんかさいでばんどえんそうしてだいせいきょうだった"
+
+[[sentences]]
+jp = "部活の練習で筋肉痛になるのは当たり前だ"
+kana = "ぶかつのれんしゅうできんにくつうになるのはあたりまえだ"
+
+[[sentences]]
+jp = "スマートフォンの充電がなくなって焦った"
+kana = "すまーとふぉんのじゅうでんがなくなってあせった"
+
+[[sentences]]
+jp = "図書館で見つけた本が思いのほか面白かった"
+kana = "としょかんでみつけたほんがおもいのほかおもしろかった"
+
+[[sentences]]
+jp = "会議で締め切りが延長されて安心した"
+kana = "かいぎでしめきりがえんちょうされてあんしんした"
+
+[[sentences]]
+jp = "残業のせいで夜中に帰宅するはめになった"
+kana = "ざんぎょうのせいでよなかにきたくするはめになった"
+
+[[sentences]]
+jp = "メールの返信を忘れていて上司に怒られた"
+kana = "めーるのへんしんをわすれていてじょうしにおこられた"
+
+[[sentences]]
+jp = "プレゼンで緊張しすぎて言葉がでなかった"
+kana = "ぷれぜんできんちょうしすぎてことばがでなかった"
+
+[[sentences]]
+jp = "ウォーキングで毎日三千歩を歩くことにした"
+kana = "うぉーきんぐでまいにちさんぜんぽをあるくことにした"
+
+[[sentences]]
+jp = "ダイエットのために夜遅い食事は控えている"
+kana = "だいえっとのためによるおそいしょくじはひかえている"
+
+[[sentences]]
+jp = "睡眠不足で集中力が低下しているんです"
+kana = "すいみんぶそくでしゅうちゅうりょくがていかしているんです"
+
+[[sentences]]
+jp = "台風のせいで野球の試合が中止になった"
+kana = "たいふうのせいでやきゅうのしあいがちゅうしになった"
+
+[[sentences]]
+jp = "雪の日は転ばないように気をつけないと"
+kana = "ゆきのひはころばないようにきをつけないと"
+
+[[sentences]]
+jp = "レストランで食べたパスタは絶品でした"
+kana = "れすとらんでたべたぱすたはぜっぴんでした"
+
+[[sentences]]
+jp = "居酒屋で友人と乾杯してストレス解消した"
+kana = "いざかやでゆうじんとかんぱいしてすとれすかいしょうした"
+
+[[sentences]]
+jp = "ランチメニューを見て迷わず決めることができた"
+kana = "らんちめにゅーをみてまよわずきめることができた"
+
+[[sentences]]
+jp = "朝日が山の頂上に昇る景色"
+kana = "あさひがやまのちょうじょうにのぼるけしき"
+
+[[sentences]]
+jp = "図書館で借りた本をようやく読み終わった"
+kana = "としょかんでかりたほんをようやくよみおわった"
+
+[[sentences]]
+jp = "新しい服を買って鏡の前で試着した"
+kana = "あたらしいふくをかってかがみのまえでしちゃくした"
+
+[[sentences]]
+jp = "雨の日は外出するのが億劫である"
+kana = "あめのひはがいしゅつするのがおっくうである"
+
+[[sentences]]
+jp = "筋トレで腕の筋肉が発達してきた"
+kana = "きんとれでうでのきんにくがはったつしてきた"
+
+[[sentences]]
+jp = "桜の花びらが風に舞う光景だった"
+kana = "さくらのはなびらがかぜにまううこうけいだった"
+
+[[sentences]]
+jp = "駅前のレストランで家族と食事をした"
+kana = "えきまえのれすとらんでかぞくとしょくじをした"
+
+[[sentences]]
+jp = "パスポートの有効期限がもう切れている"
+kana = "ぱすぽーとのゆうこうきげんがもうきれている"
+
+[[sentences]]
+jp = "映画館で最新作を見るのを楽しみにしている"
+kana = "えいがかんでさいしんさくをみるのをたのしみにしている"
+
+[[sentences]]
+jp = "実験に失敗して予定が大きく変わった"
+kana = "じっけんにしっぱいしてよていがおおきくかわった"
+
+[[sentences]]
+jp = "ウォーキングで心身ともにリフレッシュできた"
+kana = "うぉーきんぐでしんしんともにりふれっしゅできた"
+
+[[sentences]]
+jp = "昨日の試験の結果がなかなか出ない"
+kana = "きのうのしけんのけっかがなかなかでない"
+
+[[sentences]]
+jp = "土産屋で地元の名物を購入することにした"
+kana = "みやげやでじもとのめいぶつをこうにゅうすることにした"
+
+[[sentences]]
+jp = "季節の野菜を使った料理が好きだ"
+kana = "きせつのやさいをつかったりょうりがすきだ"
+
+[[sentences]]
+jp = "インターネットで買い物をするのは便利"
+kana = "いんたーねっとでかいものをするのはべんり"
+
+[[sentences]]
+jp = "昨晩の台風で家の周辺が被害を受けた"
+kana = "さくばんのたいふうでいえのしゅうへんがひがいをうけた"
+
+[[sentences]]
+jp = "正月の伝統的な行事に家族で参加する"
+kana = "しょうがつのでんとうてきなぎょうじにかぞくでさんかする"
+
+[[sentences]]
+jp = "編集会議で企画案について意見が対立した"
+kana = "へんしゅうかいぎできかくあんについていけんがたいりつした"
+
+[[sentences]]
+jp = "文化祭の準備で毎日夜遅くまで頑張っている"
+kana = "ぶんかさいのじゅんびでまいにちよるおそくまでがんばっている"
+
+[[sentences]]
+jp = "スーパーでセール商品を見つけてラッキーだった"
+kana = "すーぱーでせーるしょうひんをみつけてらっきーだった"
+
+[[sentences]]
+jp = "運動不足が続いているのが心配である"
+kana = "うんどうぶそくがつづいているのがしんぱいである"
+
+[[sentences]]
+jp = "引っ越しのために段ボール箱を積み重ねた"
+kana = "ひっこしのためにだんぼーるばこをつみかさねた"
+
+[[sentences]]
+jp = "祖父母と一緒に田舎の風景を眺めた"
+kana = "そふぼといっしょにいなかのふうけいをながめた"
+
+[[sentences]]
+jp = "スマートフォンのアプリで生活管理をしている"
+kana = "すまーとふぉんのあぷりでせいかつかんりをしている"
+
+[[sentences]]
+jp = "友達と熱唱したカラオケは最高だった"
+kana = "ともだちとねっしょうしたからおけはさいこうだった"
+
+[[sentences]]
+jp = "雨の日の図書館は静かで落ち着ける"
+kana = "あめのひのとしょかんはしずかでおちつける"
+
+[[sentences]]
+jp = "季節の変わり目は体調が崩れやすい"
+kana = "きせつのかわりめはたいちょうがくずれやすい"
+
+[[sentences]]
+jp = "駅前のレストランで夜ご飯を食べた"
+kana = "えきまえのれすとらんでよるごはんをたべた"
+
+[[sentences]]
+jp = "海辺で拾った貝殻は綺麗だった"
+kana = "うみべでひろったかいがらはきれいだった"
+
+[[sentences]]
+jp = "昼寝の後は頭がすっきりする"
+kana = "ひるねのあとはあたまがすっきりする"
+
+[[sentences]]
+jp = "ダイエットのために毎日ウォーキング"
+kana = "だいえっとのためにまいにちうぉーきんぐ"
+
+[[sentences]]
+jp = "冬の夜空に輝く星は本当に美しい"
+kana = "ふゆのよぞらにかがやくほしはほんとうにうつくしい"
+
+[[sentences]]
+jp = "誕生日のケーキは妹が手作りした"
+kana = "たんじょうびのけーきはいもうとがてづくりした"
+
+[[sentences]]
+jp = "家の近所に新しいカフェができたよ"
+kana = "いえのきんじょにあたらしいかふぇができたよ"
+
+[[sentences]]
+jp = "猫が日向で気持ちよさそうに寝ている"
+kana = "ねこがひなたできもちよさそうにねている"
+
+[[sentences]]
+jp = "映画館で最新の映画を観てきました"
+kana = "えいがかんでさいしんのえいがをみてきました"
+
+[[sentences]]
+jp = "田舎の風景は心を落ち着かせてくれる"
+kana = "いなかのふうけいはこころをおちつかせてくれる"
+
+[[sentences]]
+jp = "火曜日の午後に病院の検診があります"
+kana = "かようびのごごにびょういんのけんしんがあります"
+
+[[sentences]]
+jp = "渋滞で電車が一時間遅れた"
+kana = "じゅうたいででんしゃがいちじかんおくれた"
+
+[[sentences]]
+jp = "台風が接近しているので警戒が必要"
+kana = "たいふうがせっきんしているのでけいかいがひつよう"
+
+[[sentences]]
+jp = "毎週土曜日はテニスの練習をしている"
+kana = "まいしゅうどようびはてにすのれんしゅうをしている"
+
+[[sentences]]
+jp = "この本は非常に面白いので買う価値がある"
+kana = "このほんはひじょうにおもしろいのでかうかちがある"
+
+[[sentences]]
+jp = "買い物から帰ったら荷物が重くて疲れた"
+kana = "かいものからかえったらにもつがおもくてつかれた"
+
+[[sentences]]
+jp = "バレンタインデーにチョコレートをもらった"
+kana = "ばれんたいんでーにちょこれーとをもらった"
+
+[[sentences]]
+jp = "学校の文化祭は大盛況で楽しかった"
+kana = "がっこうのぶんかさいはたいせいきょうでたのしかった"
+
+[[sentences]]
+jp = "朝食を食べずに出かけたので昼は腹ペコだ"
+kana = "ちょうしょくをたべずにでかけたのでひるははらぺこだ"
+
+[[sentences]]
+jp = "祖父母を訪ねて田舎へ行く予定です"
+kana = "そふぼをたずねていなかへいくよていです"
+
+[[sentences]]
+jp = "毎朝のランニングで汗をかいた"
+kana = "まいあさのらんにんぐであせをかいた"
+
+[[sentences]]
+jp = "台風が近づいているので警戒が必要"
+kana = "たいふうがちかづいているのでけいかいがひつよう"
+
+[[sentences]]
+jp = "図書館で静かに本を読んでいる"
+kana = "としょかんでしずかにほんをよんでいる"
+
+[[sentences]]
+jp = "昨日の会議で重要な案件が決まった"
+kana = "きのうのかいぎでじゅうようなあんけんがきまった"
+
+[[sentences]]
+jp = "紅葉の季節は山登りに最適です"
+kana = "こうようのきせつはやまのぼりにさいてきです"
+
+[[sentences]]
+jp = "子供の頃は毎日公園で遊んだ"
+kana = "こどものころはまいにちこうえんであそんだ"
+
+[[sentences]]
+jp = "新しい靴を買ったので履き心地を試した"
+kana = "あたらしいくつをかったのではきごこちをためした"
+
+[[sentences]]
+jp = "海辺の町での夏休みは最高だった"
+kana = "うみべのまちでのなつやすみはさいこうだった"
+
+[[sentences]]
+jp = "プレゼンテーションの準備が大変です"
+kana = "ぷれぜんてーしょんのじゅんびがたいへんです"
+
+[[sentences]]
+jp = "電車が遅れているので会社に急いだ"
+kana = "でんしゃがおくれているのでかいしゃにいそいだ"
+
+[[sentences]]
+jp = "節分の豆まきは家族の大切な行事"
+kana = "せつぶんのまめまきはかぞくのたいせつなぎょうじ"
+
+[[sentences]]
+jp = "コーヒーとケーキで午後の休憩を取った"
+kana = "こーひーとけーきでごごのきゅうけいをとった"
+
+[[sentences]]
+jp = "星空を見ると心が落ち着く気がする"
+kana = "ほしぞらをみるとこころがおちつくきがする"
+
+[[sentences]]
+jp = "食べ物の好き嫌いがなくなってきた"
+kana = "たべもののすきぎらいがなくなってきた"
+
+[[sentences]]
+jp = "インターネットで調べたら答えが分かった"
+kana = "いんたーねっとでしらべたらこたえがわかった"
+
+[[sentences]]
+jp = "窓から見える景色がとても綺麗だった"
+kana = "まどからみえるけしきがとてもきれいだった"
+
+[[sentences]]
+jp = "家の近所に新しいお店がオープンした"
+kana = "いえのきんじょにあたらしいおみせがおーぷんした"
+
+[[sentences]]
+jp = "運動した後は筋肉痛が出やすくなる"
+kana = "うんどうしたあとはきんにくつうがでやすくなる"
+
+[[sentences]]
+jp = "誕生日のケーキは手作りで頑張った"
+kana = "たんじょうびのけーきはてづくりでがんばった"
+
+[[sentences]]
+jp = "雨の日は傘を忘れずに持ち歩く"
+kana = "あめのひはかさをわすれずにもちあるく"
+
+[[sentences]]
+jp = "授業で習った内容をノートに整理した"
+kana = "じゅぎょうでならったないようをのーとにせいりした"
+
+[[sentences]]
+jp = "旅行の荷造りは前日に準備する"
+kana = "りょこうのにづくりはぜんじつにじゅんびする"
+
+[[sentences]]
+jp = "好きな映画をもう一度見たくなった"
+kana = "すきなえいがをもういちどみたくなった"
+
+[[sentences]]
+jp = "祖父母と一緒に温泉に行った"
+kana = "そふぼといっしょにおんせんにいった"
+
+[[sentences]]
+jp = "職場の同僚が転勤することになった"
+kana = "しょくばのどうりょうがてんきんすることになった"
+
+[[sentences]]
+jp = "画面の明るさを調整して目の疲れを取る"
+kana = "がめんのあかるさをちょうせいしてめのつかれをとる"
+
+[[sentences]]
+jp = "友人との約束の時間が近づいた"
+kana = "ゆうじんとのやくそくのじかんがちかづいた"
+
+[[sentences]]
+jp = "雨の中で傘をさして歩いている"
+kana = "あめのなかでかさをさしてあるいている"
+
+[[sentences]]
+jp = "会議のプレゼン資料を完成させた"
+kana = "かいぎのぷれぜんしりょうをかんせいさせた"
+
+[[sentences]]
+jp = "心が落ち着いてきて安心できた"
+kana = "こころがおちついてきてあんしんできた"
+
+[[sentences]]
+jp = "飛行機で海外へ旅立つ準備をした"
+kana = "ひこうきでかいがいへたびたつじゅんびをした"
+
+[[sentences]]
+jp = "スーパーで安売りの食材を見つけた"
+kana = "すーぱーでやすうりのしょくざいをみつけた"
+
+[[sentences]]
+jp = "医者から処方してもらった薬を飲む"
+kana = "いしゃからしょほうしてもらったくすりをのむ"
+
+[[sentences]]
+jp = "恋人と付き合うことになってしまった"
+kana = "こいびととつきあうことになってしまった"
+
+[[sentences]]
+jp = "映画を見に映画館へ出かけた"
+kana = "えいがをみにえいがかんへでかけた"
+
+[[sentences]]
+jp = "晴れた空に虹がかかって見えた"
+kana = "はれたそらににじがかかってみえた"
+
+[[sentences]]
+jp = "ファッション雑誌で新しい服を探した"
+kana = "ふぁっしょんざっしであたらしいふくをさがした"
+
+[[sentences]]
+jp = "新しい家へ引っ越すことに決まった"
+kana = "あたらしいいえへひっこすことにきまった"
+
+[[sentences]]
+jp = "ゴミ分別をして環境を守ろうとした"
+kana = "ごみぶんべつをしてかんきょうをまもろうとした"
+
+[[sentences]]
+jp = "化学実験で驚くほどの変化が起きた"
+kana = "かがくじっけんでおどろくほどのへんかがおきた"
+
+[[sentences]]
+jp = "江戸時代の武士について勉強している"
+kana = "えどじだいのぶしについてべんきょうしている"
+
+[[sentences]]
+jp = "レストランで食べた料理がおいしかった"
+kana = "れすとらんでたべたりょうりがおいしかった"
+
+[[sentences]]
+jp = "ダジャレを言ったら友達に笑われた"
+kana = "だじゃれをいったらともだちにわらわれた"
+
+[[sentences]]
+jp = "最近の物価が上がってきて困っている"
+kana = "さいきんのぶっかがあがってきてこまっている"
+
+[[sentences]]
+jp = "バスケットボール部の練習が厳しい"
+kana = "ばすけっとぼーるぶのれんしゅうがきびしい"
+
+[[sentences]]
+jp = "パソコンが故障してしまったので修理した"
+kana = "ぱそこんがこしょうしてしまったのでしゅうりした"
+
+[[sentences]]
+jp = "学園祭の準備で忙しい毎日を過ごした"
+kana = "がくえんさいのじゅんびでいそがしいまいにちをすごした"
+
+[[sentences]]
+jp = "クリスマスの飾りつけをする季節だ"
+kana = "くりすますのかざりつけをするきせつだ"
+
+[[sentences]]
+jp = "大好きな音楽を聴いてリラックスした"
+kana = "だいすきなおんがくをきいてりらっくすした"
