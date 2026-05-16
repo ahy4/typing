@@ -78,7 +78,7 @@ G4フェーズ: R=1〜7 の順に sentences.toml へ追記（Bash、逐次）
 Agent(
   description: "Generate typing sentences (round <R>, batch <i>/<K>)",
   subagent_type: "sentence-generator",
-  prompt: "count=<COUNT>\njp_length=<JP_LENGTH_INSTRUCTION>"
+  prompt: "count=<COUNT>\njp_length=<JP_LENGTH_INSTRUCTION>\noutput_file=gomi/gen_batches/raw_<R>_<i>.toml"
 )
 ```
 
@@ -92,11 +92,11 @@ Agent(
   - 16〜21: `jp.length の目安は 16〜21 です`
   - 20〜27: `jp.length の目安は 20〜27 です`
 
-出力にコードフェンスや説明文が混入したら、**最初の `[[sentences]]` から末尾までを切り出す**。
+エージェントはファイルに直接書き出して `OK` または `FAIL` のみ返す。
 
 #### 失敗検出とリトライ
 
-出力に `[[sentences]]` が1つも含まれていない場合、そのバッチは失敗。
+返答が `OK` でない場合（`FAIL` または予期しない出力）、そのバッチは失敗。
 
 **全91バッチが完了したら**、失敗バッチ（ラウンド・バッチ番号を記録済み）を **1 メッセージで一括再実行**（全ラウンドまとめて）。再実行後も失敗したバッチはスキップ確定（計2回失敗でスキップ）。
 
@@ -106,10 +106,9 @@ Agent(
 
 **まず全7ラウンドの全有効バッチについて** TOML → JSON 変換を完了させてから、validator を一括起動する。
 
-#### TOML 保存と JSON 変換（全バッチ、順次）
+#### JSON 変換（全バッチ、順次）
 
-各バッチ `(R, i)` について:
-- 生成出力（TOML テキスト）を `Write` で `gomi/gen_batches/raw_<R>_<i>.toml` に保存する
+各バッチ `(R, i)` について（生成エージェントが `raw_<R>_<i>.toml` に直接書き出し済み）:
 - `Bash` で変換:
   ```bash
   node scripts/parse-batch.mjs gomi/gen_batches/raw_<R>_<i>.toml gomi/gen_batches/batch_<R>_<i>.json
@@ -130,22 +129,20 @@ Agent(
 
 バリデータ j は 1〜3。
 
-全エージェント完了後、各 `gomi/gen_results/batch_<R>_<i>_v<j>.json` を `Read` して JSON.parse する。
+#### 結果の統合（batch aggregator を一括起動）
 
-haiku モデルはコードフェンスを付けることがある。JSON.parse 前に:
-1. 先頭の ` ```json ` / ` ``` ` / 末尾の ` ``` ` を除去
-2. 残った文字列を JSON.parse する
+validator 全完了後、有効バッチ数 M_total 個の **`sentence-gen-batch-aggregator`** を **1 つのメッセージで同時起動**する。
 
-#### 結果の統合（ラウンドごとに実施）
+```
+Agent(
+  description: "Aggregate validation results (round <R>, batch <i>)",
+  subagent_type: "sentence-gen-batch-aggregator",
+  prompt: "batch_file=gomi/gen_batches/batch_<R>_<i>.json\nresult_v1=gomi/gen_results/batch_<R>_<i>_v1.json\nresult_v2=gomi/gen_results/batch_<R>_<i>_v2.json\nresult_v3=gomi/gen_results/batch_<R>_<i>_v3.json"
+)
+```
 
-ラウンド R の有効バッチ群について:
-- 出力に含まれていない文 → 問題なしとして有効扱い
-- 出力に含まれている文（出力に存在する＝問題あり）→ index と jp を突合して除外対象を特定:
-  1. `sentences[result.index].jp === result.jp` が成立する → その文を除外（LLM-reject として記録）
-  2. index と jp が食い違う → バッチ内で `result.jp` に完全一致する文を探す。見つかればその文を除外
-  3. どちらでも特定できない → その invalid 判定をスキップ（除外しない）
-- **いずれかの validator でも除外判定が確定した文は除外する**（OR ロジック）
-- **同じ validator が同一 index を複数回出力した場合** → **最初の判定を採用**
+各エージェントの返答は `{"excludes": [{"index": N, "jp": "..."}, ...]}` 形式の JSON。
+JSON.parse して、バッチ `(R, i)` の除外リスト（LLM-reject）を確定する。
 
 ---
 
@@ -235,9 +232,17 @@ Agent(
 )
 ```
 
-全エージェント完了後、各 `gomi/validate_results/chunk_<i>.json` を `Read` して JSON.parse する（haiku のコードフェンスを除去してから parse）。
+全エージェント完了後、**`sentence-kana-result-aggregator`** を1つ起動して結果を集計する。
 
-各チャンクの結果から `valid: false` の index をすべて収集し、**LLM-reject index セット**とする。
+```
+Agent(
+  description: "Aggregate kana validation results",
+  subagent_type: "sentence-kana-result-aggregator",
+  prompt: "result_dir=gomi/validate_results\nchunk_count=<C>"
+)
+```
+
+返答は `{"invalid_indices": [N, ...]}` 形式の JSON。JSON.parse して **LLM-reject index セット**とする。
 
 ### ステップ V3: エンジン検証（直近 T 件のみ）
 
@@ -289,7 +294,17 @@ Agent(
 )
 ```
 
-全エージェント完了後、各 `gomi/similar_results/island_<i>.json` を `Read` して JSON.parse する。各島の結果から `delete` 配列の index をすべて収集し、**重複-reject index セット**とする。
+全エージェント完了後、**`sentence-similar-result-aggregator`** を1つ起動して結果を集計する。
+
+```
+Agent(
+  description: "Aggregate similar-sentence review results",
+  subagent_type: "sentence-similar-result-aggregator",
+  prompt: "result_dir=gomi/similar_results\nisland_count=<I>"
+)
+```
+
+返答は `{"delete_indices": [N, ...]}` 形式の JSON。JSON.parse して **重複-reject index セット**とする。
 
 ### ステップ V5: 除外文を sentences.toml から削除する
 
