@@ -3,8 +3,8 @@ import { useCallback, useRef, useState } from "react";
 export type RecorderState = "idle" | "recording" | "stopped";
 
 const PREFERRED_MIME =
-	["video/webm;codecs=vp9", "video/webm;codecs=vp8", "video/webm"].find(
-		(t) => MediaRecorder.isTypeSupported(t),
+	["video/webm;codecs=vp9", "video/webm;codecs=vp8", "video/webm"].find((t) =>
+		MediaRecorder.isTypeSupported(t),
 	) ?? "video/webm";
 
 export function useScreenRecorder() {
