@@ -11,6 +11,7 @@ import {
 	createRunnerState,
 	type RunnerState,
 } from "../lib/runnerState";
+import { encodeReplay } from "../lib/shareReplay";
 import {
 	playHeal,
 	playKeyTap,
@@ -24,6 +25,7 @@ import { GameScreen } from "./GameScreen";
 interface Props {
 	replay: ReplayData;
 	onClose: () => void;
+	onStartWithGhost?: () => void;
 }
 
 interface DisplayState extends RunnerState {
@@ -87,7 +89,7 @@ function reconstructAt(
 	};
 }
 
-export function ReplayPlayer({ replay, onClose }: Props) {
+export function ReplayPlayer({ replay, onClose, onStartWithGhost }: Props) {
 	const ghostTimeline = useMemo(() => {
 		if (!replay.ghostReplayId) return [];
 		const ghostReplay = loadReplays().find(
@@ -98,6 +100,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 
 	const [seekPct, setSeekPct] = useState(0);
 	const [playing, setPlaying] = useState(false);
+	const [copied, setCopied] = useState(false);
 	const rafRef = useRef<number>(0);
 	const startWallRef = useRef(0);
 	const startGameRef = useRef(0);
@@ -223,6 +226,14 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 		lastSoundIdxRef.current = idx;
 		setDisplayState(reconstructAt(replay, idx, gameTime));
 		setGhostState(getGhostAt(ghostTimeline, gameTime));
+	}
+
+	async function handleShare() {
+		const encoded = await encodeReplay(replay);
+		const url = `${window.location.origin}${window.location.pathname}#/replay?r=${encoded}`;
+		await navigator.clipboard.writeText(url);
+		setCopied(true);
+		setTimeout(() => setCopied(false), 2000);
 	}
 
 	const sentenceProgress = displayState.sentenceIdx;
@@ -431,6 +442,51 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 						>
 							{currentTimeSec}s / {totalTimeSec}s
 						</div>
+						<button
+							type="button"
+							onClick={handleShare}
+							style={{
+								padding: "6px 18px",
+								fontFamily: "'Press Start 2P', monospace",
+								fontSize: "11px",
+								border: `1px solid ${copied ? "#00ff66" : "#446688"}`,
+								color: copied ? "#00ff66" : "#88aacc",
+								background: "none",
+								cursor: "pointer",
+								letterSpacing: "1px",
+								transition: "all 0.15s",
+							}}
+						>
+							{copied ? "コピーした!" : "URLをコピー"}
+						</button>
+						{onStartWithGhost && (
+							<button
+								type="button"
+								onClick={onStartWithGhost}
+								style={{
+									padding: "6px 18px",
+									fontFamily: "'Press Start 2P', monospace",
+									fontSize: "11px",
+									border: "1px solid #ff6600",
+									color: "#ff6600",
+									background: "none",
+									cursor: "pointer",
+									letterSpacing: "1px",
+									boxShadow: "0 0 6px #ff660044",
+									transition: "all 0.15s",
+								}}
+								onMouseEnter={(e) => {
+									e.currentTarget.style.color = "#ffaa44";
+									e.currentTarget.style.borderColor = "#ffaa44";
+								}}
+								onMouseLeave={(e) => {
+									e.currentTarget.style.color = "#ff6600";
+									e.currentTarget.style.borderColor = "#ff6600";
+								}}
+							>
+								このゴーストと対戦
+							</button>
+						)}
 					</div>
 				</div>
 			}
