@@ -732,7 +732,8 @@ export function GameScreen({
 					style={{
 						display: "flex",
 						alignItems: "center",
-						justifyContent: "space-between",
+						justifyContent: "center",
+						gap: "32px",
 						padding: "8px 20px",
 						borderTop: "1px solid var(--border)",
 						background: "rgba(13,0,26,0.9)",

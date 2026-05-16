@@ -387,7 +387,9 @@ export function ReplayPlayer({ replay, onClose, onStartWithGhost }: Props) {
 						style={{
 							display: "flex",
 							alignItems: "center",
-							justifyContent: "space-between",
+							justifyContent: "center",
+							gap: "16px",
+							flexWrap: "wrap",
 						}}
 					>
 						<button
