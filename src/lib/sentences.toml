@@ -6501,3 +6501,651 @@ kana = "ねこはかわいいですね"
 [[sentences]]
 jp = "春の桜が咲いている"
 kana = "はるのさくらがさいている"
+
+[[sentences]]
+jp = "走る"
+kana = "はしる"
+
+[[sentences]]
+jp = "本を読む"
+kana = "ほんをよむ"
+
+[[sentences]]
+jp = "朝焼け"
+kana = "あさやけ"
+
+[[sentences]]
+jp = "猫がいる"
+kana = "ねこがいる"
+
+[[sentences]]
+jp = "雨が降る"
+kana = "あめがふる"
+
+[[sentences]]
+jp = "空を飛ぶ"
+kana = "そらをとぶ"
+
+[[sentences]]
+jp = "海へ行く"
+kana = "うみへいく"
+
+[[sentences]]
+jp = "歌を歌う"
+kana = "うたをうたう"
+
+[[sentences]]
+jp = "星が光る"
+kana = "ほしがひかる"
+
+[[sentences]]
+jp = "風が吹く"
+kana = "かぜがふく"
+
+[[sentences]]
+jp = "火を消す"
+kana = "ひをけす"
+
+[[sentences]]
+jp = "手を洗う"
+kana = "てをあらう"
+
+[[sentences]]
+jp = "木が揺れる"
+kana = "きがゆれる"
+
+[[sentences]]
+jp = "鳥が鳴く"
+kana = "とりがなく"
+
+[[sentences]]
+jp = "月が出る"
+kana = "つきがでる"
+
+[[sentences]]
+jp = "山に登る"
+kana = "やまにのぼる"
+
+[[sentences]]
+jp = "心が躍る"
+kana = "こころがおどる"
+
+[[sentences]]
+jp = "夢を見る"
+kana = "ゆめをみる"
+
+[[sentences]]
+jp = "草が生える"
+kana = "くさがはえる"
+
+[[sentences]]
+jp = "猫"
+kana = "ねこ"
+
+[[sentences]]
+jp = "空"
+kana = "そら"
+
+[[sentences]]
+jp = "火"
+kana = "ひ"
+
+[[sentences]]
+jp = "水"
+kana = "みず"
+
+[[sentences]]
+jp = "月"
+kana = "つき"
+
+[[sentences]]
+jp = "雨"
+kana = "あめ"
+
+[[sentences]]
+jp = "風"
+kana = "かぜ"
+
+[[sentences]]
+jp = "雪"
+kana = "ゆき"
+
+[[sentences]]
+jp = "星"
+kana = "ほし"
+
+[[sentences]]
+jp = "海"
+kana = "うみ"
+
+[[sentences]]
+jp = "山"
+kana = "やま"
+
+[[sentences]]
+jp = "木"
+kana = "き"
+
+[[sentences]]
+jp = "花"
+kana = "はな"
+
+[[sentences]]
+jp = "鳥"
+kana = "とり"
+
+[[sentences]]
+jp = "魚"
+kana = "さかな"
+
+[[sentences]]
+jp = "犬"
+kana = "いぬ"
+
+[[sentences]]
+jp = "朝だ"
+kana = "あさだ"
+
+[[sentences]]
+jp = "雨が降る"
+kana = "あめがふる"
+
+[[sentences]]
+jp = "猫を飼う"
+kana = "ねこをかう"
+
+[[sentences]]
+jp = "米を炊く"
+kana = "こめをたく"
+
+[[sentences]]
+jp = "本を読む"
+kana = "ほんをよむ"
+
+[[sentences]]
+jp = "木が育つ"
+kana = "きがそだつ"
+
+[[sentences]]
+jp = "牛乳を飲む"
+kana = "ぎゅうにゅうをのむ"
+
+[[sentences]]
+jp = "走る"
+kana = "はしる"
+
+[[sentences]]
+jp = "空が青い"
+kana = "そらがあおい"
+
+[[sentences]]
+jp = "魚が泳ぐ"
+kana = "さかながおよぐ"
+
+[[sentences]]
+jp = "歌う"
+kana = "うたう"
+
+[[sentences]]
+jp = "寝る"
+kana = "ねる"
+
+[[sentences]]
+jp = "笑う"
+kana = "わらう"
+
+[[sentences]]
+jp = "山を登る"
+kana = "やまをのぼる"
+
+[[sentences]]
+jp = "手を洗う"
+kana = "てをあらう"
+
+[[sentences]]
+jp = "鳥が鳴く"
+kana = "とりがなく"
+
+[[sentences]]
+jp = "門を開く"
+kana = "もんをひらく"
+
+[[sentences]]
+jp = "火がつく"
+kana = "ひがつく"
+
+[[sentences]]
+jp = "眠い"
+kana = "ねむい"
+
+[[sentences]]
+jp = "米粉を混ぜる"
+kana = "こめこをまぜる"
+
+[[sentences]]
+jp = "雨が降る"
+kana = "あめがふる"
+
+[[sentences]]
+jp = "朝日が昇る"
+kana = "あさひがのぼる"
+
+[[sentences]]
+jp = "水を飲む"
+kana = "みずをのむ"
+
+[[sentences]]
+jp = "花が咲く"
+kana = "はながさく"
+
+[[sentences]]
+jp = "風が吹く"
+kana = "かぜがふく"
+
+[[sentences]]
+jp = "夜が明ける"
+kana = "よるがあける"
+
+[[sentences]]
+jp = "火を消す"
+kana = "ひをけす"
+
+[[sentences]]
+jp = "鳥が飛ぶ"
+kana = "とりがとぶ"
+
+[[sentences]]
+jp = "葉が落ちる"
+kana = "はがおちる"
+
+[[sentences]]
+jp = "雪が積もる"
+kana = "ゆきがつもる"
+
+[[sentences]]
+jp = "波が打つ"
+kana = "なみがうつ"
+
+[[sentences]]
+jp = "月が出る"
+kana = "つきがでる"
+
+[[sentences]]
+jp = "虫が鳴く"
+kana = "むしがなく"
+
+[[sentences]]
+jp = "木が育つ"
+kana = "きがそだつ"
+
+[[sentences]]
+jp = "星が輝く"
+kana = "ほしがかがやく"
+
+[[sentences]]
+jp = "氷が解ける"
+kana = "こおりがとける"
+
+[[sentences]]
+jp = "雲が広がる"
+kana = "くもがひろがる"
+
+[[sentences]]
+jp = "砂が散る"
+kana = "すながちる"
+
+[[sentences]]
+jp = "朝日が昇る"
+kana = "あさひがのぼる"
+
+[[sentences]]
+jp = "雪が積もった"
+kana = "ゆきがつもった"
+
+[[sentences]]
+jp = "犬と散歩する"
+kana = "いぬとさんぽする"
+
+[[sentences]]
+jp = "本を読む"
+kana = "ほんをよむ"
+
+[[sentences]]
+jp = "咲く花がいい"
+kana = "さくはながいい"
+
+[[sentences]]
+jp = "寝坊した"
+kana = "ねぼうした"
+
+[[sentences]]
+jp = "川が流れる"
+kana = "かわがながれる"
+
+[[sentences]]
+jp = "猫が寝ている"
+kana = "ねこがねている"
+
+[[sentences]]
+jp = "雨が降っている"
+kana = "あめがふっている"
+
+[[sentences]]
+jp = "風が吹く"
+kana = "かぜがふく"
+
+[[sentences]]
+jp = "星が輝く"
+kana = "ほしがかがやく"
+
+[[sentences]]
+jp = "米を炊く"
+kana = "こめをたく"
+
+[[sentences]]
+jp = "山に登る"
+kana = "やまにのぼる"
+
+[[sentences]]
+jp = "友達が来た"
+kana = "ともだちがきた"
+
+[[sentences]]
+jp = "木が揺れる"
+kana = "きがゆれる"
+
+[[sentences]]
+jp = "汗をかく"
+kana = "あせをかく"
+
+[[sentences]]
+jp = "月が出ている"
+kana = "つきがでている"
+
+[[sentences]]
+jp = "水を飲む"
+kana = "みずをのむ"
+
+[[sentences]]
+jp = "鳥が鳴く"
+kana = "とりがなく"
+
+[[sentences]]
+jp = "光が射す"
+kana = "ひかりがさす"
+
+[[sentences]]
+jp = "猫だ"
+kana = "ねこだ"
+
+[[sentences]]
+jp = "走る"
+kana = "はしる"
+
+[[sentences]]
+jp = "雨が降る"
+kana = "あめがふる"
+
+[[sentences]]
+jp = "本を読む"
+kana = "ほんをよむ"
+
+[[sentences]]
+jp = "朝日が昇る"
+kana = "あさひがのぼる"
+
+[[sentences]]
+jp = "風が強い"
+kana = "かぜがつよい"
+
+[[sentences]]
+jp = "彼女は優しい"
+kana = "かのじょはやさしい"
+
+[[sentences]]
+jp = "明けて夜明け"
+kana = "あけてよあけ"
+
+[[sentences]]
+jp = "空を飛ぶ"
+kana = "そらをとぶ"
+
+[[sentences]]
+jp = "冷たい水"
+kana = "つめたいみず"
+
+[[sentences]]
+jp = "花が咲く"
+kana = "はながさく"
+
+[[sentences]]
+jp = "星が輝く"
+kana = "ほしがかがやく"
+
+[[sentences]]
+jp = "音が聞こえる"
+kana = "おとがきこえる"
+
+[[sentences]]
+jp = "友人と会う"
+kana = "ゆうじんとあう"
+
+[[sentences]]
+jp = "手紙を書く"
+kana = "てがみをかく"
+
+[[sentences]]
+jp = "夜空を見上げる"
+kana = "よぞらをみあげる"
+
+[[sentences]]
+jp = "美味しい料理"
+kana = "おいしいりょうり"
+
+[[sentences]]
+jp = "心が躍る"
+kana = "こころがおどる"
+
+[[sentences]]
+jp = "希望の光"
+kana = "きぼうのひかり"
+
+[[sentences]]
+jp = "雨"
+kana = "あめ"
+
+[[sentences]]
+jp = "猫"
+kana = "ねこ"
+
+[[sentences]]
+jp = "走る"
+kana = "はしる"
+
+[[sentences]]
+jp = "楽しい"
+kana = "たのしい"
+
+[[sentences]]
+jp = "歩く"
+kana = "あるく"
+
+[[sentences]]
+jp = "木"
+kana = "き"
+
+[[sentences]]
+jp = "食べる"
+kana = "たべる"
+
+[[sentences]]
+jp = "空"
+kana = "そら"
+
+[[sentences]]
+jp = "読む"
+kana = "よむ"
+
+[[sentences]]
+jp = "飲む"
+kana = "のむ"
+
+[[sentences]]
+jp = "寒い"
+kana = "さむい"
+
+[[sentences]]
+jp = "風"
+kana = "かぜ"
+
+[[sentences]]
+jp = "笑う"
+kana = "わらう"
+
+[[sentences]]
+jp = "海"
+kana = "うみ"
+
+[[sentences]]
+jp = "書く"
+kana = "かく"
+
+[[sentences]]
+jp = "火"
+kana = "ひ"
+
+[[sentences]]
+jp = "待つ"
+kana = "まつ"
+
+[[sentences]]
+jp = "星"
+kana = "ほし"
+
+[[sentences]]
+jp = "熱い"
+kana = "あつい"
+
+[[sentences]]
+jp = "音"
+kana = "おと"
+
+[[sentences]]
+jp = "雨だ"
+kana = "あめだ"
+
+[[sentences]]
+jp = "猫が寝た"
+kana = "ねこがねた"
+
+[[sentences]]
+jp = "走りたい"
+kana = "はしりたい"
+
+[[sentences]]
+jp = "星が光る"
+kana = "ほしがひかる"
+
+[[sentences]]
+jp = "笑った"
+kana = "わらった"
+
+[[sentences]]
+jp = "雪が降る"
+kana = "ゆきがふる"
+
+[[sentences]]
+jp = "歌った"
+kana = "うたった"
+
+[[sentences]]
+jp = "水を飲む"
+kana = "みずをのむ"
+
+[[sentences]]
+jp = "風が吹く"
+kana = "かぜがふく"
+
+[[sentences]]
+jp = "寝坊した"
+kana = "ねぼうした"
+
+[[sentences]]
+jp = "幸せだ"
+kana = "しあわせだ"
+
+[[sentences]]
+jp = "靴が古い"
+kana = "くつがふるい"
+
+[[sentences]]
+jp = "焦った"
+kana = "あせった"
+
+[[sentences]]
+jp = "橋を渡る"
+kana = "はしをわたる"
+
+[[sentences]]
+jp = "雲が出た"
+kana = "くもがでた"
+
+[[sentences]]
+jp = "手が冷たい"
+kana = "てがつめたい"
+
+[[sentences]]
+jp = "砂糖が甘い"
+kana = "さとうがあまい"
+
+[[sentences]]
+jp = "窓が開く"
+kana = "まどがあく"
+
+[[sentences]]
+jp = "鳥が飛んだ"
+kana = "とりがとんだ"
+
+[[sentences]]
+jp = "靴を履く"
+kana = "くつをはく"
+
+[[sentences]]
+jp = "歩く"
+kana = "あるく"
+
+[[sentences]]
+jp = "寝る"
+kana = "ねる"
+
+[[sentences]]
+jp = "食べ物"
+kana = "たべもの"
+
+[[sentences]]
+jp = "水飲む"
+kana = "みずのむ"
+
+[[sentences]]
+jp = "本読む"
+kana = "ほんよむ"
+
+[[sentences]]
+jp = "走る"
+kana = "はしる"
+
+[[sentences]]
+jp = "風強い"
+kana = "かぜつよい"
+
+[[sentences]]
+jp = "朝起きる"
+kana = "あさおきる"
+
+[[sentences]]
+jp = "花咲く"
+kana = "はなさく"
+
+[[sentences]]
+jp = "絵描く"
+kana = "えかく"
