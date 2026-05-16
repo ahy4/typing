@@ -95,7 +95,7 @@ for (let i = 0; i < sentences.length; i++) {
 
 // Compute per-island similarity score (mean edge distance; lower = more similar)
 const islandScore = new Map(); // root -> { sum, count }
-for (const { i, j, dist } of edgePairs) {
+for (const { i, dist } of edgePairs) {
 	const r = find(i);
 	if (!islandScore.has(r)) islandScore.set(r, { sum: 0, count: 0 });
 	const s = islandScore.get(r);
@@ -108,7 +108,9 @@ const groups = new Map();
 for (let i = 0; i < sentences.length; i++) {
 	const r = find(i);
 	if (!groups.has(r)) groups.set(r, []);
-	groups.get(r).push({ index: i, jp: sentences[i].jp, kana: sentences[i].kana });
+	groups
+		.get(r)
+		.push({ index: i, jp: sentences[i].jp, kana: sentences[i].kana });
 }
 
 // Build island list with scores, filter small islands and oversized ones
