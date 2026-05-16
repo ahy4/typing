@@ -13,7 +13,7 @@ description: src/lib/sentences.tomlの直近追加分を検証し、全件を対
 
 必要なツール:
 
-- `Read` — プロンプトファイル読み込み
+- `Read` — ファイル読み込み
 - `Write` — 一時ファイル書き出し
 - `Bash` — スクリプト実行
 - **`Agent`** — 検証・審査サブエージェントの dispatch
@@ -48,24 +48,24 @@ node scripts/chunk-sentences.mjs --count <N> --output gomi/recent_chunks.json
 
 ## ステップ 2: お題内容の検証（全チャンク並列）
 
-全 C チャンクのサブエージェントを **1 つのメッセージで同時起動**する。
+まず各チャンクの入力ファイルを書き出す（`gomi/` が存在しない場合は先に `mkdir -p gomi` を実行）:
 
-**起動前に `Read` で `.claude/skills/validate-sentences/validate-prompt.md` を読み込み**、その内容をプロンプト本文として使う（`<SENTENCES_JSON>` を置き換えてから渡す）。
+- チャンク i のデータを `Write` で `gomi/validate_chunks/chunk_<i>.json` に書き出す（`[{"index": N, "jp": "...", "kana": "..."}, ...]` 形式）
+- 出力先は `gomi/validate_results/chunk_<i>.json` とする（エージェントが書き出す）
+
+全 C チャンクのサブエージェントを **1 つのメッセージで同時起動**する:
 
 ```
 Agent(
   description: "Validate sentences (chunk <i>/<C>)",
-  subagent_type: "general-purpose",
-  model: "haiku",
-  prompt: "<validate-prompt.md の内容（<SENTENCES_JSON> 置換済み）>"
+  subagent_type: "sentence-kana-validator",
+  prompt: "input_file=gomi/validate_chunks/chunk_<i>.json\noutput_file=gomi/validate_results/chunk_<i>.json"
 )
 ```
 
-### validate-prompt.md のプレースホルダー
+### 結果の読み込み
 
-- `<SENTENCES_JSON>` → チャンク i の配列をそのまま渡す（`[{"index": N, "jp": "...", "kana": "..."}, ...]`）
-
-### 応答前処理
+全エージェント完了後、各 `gomi/validate_results/chunk_<i>.json` を `Read` して JSON.parse する。
 
 haiku モデルはコードフェンスを付けることがある。JSON.parse 前に:
 1. 先頭の ` ```json ` / ` ``` ` / 末尾の ` ``` ` を除去
@@ -79,7 +79,6 @@ haiku モデルはコードフェンスを付けることがある。JSON.parse 
 
 LLM-reject を除いた検証対象文を `gomi/sentences_to_validate.json` に書き出す。
 
-- `gomi/` が存在しない場合は `Bash` で `mkdir -p <repo-root>/gomi` を実行して作成する
 - `Write` ツールで書き出す（Bash 経由の `node -e` は使わない）
 
 形式例:
@@ -116,24 +115,24 @@ node scripts/find-similar-sentences.mjs --filter-chunks gomi/recent_chunks.json 
 
 ### 対象島ごとのレビュー（全対象島並列）
 
-全 I 対象島のサブエージェントを **1 つのメッセージで同時起動**する。
+まず各島の入力ファイルを書き出す:
 
-**起動前に `Read` で `.claude/skills/validate-sentences/similar-review-prompt.md` を読み込み**、その内容をプロンプト本文として使う（`<ISLAND_JSON>` を置き換えてから渡す）。
+- 島 i のデータを `Write` で `gomi/similar_islands/island_<i>.json` に書き出す（`[{"index": N, "jp": "...", "kana": "..."}, ...]` 形式）
+- 出力先は `gomi/similar_results/island_<i>.json` とする（エージェントが書き出す）
+
+全 I 対象島のサブエージェントを **1 つのメッセージで同時起動**する:
 
 ```
 Agent(
   description: "Review similar-sentence island <i>/<I>",
-  subagent_type: "general-purpose",
-  model: "haiku",
-  prompt: "<similar-review-prompt.md の内容（<ISLAND_JSON> 置換済み）>"
+  subagent_type: "sentence-similar-reviewer",
+  prompt: "input_file=gomi/similar_islands/island_<i>.json\noutput_file=gomi/similar_results/island_<i>.json"
 )
 ```
 
-#### similar-review-prompt.md のプレースホルダー
+#### 結果の読み込み
 
-- `<ISLAND_JSON>` → 島 i の配列をそのまま渡す（`[{"index": N, "jp": "...", "kana": "..."}, ...]`）
-
-#### 応答前処理
+全エージェント完了後、各 `gomi/similar_results/island_<i>.json` を `Read` して JSON.parse する。
 
 haiku モデルはコードフェンスを付けることがある。JSON.parse 前に:
 1. 先頭の ` ```json ` / ` ``` ` / 末尾の ` ``` ` を除去
