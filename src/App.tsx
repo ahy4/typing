@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { ConfigScreen } from "./components/ConfigScreen";
 import { GameOverScreen } from "./components/GameOverScreen";
 import { GameScreen } from "./components/GameScreen";
 import { HelpScreen } from "./components/HelpScreen";
@@ -7,12 +8,14 @@ import { IdleScreen } from "./components/IdleScreen";
 import { ReadyScreen } from "./components/ReadyScreen";
 import { StatsScreen } from "./components/StatsScreen";
 import { useGameEngine } from "./hooks/useGameEngine";
-import { deleteReplay } from "./lib/storage";
-import type { GamePhase } from "./lib/types";
+import { setMasterVolume } from "./lib/sound";
+import { deleteReplay, loadConfig, saveConfig } from "./lib/storage";
+import type { GameConfig, GamePhase } from "./lib/types";
 
 const PHASE_TO_PATH: Record<GamePhase, string> = {
 	idle: "/",
 	help: "/help",
+	config: "/config",
 	ready: "/play", // same URL as playing — no route change on countdown end
 	playing: "/play",
 	gameover: "/gameover",
@@ -24,12 +27,24 @@ const PHASE_TO_PATH: Record<GamePhase, string> = {
 const PATH_TO_PHASE: Partial<Record<string, GamePhase>> = {
 	"/": "idle",
 	"/help": "help",
+	"/config": "config",
 	"/stats": "stats",
 };
 
 export default function App() {
+	const [config, setConfig] = useState<GameConfig>(() => loadConfig());
+
+	useEffect(() => {
+		setMasterVolume(config.volume);
+	}, [config.volume]);
+
+	const handleConfigChange = (next: GameConfig) => {
+		setConfig(next);
+		saveConfig(next);
+	};
+
 	const { state, startGame, beginPlaying, setPhase, clearData } =
-		useGameEngine();
+		useGameEngine(config);
 	const [showKeyboard, setShowKeyboard] = useState(true);
 	const navigate = useNavigate();
 
@@ -70,6 +85,7 @@ export default function App() {
 						onStart={startGame}
 						onStats={() => setPhase("stats")}
 						onHelp={() => setPhase("help")}
+						onConfig={() => setPhase("config")}
 						bestWpm={avgWpm}
 						sessionCount={state.sessions.length}
 					/>
@@ -78,6 +94,16 @@ export default function App() {
 			<Route
 				path="/help"
 				element={<HelpScreen onBack={() => setPhase("idle")} />}
+			/>
+			<Route
+				path="/config"
+				element={
+					<ConfigScreen
+						config={config}
+						onChange={handleConfigChange}
+						onBack={() => setPhase("idle")}
+					/>
+				}
 			/>
 			<Route
 				path="/stats"

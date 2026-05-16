@@ -2,7 +2,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { KPS_WINDOW_SECONDS, SlidingWindowKPS } from "../lib/ema";
 import { feedKey } from "../lib/romaji";
 import type { RunnerState } from "../lib/runnerState";
-import { applyDrain, applyInput, createRunnerState } from "../lib/runnerState";
+import {
+	DIFFICULTY_PRESETS,
+	applyDrain,
+	applyInput,
+	createRunnerState,
+} from "../lib/runnerState";
 import { getSentenceQueue } from "../lib/sentences";
 import {
 	playComboMilestone,
@@ -21,6 +26,7 @@ import {
 } from "../lib/storage";
 import type {
 	BigramStats,
+	GameConfig,
 	GamePhase,
 	InputEvent,
 	KeyStats,
@@ -41,7 +47,11 @@ export interface GhostTimelineEntry extends RunnerState {
 
 export function precomputeGhostTimeline(
 	replay: ReplayData,
+	config?: GameConfig,
 ): GhostTimelineEntry[] {
+	const params =
+		DIFFICULTY_PRESETS[config?.difficulty ?? "normal"] ??
+		DIFFICULTY_PRESETS.normal;
 	const kps = new SlidingWindowKPS(KPS_WINDOW_SECONDS * 1000);
 	let runner = createRunnerState(replay.sentences);
 	const timeline: GhostTimelineEntry[] = [{ ...runner, time: 0 }];
@@ -50,10 +60,10 @@ export function precomputeGhostTimeline(
 
 	for (const ev of replay.events) {
 		const dt = ev.time - lastEventTime;
-		runner = applyDrain(runner, dt);
+		runner = applyDrain(runner, dt, params);
 		lastEventTime = ev.time;
 
-		const { state } = applyInput(runner, ev, kps, lastWasWrong);
+		const { state } = applyInput(runner, ev, kps, lastWasWrong, params);
 		runner = state;
 		lastWasWrong = !ev.correct;
 		timeline.push({ ...runner, time: ev.time });
@@ -98,7 +108,12 @@ export interface GameState {
 	healStreak: number;
 }
 
-export function useGameEngine() {
+export function useGameEngine(config: GameConfig) {
+	const configRef = useRef(config);
+	useEffect(() => {
+		configRef.current = config;
+	}, [config]);
+
 	const kpsWindowRef = useRef(new SlidingWindowKPS(KPS_WINDOW_SECONDS * 1000));
 	const streakRef = useRef(0);
 	const lastKeyTimeRef = useRef<number>(0);
@@ -198,7 +213,10 @@ export function useGameEngine() {
 			setState((prev) => {
 				if (prev.phase !== "playing") return prev;
 
-				const newPlayer = applyDrain(prev.player, dt);
+				const params =
+				DIFFICULTY_PRESETS[configRef.current.difficulty] ??
+				DIFFICULTY_PRESETS.normal;
+			const newPlayer = applyDrain(prev.player, dt, params);
 				const elapsed = Date.now() - prev.startTime;
 				const ghost = getGhostAt(ghostTimelineRef.current, elapsed);
 
@@ -258,11 +276,12 @@ export function useGameEngine() {
 					: null;
 		}
 
-		ghostTimelineRef.current = ghostReplay
-			? precomputeGhostTimeline(ghostReplay)
+		const useGhost = ghostReplay !== null && configRef.current.showGhost;
+		ghostTimelineRef.current = useGhost
+			? precomputeGhostTimeline(ghostReplay!, configRef.current)
 			: [];
-		ghostReplayIdRef.current = ghostReplay?.id ?? null;
-		preparedHasGhostRef.current = ghostReplay !== null;
+		ghostReplayIdRef.current = useGhost ? (ghostReplay?.id ?? null) : null;
+		preparedHasGhostRef.current = useGhost;
 
 		// 履歴から対戦（ghostReplayId 指定）の場合はゴーストと同じお題で勝負
 		const sentences =
@@ -386,11 +405,15 @@ export function useGameEngine() {
 				correct: false,
 				segmentIdx: s.player.typingState.segIdx,
 			};
+			const diffParams =
+				DIFFICULTY_PRESETS[configRef.current.difficulty] ??
+				DIFFICULTY_PRESETS.normal;
 			const { state: newPlayer } = applyInput(
 				s.player,
 				inputEvent,
 				null,
 				wasWrong,
+				diffParams,
 			);
 			setState((prev) => ({
 				...prev,
@@ -419,12 +442,15 @@ export function useGameEngine() {
 		lastKeyTimeRef.current = now;
 		lastWasWrongRef.current = false;
 
+		const correctParams =
+			DIFFICULTY_PRESETS[configRef.current.difficulty] ??
+			DIFFICULTY_PRESETS.normal;
 		const {
 			state: newPlayer,
 			healAmount,
 			sentenceAdvanced,
 			segmentCompleted,
-		} = applyInput(s.player, inputEvent, kpsWindowRef.current, false);
+		} = applyInput(s.player, inputEvent, kpsWindowRef.current, false, correctParams);
 
 		streakRef.current = newPlayer.combo;
 
