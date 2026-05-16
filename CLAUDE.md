@@ -1,5 +1,9 @@
 # typing — Codebase Rules
 
+## Pull Request Guidelines
+
+プルリクエストのタイトル・本文は日本語で書くこと。
+
 ## Input Abstraction: RunnerState
 
 All typing runners (player, ghost, replay) share the same `RunnerState` interface
