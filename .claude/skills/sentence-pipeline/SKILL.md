@@ -129,20 +129,17 @@ Agent(
 
 バリデータ j は 1〜3。
 
-#### 結果の統合（batch aggregator を一括起動）
+#### 結果の統合（スクリプトで一括集計）
 
-validator 全完了後、有効バッチ数 M_total 個の **`sentence-gen-batch-aggregator`** を **1 つのメッセージで同時起動**する。
+validator 全完了後、以下の **Bash 1 行**で全バッチの集計を行う:
 
-```
-Agent(
-  description: "Aggregate validation results (round <R>, batch <i>)",
-  subagent_type: "sentence-gen-batch-aggregator",
-  prompt: "batch_file=gomi/gen_batches/batch_<R>_<i>.json\nresult_v1=gomi/gen_results/batch_<R>_<i>_v1.json\nresult_v2=gomi/gen_results/batch_<R>_<i>_v2.json\nresult_v3=gomi/gen_results/batch_<R>_<i>_v3.json"
-)
+```bash
+node scripts/aggregate-gen-results.mjs gomi/gen_batches gomi/gen_results
 ```
 
-各エージェントの返答は `{"excludes": [{"index": N, "jp": "..."}, ...]}` 形式の JSON。
-JSON.parse して、バッチ `(R, i)` の除外リスト（LLM-reject）を確定する。
+このスクリプトは全バッチの `_v1/_v2/_v3` 結果ファイルを読み込み、OR ロジックで除外セットを確定し、各バッチの集計結果を `gomi/gen_results/aggregated_<R>_<i>.json`（`[{"index": N, "jp": "..."}, ...]` 形式）に書き出す。
+
+スクリプト完了後、各バッチ `(R, i)` の除外リストを `Read` で `gomi/gen_results/aggregated_<R>_<i>.json` から読み込み、JSON.parse して LLM-reject として確定する。
 
 ---
 
