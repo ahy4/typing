@@ -13,7 +13,9 @@ export function SharedReplayLoader({ startGame }: Props) {
 	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
 	const location = useLocation();
-	const stateReplay = (location.state as { replay?: ReplayData; from?: string } | null)?.replay;
+	const stateReplay = (
+		location.state as { replay?: ReplayData; from?: string } | null
+	)?.replay;
 	const from = (location.state as { from?: string } | null)?.from;
 	const encoded = searchParams.get("r");
 	const [replay, setReplay] = useState<ReplayData | null>(stateReplay ?? null);

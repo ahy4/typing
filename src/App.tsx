@@ -53,7 +53,11 @@ export default function App() {
 	useEffect(() => {
 		const currentPath = window.location.hash.slice(1) || "/";
 		// Don't override replay URLs while viewing a replay
-		if (currentPath.startsWith("/replay") && (state.phase === "idle" || state.phase === "gameover")) return;
+		if (
+			currentPath.startsWith("/replay") &&
+			(state.phase === "idle" || state.phase === "gameover")
+		)
+			return;
 
 		const expectedPath = PHASE_TO_PATH[state.phase];
 		if (currentPath.split("?")[0] !== expectedPath) {
