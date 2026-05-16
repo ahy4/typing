@@ -105,13 +105,22 @@ node scripts/find-similar-sentences.mjs
 - 島とは「kana 編集距離がしきい値以下のペアで繋がった連結成分」
 - exit code は常に 0
 
-出力を JSON.parse して島リストを取得する。島数 `I = 島リスト.length`。
+出力を JSON.parse して島リストを取得する。
 
-島が 0 件ならこのステップをスキップして重複-reject = 空とする。
+**直近 N 件のみを対象に絞る**: ステップ 1 で得たチャンクリストの index をすべて集めた「直近 index セット」を作り、その index を 1 つ以上含む島だけを抽出する。
 
-### 島ごとのレビュー（全島並列）
+```
+recentIndices = チャンクリスト内の全 {index} の Set
+対象島リスト = 島リスト.filter(island => island.some(s => recentIndices.has(s.index)))
+```
 
-全 I 島のサブエージェントを **1 つのメッセージで同時起動**する。
+対象島数 `I = 対象島リスト.length`。
+
+対象島が 0 件ならこのステップをスキップして重複-reject = 空とする。
+
+### 対象島ごとのレビュー（全対象島並列）
+
+全 I 対象島のサブエージェントを **1 つのメッセージで同時起動**する。
 
 **起動前に `Read` で `.claude/skills/validate-sentences/similar-review-prompt.md` を読み込み**、その内容をプロンプト本文として使う（`<ISLAND_JSON>` を置き換えてから渡す）。
 
