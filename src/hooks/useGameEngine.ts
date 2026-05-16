@@ -2,12 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { KPS_WINDOW_SECONDS, SlidingWindowKPS } from "../lib/ema";
 import { feedKey } from "../lib/romaji";
 import type { RunnerState } from "../lib/runnerState";
-import {
-	applyDrain,
-	applyInput,
-	createRunnerState,
-	DIFFICULTY_PRESETS,
-} from "../lib/runnerState";
+import { applyDrain, applyInput, createRunnerState } from "../lib/runnerState";
 import { getSentenceQueue } from "../lib/sentences";
 import {
 	playComboMilestone,
@@ -47,11 +42,7 @@ export interface GhostTimelineEntry extends RunnerState {
 
 export function precomputeGhostTimeline(
 	replay: ReplayData,
-	config?: GameConfig,
 ): GhostTimelineEntry[] {
-	const params =
-		DIFFICULTY_PRESETS[config?.difficulty ?? "normal"] ??
-		DIFFICULTY_PRESETS.normal;
 	const kps = new SlidingWindowKPS(KPS_WINDOW_SECONDS * 1000);
 	let runner = createRunnerState(replay.sentences);
 	const timeline: GhostTimelineEntry[] = [{ ...runner, time: 0 }];
@@ -60,10 +51,10 @@ export function precomputeGhostTimeline(
 
 	for (const ev of replay.events) {
 		const dt = ev.time - lastEventTime;
-		runner = applyDrain(runner, dt, params);
+		runner = applyDrain(runner, dt);
 		lastEventTime = ev.time;
 
-		const { state } = applyInput(runner, ev, kps, lastWasWrong, params);
+		const { state } = applyInput(runner, ev, kps, lastWasWrong);
 		runner = state;
 		lastWasWrong = !ev.correct;
 		timeline.push({ ...runner, time: ev.time });
@@ -213,10 +204,7 @@ export function useGameEngine(config: GameConfig) {
 			setState((prev) => {
 				if (prev.phase !== "playing") return prev;
 
-				const params =
-					DIFFICULTY_PRESETS[configRef.current.difficulty] ??
-					DIFFICULTY_PRESETS.normal;
-				const newPlayer = applyDrain(prev.player, dt, params);
+				const newPlayer = applyDrain(prev.player, dt);
 				const elapsed = Date.now() - prev.startTime;
 				const ghost = getGhostAt(ghostTimelineRef.current, elapsed);
 
@@ -279,7 +267,7 @@ export function useGameEngine(config: GameConfig) {
 		const useGhost =
 			ghostReplay !== null && configRef.current.showGhost ? ghostReplay : null;
 		ghostTimelineRef.current = useGhost
-			? precomputeGhostTimeline(useGhost, configRef.current)
+			? precomputeGhostTimeline(useGhost)
 			: [];
 		ghostReplayIdRef.current = useGhost?.id ?? null;
 		preparedHasGhostRef.current = useGhost !== null;
@@ -288,7 +276,7 @@ export function useGameEngine(config: GameConfig) {
 		const sentences =
 			ghostReplayId && ghostReplay
 				? [...ghostReplay.sentences]
-				: getSentenceQueue(10);
+				: getSentenceQueue(10, undefined, configRef.current.difficulty);
 		preparedSentencesRef.current = sentences;
 
 		// Pre-initialize player so the GameScreen behind the countdown overlay
@@ -406,15 +394,11 @@ export function useGameEngine(config: GameConfig) {
 				correct: false,
 				segmentIdx: s.player.typingState.segIdx,
 			};
-			const diffParams =
-				DIFFICULTY_PRESETS[configRef.current.difficulty] ??
-				DIFFICULTY_PRESETS.normal;
 			const { state: newPlayer } = applyInput(
 				s.player,
 				inputEvent,
 				null,
 				wasWrong,
-				diffParams,
 			);
 			setState((prev) => ({
 				...prev,
@@ -443,21 +427,12 @@ export function useGameEngine(config: GameConfig) {
 		lastKeyTimeRef.current = now;
 		lastWasWrongRef.current = false;
 
-		const correctParams =
-			DIFFICULTY_PRESETS[configRef.current.difficulty] ??
-			DIFFICULTY_PRESETS.normal;
 		const {
 			state: newPlayer,
 			healAmount,
 			sentenceAdvanced,
 			segmentCompleted,
-		} = applyInput(
-			s.player,
-			inputEvent,
-			kpsWindowRef.current,
-			false,
-			correctParams,
-		);
+		} = applyInput(s.player, inputEvent, kpsWindowRef.current, false);
 
 		streakRef.current = newPlayer.combo;
 
@@ -475,7 +450,11 @@ export function useGameEngine(config: GameConfig) {
 			const needRefill =
 				s.sentences.length - newPlayer.sentenceIdx <= REFILL_AT;
 			if (needRefill) {
-				const extra = getSentenceQueue(10, newPlayer.speed);
+				const extra = getSentenceQueue(
+					10,
+					newPlayer.speed,
+					configRef.current.difficulty,
+				);
 				finalPlayer = {
 					...newPlayer,
 					sentences: [...s.sentences, ...extra],

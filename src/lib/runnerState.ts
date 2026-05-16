@@ -1,6 +1,6 @@
 import type { SlidingWindowKPS } from "./ema";
 import { createTypingState, feedKey } from "./romaji";
-import type { Difficulty, InputEvent, Sentence } from "./types";
+import type { InputEvent, Sentence } from "./types";
 
 export const LIFE_MAX = 400;
 export const LIFE_DRAIN_BASE = 0.08;
@@ -8,18 +8,6 @@ export const LIFE_RECOVER_CORRECT = 0.12;
 export const LIFE_DRAIN_MISS = 10;
 export const KEYS_PER_COMBO = 9;
 export const COMBO_HEAL_MULTIPLIER = 4;
-
-export interface DifficultyParams {
-	drainBase: number;
-	recoverCorrect: number;
-	drainMiss: number;
-}
-
-export const DIFFICULTY_PRESETS: Record<Difficulty, DifficultyParams> = {
-	easy: { drainBase: 0.04, recoverCorrect: 0.18, drainMiss: 5 },
-	normal: { drainBase: 0.08, recoverCorrect: 0.12, drainMiss: 10 },
-	hard: { drainBase: 0.15, recoverCorrect: 0.08, drainMiss: 18 },
-};
 
 // Unified state for any typing runner (player, ghost, replay).
 // Components render from this; they never care about the source.
@@ -47,21 +35,14 @@ export function createRunnerState(sentences: Sentence[]): RunnerState {
 	};
 }
 
-export function drainDelta(
-	dt: number,
-	params: DifficultyParams = DIFFICULTY_PRESETS.normal,
-): number {
-	return -(params.drainBase * dt) / (1000 / 60);
+export function drainDelta(dt: number): number {
+	return -(LIFE_DRAIN_BASE * dt) / (1000 / 60);
 }
 
-export function applyDrain(
-	state: RunnerState,
-	dt: number,
-	params: DifficultyParams = DIFFICULTY_PRESETS.normal,
-): RunnerState {
+export function applyDrain(state: RunnerState, dt: number): RunnerState {
 	return {
 		...state,
-		life: Math.max(0, state.life + drainDelta(dt, params)),
+		life: Math.max(0, state.life + drainDelta(dt)),
 	};
 }
 
@@ -81,13 +62,12 @@ export function applyInput(
 	event: InputEvent,
 	kps: SlidingWindowKPS | null,
 	lastWasWrong: boolean,
-	params: DifficultyParams = DIFFICULTY_PRESETS.normal,
 ): ApplyInputResult {
 	if (!event.correct) {
 		return {
 			state: {
 				...state,
-				life: Math.max(0, state.life + (lastWasWrong ? 0 : -params.drainMiss)),
+				life: Math.max(0, state.life + (lastWasWrong ? 0 : -LIFE_DRAIN_MISS)),
 				combo: 0,
 				nextHealAt: KEYS_PER_COMBO,
 				nextHealInterval: KEYS_PER_COMBO,
@@ -130,7 +110,7 @@ export function applyInput(
 			...state,
 			sentenceIdx: newSentenceIdx,
 			typingState: newTypingState,
-			life: Math.min(LIFE_MAX, state.life + params.recoverCorrect + healTick),
+			life: Math.min(LIFE_MAX, state.life + LIFE_RECOVER_CORRECT + healTick),
 			combo: newCombo,
 			speed: kps?.get(event.time) ?? state.speed,
 			nextHealAt: newNextHealAt,

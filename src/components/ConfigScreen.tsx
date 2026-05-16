@@ -95,6 +95,7 @@ export function ConfigScreen({ config, onChange, onBack }: Props) {
 							min={0}
 							max={100}
 							value={volumePct}
+							disabled={config.muted}
 							onChange={(e) =>
 								onChange({
 									...config,
@@ -104,21 +105,49 @@ export function ConfigScreen({ config, onChange, onBack }: Props) {
 							style={{
 								flex: 1,
 								accentColor: "#00ffff",
-								cursor: "pointer",
+								cursor: config.muted ? "not-allowed" : "pointer",
 								height: "4px",
+								opacity: config.muted ? 0.3 : 1,
 							}}
 						/>
 						<span
 							style={{
 								fontFamily: "'Press Start 2P', monospace",
 								fontSize: "11px",
-								color: "#00ffff",
+								color: config.muted ? "#555" : "#00ffff",
 								minWidth: "40px",
 								textAlign: "right",
 							}}
 						>
-							{volumePct}%
+							{config.muted ? "---" : `${volumePct}%`}
 						</span>
+						<button
+							type="button"
+							onClick={() => onChange({ ...config, muted: !config.muted })}
+							style={{
+								...btnBase,
+								padding: "8px 16px",
+								fontSize: "9px",
+								letterSpacing: "0px",
+								borderColor: config.muted ? "#ff2244" : "#7a30c0",
+								color: config.muted ? "#ff2244" : "#bbb",
+								boxShadow: config.muted ? "0 0 8px #ff224444" : "none",
+							}}
+							onMouseEnter={(e) => {
+								if (!config.muted) {
+									e.currentTarget.style.color = "#c084fc";
+									e.currentTarget.style.borderColor = "#c084fc";
+								}
+							}}
+							onMouseLeave={(e) => {
+								if (!config.muted) {
+									e.currentTarget.style.color = "#bbb";
+									e.currentTarget.style.borderColor = "#7a30c0";
+								}
+							}}
+						>
+							MUTE
+						</button>
 					</div>
 				</div>
 

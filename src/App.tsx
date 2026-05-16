@@ -35,8 +35,8 @@ export default function App() {
 	const [config, setConfig] = useState<GameConfig>(() => loadConfig());
 
 	useEffect(() => {
-		setMasterVolume(config.volume);
-	}, [config.volume]);
+		setMasterVolume(config.muted ? 0 : config.volume);
+	}, [config.volume, config.muted]);
 
 	const handleConfigChange = (next: GameConfig) => {
 		setConfig(next);

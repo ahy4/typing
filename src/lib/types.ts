@@ -61,6 +61,7 @@ export type Difficulty = "easy" | "normal" | "hard";
 
 export interface GameConfig {
 	volume: number; // 0.0 – 1.0
+	muted: boolean;
 	difficulty: Difficulty;
 	showGhost: boolean;
 }

@@ -6,6 +6,7 @@ const CONFIG_KEY = "typing_config_v1";
 
 export const DEFAULT_CONFIG: GameConfig = {
 	volume: 0.5,
+	muted: false,
 	difficulty: "normal",
 	showGhost: true,
 };
