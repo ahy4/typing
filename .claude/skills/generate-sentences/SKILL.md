@@ -11,6 +11,8 @@ description: タイピングゲーム用のお題（Sentence[]）を生成し、
 
 **このスキルは parent agent（最上位エージェント）からのみ動作する。** subagent（Task / Agent 経由で起動された子エージェント）から呼ばれた場合、更に subagent を nest 起動できない環境がほとんどなので、**最初に必ず処理を中断し、ユーザーに「このスキルは parent agent から呼んでください」と報告して終了する**。
 
+> **⚠️ スコープ注記**: このガード節は `generate-sentences` スキル自体に対するものです。`sentence-generator` や `sentence-gen-kana-validator` などのサブエージェントには適用されません。それらのエージェントは parent agent から Agent ツールで起動されるため、このガード節を自分に当てはめる必要はありません。
+
 必要なツール:
 
 - `Read` — ファイル読み込み（プロンプトファイル・既存 TOML 件数カウント等）
