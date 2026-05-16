@@ -11,11 +11,18 @@ interface Props {
 	onStart: () => void;
 	onStats: () => void;
 	onHelp: () => void;
+	onConfig: () => void;
 	bestWpm: number;
 	sessionCount: number;
 }
 
-export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
+export function IdleScreen({
+	onStats,
+	onHelp,
+	onConfig,
+	bestWpm,
+	sessionCount,
+}: Props) {
 	return (
 		<div
 			style={{
@@ -202,60 +209,42 @@ export function IdleScreen({ onStats, onHelp, bestWpm, sessionCount }: Props) {
 					</span>
 				</div>
 				<div style={{ display: "flex", gap: "16px" }}>
-					<button
-						type="button"
-						onClick={onStats}
-						style={{
-							padding: "12px 32px",
-							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "11px",
-							color: "#bbb",
-							background: "none",
-							border: "1px solid #7a30c0",
-							cursor: "pointer",
-							letterSpacing: "2px",
-							transition: "all 0.15s",
-						}}
-						onMouseEnter={(e) => {
-							e.currentTarget.style.color = "#00ffff";
-							e.currentTarget.style.borderColor = "#00ffff";
-							e.currentTarget.style.boxShadow = "0 0 8px #00ffff44";
-						}}
-						onMouseLeave={(e) => {
-							e.currentTarget.style.color = "#bbb";
-							e.currentTarget.style.borderColor = "#7a30c0";
-							e.currentTarget.style.boxShadow = "none";
-						}}
-					>
-						統計
-					</button>
-					<button
-						type="button"
-						onClick={onHelp}
-						style={{
-							padding: "12px 32px",
-							fontFamily: "'Press Start 2P', monospace",
-							fontSize: "11px",
-							color: "#bbb",
-							background: "none",
-							border: "1px solid #7a30c0",
-							cursor: "pointer",
-							letterSpacing: "2px",
-							transition: "all 0.15s",
-						}}
-						onMouseEnter={(e) => {
-							e.currentTarget.style.color = "#00ffff";
-							e.currentTarget.style.borderColor = "#00ffff";
-							e.currentTarget.style.boxShadow = "0 0 8px #00ffff44";
-						}}
-						onMouseLeave={(e) => {
-							e.currentTarget.style.color = "#bbb";
-							e.currentTarget.style.borderColor = "#7a30c0";
-							e.currentTarget.style.boxShadow = "none";
-						}}
-					>
-						遊び方
-					</button>
+					{(
+						[
+							{ label: "統計", onClick: onStats },
+							{ label: "遊び方", onClick: onHelp },
+							{ label: "⚙", onClick: onConfig },
+						] as const
+					).map(({ label, onClick }) => (
+						<button
+							key={label}
+							type="button"
+							onClick={onClick}
+							style={{
+								padding: "12px 32px",
+								fontFamily: "'Press Start 2P', monospace",
+								fontSize: "11px",
+								color: "#bbb",
+								background: "none",
+								border: "1px solid #7a30c0",
+								cursor: "pointer",
+								letterSpacing: "2px",
+								transition: "all 0.15s",
+							}}
+							onMouseEnter={(e) => {
+								e.currentTarget.style.color = "#00ffff";
+								e.currentTarget.style.borderColor = "#00ffff";
+								e.currentTarget.style.boxShadow = "0 0 8px #00ffff44";
+							}}
+							onMouseLeave={(e) => {
+								e.currentTarget.style.color = "#bbb";
+								e.currentTarget.style.borderColor = "#7a30c0";
+								e.currentTarget.style.boxShadow = "none";
+							}}
+						>
+							{label}
+						</button>
+					))}
 				</div>
 			</div>
 

@@ -21,6 +21,7 @@ import {
 } from "../lib/storage";
 import type {
 	BigramStats,
+	GameConfig,
 	GamePhase,
 	InputEvent,
 	KeyStats,
@@ -98,7 +99,12 @@ export interface GameState {
 	healStreak: number;
 }
 
-export function useGameEngine() {
+export function useGameEngine(config: GameConfig) {
+	const configRef = useRef(config);
+	useEffect(() => {
+		configRef.current = config;
+	}, [config]);
+
 	const kpsWindowRef = useRef(new SlidingWindowKPS(KPS_WINDOW_SECONDS * 1000));
 	const streakRef = useRef(0);
 	const lastKeyTimeRef = useRef<number>(0);
@@ -258,17 +264,19 @@ export function useGameEngine() {
 					: null;
 		}
 
-		ghostTimelineRef.current = ghostReplay
-			? precomputeGhostTimeline(ghostReplay)
+		const useGhost =
+			ghostReplay !== null && configRef.current.showGhost ? ghostReplay : null;
+		ghostTimelineRef.current = useGhost
+			? precomputeGhostTimeline(useGhost)
 			: [];
-		ghostReplayIdRef.current = ghostReplay?.id ?? null;
-		preparedHasGhostRef.current = ghostReplay !== null;
+		ghostReplayIdRef.current = useGhost?.id ?? null;
+		preparedHasGhostRef.current = useGhost !== null;
 
 		// 履歴から対戦（ghostReplayId 指定）の場合はゴーストと同じお題で勝負
 		const sentences =
 			ghostReplayId && ghostReplay
 				? [...ghostReplay.sentences]
-				: getSentenceQueue(10);
+				: getSentenceQueue(10, undefined, configRef.current.difficulty);
 		preparedSentencesRef.current = sentences;
 
 		// Pre-initialize player so the GameScreen behind the countdown overlay
@@ -442,7 +450,11 @@ export function useGameEngine() {
 			const needRefill =
 				s.sentences.length - newPlayer.sentenceIdx <= REFILL_AT;
 			if (needRefill) {
-				const extra = getSentenceQueue(10, newPlayer.speed);
+				const extra = getSentenceQueue(
+					10,
+					newPlayer.speed,
+					configRef.current.difficulty,
+				);
 				finalPlayer = {
 					...newPlayer,
 					sentences: [...s.sentences, ...extra],

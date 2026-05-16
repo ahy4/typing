@@ -1,5 +1,10 @@
 // Web Audio API synthesized sounds
 let ctx: AudioContext | null = null;
+let masterVolume = 0.5;
+
+export function setMasterVolume(v: number): void {
+	masterVolume = Math.max(0, Math.min(1, v));
+}
 
 function getCtx(): AudioContext {
 	if (!ctx) ctx = new AudioContext();
@@ -12,6 +17,7 @@ function playTone(
 	gain: number,
 	type: OscillatorType = "square",
 ): void {
+	if (masterVolume === 0) return;
 	try {
 		const ac = getCtx();
 		const osc = ac.createOscillator();
@@ -21,7 +27,7 @@ function playTone(
 		osc.type = type;
 		const t = ac.currentTime + 0.005;
 		osc.frequency.setValueAtTime(freq, t);
-		g.gain.setValueAtTime(gain, t);
+		g.gain.setValueAtTime(gain * masterVolume, t);
 		g.gain.exponentialRampToValueAtTime(0.001, t + duration);
 		osc.start(t);
 		osc.stop(t + duration);

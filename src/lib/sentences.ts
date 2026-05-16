@@ -1,5 +1,5 @@
 import RAW from "./generated/sentences.json";
-import type { Sentence } from "./types";
+import type { Difficulty, Sentence } from "./types";
 
 export const SENTENCES: Sentence[] = RAW.map((r, i) => ({
 	id: String(i),
@@ -29,19 +29,46 @@ const SPEED_BUCKETS: { maxKps: number; minKana: number; maxKana: number }[] = [
 	{ maxKps: Infinity, minKana: 23, maxKana: Infinity },
 ];
 
-function sentencePool(kps?: number): Sentence[] {
-	if (kps === undefined) return SENTENCES;
+// Maximum kana length per difficulty.
+// Easy/Normal use a fixed cap; Hard uses the speed-adaptive bucket with no cap.
+const DIFFICULTY_MAX_KANA: Record<Difficulty, number> = {
+	easy: 7,
+	normal: 18,
+	hard: Infinity,
+};
+
+function sentencePool(
+	kps?: number,
+	difficulty: Difficulty = "normal",
+): Sentence[] {
+	const maxKana = DIFFICULTY_MAX_KANA[difficulty];
+
+	if (difficulty === "easy") {
+		return SENTENCES.filter((s) => s.kana.length <= maxKana);
+	}
+
+	// Normal: speed-adaptive, but capped at maxKana.
+	// Hard: speed-adaptive, no cap (current behavior).
+	if (kps === undefined) {
+		return SENTENCES.filter((s) => s.kana.length <= maxKana);
+	}
 	const bucket = SPEED_BUCKETS.find((b) => kps < b.maxKps);
-	if (!bucket) return SENTENCES;
+	if (!bucket) return SENTENCES.filter((s) => s.kana.length <= maxKana);
 	return SENTENCES.filter(
-		(s) => s.kana.length >= bucket.minKana && s.kana.length <= bucket.maxKana,
+		(s) =>
+			s.kana.length >= bucket.minKana &&
+			s.kana.length <= Math.min(bucket.maxKana, maxKana),
 	);
 }
 
 // kps: current typing speed; omit (or pass undefined) to draw from all lengths.
 // Falls back to the full pool when the speed-filtered pool is too small.
-export function getSentenceQueue(count = 10, kps?: number): Sentence[] {
-	const pool = sentencePool(kps);
+export function getSentenceQueue(
+	count = 10,
+	kps?: number,
+	difficulty: Difficulty = "normal",
+): Sentence[] {
+	const pool = sentencePool(kps, difficulty);
 	const source = pool.length >= count ? pool : SENTENCES;
 	const shuffled = [...source].sort(() => Math.random() - 0.5);
 	const result: Sentence[] = [];
