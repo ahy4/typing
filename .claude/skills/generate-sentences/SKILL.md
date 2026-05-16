@@ -79,26 +79,25 @@ Agent(
 
 文が得られた各バッチ i について 3 つの検証サブエージェントを起動する。ステップ 2 のリトライで 2 回連続失敗してスキップしたバッチは除外する。有効バッチ数を M とすると **3M 個のサブエージェントを 1 つのメッセージで同時起動**する。**M=0（全バッチがスキップ）の場合はサブエージェントの起動をスキップし、そのまま末尾の「有効文 0 件」分岐へ進む。**
 
-**起動前に `Read` で `.claude/skills/generate-sentences/validate-prompt.md` を読み込み**、その内容をプロンプト本文として使う（`<SENTENCES_JSON>` を置き換えてから渡す）。
+まず各バッチの入力ファイルを書き出す（`gomi/` が存在しない場合は先に `mkdir -p gomi` を実行）:
+
+- バッチ i のデータを `Write` で `gomi/gen_batches/batch_<i>.json` に書き出す（`[{"index": N, "jp": "...", "kana": "..."}, ...]` 形式）
+- バリデータ j（1〜3）の出力先は `gomi/gen_results/batch_<i>_v<j>.json` とする（エージェントが書き出す）
 
 ```
 Agent(
   description: "Validate jp-kana (batch <i>, validator <1, 2, or 3>)",
-  subagent_type: "general-purpose",
-  model: "haiku",
-  prompt: "<validate-prompt.md の内容（<SENTENCES_JSON> 置換済み）>"
+  subagent_type: "sentence-gen-kana-validator",
+  prompt: "input_file=gomi/gen_batches/batch_<i>.json\noutput_file=gomi/gen_results/batch_<i>_v<j>.json"
 )
 ```
 
-### validate-prompt.md のプレースホルダー
+### 結果の読み込み
 
-- `<SENTENCES_JSON>` → バッチ i の文を JSON 配列で渡す（例: `[{"index": 0, "jp": "今日はいい天気だ", "kana": "きょうはいいてんきだ"}, ...]`）
+全エージェント完了後、各 `gomi/gen_results/batch_<i>_v<j>.json` を `Read` して JSON.parse する。
 
-### 検証 subagent の応答前処理
-
-haiku モデルは指示に反してコードフェンスを付けることがある。応答文字列を JSON.parse する前に必ず以下の前処理を行う:
-
-1. 先頭の ` ```json ` / ` ``` ` / 末尾の ` ``` ` を剥ぐ（正規表現で `^\s*```(?:json)?\s*` と `\s*```\s*$` を除去）
+haiku モデルはコードフェンスを付けることがある。JSON.parse 前に:
+1. 先頭の ` ```json ` / ` ``` ` / 末尾の ` ``` ` を除去
 2. 残った文字列を JSON.parse する
 
 ### 結果の統合ルール
