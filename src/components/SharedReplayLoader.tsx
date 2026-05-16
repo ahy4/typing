@@ -12,15 +12,12 @@ interface Props {
 export function SharedReplayLoader({ startGame }: Props) {
 	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
+	const encoded = searchParams.get("r");
 	const [replay, setReplay] = useState<ReplayData | null>(null);
-	const [error, setError] = useState(false);
+	const [error, setError] = useState(!encoded);
 
 	useEffect(() => {
-		const encoded = searchParams.get("r");
-		if (!encoded) {
-			setError(true);
-			return;
-		}
+		if (!encoded) return;
 		decodeReplay(encoded)
 			.then((r) => {
 				// Save to localStorage so startGame can find it by ID
@@ -31,7 +28,7 @@ export function SharedReplayLoader({ startGame }: Props) {
 				setReplay(r);
 			})
 			.catch(() => setError(true));
-	}, [searchParams]);
+	}, [encoded]);
 
 	if (error) {
 		return (

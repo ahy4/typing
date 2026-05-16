@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { encodeReplay } from "../lib/shareReplay";
 import {
 	type GhostTimelineEntry,
 	getGhostAt,
@@ -12,6 +11,7 @@ import {
 	createRunnerState,
 	type RunnerState,
 } from "../lib/runnerState";
+import { encodeReplay } from "../lib/shareReplay";
 import {
 	playHeal,
 	playKeyTap,
