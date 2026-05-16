@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { SessionRecord } from "../lib/types";
-import { ReplayPlayer } from "./ReplayPlayer";
 
 interface Props {
 	session: SessionRecord;
@@ -17,16 +16,7 @@ const PARTICLES = [
 ];
 
 export function GameOverScreen({ session, onStats }: Props) {
-	const [showReplay, setShowReplay] = useState(false);
-
-	if (showReplay) {
-		return (
-			<ReplayPlayer
-				replay={session.replay}
-				onClose={() => setShowReplay(false)}
-			/>
-		);
-	}
+	const navigate = useNavigate();
 
 	const acc = Math.round(session.accuracy * 100);
 	const mins = Math.floor(session.duration / 60000);
@@ -246,7 +236,7 @@ export function GameOverScreen({ session, onStats }: Props) {
 				<div style={{ display: "flex", gap: "16px", marginTop: "8px" }}>
 					<button
 						type="button"
-						onClick={() => setShowReplay(true)}
+						onClick={() => navigate("/replay", { state: { replay: session.replay, from: "gameover" } })}
 						style={{
 							padding: "14px 32px",
 							fontFamily: "'Press Start 2P', monospace",

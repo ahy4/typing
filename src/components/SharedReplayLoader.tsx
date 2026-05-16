@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { decodeReplay } from "../lib/shareReplay";
 import { loadReplays, saveReplay } from "../lib/storage";
 import type { ReplayData } from "../lib/types";
@@ -12,12 +12,15 @@ interface Props {
 export function SharedReplayLoader({ startGame }: Props) {
 	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
+	const location = useLocation();
+	const stateReplay = (location.state as { replay?: ReplayData; from?: string } | null)?.replay;
+	const from = (location.state as { from?: string } | null)?.from;
 	const encoded = searchParams.get("r");
-	const [replay, setReplay] = useState<ReplayData | null>(null);
-	const [error, setError] = useState(!encoded);
+	const [replay, setReplay] = useState<ReplayData | null>(stateReplay ?? null);
+	const [error, setError] = useState(!encoded && !stateReplay);
 
 	useEffect(() => {
-		if (!encoded) return;
+		if (!encoded || stateReplay) return;
 		decodeReplay(encoded)
 			.then((r) => {
 				// Save to localStorage so startGame can find it by ID
@@ -28,7 +31,7 @@ export function SharedReplayLoader({ startGame }: Props) {
 				setReplay(r);
 			})
 			.catch(() => setError(true));
-	}, [encoded]);
+	}, [encoded, stateReplay]);
 
 	if (error) {
 		return (
@@ -85,7 +88,7 @@ export function SharedReplayLoader({ startGame }: Props) {
 	return (
 		<ReplayPlayer
 			replay={replay}
-			onClose={() => navigate("/")}
+			onClose={() => navigate(from === "gameover" ? "/gameover" : "/")}
 			onStartWithGhost={() => startGame(replay.id)}
 		/>
 	);
