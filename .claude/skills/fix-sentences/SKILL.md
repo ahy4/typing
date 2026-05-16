@@ -46,7 +46,7 @@ description: ユーザーが提示したNG例・NG理由にもとづいて、sen
 生成プロンプトと検証プロンプトの両方にNGパターンを追記する。
 
 - **生成プロンプト**: `.claude/agents/sentence-generator.md` を `Read` で読み込み、`## チェックリスト` セクションを更新する
-- **検証プロンプト**: `.claude/skills/generate-sentences/validate-prompt.md` を `Read` で読み込み、`## NG の例` テーブルを更新する
+- **検証プロンプト**: `.claude/agents/sentence-gen-kana-validator.md` を `Read` で読み込み、`## NG の例` テーブルを更新する
 
 **Read 後、追記する前に既存内容との重複を確認する。**
 - 同一の例が既に記載されている → スキップ（追記しない）
@@ -81,7 +81,7 @@ NGパターンの性質に応じて、既存の近いチェック項目の直下
 ## ステップ 4: コミット
 
 ```bash
-git add src/lib/sentences.toml src/lib/generated/sentences.json .claude/agents/sentence-generator.md .claude/skills/generate-sentences/validate-prompt.md
+git add src/lib/sentences.toml src/lib/generated/sentences.json .claude/agents/sentence-generator.md .claude/agents/sentence-gen-kana-validator.md
 git commit -m "fix: <変更内容を端的に表すメッセージ>"
 ```
 
