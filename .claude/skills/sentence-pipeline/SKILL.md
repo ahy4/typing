@@ -17,6 +17,15 @@ generate（7段階） → validate → fix の一連フローを1つのスキル
 
 cwd は **リポジトリルート**（`package.json` がある階層）で実行する。
 
+### 禁止事項
+
+**アドホックなスクリプト・一時ファイルの作成は絶対に禁止。**
+
+- `.py` / `.sh` / `.mjs` / `.ts` 等のスクリプトファイルをその場で作成して実行してはいけない
+- リポジトリルートや任意のディレクトリに一時的な作業ファイルを生成してはいけない
+- すべての処理は `scripts/` 配下の既存スクリプトと `Read` / `Write` / `Bash` / `Agent` ツールのみで完結させること
+- 必要なスクリプトが存在しない場合は **処理を止めてユーザーに報告する**（回避策を自作しない）
+
 ### CLAUDE.md との衝突回避
 
 ファイル確認は **必ず `Read` ツールを使う**（Bash 経由の `grep` / `cat` は使わない）。
@@ -88,7 +97,12 @@ Agent(
 有効バッチ（スキップされなかったバッチ）の数を M とする。
 
 まず各バッチの入力ファイルを書き出す:
-- バッチ i のデータを `Write` で `gomi/gen_batches/batch_<R>_<i>.json` に書き出す（`[{"index": N, "jp": "...", "kana": "..."}, ...]` 形式。index はバッチ内での 0 始まり番号）
+- バッチ i の生成出力（TOML テキスト）を `Write` で `gomi/gen_batches/raw_<R>_<i>.toml` に保存する
+- `Bash` で以下を実行して JSON バッチファイルに変換する:
+  ```bash
+  node scripts/parse-batch.mjs gomi/gen_batches/raw_<R>_<i>.toml gomi/gen_batches/batch_<R>_<i>.json
+  ```
+  exit code 1 の場合はそのバッチをスキップ扱いにする
 - バリデータ j（1〜3）の出力先は `gomi/gen_results/batch_<R>_<i>_v<j>.json` とする
 
 有効バッチ M が 0 件の場合はこのステップをスキップする。M > 0 なら **3M 個のサブエージェントを 1 つのメッセージで同時起動**:
@@ -209,8 +223,16 @@ node --experimental-strip-types scripts/validate-sentences.ts --json gomi/senten
 ### ステップ V4: 類似重複の検出（全件対象）
 
 ```bash
-node scripts/find-similar-sentences.mjs --filter-chunks gomi/recent_chunks.json --output gomi/similar_islands.json
+node scripts/find-similar-sentences.mjs \
+  --filter-chunks gomi/recent_chunks.json \
+  --output gomi/similar_islands.json \
+  --max-island-entries 50 \
+  --max-islands 60
 ```
+
+- `--max-island-entries 50`: エントリ数が 50 件を超える島はスキップ（広域・浅い類似であり LLM レビューに適さない）
+- `--max-islands 60`: 類似度スコア上位 60 島のみ処理（スコアは島内エッジの平均 Levenshtein 距離、小さいほど類似度高）
+- 出力は類似度降順（スコア昇順）に並んでいる
 
 `Read` で `gomi/similar_islands.json` を読み込んで JSON.parse し、対象島リストを取得する。対象島数 `I`。
 

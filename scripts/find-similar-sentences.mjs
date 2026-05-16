@@ -4,10 +4,17 @@
  * A≈B and B≈C even if A and C are not directly similar.
  *
  * Usage:
- *   node scripts/find-similar-sentences.mjs [--threshold N] [--output <path>] [--filter-chunks <chunks-file>]
+ *   node scripts/find-similar-sentences.mjs [options]
  *
- * Output: JSON array of islands. Each island is an array of
- *   { index, jp, kana } objects. Only islands with 2+ members are output.
+ * Options:
+ *   --threshold N            Levenshtein distance threshold (default: 3)
+ *   --output <path>          Output path (default: stdout)
+ *   --filter-chunks <path>   Only include islands with ≥1 recent entry
+ *   --max-island-entries N   Skip islands with more than N entries (default: 50)
+ *   --max-islands N          Output at most top-N islands sorted by similarity (default: 60)
+ *
+ * Output: JSON array of islands sorted by similarity score ascending (most similar first).
+ *   Each island is an array of { index, jp, kana } objects. Only islands with 2+ members.
  *   Written to --output file if specified, otherwise to stdout.
  * Exit codes: 0 — always (no similar pairs outputs [])
  */
@@ -21,15 +28,21 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "..");
 
 const args = process.argv.slice(2);
-const thresholdIdx = args.indexOf("--threshold");
-const THRESHOLD =
-	thresholdIdx !== -1 ? parseInt(args[thresholdIdx + 1], 10) : 3;
-const outputIdx = args.indexOf("--output");
-const OUTPUT_PATH =
-	outputIdx !== -1 ? resolve(root, args[outputIdx + 1]) : null;
-const filterChunksIdx = args.indexOf("--filter-chunks");
-const FILTER_CHUNKS_PATH =
-	filterChunksIdx !== -1 ? resolve(root, args[filterChunksIdx + 1]) : null;
+
+function getArg(flag, defaultVal) {
+	const idx = args.indexOf(flag);
+	return idx !== -1 ? args[idx + 1] : defaultVal;
+}
+
+const THRESHOLD = parseInt(getArg("--threshold", "3"), 10);
+const OUTPUT_PATH = getArg("--output", null)
+	? resolve(root, getArg("--output", null))
+	: null;
+const FILTER_CHUNKS_PATH = getArg("--filter-chunks", null)
+	? resolve(root, getArg("--filter-chunks", null))
+	: null;
+const MAX_ISLAND_ENTRIES = parseInt(getArg("--max-island-entries", "50"), 10);
+const MAX_ISLANDS = parseInt(getArg("--max-islands", "60"), 10);
 
 const { sentences } = parse(
 	readFileSync(resolve(root, "src/lib/sentences.toml"), "utf-8"),
@@ -68,38 +81,66 @@ function union(x, y) {
 	if (rx !== ry) parent[rx] = ry;
 }
 
+// Collect edges and build islands simultaneously
+const edgePairs = [];
 for (let i = 0; i < sentences.length; i++) {
 	for (let j = i + 1; j < sentences.length; j++) {
-		if (
-			levenshtein(sentences[i].kana, sentences[j].kana, THRESHOLD) <= THRESHOLD
-		) {
+		const d = levenshtein(sentences[i].kana, sentences[j].kana, THRESHOLD);
+		if (d <= THRESHOLD) {
 			union(i, j);
+			edgePairs.push({ i, j, dist: d });
 		}
 	}
+}
+
+// Compute per-island similarity score (mean edge distance; lower = more similar)
+const islandScore = new Map(); // root -> { sum, count }
+for (const { i, j, dist } of edgePairs) {
+	const r = find(i);
+	if (!islandScore.has(r)) islandScore.set(r, { sum: 0, count: 0 });
+	const s = islandScore.get(r);
+	s.sum += dist;
+	s.count += 1;
 }
 
 // Group sentences by their root → islands
 const groups = new Map();
 for (let i = 0; i < sentences.length; i++) {
-	const root = find(i);
-	if (!groups.has(root)) groups.set(root, []);
-	groups
-		.get(root)
-		.push({ index: i, jp: sentences[i].jp, kana: sentences[i].kana });
+	const r = find(i);
+	if (!groups.has(r)) groups.set(r, []);
+	groups.get(r).push({ index: i, jp: sentences[i].jp, kana: sentences[i].kana });
 }
 
-let islands = [...groups.values()].filter((g) => g.length >= 2);
+// Build island list with scores, filter small islands and oversized ones
+let islands = [];
+for (const [r, entries] of groups) {
+	if (entries.length < 2) continue;
+	if (entries.length > MAX_ISLAND_ENTRIES) continue;
+	const sc = islandScore.get(r);
+	const score = sc ? sc.sum / sc.count : THRESHOLD;
+	islands.push({ score, entries });
+}
 
+// Filter to only islands containing at least one recent entry
 if (FILTER_CHUNKS_PATH) {
 	const chunks = JSON.parse(readFileSync(FILTER_CHUNKS_PATH, "utf-8"));
 	const recentIndices = new Set(chunks.flat().map((s) => s.index));
 	islands = islands.filter((island) =>
-		island.some((s) => recentIndices.has(s.index)),
+		island.entries.some((s) => recentIndices.has(s.index)),
 	);
 }
 
+// Sort by score ascending (most similar first), then limit
+islands.sort((a, b) => a.score - b.score);
+if (islands.length > MAX_ISLANDS) {
+	islands = islands.slice(0, MAX_ISLANDS);
+}
+
+// Output: array of entry arrays (score is internal only)
+const output = islands.map((island) => island.entries);
+
 if (OUTPUT_PATH) {
-	writeFileSync(OUTPUT_PATH, JSON.stringify(islands));
+	writeFileSync(OUTPUT_PATH, JSON.stringify(output));
 } else {
-	console.log(JSON.stringify(islands));
+	console.log(JSON.stringify(output));
 }
