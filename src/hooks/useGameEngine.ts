@@ -182,6 +182,7 @@ export function useGameEngine(config: GameConfig) {
 			keyStats,
 			bigramStats,
 			replay,
+			difficulty: configRef.current.difficulty,
 		};
 
 		saveReplay(replay);

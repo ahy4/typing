@@ -35,6 +35,8 @@ export interface BigramStats {
 	totalMs: number;
 }
 
+export type Difficulty = "easy" | "normal" | "hard";
+
 export interface SessionRecord {
 	id: string;
 	timestamp: number;
@@ -45,6 +47,7 @@ export interface SessionRecord {
 	keyStats: KeyStats[];
 	bigramStats: BigramStats[];
 	replay: ReplayData;
+	difficulty?: Difficulty;
 }
 
 export type GamePhase =
@@ -56,8 +59,6 @@ export type GamePhase =
 	| "stats"
 	| "help"
 	| "config";
-
-export type Difficulty = "easy" | "normal" | "hard";
 
 export interface GameConfig {
 	volume: number; // 0.0 – 1.0

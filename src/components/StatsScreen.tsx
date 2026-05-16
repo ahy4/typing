@@ -1,9 +1,20 @@
 import { useState } from "react";
 import { loadReplays } from "../lib/storage";
-import type { ReplayData, SessionRecord } from "../lib/types";
+import type { Difficulty, ReplayData, SessionRecord } from "../lib/types";
 import { HeatmapView } from "./HeatmapView";
 import { OverviewChart } from "./OverviewChart";
 import { ReplayPlayer } from "./ReplayPlayer";
+
+const DIFFICULTY_LABELS: Record<Difficulty, string> = {
+	easy: "EASY",
+	normal: "NORMAL",
+	hard: "HARD",
+};
+const DIFFICULTY_COLORS: Record<Difficulty, string> = {
+	easy: "#00ff66",
+	normal: "#00ffff",
+	hard: "#ff4466",
+};
 
 interface Props {
 	sessions: SessionRecord[];
@@ -21,6 +32,7 @@ export function StatsScreen({
 	onDeleteReplay,
 }: Props) {
 	const [tab, setTab] = useState<"overview" | "replays">("overview");
+	const [diffFilter, setDiffFilter] = useState<Difficulty | "all">("all");
 	const [watchingReplayId, setWatchingReplayId] = useState<string | null>(null);
 	const [heatmapReplay, setHeatmapReplay] = useState<ReplayData | null>(null);
 	const [replays, setReplays] = useState<ReplayData[]>(() => loadReplays());
@@ -38,13 +50,19 @@ export function StatsScreen({
 		);
 	}
 
+	const filteredSessions =
+		diffFilter === "all"
+			? sessions
+			: sessions.filter((s) => s.difficulty === diffFilter);
+
 	const avgWpm =
-		sessions.length > 0
-			? sessions.reduce((a, s) => a + s.wpm, 0) / sessions.length
+		filteredSessions.length > 0
+			? filteredSessions.reduce((a, s) => a + s.wpm, 0) / filteredSessions.length
 			: 0;
 	const avgAcc =
-		sessions.length > 0
-			? sessions.reduce((a, s) => a + s.accuracy, 0) / sessions.length
+		filteredSessions.length > 0
+			? filteredSessions.reduce((a, s) => a + s.accuracy, 0) /
+				filteredSessions.length
 			: 0;
 
 	function handleDeleteReplay(id: string) {
@@ -167,7 +185,7 @@ export function StatsScreen({
 					{[
 						{
 							label: "セッション数",
-							value: String(sessions.length),
+							value: String(filteredSessions.length),
 							color: "#aaa",
 						},
 						{
@@ -253,6 +271,60 @@ export function StatsScreen({
 					))}
 				</div>
 
+				{/* DIFFICULTY FILTER */}
+				<div
+					style={{
+						display: "flex",
+						gap: "8px",
+						padding: "12px 32px",
+						borderBottom: "1px solid var(--border)",
+						background: "rgba(13,0,26,0.3)",
+						flexShrink: 0,
+						alignItems: "center",
+					}}
+				>
+					<span
+						style={{
+							fontFamily: "'Press Start 2P', monospace",
+							fontSize: "8px",
+							color: "#666",
+							letterSpacing: "2px",
+							marginRight: "4px",
+						}}
+					>
+						難易度:
+					</span>
+					{(["all", "easy", "normal", "hard"] as const).map((d) => {
+						const isActive = diffFilter === d;
+						const color =
+							d === "all" ? "#aaa" : DIFFICULTY_COLORS[d];
+						const label =
+							d === "all" ? "ALL" : DIFFICULTY_LABELS[d];
+						return (
+							<button
+								type="button"
+								key={d}
+								onClick={() => setDiffFilter(d)}
+								style={{
+									fontFamily: "'Press Start 2P', monospace",
+									fontSize: "8px",
+									padding: "6px 14px",
+									background: isActive
+										? `${color}22`
+										: "none",
+									border: `1px solid ${isActive ? color : "#444"}`,
+									color: isActive ? color : "#666",
+									cursor: "pointer",
+									letterSpacing: "1px",
+									transition: "all 0.15s",
+								}}
+							>
+								{label}
+							</button>
+						);
+					})}
+				</div>
+
 				{/* CONTENT */}
 				<div
 					style={{
@@ -265,8 +337,8 @@ export function StatsScreen({
 						<div
 							style={{ display: "flex", flexDirection: "column", gap: "40px" }}
 						>
-							<OverviewChart sessions={sessions} />
-							{sessions.length > 0 && (
+							<OverviewChart sessions={filteredSessions} />
+							{filteredSessions.length > 0 && (
 								<div>
 									<div
 										style={{
@@ -280,7 +352,7 @@ export function StatsScreen({
 									>
 										キーヒートマップ — 全セッション平均
 									</div>
-									<HeatmapView sessions={sessions} />
+									<HeatmapView sessions={filteredSessions} />
 								</div>
 							)}
 						</div>
@@ -359,7 +431,12 @@ export function StatsScreen({
 									履歴がありません。
 								</p>
 							)}
-							{[...replays].reverse().map((r, idx) => (
+							{[...replays].reverse().map((r, idx) => {
+								const matchingSession = sessions.find(
+									(s) => s.replay.id === r.id,
+								);
+								const diff = matchingSession?.difficulty;
+								return (
 								<div
 									key={r.id}
 									style={{
@@ -372,16 +449,36 @@ export function StatsScreen({
 										borderBottom: "1px solid var(--border)",
 									}}
 								>
-									<span
+									<div
 										style={{
-											fontFamily: "'Share Tech Mono', monospace",
-											fontSize: "13px",
-											color: "#aaa",
+											display: "flex",
+											flexDirection: "column",
+											gap: "4px",
 											minWidth: "180px",
 										}}
 									>
-										{new Date(r.timestamp).toLocaleString()}
-									</span>
+										<span
+											style={{
+												fontFamily: "'Share Tech Mono', monospace",
+												fontSize: "13px",
+												color: "#aaa",
+											}}
+										>
+											{new Date(r.timestamp).toLocaleString()}
+										</span>
+										{diff && (
+											<span
+												style={{
+													fontFamily: "'Press Start 2P', monospace",
+													fontSize: "7px",
+													color: DIFFICULTY_COLORS[diff],
+													letterSpacing: "1px",
+												}}
+											>
+												{DIFFICULTY_LABELS[diff]}
+											</span>
+										)}
+									</div>
 									<span
 										style={{
 											fontFamily: "'Press Start 2P', monospace",
@@ -475,7 +572,8 @@ export function StatsScreen({
 										))}
 									</div>
 								</div>
-							))}
+							);
+							})}
 						</div>
 					)}
 				</div>
