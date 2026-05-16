@@ -1,11 +1,14 @@
 /**
- * Detects similar sentence pairs in sentences.toml using kana Levenshtein distance.
+ * Detects similar sentence groups (islands) in sentences.toml using kana Levenshtein distance.
+ * An island is a connected component: sentences A and C are in the same island if
+ * A≈B and B≈C even if A and C are not directly similar.
  *
  * Usage:
  *   node scripts/find-similar-sentences.mjs [--threshold N]
  *
- * Output (stdout): JSON array of candidate pairs in similar-review-prompt format.
- * Exit codes: 0 — always (no candidates is an empty array [])
+ * Output (stdout): JSON array of islands. Each island is an array of
+ *   { index, jp, kana } objects. Only islands with 2+ members are output.
+ * Exit codes: 0 — always (no similar pairs outputs [])
  */
 
 import { readFileSync } from "node:fs";
@@ -17,15 +20,15 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "..");
 
 const args = process.argv.slice(2);
-const thresholdArg = args.indexOf("--threshold");
+const thresholdIdx = args.indexOf("--threshold");
 const THRESHOLD =
-	thresholdArg !== -1 ? parseInt(args[thresholdArg + 1], 10) : 3;
+	thresholdIdx !== -1 ? parseInt(args[thresholdIdx + 1], 10) : 3;
 
 const { sentences } = parse(
 	readFileSync(resolve(root, "src/lib/sentences.toml"), "utf-8"),
 );
 
-// Optimized 1D Levenshtein. Returns early if min possible distance exceeds threshold.
+// Optimized 1D Levenshtein. Returns early if min possible distance exceeds maxDist.
 function levenshtein(a, b, maxDist) {
 	if (Math.abs(a.length - b.length) > maxDist) return maxDist + 1;
 	const n = b.length;
@@ -46,33 +49,37 @@ function levenshtein(a, b, maxDist) {
 	return row[n];
 }
 
-const candidates = [];
+// Union-Find for connected components
+const parent = sentences.map((_, i) => i);
+function find(x) {
+	if (parent[x] !== x) parent[x] = find(parent[x]);
+	return parent[x];
+}
+function union(x, y) {
+	const rx = find(x);
+	const ry = find(y);
+	if (rx !== ry) parent[rx] = ry;
+}
 
 for (let i = 0; i < sentences.length; i++) {
 	for (let j = i + 1; j < sentences.length; j++) {
-		const dist = levenshtein(sentences[i].kana, sentences[j].kana, THRESHOLD);
-		if (dist <= THRESHOLD) {
-			// Keep the shorter kana (less typing value) as discard candidate;
-			// if equal length, keep the earlier index.
-			const keepIdx =
-				sentences[i].kana.length >= sentences[j].kana.length ? i : j;
-			const discardIdx = keepIdx === i ? j : i;
-			candidates.push({
-				distance: dist,
-				keep: {
-					index: keepIdx,
-					jp: sentences[keepIdx].jp,
-					kana: sentences[keepIdx].kana,
-				},
-				discard: {
-					index: discardIdx,
-					jp: sentences[discardIdx].jp,
-					kana: sentences[discardIdx].kana,
-				},
-				reasons: [`kana編集距離: ${dist}`],
-			});
+		if (
+			levenshtein(sentences[i].kana, sentences[j].kana, THRESHOLD) <= THRESHOLD
+		) {
+			union(i, j);
 		}
 	}
 }
 
-console.log(JSON.stringify(candidates));
+// Group sentences by their root → islands
+const groups = new Map();
+for (let i = 0; i < sentences.length; i++) {
+	const root = find(i);
+	if (!groups.has(root)) groups.set(root, []);
+	groups
+		.get(root)
+		.push({ index: i, jp: sentences[i].jp, kana: sentences[i].kana });
+}
+
+const islands = [...groups.values()].filter((g) => g.length >= 2);
+console.log(JSON.stringify(islands));
