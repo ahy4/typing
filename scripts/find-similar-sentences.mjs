@@ -4,7 +4,7 @@
  * A≈B and B≈C even if A and C are not directly similar.
  *
  * Usage:
- *   node scripts/find-similar-sentences.mjs [--threshold N] [--output <path>]
+ *   node scripts/find-similar-sentences.mjs [--threshold N] [--output <path>] [--filter-chunks <chunks-file>]
  *
  * Output: JSON array of islands. Each island is an array of
  *   { index, jp, kana } objects. Only islands with 2+ members are output.
@@ -27,6 +27,9 @@ const THRESHOLD =
 const outputIdx = args.indexOf("--output");
 const OUTPUT_PATH =
 	outputIdx !== -1 ? resolve(root, args[outputIdx + 1]) : null;
+const filterChunksIdx = args.indexOf("--filter-chunks");
+const FILTER_CHUNKS_PATH =
+	filterChunksIdx !== -1 ? resolve(root, args[filterChunksIdx + 1]) : null;
 
 const { sentences } = parse(
 	readFileSync(resolve(root, "src/lib/sentences.toml"), "utf-8"),
@@ -85,7 +88,16 @@ for (let i = 0; i < sentences.length; i++) {
 		.push({ index: i, jp: sentences[i].jp, kana: sentences[i].kana });
 }
 
-const islands = [...groups.values()].filter((g) => g.length >= 2);
+let islands = [...groups.values()].filter((g) => g.length >= 2);
+
+if (FILTER_CHUNKS_PATH) {
+	const chunks = JSON.parse(readFileSync(FILTER_CHUNKS_PATH, "utf-8"));
+	const recentIndices = new Set(chunks.flat().map((s) => s.index));
+	islands = islands.filter((island) =>
+		island.some((s) => recentIndices.has(s.index)),
+	);
+}
+
 if (OUTPUT_PATH) {
 	writeFileSync(OUTPUT_PATH, JSON.stringify(islands));
 } else {
