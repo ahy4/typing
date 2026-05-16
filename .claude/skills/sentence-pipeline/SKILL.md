@@ -95,7 +95,7 @@ Agent(
 出力に `[[sentences]]` が1つも含まれていない場合、そのバッチは失敗。1つ以上あれば成功。
 
 **リトライ手順（2段階）:**
-1. 全バッチ受け取り後、失敗バッチをまとめて 1 メッセージで一括再実行
+1. **そのラウンドの**全バッチ受け取り後、失敗バッチをまとめて 1 メッセージで一括再実行（他のラウンドの完了を待たない）
 2. 再実行後もまだ失敗しているバッチはスキップ（計2回失敗でスキップ確定）
 
 #### ステップ G2: JP-kana 対応検証（各バッチに 3 つの検証サブエージェントを並列起動）
@@ -133,12 +133,12 @@ haiku モデルはコードフェンスを付けることがある。JSON.parse 
   1. `sentences[result.index].jp === result.jp` が成立する → その文を除外（LLM-reject として記録）
   2. index と jp が食い違う → バッチ内で `result.jp` に完全一致する文を探す。見つかればその文を除外
   3. どちらでも特定できない → その invalid 判定をスキップ（除外しない）
-- **どちらか一方の validator でも除外判定が確定した文は除外する**（OR ロジック）
+- **いずれかの validator でも除外判定が確定した文は除外する**（OR ロジック）
 - **同じ validator が同一 index を複数回出力した場合** → **最初の判定を採用**
 
 #### ステップ G3: フォーマット・エンジン検証
 
-ステップ G2 を通過した文をまとめて `gomi/sentences_to_validate_<R>.json` に `Write` で書き出す（ラウンド番号 R をファイル名に含める）:
+ステップ G2 を通過した文をまとめてエンジン検証の入力ファイル `gomi/sentences_to_validate_<R>.json` に `Write` で書き出す（ラウンド番号 R をファイル名に含める。この時点ではエンジン-reject はまだ除外されていない）:
 
 ```json
 [{"jp": "今日はいい天気だ", "kana": "きょうはいいてんきだ"}, ...]
@@ -160,7 +160,7 @@ node --experimental-strip-types scripts/validate-sentences.ts --json gomi/senten
 
 全 7 ラウンドの G1〜G3 がすべて完了してから、R=1〜7 の順に以下を実行する:
 
-1. G3 で `errors` があった（exit 1）場合: errors を除いた有効文リストを `Write` で `gomi/sentences_to_validate_<R>.json` に上書き保存する
+1. G3 で exit 1 だった場合のみ: errors を除いた有効文リストを `Write` で `gomi/sentences_to_validate_<R>.json` に上書き保存する（exit 0 の場合は G3 で書き出したファイルをそのまま使う）
 2. `Bash` で以下を実行:
    ```bash
    node scripts/append-sentences.mjs gomi/sentences_to_validate_<R>.json
