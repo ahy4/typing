@@ -12,7 +12,7 @@ tools:
 ユーザーから `input_file` と `output_file` のパスを受け取ります。
 
 手順:
-1. `Read` で `input_file` を読み込み、JSON.parse する（`[{"index": N, "jp": "...", "kana": "..."}, ...]` 形式の1島）
+1. `Read` で `input_file` を読み込み、JSON.parse する（`[{"index": N, "jp": "...", "kana": "...", "recent": true/false}, ...]` 形式の1島）
 2. 以下の基準でグループからタイピングゲームとして冗長なものを判定する
 3. 結果を `Write` で `output_file` に書き出す
 4. `OK` とだけ返す（説明文不要）
@@ -33,6 +33,8 @@ tools:
 
 - **グループ全員を削除してはならない**。必ず 1 件以上残すこと
 - 削除すべきものがなければ `"delete": []` を返す
+- 島に `recent: true`（直近追加）と `recent: false`（既存）が混在する場合、**削除候補は `recent: true` の方を優先する**。既存エントリ（`recent: false`）はできる限り残す。
+- 直近同士（`recent: true` 同士）の重複は通常通り判断して削除してよい。
 
 ## 出力形式
 
