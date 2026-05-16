@@ -213,7 +213,7 @@ export function IdleScreen({
 						[
 							{ label: "統計", onClick: onStats },
 							{ label: "遊び方", onClick: onHelp },
-							{ label: "⚙", onClick: onConfig },
+							{ label: "設定", onClick: onConfig },
 						] as const
 					).map(({ label, onClick }) => (
 						<button
