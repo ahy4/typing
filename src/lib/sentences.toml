@@ -3811,10 +3811,6 @@ jp = "猫は毛並みが美しい"
 kana = "ねこはけなみがうつくしい"
 
 [[sentences]]
-jp = "海"
-kana = "うみ"
-
-[[sentences]]
 jp = "野球の試合は盛り上がった"
 kana = "やきゅうのしあいはもりあがった"
 
@@ -4289,10 +4285,6 @@ kana = "くりすますはふゆのたのしいぎょうじ"
 [[sentences]]
 jp = "雨の日は傘を持つ"
 kana = "あめのひはかさをもつ"
-
-[[sentences]]
-jp = "猫"
-kana = "ねこ"
 
 [[sentences]]
 jp = "コーヒーは苦い"
@@ -5353,10 +5345,6 @@ kana = "がっこうのこうてい"
 [[sentences]]
 jp = "新年の準備が始まる"
 kana = "しんねんのじゅんびがはじまる"
-
-[[sentences]]
-jp = "雨"
-kana = "あめ"
 
 [[sentences]]
 jp = "美味しい蕎麦"
@@ -6579,70 +6567,6 @@ jp = "草が生える"
 kana = "くさがはえる"
 
 [[sentences]]
-jp = "猫"
-kana = "ねこ"
-
-[[sentences]]
-jp = "空"
-kana = "そら"
-
-[[sentences]]
-jp = "火"
-kana = "ひ"
-
-[[sentences]]
-jp = "水"
-kana = "みず"
-
-[[sentences]]
-jp = "月"
-kana = "つき"
-
-[[sentences]]
-jp = "雨"
-kana = "あめ"
-
-[[sentences]]
-jp = "風"
-kana = "かぜ"
-
-[[sentences]]
-jp = "雪"
-kana = "ゆき"
-
-[[sentences]]
-jp = "星"
-kana = "ほし"
-
-[[sentences]]
-jp = "海"
-kana = "うみ"
-
-[[sentences]]
-jp = "山"
-kana = "やま"
-
-[[sentences]]
-jp = "木"
-kana = "き"
-
-[[sentences]]
-jp = "花"
-kana = "はな"
-
-[[sentences]]
-jp = "鳥"
-kana = "とり"
-
-[[sentences]]
-jp = "魚"
-kana = "さかな"
-
-[[sentences]]
-jp = "犬"
-kana = "いぬ"
-
-[[sentences]]
 jp = "朝だ"
 kana = "あさだ"
 
@@ -6951,14 +6875,6 @@ jp = "希望の光"
 kana = "きぼうのひかり"
 
 [[sentences]]
-jp = "雨"
-kana = "あめ"
-
-[[sentences]]
-jp = "猫"
-kana = "ねこ"
-
-[[sentences]]
 jp = "走る"
 kana = "はしる"
 
@@ -6971,16 +6887,8 @@ jp = "歩く"
 kana = "あるく"
 
 [[sentences]]
-jp = "木"
-kana = "き"
-
-[[sentences]]
 jp = "食べる"
 kana = "たべる"
-
-[[sentences]]
-jp = "空"
-kana = "そら"
 
 [[sentences]]
 jp = "読む"
@@ -6995,32 +6903,16 @@ jp = "寒い"
 kana = "さむい"
 
 [[sentences]]
-jp = "風"
-kana = "かぜ"
-
-[[sentences]]
 jp = "笑う"
 kana = "わらう"
-
-[[sentences]]
-jp = "海"
-kana = "うみ"
 
 [[sentences]]
 jp = "書く"
 kana = "かく"
 
 [[sentences]]
-jp = "火"
-kana = "ひ"
-
-[[sentences]]
 jp = "待つ"
 kana = "まつ"
-
-[[sentences]]
-jp = "星"
-kana = "ほし"
 
 [[sentences]]
 jp = "熱い"
@@ -7469,3 +7361,587 @@ kana = "ほしがかがやく"
 [[sentences]]
 jp = "波が高い"
 kana = "なみがたかい"
+
+[[sentences]]
+jp = "紐"
+kana = "ひも"
+
+[[sentences]]
+jp = "太陽"
+kana = "たいよう"
+
+[[sentences]]
+jp = "氷"
+kana = "こおり"
+
+[[sentences]]
+jp = "砂"
+kana = "すな"
+
+[[sentences]]
+jp = "土"
+kana = "つち"
+
+[[sentences]]
+jp = "雷"
+kana = "かみなり"
+
+[[sentences]]
+jp = "虹"
+kana = "にじ"
+
+[[sentences]]
+jp = "蝶"
+kana = "ちょう"
+
+[[sentences]]
+jp = "蝦"
+kana = "えび"
+
+[[sentences]]
+jp = "蟹"
+kana = "かに"
+
+[[sentences]]
+jp = "貝"
+kana = "かい"
+
+[[sentences]]
+jp = "紐"
+kana = "ひも"
+
+[[sentences]]
+jp = "橋"
+kana = "はし"
+
+[[sentences]]
+jp = "鹿"
+kana = "しか"
+
+[[sentences]]
+jp = "熊"
+kana = "くま"
+
+[[sentences]]
+jp = "狐"
+kana = "きつね"
+
+[[sentences]]
+jp = "兎"
+kana = "うさぎ"
+
+[[sentences]]
+jp = "鼠"
+kana = "ねずみ"
+
+[[sentences]]
+jp = "象"
+kana = "ぞう"
+
+[[sentences]]
+jp = "紐"
+kana = "ひも"
+
+[[sentences]]
+jp = "葉"
+kana = "は"
+
+[[sentences]]
+jp = "砂"
+kana = "すな"
+
+[[sentences]]
+jp = "霜"
+kana = "しも"
+
+[[sentences]]
+jp = "蛇"
+kana = "へび"
+
+[[sentences]]
+jp = "蝶"
+kana = "ちょう"
+
+[[sentences]]
+jp = "蝦"
+kana = "えび"
+
+[[sentences]]
+jp = "貝"
+kana = "かい"
+
+[[sentences]]
+jp = "紐"
+kana = "ひも"
+
+[[sentences]]
+jp = "橋"
+kana = "はし"
+
+[[sentences]]
+jp = "道"
+kana = "みち"
+
+[[sentences]]
+jp = "家"
+kana = "いえ"
+
+[[sentences]]
+jp = "手"
+kana = "て"
+
+[[sentences]]
+jp = "足"
+kana = "あし"
+
+[[sentences]]
+jp = "目"
+kana = "め"
+
+[[sentences]]
+jp = "耳"
+kana = "みみ"
+
+[[sentences]]
+jp = "口"
+kana = "くち"
+
+[[sentences]]
+jp = "鼻"
+kana = "はな"
+
+[[sentences]]
+jp = "歯"
+kana = "は"
+
+[[sentences]]
+jp = "骨"
+kana = "ほね"
+
+[[sentences]]
+jp = "肉"
+kana = "にく"
+
+[[sentences]]
+jp = "紐"
+kana = "ひも"
+
+[[sentences]]
+jp = "太陽"
+kana = "たいよう"
+
+[[sentences]]
+jp = "橋"
+kana = "はし"
+
+[[sentences]]
+jp = "道"
+kana = "みち"
+
+[[sentences]]
+jp = "蝶"
+kana = "ちょう"
+
+[[sentences]]
+jp = "蛇"
+kana = "へび"
+
+[[sentences]]
+jp = "兎"
+kana = "うさぎ"
+
+[[sentences]]
+jp = "狐"
+kana = "きつね"
+
+[[sentences]]
+jp = "熊"
+kana = "くま"
+
+[[sentences]]
+jp = "狼"
+kana = "おおかみ"
+
+[[sentences]]
+jp = "野"
+kana = "の"
+
+[[sentences]]
+jp = "紐"
+kana = "ひも"
+
+[[sentences]]
+jp = "橋"
+kana = "はし"
+
+[[sentences]]
+jp = "門"
+kana = "もん"
+
+[[sentences]]
+jp = "塔"
+kana = "とう"
+
+[[sentences]]
+jp = "鐘"
+kana = "かね"
+
+[[sentences]]
+jp = "灯"
+kana = "ひ"
+
+[[sentences]]
+jp = "玉"
+kana = "たま"
+
+[[sentences]]
+jp = "瓶"
+kana = "びん"
+
+[[sentences]]
+jp = "杯"
+kana = "はい"
+
+[[sentences]]
+jp = "皿"
+kana = "さら"
+
+[[sentences]]
+jp = "匙"
+kana = "さじ"
+
+[[sentences]]
+jp = "糸"
+kana = "いと"
+
+[[sentences]]
+jp = "紐"
+kana = "ひも"
+
+[[sentences]]
+jp = "土"
+kana = "つち"
+
+[[sentences]]
+jp = "日"
+kana = "ひ"
+
+[[sentences]]
+jp = "波"
+kana = "なみ"
+
+[[sentences]]
+jp = "蛇"
+kana = "へび"
+
+[[sentences]]
+jp = "虎"
+kana = "とら"
+
+[[sentences]]
+jp = "馬"
+kana = "うま"
+
+[[sentences]]
+jp = "牛"
+kana = "うし"
+
+[[sentences]]
+jp = "羊"
+kana = "ひつじ"
+
+[[sentences]]
+jp = "氷"
+kana = "こおり"
+
+[[sentences]]
+jp = "影"
+kana = "かげ"
+
+[[sentences]]
+jp = "橋"
+kana = "はし"
+
+[[sentences]]
+jp = "扉"
+kana = "とびら"
+
+[[sentences]]
+jp = "塔"
+kana = "とう"
+
+[[sentences]]
+jp = "紐"
+kana = "ひも"
+
+[[sentences]]
+jp = "葉"
+kana = "は"
+
+[[sentences]]
+jp = "氷"
+kana = "こおり"
+
+[[sentences]]
+jp = "茶"
+kana = "ちゃ"
+
+[[sentences]]
+jp = "米"
+kana = "こめ"
+
+[[sentences]]
+jp = "塩"
+kana = "しお"
+
+[[sentences]]
+jp = "糸"
+kana = "いと"
+
+[[sentences]]
+jp = "布"
+kana = "ぬの"
+
+[[sentences]]
+jp = "針"
+kana = "はり"
+
+[[sentences]]
+jp = "鍋"
+kana = "なべ"
+
+[[sentences]]
+jp = "皿"
+kana = "さら"
+
+[[sentences]]
+jp = "杯"
+kana = "はい"
+
+[[sentences]]
+jp = "手"
+kana = "て"
+
+[[sentences]]
+jp = "紐"
+kana = "ひも"
+
+[[sentences]]
+jp = "太陽"
+kana = "たいよう"
+
+[[sentences]]
+jp = "砂"
+kana = "すな"
+
+[[sentences]]
+jp = "土"
+kana = "つち"
+
+[[sentences]]
+jp = "道"
+kana = "みち"
+
+[[sentences]]
+jp = "橋"
+kana = "はし"
+
+[[sentences]]
+jp = "家"
+kana = "いえ"
+
+[[sentences]]
+jp = "門"
+kana = "もん"
+
+[[sentences]]
+jp = "車"
+kana = "くるま"
+
+[[sentences]]
+jp = "舟"
+kana = "ふね"
+
+[[sentences]]
+jp = "机"
+kana = "つくえ"
+
+[[sentences]]
+jp = "椅子"
+kana = "いす"
+
+[[sentences]]
+jp = "紐"
+kana = "ひも"
+
+[[sentences]]
+jp = "土"
+kana = "つち"
+
+[[sentences]]
+jp = "蝶"
+kana = "ちょう"
+
+[[sentences]]
+jp = "米"
+kana = "こめ"
+
+[[sentences]]
+jp = "塩"
+kana = "しお"
+
+[[sentences]]
+jp = "糖"
+kana = "さとう"
+
+[[sentences]]
+jp = "麦"
+kana = "むぎ"
+
+[[sentences]]
+jp = "豆"
+kana = "まめ"
+
+[[sentences]]
+jp = "卵"
+kana = "たまご"
+
+[[sentences]]
+jp = "肉"
+kana = "にく"
+
+[[sentences]]
+jp = "氷"
+kana = "こおり"
+
+[[sentences]]
+jp = "鐘"
+kana = "かね"
+
+[[sentences]]
+jp = "鍵"
+kana = "かぎ"
+
+[[sentences]]
+jp = "太陽"
+kana = "たいよう"
+
+[[sentences]]
+jp = "土"
+kana = "つち"
+
+[[sentences]]
+jp = "砂"
+kana = "すな"
+
+[[sentences]]
+jp = "蝶"
+kana = "ちょう"
+
+[[sentences]]
+jp = "亀"
+kana = "かめ"
+
+[[sentences]]
+jp = "馬"
+kana = "うま"
+
+[[sentences]]
+jp = "羊"
+kana = "ひつじ"
+
+[[sentences]]
+jp = "土"
+kana = "つち"
+
+[[sentences]]
+jp = "蛇"
+kana = "へび"
+
+[[sentences]]
+jp = "馬"
+kana = "うま"
+
+[[sentences]]
+jp = "牛"
+kana = "うし"
+
+[[sentences]]
+jp = "豚"
+kana = "ぶた"
+
+[[sentences]]
+jp = "羊"
+kana = "ひつじ"
+
+[[sentences]]
+jp = "象"
+kana = "ぞう"
+
+[[sentences]]
+jp = "町"
+kana = "まち"
+
+[[sentences]]
+jp = "橋"
+kana = "はし"
+
+[[sentences]]
+jp = "門"
+kana = "もん"
+
+[[sentences]]
+jp = "鐘"
+kana = "かね"
+
+[[sentences]]
+jp = "鼠"
+kana = "ねずみ"
+
+[[sentences]]
+jp = "鍬"
+kana = "くわ"
+
+[[sentences]]
+jp = "太陽"
+kana = "たいよう"
+
+[[sentences]]
+jp = "土"
+kana = "つち"
+
+[[sentences]]
+jp = "木の実"
+kana = "きのみ"
+
+[[sentences]]
+jp = "橋"
+kana = "はし"
+
+[[sentences]]
+jp = "道"
+kana = "みち"
+
+[[sentences]]
+jp = "光"
+kana = "ひかり"
+
+[[sentences]]
+jp = "影"
+kana = "かげ"
+
+[[sentences]]
+jp = "音"
+kana = "おと"
+
+[[sentences]]
+jp = "色"
+kana = "いろ"
+
+[[sentences]]
+jp = "形"
+kana = "かたち"
+
+[[sentences]]
+jp = "紐"
+kana = "ひも"
