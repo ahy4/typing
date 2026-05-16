@@ -48,56 +48,36 @@ kana = "..."
 
 類似検出は **2 フェーズ**で行う：
 
-- **フェーズ A（広め検出）**: haiku × 3 並列。3 つのうち **1 つでも** `discard` に指摘した文を「削除候補」とする
-- **フェーズ B（吟味）**: 削除候補を haiku × 2 並列で再審査。**両方が削除すべき**と判定した文のみ最終的に除外する
+- **フェーズ A（スクリプト）**: `find-similar-sentences.mjs` で全ペアの kana 編集距離を計算し候補を絞り込む。距離 0 の完全重複は自動削除確定、距離 1〜3 を LLM レビュー候補とする
+- **フェーズ B（吟味）**: LLM レビュー候補を haiku × 2 並列で再審査。**両方が削除すべき**と判定した文のみ最終的に除外する
 
-### フェーズ A: 広め検出（3 並列）
+### フェーズ A: スクリプトで全件比較
 
-- 1 バッチあたり最大 **50 文**（件数が 50 以下なら 1 バッチ）
-- バッチ数 `B = ceil(全文数 / 50)`
-- **バッチをまたぐペアは検出されない**（バッチ内の比較のみ）。件数が 50 以下なら 1 バッチに全件入るので問題ない
-
-全バッチ × 3 個（計 `3B` 個）のサブエージェントを **1 つのメッセージで同時起動**する。
-
-**起動前に `Read` で `.claude/skills/validate-sentences/similar-detect-prompt.md` を読み込み**、その内容をプロンプト本文として使う（`<SENTENCES_JSON>` を置き換えてから渡す）。
-
-```
-Agent(
-  description: "Detect similar sentences (batch <i>/<B>, detector <1|2|3>)",
-  subagent_type: "general-purpose",
-  model: "haiku",
-  prompt: "<similar-detect-prompt.md の内容（<SENTENCES_JSON> 置換済み）>"
-)
+```bash
+node scripts/find-similar-sentences.mjs
 ```
 
-### similar-detect-prompt.md のプレースホルダー
+- stdout に JSON 配列が出力される（各要素に `distance` フィールドあり）
+- 全文を対象に O(N²) の編集距離計算を行うためバッチ不要。1689 件でも数秒で完了
+- exit code は常に 0
 
-- `<SENTENCES_JSON>` → バッチ i の文を JSON 配列で渡す（`[{"index": 0, "jp": "...", "kana": "..."}, ...]`）
-  - **index はファイル全体での通し番号**（バッチをまたいで一意）
+出力を JavaScript でパースし、以下の 2 グループに分ける：
 
-### 応答前処理
+1. **完全重複（distance === 0）**: 同一ペアは即座に削除確定。`discard.index` を除外セットに追加する。ただし、ある index が複数ペアの `keep` になっている場合は `keep` を優先して除外セットから外す
+2. **近似重複（distance 1〜3）**: フェーズ B の LLM レビュー候補とする
 
-haiku モデルはコードフェンスを付けることがある。JSON.parse 前に:
-1. 先頭の ` ```json ` / ` ``` ` / 末尾の ` ``` ` を除去
-2. 残った文字列を JSON.parse する
+近似重複候補が 0 件ならフェーズ B をスキップし、類似重複除外セット = 完全重複の index セットのみとする。
 
-### フェーズ A の結果統合 → 削除候補の確定
+### フェーズ B: 吟味（候補を 2 並列で再審査）
 
-各バッチ i の 3 つの結果を**次の順に**照合する：
-
-1. **候補の洗い出し**: detector 1・2・3 のうち **1 つでも** ある index を `discard` に指定していれば「削除候補」に追加する
-2. **衝突の除外（keep 優先）**: 同じ index が **いずれかの detector の `keep`** と **いずれかの detector の `discard`** の両方に現れた場合（detector 間で意見が分かれた場合）は `keep` を優先し、候補から取り除く
-3. **ショートカット**: 削除候補が 0 件なら フェーズ B をスキップして類似重複除外セット = 空とする
-
-### フェーズ B: 吟味（削除候補を 2 並列で再審査）
-
-削除候補リストを 1 つのプロンプトにまとめ、**2 つのサブエージェントを同時起動**する。
+近似重複候補リストを **1 バッチあたり最大 30 ペア**に分割し、各バッチを 2 つのサブエージェントで同時審査する。
+バッチ数 `B = ceil(候補数 / 30)`、サブエージェント計 `2B` 個を **1 つのメッセージで同時起動**する。
 
 **起動前に `Read` で `.claude/skills/validate-sentences/similar-review-prompt.md` を読み込み**、その内容をプロンプト本文として使う（`<CANDIDATES_JSON>` を置き換えてから渡す）。
 
 ```
 Agent(
-  description: "Review similar-sentence candidates (reviewer <1|2>)",
+  description: "Review similar-sentence candidates (batch <i>/<B>, reviewer <1|2>)",
   subagent_type: "general-purpose",
   model: "haiku",
   prompt: "<similar-review-prompt.md の内容（<CANDIDATES_JSON> 置換済み）>"
@@ -106,16 +86,17 @@ Agent(
 
 #### similar-review-prompt.md のプレースホルダー
 
-- `<CANDIDATES_JSON>` → 削除候補を以下の形式で渡す（detector の応答は `{keep: K, discard: D, reason}` ペアの配列で返るので、この K・D をそのまま keep/discard index として使う。同一 D に対して異なる detector が異なる K を返した場合は最初に見つかった K を採用する。`reasons` は discard を指摘した detector の理由をすべて収集した配列）:
-  `[{"keep": {"index": K, "jp": "...", "kana": "..."}, "discard": {"index": D, "jp": "...", "kana": "..."}, "reasons": ["detector 1 の理由", "detector 2 の理由", ...]}, ...]`
-  - reasons 配列には `discard` を指定した detector の理由のみ含める（`keep` 側や「類似なし」と判定した detector の理由は含めない）
+- `<CANDIDATES_JSON>` → フェーズ A の出力（`distance` フィールドを含む）をそのまま渡す:
+  `[{"distance": 2, "keep": {"index": K, "jp": "...", "kana": "..."}, "discard": {"index": D, "jp": "...", "kana": "..."}, "reasons": ["kana編集距離: 2"]}, ...]`
 
 #### フェーズ B の統合ルール
+
+各バッチの reviewer 1・2 の結果を統合する：
 
 - **reviewer 1・2 の両方が `delete: true`** → 最終的に削除対象とする
 - どちらか 1 つでも `delete: false` → 削除しない（残す）
 
-全バッチのフェーズ B 結果を統合し、類似重複として除外する index セットを確定する。
+全バッチの結果を統合し、完全重複の index セットと合算して、類似重複として除外する index セットを確定する。
 
 ## ステップ 3: JP-kana 対応検証
 
