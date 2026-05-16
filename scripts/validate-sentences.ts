@@ -9,7 +9,7 @@
  *   1 — errors found (bad generation output, sentences discarded)
  */
 
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 
 interface RawSentence {
 	jp: string;
@@ -91,12 +91,13 @@ export function validateSentence(s: RawSentence): ValidationError | null {
 const args = process.argv.slice(2);
 if (args.length === 0) {
 	console.error(
-		"Usage: node --experimental-strip-types scripts/validate-sentences.ts [--json] <path>",
+		"Usage: node --experimental-strip-types scripts/validate-sentences.ts [--json|--filter] <path>",
 	);
 	process.exit(1);
 }
 
 const jsonOutput = args.includes("--json");
+const filterMode = args.includes("--filter");
 const filePath = args.find((a) => !a.startsWith("--"));
 if (!filePath) {
 	console.error("No file path provided.");
@@ -116,7 +117,18 @@ for (const s of raw) {
 	}
 }
 
-if (jsonOutput) {
+if (filterMode) {
+	// Overwrite the file with only valid entries and always exit 0.
+	if (errors.length > 0) {
+		writeFileSync(filePath, JSON.stringify(valid), "utf-8");
+		console.log(
+			`Filtered ${errors.length} engine-reject entries → ${valid.length} remain`,
+		);
+	} else {
+		console.log(`All ${valid.length} entries valid`);
+	}
+	process.exit(0);
+} else if (jsonOutput) {
 	console.log(
 		JSON.stringify({
 			valid: valid.map((s) => s.jp),
