@@ -13,8 +13,8 @@
  * Exit codes: 0 — success, 1 — error
  */
 
-import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
-import { resolve, basename } from "node:path";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 const [batchesDir, resultsDir] = process.argv.slice(2);
 
@@ -26,7 +26,10 @@ if (!batchesDir || !resultsDir) {
 }
 
 function stripFences(text) {
-	return text.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "").trim();
+	return text
+		.replace(/^```(?:json)?\n?/, "")
+		.replace(/\n?```$/, "")
+		.trim();
 }
 
 function readJson(path) {
@@ -80,10 +83,12 @@ for (const batchFile of batchFiles) {
 		}
 	}
 
-	const excludes = [...excludedIndices].sort((a, b) => a - b).map((idx) => ({
-		index: idx,
-		jp: batch[idx].jp,
-	}));
+	const excludes = [...excludedIndices]
+		.sort((a, b) => a - b)
+		.map((idx) => ({
+			index: idx,
+			jp: batch[idx].jp,
+		}));
 
 	const outPath = resolve(resultsDir, `aggregated_${R}_${i}.json`);
 	writeFileSync(outPath, JSON.stringify(excludes));
