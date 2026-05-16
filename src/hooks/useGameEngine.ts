@@ -3,10 +3,10 @@ import { KPS_WINDOW_SECONDS, SlidingWindowKPS } from "../lib/ema";
 import { feedKey } from "../lib/romaji";
 import type { RunnerState } from "../lib/runnerState";
 import {
-	DIFFICULTY_PRESETS,
 	applyDrain,
 	applyInput,
 	createRunnerState,
+	DIFFICULTY_PRESETS,
 } from "../lib/runnerState";
 import { getSentenceQueue } from "../lib/sentences";
 import {
@@ -214,9 +214,9 @@ export function useGameEngine(config: GameConfig) {
 				if (prev.phase !== "playing") return prev;
 
 				const params =
-				DIFFICULTY_PRESETS[configRef.current.difficulty] ??
-				DIFFICULTY_PRESETS.normal;
-			const newPlayer = applyDrain(prev.player, dt, params);
+					DIFFICULTY_PRESETS[configRef.current.difficulty] ??
+					DIFFICULTY_PRESETS.normal;
+				const newPlayer = applyDrain(prev.player, dt, params);
 				const elapsed = Date.now() - prev.startTime;
 				const ghost = getGhostAt(ghostTimelineRef.current, elapsed);
 
@@ -276,12 +276,13 @@ export function useGameEngine(config: GameConfig) {
 					: null;
 		}
 
-		const useGhost = ghostReplay !== null && configRef.current.showGhost;
+		const useGhost =
+			ghostReplay !== null && configRef.current.showGhost ? ghostReplay : null;
 		ghostTimelineRef.current = useGhost
-			? precomputeGhostTimeline(ghostReplay!, configRef.current)
+			? precomputeGhostTimeline(useGhost, configRef.current)
 			: [];
-		ghostReplayIdRef.current = useGhost ? (ghostReplay?.id ?? null) : null;
-		preparedHasGhostRef.current = useGhost;
+		ghostReplayIdRef.current = useGhost?.id ?? null;
+		preparedHasGhostRef.current = useGhost !== null;
 
 		// 履歴から対戦（ghostReplayId 指定）の場合はゴーストと同じお題で勝負
 		const sentences =
@@ -450,7 +451,13 @@ export function useGameEngine(config: GameConfig) {
 			healAmount,
 			sentenceAdvanced,
 			segmentCompleted,
-		} = applyInput(s.player, inputEvent, kpsWindowRef.current, false, correctParams);
+		} = applyInput(
+			s.player,
+			inputEvent,
+			kpsWindowRef.current,
+			false,
+			correctParams,
+		);
 
 		streakRef.current = newPlayer.combo;
 

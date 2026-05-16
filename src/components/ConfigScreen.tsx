@@ -89,9 +89,7 @@ export function ConfigScreen({ config, onChange, onBack }: Props) {
 					>
 						音量
 					</div>
-					<div
-						style={{ display: "flex", alignItems: "center", gap: "16px" }}
-					>
+					<div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
 						<input
 							type="range"
 							min={0}

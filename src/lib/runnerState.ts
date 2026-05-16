@@ -87,10 +87,7 @@ export function applyInput(
 		return {
 			state: {
 				...state,
-				life: Math.max(
-					0,
-					state.life + (lastWasWrong ? 0 : -params.drainMiss),
-				),
+				life: Math.max(0, state.life + (lastWasWrong ? 0 : -params.drainMiss)),
 				combo: 0,
 				nextHealAt: KEYS_PER_COMBO,
 				nextHealInterval: KEYS_PER_COMBO,
