@@ -52,8 +52,12 @@ export default function App() {
 	// phase → URL (app-driven transitions)
 	useEffect(() => {
 		const currentPath = window.location.hash.slice(1) || "/";
-		// Don't override shared replay URLs while the game hasn't started yet
-		if (currentPath.startsWith("/replay?r=") && state.phase === "idle") return;
+		// Don't override replay URLs while viewing a replay
+		if (
+			currentPath.startsWith("/replay") &&
+			(state.phase === "idle" || state.phase === "gameover")
+		)
+			return;
 
 		const expectedPath = PHASE_TO_PATH[state.phase];
 		if (currentPath.split("?")[0] !== expectedPath) {
