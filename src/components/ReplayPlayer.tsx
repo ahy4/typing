@@ -4,6 +4,7 @@ import {
 	getGhostAt,
 	precomputeGhostTimeline,
 } from "../hooks/useGameEngine";
+import { useScreenRecorder } from "../hooks/useScreenRecorder";
 import { SlidingWindowKPS } from "../lib/ema";
 import {
 	applyDrain,
@@ -95,6 +96,8 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 		);
 		return ghostReplay ? precomputeGhostTimeline(ghostReplay) : [];
 	}, [replay.ghostReplayId]);
+
+	const recorder = useScreenRecorder();
 
 	const [seekPct, setSeekPct] = useState(0);
 	const [playing, setPlaying] = useState(false);
@@ -376,7 +379,8 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 						style={{
 							display: "flex",
 							alignItems: "center",
-							justifyContent: "space-between",
+							justifyContent: "flex-start",
+							gap: "8px",
 						}}
 					>
 						<button
@@ -392,6 +396,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 								cursor: "pointer",
 								letterSpacing: "1px",
 								transition: "all 0.15s",
+								flexShrink: 0,
 							}}
 							onMouseEnter={(e) => {
 								e.currentTarget.style.color = "#00ffff";
@@ -418,6 +423,7 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 								letterSpacing: "1px",
 								boxShadow: playing ? "0 0 6px #ff333344" : "0 0 6px #cc44ff44",
 								transition: "all 0.15s",
+								flexShrink: 0,
 							}}
 						>
 							{playing ? "一時停止" : "再生"}
@@ -427,9 +433,151 @@ export function ReplayPlayer({ replay, onClose }: Props) {
 								fontFamily: "'Press Start 2P', monospace",
 								fontSize: "10px",
 								color: "#666",
+								flexShrink: 0,
 							}}
 						>
 							{currentTimeSec}s / {totalTimeSec}s
+						</div>
+
+						{/* Recording controls */}
+						<div
+							style={{
+								display: "flex",
+								alignItems: "center",
+								gap: "6px",
+								marginLeft: "auto",
+							}}
+						>
+							{recorder.state === "idle" && (
+								<button
+									type="button"
+									onClick={recorder.start}
+									title="タブ録画を開始"
+									style={{
+										padding: "6px 14px",
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "10px",
+										border: "1px solid #ff4444",
+										color: "#ff4444",
+										background: "none",
+										cursor: "pointer",
+										letterSpacing: "1px",
+										transition: "all 0.15s",
+									}}
+									onMouseEnter={(e) => {
+										e.currentTarget.style.background = "#ff444422";
+										e.currentTarget.style.boxShadow = "0 0 8px #ff444466";
+									}}
+									onMouseLeave={(e) => {
+										e.currentTarget.style.background = "none";
+										e.currentTarget.style.boxShadow = "none";
+									}}
+								>
+									● REC
+								</button>
+							)}
+							{recorder.state === "recording" && (
+								<button
+									type="button"
+									onClick={recorder.stop}
+									title="録画停止"
+									style={{
+										padding: "6px 14px",
+										fontFamily: "'Press Start 2P', monospace",
+										fontSize: "10px",
+										border: "1px solid #ff4444",
+										color: "#ff4444",
+										background: "#ff444433",
+										cursor: "pointer",
+										letterSpacing: "1px",
+										boxShadow: "0 0 10px #ff444488",
+										animation: "recBlink 1s ease-in-out infinite",
+									}}
+								>
+									■ 停止
+								</button>
+							)}
+							{recorder.state === "stopped" && (
+								<>
+									<button
+										type="button"
+										onClick={() => recorder.download()}
+										title="動画をダウンロード"
+										style={{
+											padding: "6px 14px",
+											fontFamily: "'Press Start 2P', monospace",
+											fontSize: "10px",
+											border: "1px solid #00ff66",
+											color: "#00ff66",
+											background: "none",
+											cursor: "pointer",
+											letterSpacing: "1px",
+											transition: "all 0.15s",
+										}}
+										onMouseEnter={(e) => {
+											e.currentTarget.style.background = "#00ff6622";
+											e.currentTarget.style.boxShadow = "0 0 8px #00ff6666";
+										}}
+										onMouseLeave={(e) => {
+											e.currentTarget.style.background = "none";
+											e.currentTarget.style.boxShadow = "none";
+										}}
+									>
+										↓ 保存
+									</button>
+									<button
+										type="button"
+										onClick={() => recorder.share()}
+										title="SNSでシェア"
+										style={{
+											padding: "6px 14px",
+											fontFamily: "'Press Start 2P', monospace",
+											fontSize: "10px",
+											border: "1px solid #cc44ff",
+											color: "#cc44ff",
+											background: "none",
+											cursor: "pointer",
+											letterSpacing: "1px",
+											transition: "all 0.15s",
+										}}
+										onMouseEnter={(e) => {
+											e.currentTarget.style.background = "#cc44ff22";
+											e.currentTarget.style.boxShadow = "0 0 8px #cc44ff66";
+										}}
+										onMouseLeave={(e) => {
+											e.currentTarget.style.background = "none";
+											e.currentTarget.style.boxShadow = "none";
+										}}
+									>
+										↗ シェア
+									</button>
+									<button
+										type="button"
+										onClick={recorder.reset}
+										title="録画をリセット"
+										style={{
+											padding: "6px 10px",
+											fontFamily: "'Press Start 2P', monospace",
+											fontSize: "10px",
+											border: "1px solid #555",
+											color: "#555",
+											background: "none",
+											cursor: "pointer",
+											transition: "all 0.15s",
+										}}
+										onMouseEnter={(e) => {
+											e.currentTarget.style.color = "#888";
+											e.currentTarget.style.borderColor = "#888";
+										}}
+										onMouseLeave={(e) => {
+											e.currentTarget.style.color = "#555";
+											e.currentTarget.style.borderColor = "#555";
+										}}
+									>
+										×
+									</button>
+								</>
+							)}
 						</div>
 					</div>
 				</div>
