@@ -118,6 +118,7 @@ export function useGameEngine(config: GameConfig) {
 	const ghostTimelineRef = useRef<GhostTimelineEntry[]>([]);
 	const ghostReplayIdRef = useRef<string | null>(null);
 	const tickRef = useRef<(now: number) => void>(() => {});
+	const usedSentenceIdsRef = useRef<Set<string>>(new Set());
 
 	const initialPlayer = createRunnerState([]);
 	const [state, setState] = useState<GameState>(() => ({
@@ -251,6 +252,7 @@ export function useGameEngine(config: GameConfig) {
 		keyStatsRef.current = new Map();
 		bigramRef.current = new Map();
 		prevKeyRef.current = "";
+		usedSentenceIdsRef.current = new Set();
 
 		const replays = loadReplays();
 		let ghostReplay: ReplayData | null = null;
@@ -277,6 +279,7 @@ export function useGameEngine(config: GameConfig) {
 			ghostReplayId && ghostReplay
 				? [...ghostReplay.sentences]
 				: getSentenceQueue(10, undefined, configRef.current.difficulty);
+		for (const s of sentences) usedSentenceIdsRef.current.add(s.id);
 		preparedSentencesRef.current = sentences;
 
 		// Pre-initialize player so the GameScreen behind the countdown overlay
@@ -454,7 +457,10 @@ export function useGameEngine(config: GameConfig) {
 					10,
 					newPlayer.speed,
 					configRef.current.difficulty,
+					usedSentenceIdsRef.current,
 				);
+				for (const sentence of extra)
+					usedSentenceIdsRef.current.add(sentence.id);
 				finalPlayer = {
 					...newPlayer,
 					sentences: [...s.sentences, ...extra],

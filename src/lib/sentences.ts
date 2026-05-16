@@ -63,13 +63,17 @@ function sentencePool(
 
 // kps: current typing speed; omit (or pass undefined) to draw from all lengths.
 // Falls back to the full pool when the speed-filtered pool is too small.
+// exclude: sentence IDs already seen this game; excluded unless the pool is exhausted.
 export function getSentenceQueue(
 	count = 10,
 	kps?: number,
 	difficulty: Difficulty = "normal",
+	exclude: Set<string> = new Set(),
 ): Sentence[] {
 	const pool = sentencePool(kps, difficulty);
-	const source = pool.length >= count ? pool : SENTENCES;
+	const fresh = pool.filter((s) => !exclude.has(s.id));
+	const source =
+		fresh.length >= count ? fresh : pool.length >= count ? pool : SENTENCES;
 	const shuffled = [...source].sort(() => Math.random() - 0.5);
 	const result: Sentence[] = [];
 	while (result.length < count) {
