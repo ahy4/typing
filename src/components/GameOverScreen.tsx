@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { encodeReplay } from "../lib/shareReplay";
 import type { SessionRecord } from "../lib/types";
 
 interface Props {
@@ -236,11 +237,12 @@ export function GameOverScreen({ session, onStats }: Props) {
 				<div style={{ display: "flex", gap: "16px", marginTop: "8px" }}>
 					<button
 						type="button"
-						onClick={() =>
-							navigate("/replay", {
-								state: { replay: session.replay, from: "gameover" },
-							})
-						}
+						onClick={async () => {
+							const encoded = await encodeReplay(session.replay);
+							navigate(`/replay?r=${encoded}`, {
+								state: { from: "gameover" },
+							});
+						}}
 						style={{
 							padding: "14px 32px",
 							fontFamily: "'Press Start 2P', monospace",
