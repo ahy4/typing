@@ -34,6 +34,7 @@ interface DisplayState extends RunnerState {
 	healStreak: number;
 	lastHealId: number;
 	lastHealAmount: number;
+	healIdAtLastReset: number;
 }
 
 function reconstructAt(
@@ -50,6 +51,7 @@ function reconstructAt(
 	let healStreak = 0;
 	let lastHealId = 0;
 	let lastHealAmount = 0;
+	let healIdAtLastReset = 0;
 
 	for (let i = 0; i < idx && i < replay.events.length; i++) {
 		const ev = replay.events[i];
@@ -73,6 +75,7 @@ function reconstructAt(
 		} else {
 			totalErrors++;
 			healStreak = 0;
+			healIdAtLastReset = lastHealId;
 		}
 	}
 
@@ -86,6 +89,7 @@ function reconstructAt(
 		healStreak,
 		lastHealId,
 		lastHealAmount,
+		healIdAtLastReset,
 	};
 }
 
@@ -262,6 +266,7 @@ export function ReplayPlayer({ replay, onClose, onStartWithGhost }: Props) {
 			healStreak={displayState.healStreak}
 			lastHealId={displayState.lastHealId}
 			lastHealAmount={displayState.lastHealAmount}
+			barBaseHealId={displayState.healIdAtLastReset}
 			totalCorrect={displayState.totalCorrect}
 			totalErrors={displayState.totalErrors}
 			elapsed={(seekPct / 100) * replay.totalTime}
