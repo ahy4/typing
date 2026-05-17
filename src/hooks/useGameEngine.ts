@@ -117,6 +117,7 @@ export function useGameEngine(config: GameConfig) {
 	const prevKeyRef = useRef<string>("");
 	const ghostTimelineRef = useRef<GhostTimelineEntry[]>([]);
 	const ghostReplayIdRef = useRef<string | null>(null);
+	const userSelectedGhostIdRef = useRef<string | null>(null);
 	const tickRef = useRef<(now: number) => void>(() => {});
 	const usedSentenceIdsRef = useRef<Set<string>>(new Set());
 
@@ -245,6 +246,11 @@ export function useGameEngine(config: GameConfig) {
 	const startGame = useCallback((ghostReplayId?: string) => {
 		unlockAudio();
 		cancelAnimationFrame(rafRef.current);
+		if (ghostReplayId !== undefined) {
+			userSelectedGhostIdRef.current = ghostReplayId;
+		} else {
+			userSelectedGhostIdRef.current = null;
+		}
 		kpsWindowRef.current.reset();
 		streakRef.current = 0;
 		lastKeyTimeRef.current = 0;
@@ -496,7 +502,13 @@ export function useGameEngine(config: GameConfig) {
 				stateRef.current.phase === "idle" ||
 				stateRef.current.phase === "gameover"
 			) {
-				if (e.key === "Enter" || e.key === " ") startGame();
+				if (e.key === "Enter" || e.key === " ") {
+					if (stateRef.current.phase === "gameover") {
+						startGame(userSelectedGhostIdRef.current ?? undefined);
+					} else {
+						startGame();
+					}
+				}
 				return;
 			}
 			handleKey(e.key.toLowerCase());
