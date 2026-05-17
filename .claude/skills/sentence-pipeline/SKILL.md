@@ -196,6 +196,20 @@ git add src/lib/sentences.toml src/lib/generated/sentences.json
 git commit -m "feat(sentences): add <T> generated sentences"
 ```
 
+### ステップ V0.5: 完全重複の一括削除
+
+```bash
+node scripts/dedup-sentences.mjs
+```
+
+- `No exact duplicates found.` → 重複なし。このステップをスキップして V1 へ。
+- `Removed N exact duplicates (旧件数 → 新件数)` → N 件削除された。続けて以下を実行:
+  ```bash
+  npm run gen >/dev/null 2>&1
+  git add src/lib/sentences.toml src/lib/generated/sentences.json
+  git commit -m "fix(sentences): remove <N> exact duplicates"
+  ```
+
 ### ステップ V1: チャンク分割
 
 ```bash
