@@ -196,6 +196,20 @@ git add src/lib/sentences.toml src/lib/generated/sentences.json
 git commit -m "feat(sentences): add <T> generated sentences"
 ```
 
+### ステップ V0.5: 完全重複の一括削除
+
+```bash
+node scripts/dedup-sentences.mjs
+```
+
+- `No exact duplicates found.` → 重複なし。このステップをスキップして V1 へ。
+- `Removed N exact duplicates (旧件数 → 新件数)` → N 件削除された。続けて以下を実行:
+  ```bash
+  npm run gen >/dev/null 2>&1
+  git add src/lib/sentences.toml src/lib/generated/sentences.json
+  git commit -m "fix(sentences): remove <N> exact duplicates"
+  ```
+
 ### ステップ V1: チャンク分割
 
 ```bash
@@ -275,7 +289,8 @@ node scripts/find-similar-sentences.mjs \
 ```
 
 - `--max-island-entries 50`: エントリ数が 50 件を超える島はスキップ（広域・浅い類似であり LLM レビューに適さない）
-- `--max-islands 60`: 類似度スコア上位 60 島のみ処理（スコアは島内エッジの平均 Levenshtein 距離、小さいほど類似度高）
+- `--max-islands 60`: 類似度スコア上位 60 島のみ処理（スコアは島内エッジの平均正規化距離 dist/max_kana_len、小さいほど類似度高）
+- デフォルト閾値 0.3 は正規化距離（0〜1）。「いぬ vs ねこ」は 2/2=1.0 で島に入らない
 - 出力は類似度降順（スコア昇順）に並んでいる
 
 `Read` で `gomi/similar_islands.json` を読み込んで JSON.parse し、対象島リストを取得する。対象島数 `I`。
