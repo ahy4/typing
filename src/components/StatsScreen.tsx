@@ -416,7 +416,7 @@ export function StatsScreen({
 									<HeatmapView replay={heatmapReplay} />
 								</div>
 							)}
-							{replays.length === 0 && (
+							{filteredSessions.length === 0 && (
 								<p
 									style={{
 										fontFamily: "'Share Tech Mono', monospace",
@@ -428,149 +428,157 @@ export function StatsScreen({
 									履歴がありません。
 								</p>
 							)}
-							{[...replays].reverse().map((r, idx) => {
-								const matchingSession = sessions.find(
-									(s) => s.replay.id === r.id,
-								);
-								const diff = matchingSession?.difficulty;
-								return (
-									<div
-										key={r.id}
-										style={{
-											display: "flex",
-											justifyContent: "space-between",
-											alignItems: "center",
-											padding: "20px 24px",
-											background:
-												idx % 2 === 0 ? "rgba(13,0,26,0.6)" : "rgba(0,0,0,0.3)",
-											borderBottom: "1px solid var(--border)",
-										}}
-									>
+							{[...replays]
+								.reverse()
+								.filter((r) =>
+									filteredSessions.some((s) => s.replay.id === r.id),
+								)
+								.map((r, idx) => {
+									const matchingSession = sessions.find(
+										(s) => s.replay.id === r.id,
+									);
+									const diff = matchingSession?.difficulty;
+									return (
 										<div
+											key={r.id}
 											style={{
 												display: "flex",
-												flexDirection: "column",
-												gap: "4px",
-												minWidth: "180px",
+												justifyContent: "space-between",
+												alignItems: "center",
+												padding: "20px 24px",
+												background:
+													idx % 2 === 0
+														? "rgba(13,0,26,0.6)"
+														: "rgba(0,0,0,0.3)",
+												borderBottom: "1px solid var(--border)",
 											}}
 										>
-											<span
+											<div
 												style={{
-													fontFamily: "'Share Tech Mono', monospace",
-													fontSize: "13px",
-													color: "#aaa",
+													display: "flex",
+													flexDirection: "column",
+													gap: "4px",
+													minWidth: "180px",
 												}}
 											>
-												{new Date(r.timestamp).toLocaleString()}
-											</span>
-											{diff && (
 												<span
 													style={{
-														fontFamily: "'Press Start 2P', monospace",
-														fontSize: "7px",
-														color: DIFFICULTY_COLORS[diff],
-														letterSpacing: "1px",
+														fontFamily: "'Share Tech Mono', monospace",
+														fontSize: "13px",
+														color: "#aaa",
 													}}
 												>
-													{DIFFICULTY_LABELS[diff]}
+													{new Date(r.timestamp).toLocaleString()}
 												</span>
-											)}
-										</div>
-										<span
-											style={{
-												fontFamily: "'Press Start 2P', monospace",
-												fontSize: "16px",
-												color: "#00ffff",
-												textShadow: "0 0 8px #00ffff44",
-												minWidth: "120px",
-												textAlign: "center",
-											}}
-										>
-											{r.wpm.toFixed(1)}{" "}
+												{diff && (
+													<span
+														style={{
+															fontFamily: "'Press Start 2P', monospace",
+															fontSize: "7px",
+															color: DIFFICULTY_COLORS[diff],
+															letterSpacing: "1px",
+														}}
+													>
+														{DIFFICULTY_LABELS[diff]}
+													</span>
+												)}
+											</div>
 											<span
 												style={{
-													fontSize: "10px",
-													color: "#999",
+													fontFamily: "'Press Start 2P', monospace",
+													fontSize: "16px",
+													color: "#00ffff",
+													textShadow: "0 0 8px #00ffff44",
+													minWidth: "120px",
+													textAlign: "center",
 												}}
 											>
-												打/秒
-											</span>
-										</span>
-										<span
-											style={{
-												fontFamily: "'Press Start 2P', monospace",
-												fontSize: "16px",
-												color: "#00ff66",
-												textShadow: "0 0 8px #00ff6644",
-												minWidth: "80px",
-												textAlign: "center",
-											}}
-										>
-											{Math.round(r.accuracy * 100)}%
-										</span>
-										<div style={{ display: "flex", gap: "10px" }}>
-											{(
-												[
-													{
-														label: "ヒートマップ",
-														color: "#ff00aa",
-														borderColor: "#882255",
-														action: () =>
-															setHeatmapReplay(
-																heatmapReplay?.id === r.id ? null : r,
-															),
-													},
-													{
-														label: "▶ 再生",
-														color: "#cccccc",
-														borderColor: "#666666",
-														action: () => setWatchingReplayId(r.id),
-													},
-													{
-														label: "⚔ 対戦",
-														color: "#00ffff",
-														borderColor: "#006666",
-														action: () => onStartWithGhost(r.id),
-													},
-													{
-														label: "削除",
-														color: "#cc5555",
-														borderColor: "#882222",
-														action: () => handleDeleteReplay(r.id),
-													},
-												] as const
-											).map((btn) => (
-												<button
-													type="button"
-													key={btn.label}
-													onClick={btn.action}
+												{r.wpm.toFixed(1)}{" "}
+												<span
 													style={{
-														padding: "8px 14px",
-														fontFamily: "'Press Start 2P', monospace",
-														fontSize: "9px",
-														color: btn.color,
-														background: "none",
-														border: `1px solid ${btn.borderColor}`,
-														cursor: "pointer",
-														letterSpacing: "1px",
-														transition: "all 0.15s",
-													}}
-													onMouseEnter={(e) => {
-														e.currentTarget.style.borderColor = btn.color;
-														e.currentTarget.style.boxShadow = `0 0 6px ${btn.color}44`;
-													}}
-													onMouseLeave={(e) => {
-														e.currentTarget.style.borderColor = btn.borderColor;
-														e.currentTarget.style.boxShadow = "none";
+														fontSize: "10px",
+														color: "#999",
 													}}
 												>
-													{btn.label}
-												</button>
-											))}
+													打/秒
+												</span>
+											</span>
+											<span
+												style={{
+													fontFamily: "'Press Start 2P', monospace",
+													fontSize: "16px",
+													color: "#00ff66",
+													textShadow: "0 0 8px #00ff6644",
+													minWidth: "80px",
+													textAlign: "center",
+												}}
+											>
+												{Math.round(r.accuracy * 100)}%
+											</span>
+											<div style={{ display: "flex", gap: "10px" }}>
+												{(
+													[
+														{
+															label: "ヒートマップ",
+															color: "#ff00aa",
+															borderColor: "#882255",
+															action: () =>
+																setHeatmapReplay(
+																	heatmapReplay?.id === r.id ? null : r,
+																),
+														},
+														{
+															label: "▶ 再生",
+															color: "#cccccc",
+															borderColor: "#666666",
+															action: () => setWatchingReplayId(r.id),
+														},
+														{
+															label: "⚔ 対戦",
+															color: "#00ffff",
+															borderColor: "#006666",
+															action: () => onStartWithGhost(r.id),
+														},
+														{
+															label: "削除",
+															color: "#cc5555",
+															borderColor: "#882222",
+															action: () => handleDeleteReplay(r.id),
+														},
+													] as const
+												).map((btn) => (
+													<button
+														type="button"
+														key={btn.label}
+														onClick={btn.action}
+														style={{
+															padding: "8px 14px",
+															fontFamily: "'Press Start 2P', monospace",
+															fontSize: "9px",
+															color: btn.color,
+															background: "none",
+															border: `1px solid ${btn.borderColor}`,
+															cursor: "pointer",
+															letterSpacing: "1px",
+															transition: "all 0.15s",
+														}}
+														onMouseEnter={(e) => {
+															e.currentTarget.style.borderColor = btn.color;
+															e.currentTarget.style.boxShadow = `0 0 6px ${btn.color}44`;
+														}}
+														onMouseLeave={(e) => {
+															e.currentTarget.style.borderColor =
+																btn.borderColor;
+															e.currentTarget.style.boxShadow = "none";
+														}}
+													>
+														{btn.label}
+													</button>
+												))}
+											</div>
 										</div>
-									</div>
-								);
-							})}
+									);
+								})}
 						</div>
 					)}
 				</div>
