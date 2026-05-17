@@ -7,7 +7,8 @@
  *   node scripts/find-similar-sentences.mjs [options]
  *
  * Options:
- *   --threshold N            Levenshtein distance threshold (default: 3)
+ *   --threshold N            Normalized Levenshtein threshold 0–1 (default: 0.3)
+ *                            Two kana strings are similar if dist/max_len ≤ threshold.
  *   --output <path>          Output path (default: stdout)
  *   --filter-chunks <path>   Only include islands with ≥1 recent entry
  *   --max-island-entries N   Skip islands with more than N entries (default: 50)
@@ -35,7 +36,7 @@ function getArg(flag, defaultVal) {
 	return idx !== -1 ? args[idx + 1] : defaultVal;
 }
 
-const THRESHOLD = parseInt(getArg("--threshold", "3"), 10);
+const THRESHOLD = parseFloat(getArg("--threshold", "0.3"));
 const OUTPUT_PATH = getArg("--output", null)
 	? resolve(root, getArg("--output", null))
 	: null;
@@ -86,16 +87,17 @@ function union(x, y) {
 const edgePairs = [];
 for (let i = 0; i < sentences.length; i++) {
 	for (let j = i + 1; j < sentences.length; j++) {
-		const d = levenshtein(sentences[i].kana, sentences[j].kana, THRESHOLD);
-		if (d <= THRESHOLD) {
+		const ai = sentences[i].kana;
+		const bj = sentences[j].kana;
+		const maxLen = Math.max(ai.length, bj.length);
+		// Derive an absolute distance ceiling from the normalized threshold so the
+		// early-return optimisation inside levenshtein() still fires.
+		const absMax = Math.ceil(THRESHOLD * maxLen);
+		const d = levenshtein(ai, bj, absMax);
+		if (d > absMax) continue;
+		const normDist = maxLen > 0 ? d / maxLen : 0;
+		if (normDist <= THRESHOLD) {
 			union(i, j);
-			// Normalize by max kana length so long near-identical sentences score
-			// lower (more similar) than short sentences with the same raw distance.
-			const maxLen = Math.max(
-				sentences[i].kana.length,
-				sentences[j].kana.length,
-			);
-			const normDist = maxLen > 0 ? d / maxLen : 0;
 			edgePairs.push({ i, j, normDist });
 		}
 	}

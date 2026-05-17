@@ -289,7 +289,8 @@ node scripts/find-similar-sentences.mjs \
 ```
 
 - `--max-island-entries 50`: エントリ数が 50 件を超える島はスキップ（広域・浅い類似であり LLM レビューに適さない）
-- `--max-islands 60`: 類似度スコア上位 60 島のみ処理（スコアは島内エッジの平均 Levenshtein 距離、小さいほど類似度高）
+- `--max-islands 60`: 類似度スコア上位 60 島のみ処理（スコアは島内エッジの平均正規化距離 dist/max_kana_len、小さいほど類似度高）
+- デフォルト閾値 0.3 は正規化距離（0〜1）。「いぬ vs ねこ」は 2/2=1.0 で島に入らない
 - 出力は類似度降順（スコア昇順）に並んでいる
 
 `Read` で `gomi/similar_islands.json` を読み込んで JSON.parse し、対象島リストを取得する。対象島数 `I`。
