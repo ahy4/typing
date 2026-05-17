@@ -416,7 +416,7 @@ export function StatsScreen({
 									<HeatmapView replay={heatmapReplay} />
 								</div>
 							)}
-							{replays.length === 0 && (
+							{filteredSessions.length === 0 && (
 								<p
 									style={{
 										fontFamily: "'Share Tech Mono', monospace",
@@ -428,7 +428,12 @@ export function StatsScreen({
 									履歴がありません。
 								</p>
 							)}
-							{[...replays].reverse().map((r, idx) => {
+							{[...replays]
+								.reverse()
+								.filter((r) =>
+									filteredSessions.some((s) => s.replay.id === r.id),
+								)
+								.map((r, idx) => {
 								const matchingSession = sessions.find(
 									(s) => s.replay.id === r.id,
 								);
