@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { encodeReplay } from "../lib/shareReplay";
 import { loadReplays } from "../lib/storage";
 import type { Difficulty, ReplayData, SessionRecord } from "../lib/types";
 import { HeatmapView } from "./HeatmapView";
 import { OverviewChart } from "./OverviewChart";
-import { ReplayPlayer } from "./ReplayPlayer";
 
 const DIFFICULTY_LABELS: Record<Difficulty, string> = {
 	easy: "EASY",
@@ -31,23 +32,15 @@ export function StatsScreen({
 	onStartWithGhost,
 	onDeleteReplay,
 }: Props) {
+	const navigate = useNavigate();
 	const [tab, setTab] = useState<"overview" | "replays">("overview");
 	const [diffFilter, setDiffFilter] = useState<Difficulty | "all">("all");
-	const [watchingReplayId, setWatchingReplayId] = useState<string | null>(null);
 	const [heatmapReplay, setHeatmapReplay] = useState<ReplayData | null>(null);
 	const [replays, setReplays] = useState<ReplayData[]>(() => loadReplays());
 
-	const watchingReplay = watchingReplayId
-		? replays.find((r) => r.id === watchingReplayId)
-		: null;
-
-	if (watchingReplay) {
-		return (
-			<ReplayPlayer
-				replay={watchingReplay}
-				onClose={() => setWatchingReplayId(null)}
-			/>
-		);
+	async function handleWatchReplay(replay: ReplayData) {
+		const encoded = await encodeReplay(replay);
+		navigate(`/replay?r=${encoded}`, { state: { from: "stats" } });
 	}
 
 	const filteredSessions =
@@ -531,7 +524,7 @@ export function StatsScreen({
 															label: "▶ 再生",
 															color: "#cccccc",
 															borderColor: "#666666",
-															action: () => setWatchingReplayId(r.id),
+															action: () => handleWatchReplay(r),
 														},
 														{
 															label: "⚔ 対戦",
