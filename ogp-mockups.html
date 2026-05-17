@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>OGP Mockups</title>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<title>OGP Mockups — ミルキー★タイピング</title>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
   :root {
     --cyan: #00ffff;
@@ -12,37 +12,43 @@
     --green: #00ff66;
     --orange: #ff8800;
     --red: #ff2244;
+    --purple: #cc00cc;
     --bg: #070010;
     --panel: #0d001a;
     --border: #6a20a0;
   }
   body {
-    background: #111;
-    font-family: 'Share Tech Mono', 'Courier New', monospace;
-    padding: 40px;
+    background: #0a0a0a;
+    font-family: 'Share Tech Mono', monospace;
+    padding: 40px 48px;
     color: white;
   }
-  h1 { color: #aaa; margin-bottom: 8px; font-size: 14px; letter-spacing: 2px; }
-  h2 { color: #666; margin: 40px 0 16px; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; }
-
-  /* OGP frame — standard 1200×630 shown at 50% = 600×315 */
-  .ogp-frame {
-    width: 600px;
-    height: 315px;
-    border: 2px solid #444;
-    margin-bottom: 32px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 4px;
-    box-shadow: 0 0 24px rgba(0,0,0,0.8);
+  h2 {
+    color: #555;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin: 48px 0 18px;
+    font-family: 'Share Tech Mono', monospace;
   }
   .ogp-label {
     font-size: 10px;
-    color: #555;
+    color: #444;
     margin-bottom: 6px;
     letter-spacing: 1px;
+    font-family: 'Share Tech Mono', monospace;
   }
-  /* Inner canvas at 1200×630 scaled to fit */
+  /* OGP frame — 1200×630 rendered at 50% = 600×315 */
+  .ogp-frame {
+    width: 600px;
+    height: 315px;
+    border: 1px solid #333;
+    margin-bottom: 36px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 3px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.9);
+  }
   .ogp-canvas {
     width: 1200px;
     height: 630px;
@@ -52,7 +58,7 @@
     top: 0; left: 0;
   }
 
-  /* ──────────────── shared OGP styles ──────────────── */
+  /* ── shared OGP base ── */
   .ogp {
     width: 1200px;
     height: 630px;
@@ -62,8 +68,7 @@
     font-family: 'Share Tech Mono', monospace;
     color: white;
   }
-  /* scanlines */
-  .ogp::before {
+  .ogp::before { /* scanlines */
     content: "";
     position: absolute;
     inset: 0;
@@ -71,510 +76,563 @@
     z-index: 50;
     pointer-events: none;
   }
-  /* vignette */
-  .ogp::after {
+  .ogp::after { /* vignette */
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.9) 100%);
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.88) 100%);
     z-index: 51;
     pointer-events: none;
   }
   .ogp > * { position: relative; z-index: 10; }
 
-  .neon { text-shadow: 0 0 8px currentColor, 0 0 20px currentColor; }
-  .glow-cyan { color: var(--cyan); text-shadow: 0 0 8px var(--cyan), 0 0 24px var(--cyan); }
-  .glow-pink { color: var(--pink); text-shadow: 0 0 8px var(--pink), 0 0 24px var(--pink); }
-  .glow-yellow { color: var(--yellow); text-shadow: 0 0 8px var(--yellow), 0 0 20px var(--yellow); }
-  .glow-green { color: var(--green); text-shadow: 0 0 8px var(--green), 0 0 20px var(--green); }
+  /* Milky title gradient — mirrors IdleScreen exactly */
+  .milky-title {
+    font-family: 'Dela Gothic One', sans-serif;
+    font-size: 48px;
+    background: linear-gradient(90deg, #ff6eb4, #c084fc, #818cf8, #60a5fa, #c084fc, #ff6eb4);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 3px;
+    animation: milkyShimmer 5s linear infinite;
+  }
+  .milky-title-lg {
+    font-family: 'Dela Gothic One', sans-serif;
+    font-size: 80px;
+    background: linear-gradient(90deg, #ff6eb4, #c084fc, #818cf8, #60a5fa, #c084fc, #ff6eb4);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 4px;
+    animation: milkyShimmer 5s linear infinite;
+  }
+  @keyframes milkyShimmer {
+    0%   { background-position: 200% center; }
+    100% { background-position: 0%   center; }
+  }
 
-  /* border panel */
+  .sub-label {
+    color: #999;
+    font-size: 13px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .px2 { font-family: 'Press Start 2P', monospace; }
+  .glow-cyan  { color: var(--cyan);   text-shadow: 0 0 8px var(--cyan),   0 0 24px var(--cyan); }
+  .glow-pink  { color: var(--pink);   text-shadow: 0 0 8px var(--pink),   0 0 24px var(--pink); }
+  .glow-purple{ color: var(--purple); text-shadow: 0 0 8px var(--purple), 0 0 24px var(--purple); }
+  .glow-yellow{ color: var(--yellow); text-shadow: 0 0 8px var(--yellow), 0 0 20px var(--yellow); }
+  .glow-green { color: var(--green);  text-shadow: 0 0 8px var(--green),  0 0 20px var(--green); }
+
   .panel {
     background: var(--panel);
     border: 1px solid var(--border);
-    border-radius: 4px;
+    border-radius: 3px;
   }
-  .panel-cyan { border-color: var(--cyan); box-shadow: 0 0 12px rgba(0,255,255,0.3), inset 0 0 12px rgba(0,255,255,0.05); }
-  .panel-pink { border-color: var(--pink); box-shadow: 0 0 12px rgba(255,0,170,0.3), inset 0 0 12px rgba(255,0,170,0.05); }
-  .panel-green { border-color: var(--green); box-shadow: 0 0 12px rgba(0,255,102,0.3), inset 0 0 12px rgba(0,255,102,0.05); }
-
+  .panel-cyan   { border-color: var(--cyan);   box-shadow: 0 0 12px rgba(0,255,255,0.25), inset 0 0 10px rgba(0,255,255,0.04); }
+  .panel-purple { border-color: var(--purple); box-shadow: 0 0 12px rgba(204,0,204,0.25), inset 0 0 10px rgba(204,0,204,0.04); }
   .bar-bg { background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
-
-  /* VS badge */
-  .vs-badge {
-    font-size: 64px;
-    font-weight: 900;
-    color: var(--yellow);
-    text-shadow: 0 0 20px var(--yellow), 0 0 60px var(--yellow), 0 0 100px rgba(255,238,0,0.5);
-    letter-spacing: -2px;
-  }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════════ -->
-<!--                     TOP PAGE                          -->
-<!-- ═══════════════════════════════════════════════════════ -->
-<h2>🖥 トップページ OGP（5案）</h2>
+<script>
+/* ── CentralGauge static SVG generator ── */
+const SIZE = 260, CX = 130, CY = 130;
+const SPEED_R = 94, TRACK_STROKE = 24, PLAYER_STROKE = 18, GHOST_STROKE = 5;
+const MAX_KPS = 12, START_DEG = 225, TOTAL_DEG = 270;
+const ARC_LENGTH = SPEED_R * (TOTAL_DEG * Math.PI) / 180;
 
-<!-- TOP-1: ロゴ + キャッチコピー -->
-<div class="ogp-label">TOP-1: シンプルロゴ＋キャッチコピー</div>
-<div class="ogp-frame">
-<div class="ogp-canvas">
-<div class="ogp" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:32px;">
-  <!-- grid lines -->
-  <div style="position:absolute; inset:0; background: linear-gradient(rgba(106,32,160,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(106,32,160,0.15) 1px, transparent 1px); background-size: 60px 60px;"></div>
+function polarToXY(r, deg) {
+  const rad = (deg - 90) * Math.PI / 180;
+  return { x: CX + r * Math.cos(rad), y: CY + r * Math.sin(rad) };
+}
+function arcPath(startDeg, sweepDeg, r) {
+  const endDeg = startDeg + sweepDeg;
+  const s = polarToXY(r, startDeg), e = polarToXY(r, endDeg);
+  const la = sweepDeg > 180 ? 1 : 0;
+  return `M ${s.x} ${s.y} A ${r} ${r} 0 ${la} 1 ${e.x} ${e.y}`;
+}
+function needlePoints(pct) {
+  const deg = START_DEG + pct * TOTAL_DEG;
+  const nRad = (deg - 90) * Math.PI / 180;
+  const tip = polarToXY(SPEED_R + TRACK_STROKE/2 + 14, deg);
+  const base = { x: CX + (SPEED_R - TRACK_STROKE/2 - 2) * Math.cos(nRad),
+                 y: CY + (SPEED_R - TRACK_STROKE/2 - 2) * Math.sin(nRad) };
+  const pRad = nRad + Math.PI/2;
+  const b1 = { x: base.x + 7*Math.cos(pRad), y: base.y + 7*Math.sin(pRad) };
+  const b2 = { x: base.x - 7*Math.cos(pRad), y: base.y - 7*Math.sin(pRad) };
+  return `${tip.x},${tip.y} ${b1.x},${b1.y} ${b2.x},${b2.y}`;
+}
+const TRACK = arcPath(START_DEG, TOTAL_DEG, SPEED_R);
+const TICKS = [0, 0.25, 0.5, 0.75, 1].map(t => {
+  const deg = START_DEG + t * TOTAL_DEG;
+  const inner = polarToXY(SPEED_R - TRACK_STROKE/2 - 4, deg);
+  const outer = polarToXY(SPEED_R + TRACK_STROKE/2 + 3, deg);
+  const lp    = polarToXY(SPEED_R + TRACK_STROKE/2 + 14, deg);
+  return { inner, outer, lp, val: Math.round(t * MAX_KPS) };
+});
+
+/* Returns inline SVG string for a static gauge */
+function gauge(playerKps, ghostKps) {
+  const pPct   = Math.min(1, playerKps / MAX_KPS);
+  const gPct   = ghostKps != null ? Math.min(1, ghostKps / MAX_KPS) : null;
+  const pOff   = ARC_LENGTH * (1 - pPct);
+  const gOff   = gPct != null ? ARC_LENGTH * (1 - gPct) : null;
+  const needle = needlePoints(pPct);
+  const ticks  = TICKS.map(t =>
+    `<line x1="${t.inner.x}" y1="${t.inner.y}" x2="${t.outer.x}" y2="${t.outer.y}" stroke="#444" stroke-width="1.5"/>
+     <text x="${t.lp.x}" y="${t.lp.y}" text-anchor="middle" dominant-baseline="middle" fill="#444" font-size="8" font-family="monospace">${t.val}</text>`
+  ).join('');
+  return `<svg width="${SIZE}" height="${SIZE}" overflow="visible" role="img" aria-label="速度ゲージ ${playerKps} 打/秒">
+    <defs>
+      <filter id="g1" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="2" result="b1"/><feGaussianBlur stdDeviation="7" result="b2"/>
+        <feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="g2" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <!-- track -->
+    <path d="${TRACK}" fill="none" stroke="#150025" stroke-width="${TRACK_STROKE}" stroke-linecap="round"/>
+    <!-- halo -->
+    <path d="${TRACK}" fill="none" stroke="white" stroke-width="${PLAYER_STROKE+8}" stroke-linecap="round"
+          stroke-dasharray="${ARC_LENGTH}" stroke-dashoffset="${pOff}" opacity="0.06"/>
+    <!-- player arc -->
+    <path d="${TRACK}" fill="none" stroke="#00ffff" stroke-width="${PLAYER_STROKE}" stroke-linecap="round"
+          stroke-dasharray="${ARC_LENGTH}" stroke-dashoffset="${pOff}" filter="url(#g1)"/>
+    ${gOff != null ? `<!-- ghost arc -->
+    <path d="${TRACK}" fill="none" stroke="#cc00cc" stroke-width="${GHOST_STROKE}" stroke-linecap="round"
+          stroke-dasharray="${ARC_LENGTH}" stroke-dashoffset="${gOff}" opacity="0.8" filter="url(#g2)"/>` : ''}
+    <!-- needle -->
+    <polygon points="${needle}" fill="#00ffff" opacity="0.85" filter="url(#g1)"/>
+    ${ticks}
+    <!-- speed value -->
+    <text x="${CX}" y="${CY+14}" text-anchor="middle" fill="#00ffff"
+          font-family="'Press Start 2P', monospace" font-size="28" dominant-baseline="central"
+          filter="url(#g1)">${playerKps.toFixed(1)}</text>
+    <text x="${CX}" y="${CY+40}" text-anchor="middle" fill="#555" font-size="10"
+          font-family="'Share Tech Mono', monospace" letter-spacing="0.1em">打/秒</text>
+    ${gOff != null && ghostKps != null ? `<text x="${CX}" y="${CY-26}" text-anchor="middle" fill="#cc00cc"
+          font-size="9" font-family="'Share Tech Mono', monospace" opacity="0.85">GHO ${ghostKps.toFixed(1)}</text>` : ''}
+  </svg>`;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-gauge]').forEach(el => {
+    const [p, g] = el.dataset.gauge.split(',').map(Number);
+    el.innerHTML = gauge(p, Number.isNaN(g) ? null : g);
+  });
+});
+</script>
+
+<!-- ═══════════════════════════════════════ TOP PAGE ═══════════════════════════════════════ -->
+<h2>トップページ OGP（5案）</h2>
+
+<!-- TOP-1: ロゴ中心 -->
+<div class="ogp-label">TOP-1: ロゴ＋キャッチコピー</div>
+<div class="ogp-frame"><div class="ogp-canvas"><div class="ogp"
+  style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:36px;">
+  <!-- grid -->
+  <div style="position:absolute;inset:0;background:linear-gradient(rgba(106,32,160,0.12) 1px,transparent 1px),linear-gradient(90deg,rgba(106,32,160,0.12) 1px,transparent 1px);background-size:60px 60px;"></div>
+  <!-- corner marks -->
+  <div style="position:absolute;top:36px;left:36px;width:40px;height:40px;border-top:2px solid rgba(192,132,252,0.4);border-left:2px solid rgba(192,132,252,0.4);"></div>
+  <div style="position:absolute;top:36px;right:36px;width:40px;height:40px;border-top:2px solid rgba(192,132,252,0.4);border-right:2px solid rgba(192,132,252,0.4);"></div>
+  <div style="position:absolute;bottom:36px;left:36px;width:40px;height:40px;border-bottom:2px solid rgba(192,132,252,0.4);border-left:2px solid rgba(192,132,252,0.4);"></div>
+  <div style="position:absolute;bottom:36px;right:36px;width:40px;height:40px;border-bottom:2px solid rgba(192,132,252,0.4);border-right:2px solid rgba(192,132,252,0.4);"></div>
+
   <div style="text-align:center;">
-    <div style="font-size:100px; letter-spacing:16px;" class="glow-cyan">TYPE</div>
-    <div style="font-size:100px; letter-spacing:16px; margin-top:-24px;" class="glow-pink">ARENA</div>
+    <div class="milky-title-lg">ミルキー★タイピング</div>
+    <div class="sub-label" style="margin-top:20px;">ローマ字タイピング · 統計 · ゴースト</div>
   </div>
-  <div style="font-size:28px; color:#aaa; letter-spacing:6px;">日本語タイピングで戦え</div>
-  <div style="display:flex; gap:48px; margin-top:8px;">
-    <span style="font-size:22px; color:var(--cyan);">★ WPM を競う</span>
-    <span style="font-size:22px; color:var(--pink);">★ ゴーストと対戦</span>
-    <span style="font-size:22px; color:var(--yellow);">★ リプレイ共有</span>
+  <div style="display:flex;gap:60px;margin-top:8px;">
+    <div style="text-align:center;">
+      <div class="px2 glow-cyan" style="font-size:36px;">8.4</div>
+      <div class="px2" style="font-size:10px;color:#666;margin-top:12px;letter-spacing:2px;">打/秒</div>
+    </div>
+    <div style="width:1px;background:var(--border);"></div>
+    <div style="text-align:center;">
+      <div class="px2" style="font-size:36px;color:#aaa;">42</div>
+      <div class="px2" style="font-size:10px;color:#666;margin-top:12px;letter-spacing:2px;">回数</div>
+    </div>
   </div>
-</div>
-</div>
-</div>
+  <div style="font-size:20px;color:var(--border);letter-spacing:3px;" class="px2">NEON ARCADE</div>
+</div></div></div>
 
-<!-- TOP-2: キーボードビジュアル -->
-<div class="ogp-label">TOP-2: タイピング中の演出</div>
-<div class="ogp-frame">
-<div class="ogp-canvas">
-<div class="ogp" style="display:flex; align-items:center; justify-content:center; gap:80px;">
-  <div style="position:absolute; inset:0;">
-    <!-- diagonal accent -->
-    <div style="position:absolute; left:-100px; top:0; width:600px; height:100%; background: linear-gradient(135deg, rgba(0,255,255,0.06) 0%, transparent 60%);"></div>
-    <div style="position:absolute; right:0; bottom:0; width:500px; height:100%; background: linear-gradient(315deg, rgba(255,0,170,0.06) 0%, transparent 60%);"></div>
-  </div>
-  <!-- left: typing text -->
-  <div style="flex:1; padding:80px 60px;">
-    <div style="font-size:22px; color:#666; margin-bottom:16px; letter-spacing:3px;">TYPING</div>
-    <div style="font-size:48px; line-height:1.3;" class="glow-cyan">速く、正確に。</div>
-    <div style="font-size:28px; color:#888; margin-top:16px;">はやく、せいかくに。</div>
-    <div style="margin-top:32px; font-size:20px; color:var(--green);">
-      <span style="background:rgba(0,255,102,0.15); border:1px solid var(--green); padding:6px 16px; border-radius:2px;">t</span>
-      <span style="background:rgba(0,255,102,0.15); border:1px solid var(--green); padding:6px 16px; border-radius:2px; margin-left:4px;">y</span>
-      <span style="background:rgba(0,255,102,0.15); border:1px solid var(--green); padding:6px 16px; border-radius:2px; margin-left:4px;">p</span>
-      <span style="background:rgba(0,255,102,0.15); border:1px solid var(--green); padding:6px 16px; border-radius:2px; margin-left:4px;">i</span>
-      <span style="background:rgba(255,255,255,0.05); border:1px solid #444; padding:6px 16px; border-radius:2px; margin-left:4px; color:#444;">n</span>
-      <span style="border:1px solid var(--cyan); padding:6px 4px; border-radius:2px; margin-left:4px; animation: blink 1s step-end infinite;"></span>
-    </div>
-  </div>
-  <!-- right: stats -->
-  <div style="width:360px; padding:60px 60px 60px 0;">
-    <div class="panel panel-cyan" style="padding:32px; margin-bottom:20px;">
-      <div style="font-size:18px; color:#666; margin-bottom:8px;">BEST WPM</div>
-      <div style="font-size:72px;" class="glow-cyan">284</div>
-    </div>
-    <div class="panel panel-pink" style="padding:24px;">
-      <div style="font-size:18px; color:#666; margin-bottom:8px;">ACCURACY</div>
-      <div style="font-size:56px;" class="glow-pink">98.4%</div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
-
-<!-- TOP-3: ランキング表示 -->
-<div class="ogp-label">TOP-3: ランキング / 成績ボード風</div>
-<div class="ogp-frame">
-<div class="ogp-canvas">
-<div class="ogp" style="padding:60px 80px;">
-  <div style="position:absolute; left:0; top:0; width:4px; height:100%; background:linear-gradient(to bottom, var(--cyan), var(--pink));"></div>
-  <!-- header -->
-  <div style="display:flex; align-items:baseline; gap:32px; margin-bottom:48px;">
-    <div style="font-size:56px;" class="glow-cyan">TYPE ARENA</div>
-    <div style="font-size:22px; color:#666;">日本語タイピングゲーム</div>
-  </div>
-  <!-- ranking rows -->
-  <div style="display:flex; flex-direction:column; gap:16px;">
-    <div style="display:flex; align-items:center; gap:32px; padding:20px 28px;" class="panel panel-cyan">
-      <span style="font-size:36px;" class="glow-yellow">#1</span>
-      <span style="font-size:28px; flex:1;">ユーザー A</span>
-      <span style="font-size:36px;" class="glow-cyan">312 WPM</span>
-      <span style="font-size:22px; color:var(--green);">99.1%</span>
-    </div>
-    <div style="display:flex; align-items:center; gap:32px; padding:20px 28px;" class="panel">
-      <span style="font-size:36px; color:#aaa;">#2</span>
-      <span style="font-size:28px; flex:1; color:#ccc;">ユーザー B</span>
-      <span style="font-size:36px; color:var(--cyan);">298 WPM</span>
-      <span style="font-size:22px; color:var(--green);">97.8%</span>
-    </div>
-    <div style="display:flex; align-items:center; gap:32px; padding:20px 28px;" class="panel">
-      <span style="font-size:36px; color:#888;">#3</span>
-      <span style="font-size:28px; flex:1; color:#999;">ユーザー C</span>
-      <span style="font-size:36px; color:#aaa;">276 WPM</span>
-      <span style="font-size:22px; color:#aaa;">96.2%</span>
-    </div>
-  </div>
-</div>
-</div>
-</div>
-
-<!-- TOP-4: ゲームスクリーン風スクショ -->
-<div class="ogp-label">TOP-4: ゲーム画面プレビュー＋ロゴ</div>
-<div class="ogp-frame">
-<div class="ogp-canvas">
-<div class="ogp" style="display:flex;">
+<!-- TOP-2: ゲーム画面＋ロゴ（ゲージ使用） -->
+<div class="ogp-label">TOP-2: ゲーム画面プレビュー＋ゲージ</div>
+<div class="ogp-frame"><div class="ogp-canvas"><div class="ogp" style="display:flex;align-items:stretch;">
   <!-- left: game preview -->
-  <div style="flex:1.4; background:rgba(0,0,0,0.4); border-right:2px solid var(--border); padding:48px 56px; display:flex; flex-direction:column; justify-content:center; gap:28px;">
-    <!-- life bar -->
-    <div style="display:flex; align-items:center; gap:16px;">
-      <span style="font-size:18px; color:var(--cyan); width:60px;">HP</span>
-      <div class="bar-bg" style="flex:1; height:16px;">
-        <div class="bar-fill" style="width:73%; background:linear-gradient(90deg, var(--red), var(--orange));"></div>
-      </div>
-      <span style="font-size:18px; color:#aaa;">73%</span>
-    </div>
-    <!-- sentence display -->
-    <div style="padding:28px; background:rgba(0,255,255,0.05); border:1px solid rgba(0,255,255,0.2); border-radius:4px;">
-      <div style="font-size:34px; margin-bottom:12px;">プログラミングは楽しい</div>
-      <div style="font-size:24px; color:#666;">ぷろぐらみんぐは</div>
-      <div style="margin-top:16px; font-size:22px;">
-        <span style="color:var(--green);">programming</span><span style="color:var(--cyan);">ha</span><span style="border-left:2px solid var(--cyan);"></span><span style="color:#444;">tanoshii</span>
+  <div style="flex:1;background:rgba(0,0,0,0.3);border-right:1px solid var(--border);padding:52px 56px;display:flex;flex-direction:column;justify-content:center;gap:24px;">
+    <!-- HP bar -->
+    <div style="display:flex;align-items:center;gap:16px;">
+      <span class="px2" style="font-size:10px;color:var(--cyan);width:50px;">HP</span>
+      <div class="bar-bg" style="flex:1;height:14px;">
+        <div style="width:72%;height:100%;background:linear-gradient(90deg,var(--red),var(--orange));border-radius:2px;"></div>
       </div>
     </div>
-    <!-- combo + speed -->
-    <div style="display:flex; gap:32px;">
-      <div class="panel" style="padding:18px 32px; text-align:center;">
-        <div style="font-size:16px; color:#666;">COMBO</div>
-        <div style="font-size:44px;" class="glow-yellow">×24</div>
+    <!-- sentence -->
+    <div style="padding:28px 32px;background:rgba(0,255,255,0.04);border:1px solid rgba(0,255,255,0.15);border-radius:3px;">
+      <div style="font-size:32px;margin-bottom:10px;font-family:'Share Tech Mono';">速く正確に打ちましょう</div>
+      <div style="font-size:22px;color:#555;margin-bottom:14px;">はやくせいかくに</div>
+      <div style="font-size:22px;">
+        <span style="color:var(--green);">hayaku</span><span class="glow-cyan">se</span><span style="border-left:2px solid var(--cyan);"></span><span style="color:#333;">ikakuniuchima</span>
       </div>
-      <div class="panel" style="padding:18px 32px; text-align:center; flex:1;">
-        <div style="font-size:16px; color:#666;">WPM</div>
-        <div style="font-size:44px;" class="glow-cyan">248</div>
+    </div>
+    <!-- gauge + combo -->
+    <div style="display:flex;align-items:center;gap:28px;">
+      <div data-gauge="7.2,9.1" style="transform:scale(0.72);transform-origin:top left;margin-bottom:-74px;margin-right:-74px;"></div>
+      <div class="panel" style="padding:20px 36px;text-align:center;flex:1;">
+        <div class="px2 glow-yellow" style="font-size:44px;">×32</div>
+        <div class="px2" style="font-size:10px;color:#666;margin-top:10px;">COMBO</div>
       </div>
     </div>
   </div>
   <!-- right: branding -->
-  <div style="width:380px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; padding:48px 40px;">
+  <div style="width:400px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:48px 40px;">
+    <div class="milky-title" style="text-align:center;font-size:42px;line-height:1.6;">ミルキー★<br>タイピング</div>
+    <div class="sub-label" style="text-align:center;font-size:11px;">ローマ字タイピング<br>統計 · ゴースト</div>
+    <div style="font-size:18px;color:var(--border);letter-spacing:3px;" class="px2">NEON ARCADE</div>
+  </div>
+</div></div></div>
+
+<!-- TOP-3: ゲージ＋タイトル中央 -->
+<div class="ogp-label">TOP-3: 大きなゲージをセンターに</div>
+<div class="ogp-frame"><div class="ogp-canvas"><div class="ogp"
+  style="display:flex;align-items:center;justify-content:center;gap:80px;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(106,32,160,0.15) 0%,transparent 70%);"></div>
+  <!-- gauge -->
+  <div data-gauge="8.7" style="transform:scale(1.6);transform-origin:center;"></div>
+  <!-- text block -->
+  <div style="display:flex;flex-direction:column;gap:28px;">
+    <div class="milky-title-lg">ミルキー★タイピング</div>
+    <div class="sub-label">ローマ字タイピング · 統計 · ゴースト</div>
+    <div style="height:1px;background:var(--border);"></div>
+    <div style="display:flex;gap:48px;">
+      <div>
+        <div class="px2 glow-cyan" style="font-size:44px;">8.4</div>
+        <div class="px2" style="font-size:10px;color:#666;margin-top:10px;letter-spacing:2px;">直近5回平均&nbsp;打/秒</div>
+      </div>
+      <div>
+        <div class="px2" style="font-size:44px;color:#aaa;">42</div>
+        <div class="px2" style="font-size:10px;color:#666;margin-top:10px;letter-spacing:2px;">プレイ回数</div>
+      </div>
+    </div>
+  </div>
+</div></div></div>
+
+<!-- TOP-4: ミニマル縦積み -->
+<div class="ogp-label">TOP-4: ミニマル縦積みアーケード風</div>
+<div class="ogp-frame"><div class="ogp-canvas"><div class="ogp"
+  style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;">
+  <div style="position:absolute;inset:0;background:linear-gradient(rgba(106,32,160,0.1) 1px,transparent 1px),linear-gradient(90deg,rgba(106,32,160,0.1) 1px,transparent 1px);background-size:40px 40px;"></div>
+  <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--pink),var(--purple),#818cf8,#60a5fa,var(--purple),var(--pink));"></div>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--pink),var(--purple),#818cf8,#60a5fa,var(--purple),var(--pink));"></div>
+
+  <div style="font-size:18px;color:var(--border);letter-spacing:10px;" class="px2">▸▸ PLAY NOW ◂◂</div>
+  <div class="milky-title-lg" style="font-size:96px;text-align:center;">ミルキー★タイピング</div>
+  <div class="sub-label">ローマ字タイピング · 統計 · ゴースト対戦</div>
+  <div style="display:flex;gap:60px;margin-top:12px;">
     <div style="text-align:center;">
-      <div style="font-size:72px; letter-spacing:8px;" class="glow-cyan">TYPE</div>
-      <div style="font-size:72px; letter-spacing:8px; margin-top:-16px;" class="glow-pink">ARENA</div>
+      <div class="px2 glow-cyan" style="font-size:40px;">12.0</div>
+      <div class="px2" style="font-size:10px;color:#666;margin-top:10px;">MAX 打/秒</div>
     </div>
-    <div style="font-size:20px; color:#666; text-align:center; line-height:1.8;">日本語タイピングで<br>ライバルを倒せ</div>
-    <div style="font-size:18px; color:var(--border); margin-top:8px;">typing-arena.example</div>
-  </div>
-</div>
-</div>
-</div>
-
-<!-- TOP-5: ミニマル＋グリッドアート -->
-<div class="ogp-label">TOP-5: アーケード風ドットグラフィック</div>
-<div class="ogp-frame">
-<div class="ogp-canvas">
-<div class="ogp" style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
-  <!-- pixel grid background -->
-  <div style="position:absolute; inset:0; background: radial-gradient(circle at 30% 50%, rgba(0,255,255,0.08) 0%, transparent 50%), radial-gradient(circle at 70% 50%, rgba(255,0,170,0.08) 0%, transparent 50%);"></div>
-  <div style="position:absolute; inset:0; background: linear-gradient(rgba(106,32,160,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(106,32,160,0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
-  <!-- corner decorations -->
-  <div style="position:absolute; top:32px; left:32px; width:48px; height:48px; border-top:3px solid var(--cyan); border-left:3px solid var(--cyan);"></div>
-  <div style="position:absolute; top:32px; right:32px; width:48px; height:48px; border-top:3px solid var(--pink); border-right:3px solid var(--pink);"></div>
-  <div style="position:absolute; bottom:32px; left:32px; width:48px; height:48px; border-bottom:3px solid var(--pink); border-left:3px solid var(--pink);"></div>
-  <div style="position:absolute; bottom:32px; right:32px; width:48px; height:48px; border-bottom:3px solid var(--cyan); border-right:3px solid var(--cyan);"></div>
-
-  <div style="text-align:center; z-index:5;">
-    <div style="font-size:28px; color:var(--border); letter-spacing:12px; margin-bottom:8px;">▸▸ CHALLENGE ◂◂</div>
-    <div style="font-size:120px; line-height:1; letter-spacing:4px;" class="glow-cyan">TYPE</div>
-    <div style="font-size:120px; line-height:1; letter-spacing:4px; margin-top:-8px;" class="glow-pink">ARENA</div>
-    <div style="font-size:26px; color:#666; margin-top:16px; letter-spacing:8px;">INSERT COIN TO PLAY</div>
-    <div style="display:flex; gap:48px; justify-content:center; margin-top:32px;">
-      <div style="text-align:center;">
-        <div style="font-size:40px;" class="glow-yellow">150K+</div>
-        <div style="font-size:18px; color:#666;">PLAYS</div>
-      </div>
-      <div style="font-size:36px; color:var(--border);">|</div>
-      <div style="text-align:center;">
-        <div style="font-size:40px;" class="glow-cyan">320</div>
-        <div style="font-size:18px; color:#666;">MAX WPM</div>
-      </div>
-      <div style="font-size:36px; color:var(--border);">|</div>
-      <div style="text-align:center;">
-        <div style="font-size:40px;" class="glow-green">FREE</div>
-        <div style="font-size:18px; color:#666;">TO PLAY</div>
-      </div>
+    <div style="width:1px;background:var(--border);"></div>
+    <div style="text-align:center;">
+      <div class="px2 glow-green" style="font-size:40px;">FREE</div>
+      <div class="px2" style="font-size:10px;color:#666;margin-top:10px;">TO PLAY</div>
     </div>
   </div>
-</div>
-</div>
-</div>
+</div></div></div>
 
-
-<!-- ═══════════════════════════════════════════════════════ -->
-<!--                   BATTLE PAGE                         -->
-<!-- ═══════════════════════════════════════════════════════ -->
-<h2>⚔️ 対戦ページ OGP（5案）</h2>
-
-<!-- BATTLE-1: VS 対決レイアウト -->
-<div class="ogp-label">BATTLE-1: あなた vs 対戦相手（WPM/ACC/コンボ）</div>
-<div class="ogp-frame">
-<div class="ogp-canvas">
-<div class="ogp" style="display:flex; align-items:stretch;">
-  <!-- player side -->
-  <div style="flex:1; background:rgba(0,255,255,0.04); border-right:1px solid rgba(0,255,255,0.2); padding:56px 56px; display:flex; flex-direction:column; justify-content:center; gap:28px;">
-    <div style="font-size:20px; color:var(--cyan); letter-spacing:4px;">YOU</div>
-    <div style="font-size:52px;" class="glow-cyan">typist_A</div>
-    <!-- stats -->
-    <div style="display:flex; flex-direction:column; gap:16px;">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:20px; color:#666;">WPM</span>
-        <span style="font-size:44px;" class="glow-cyan">248</span>
+<!-- TOP-5: ゲーム画面フル width -->
+<div class="ogp-label">TOP-5: ゲーム中スクリーン風（横長レイアウト）</div>
+<div class="ogp-frame"><div class="ogp-canvas"><div class="ogp"
+  style="display:flex;flex-direction:column;padding:48px 72px;gap:28px;">
+  <!-- top bar: title + phase -->
+  <div style="display:flex;align-items:center;justify-content:space-between;">
+    <div class="milky-title" style="font-size:36px;">ミルキー★タイピング</div>
+    <div class="px2" style="font-size:11px;color:var(--border);letter-spacing:3px;">PLAYING</div>
+  </div>
+  <!-- HP -->
+  <div style="display:flex;align-items:center;gap:20px;">
+    <span class="px2" style="font-size:10px;color:var(--cyan);width:40px;">HP</span>
+    <div class="bar-bg" style="flex:1;height:18px;">
+      <div style="width:61%;height:100%;background:linear-gradient(90deg,var(--red),var(--orange));border-radius:2px;"></div>
+    </div>
+    <span class="px2" style="font-size:12px;color:#666;">61%</span>
+  </div>
+  <!-- main area -->
+  <div style="display:flex;gap:48px;align-items:center;flex:1;">
+    <!-- sentence -->
+    <div style="flex:1;display:flex;flex-direction:column;gap:20px;">
+      <div style="padding:32px;background:rgba(0,255,255,0.04);border:1px solid rgba(0,255,255,0.15);border-radius:3px;">
+        <div style="font-size:36px;margin-bottom:12px;">プログラミングは楽しい</div>
+        <div style="font-size:24px;color:#555;margin-bottom:16px;">ぷろぐらみんぐはたのしい</div>
+        <div style="font-size:24px;">
+          <span style="color:var(--green);">programming</span><span class="glow-cyan">ha</span><span style="border-left:2px solid var(--cyan);"></span><span style="color:#2a2a2a;">tanoshii</span>
+        </div>
       </div>
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:20px; color:#666;">精度</span>
-        <span style="font-size:36px; color:var(--green);">97.3%</span>
-      </div>
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:20px; color:#666;">最大コンボ</span>
-        <span style="font-size:36px;" class="glow-yellow">×42</span>
+      <div style="display:flex;gap:24px;">
+        <div class="panel panel-cyan" style="padding:16px 32px;text-align:center;flex:1;">
+          <div class="px2 glow-yellow" style="font-size:40px;">×48</div>
+          <div class="px2" style="font-size:9px;color:#666;margin-top:10px;">COMBO</div>
+        </div>
+        <div class="panel" style="padding:16px 32px;text-align:center;flex:1;">
+          <div class="px2" style="font-size:40px;color:#aaa;">12/20</div>
+          <div class="px2" style="font-size:9px;color:#666;margin-top:10px;">SENTENCE</div>
+        </div>
       </div>
     </div>
-    <!-- HP bar -->
+    <!-- gauge -->
+    <div data-gauge="8.3" style="transform:scale(1.3);transform-origin:center;flex-shrink:0;"></div>
+  </div>
+</div></div></div>
+
+
+<!-- ══════════════════════════════════════ BATTLE PAGE ══════════════════════════════════════ -->
+<h2>対戦ページ OGP（5案）</h2>
+
+<!-- BATTLE-1: 2分割 対決 -->
+<div class="ogp-label">BATTLE-1: 自分 vs ゴースト 2分割（打/秒・精度・コンボ）</div>
+<div class="ogp-frame"><div class="ogp-canvas"><div class="ogp" style="display:flex;align-items:stretch;">
+  <!-- you side -->
+  <div style="flex:1;background:rgba(0,255,255,0.03);border-right:1px solid rgba(0,255,255,0.15);padding:52px 56px;display:flex;flex-direction:column;justify-content:center;gap:28px;">
+    <div class="px2" style="font-size:12px;color:var(--cyan);letter-spacing:4px;">YOU</div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <span style="font-size:18px;color:#666;">打/秒</span>
+        <span class="px2 glow-cyan" style="font-size:52px;">7.2</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <span style="font-size:18px;color:#666;">精度</span>
+        <span class="px2 glow-green" style="font-size:36px;">97.3%</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <span style="font-size:18px;color:#666;">最大コンボ</span>
+        <span class="px2 glow-yellow" style="font-size:36px;">×42</span>
+      </div>
+    </div>
     <div>
-      <div style="font-size:18px; color:#666; margin-bottom:8px;">HP</div>
-      <div class="bar-bg" style="height:14px;">
-        <div class="bar-fill" style="width:68%; background:linear-gradient(90deg, var(--red), var(--orange));"></div>
+      <div style="font-size:14px;color:#666;margin-bottom:8px;" class="px2">HP</div>
+      <div class="bar-bg" style="height:12px;">
+        <div style="width:68%;height:100%;background:linear-gradient(90deg,var(--red),var(--orange));border-radius:2px;"></div>
       </div>
     </div>
   </div>
 
   <!-- VS center -->
-  <div style="width:160px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; flex-shrink:0;">
-    <div class="vs-badge">VS</div>
-    <div style="font-size:18px; color:#666; text-align:center;">TYPING<br>BATTLE</div>
+  <div style="width:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;flex-shrink:0;">
+    <div class="px2" style="font-size:56px;color:var(--yellow);text-shadow:0 0 20px var(--yellow),0 0 60px var(--yellow);">VS</div>
+    <div class="milky-title" style="font-size:18px;text-align:center;line-height:1.8;">ミルキー★<br>タイピング</div>
   </div>
 
   <!-- ghost side -->
-  <div style="flex:1; background:rgba(255,0,170,0.04); border-left:1px solid rgba(255,0,170,0.2); padding:56px 56px; display:flex; flex-direction:column; justify-content:center; gap:28px;">
-    <div style="font-size:20px; color:var(--pink); letter-spacing:4px; text-align:right;">GHOST</div>
-    <div style="font-size:52px; text-align:right;" class="glow-pink">player_X</div>
-    <div style="display:flex; flex-direction:column; gap:16px;">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:44px;" class="glow-pink">284</span>
-        <span style="font-size:20px; color:#666;">WPM</span>
+  <div style="flex:1;background:rgba(204,0,204,0.03);border-left:1px solid rgba(204,0,204,0.15);padding:52px 56px;display:flex;flex-direction:column;justify-content:center;gap:28px;">
+    <div class="px2" style="font-size:12px;color:var(--purple);letter-spacing:4px;text-align:right;">GHOST</div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <span class="px2 glow-purple" style="font-size:52px;">9.1</span>
+        <span style="font-size:18px;color:#666;">打/秒</span>
       </div>
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:36px; color:var(--green);">98.7%</span>
-        <span style="font-size:20px; color:#666;">精度</span>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <span class="px2 glow-green" style="font-size:36px;">98.7%</span>
+        <span style="font-size:18px;color:#666;">精度</span>
       </div>
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <span style="font-size:36px;" class="glow-yellow">×58</span>
-        <span style="font-size:20px; color:#666;">最大コンボ</span>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;">
+        <span class="px2 glow-yellow" style="font-size:36px;">×58</span>
+        <span style="font-size:18px;color:#666;">最大コンボ</span>
       </div>
     </div>
     <div>
-      <div style="font-size:18px; color:#666; margin-bottom:8px; text-align:right;">HP</div>
-      <div class="bar-bg" style="height:14px;">
-        <div class="bar-fill" style="width:91%; background:linear-gradient(90deg, var(--red), var(--orange)); margin-left:auto;"></div>
+      <div style="font-size:14px;color:#666;margin-bottom:8px;text-align:right;" class="px2">HP</div>
+      <div class="bar-bg" style="height:12px;">
+        <div style="width:91%;height:100%;background:linear-gradient(90deg,var(--orange),var(--red));border-radius:2px;margin-left:auto;"></div>
       </div>
     </div>
   </div>
-</div>
-</div>
-</div>
+</div></div></div>
 
-<!-- BATTLE-2: 相手詳細フォーカス（対戦相手カード） -->
-<div class="ogp-label">BATTLE-2: 対戦相手のプロフィールカード風</div>
-<div class="ogp-frame">
-<div class="ogp-canvas">
-<div class="ogp" style="padding:60px 80px; display:flex; flex-direction:column; justify-content:center; gap:32px;">
-  <div style="position:absolute; inset:0; background: radial-gradient(ellipse at 80% 50%, rgba(255,0,170,0.12) 0%, transparent 60%);"></div>
+<!-- BATTLE-2: ゲージ2つ並べる -->
+<div class="ogp-label">BATTLE-2: ゲージ2個並列（YOU vs GHOST）</div>
+<div class="ogp-frame"><div class="ogp-canvas"><div class="ogp"
+  style="display:flex;flex-direction:column;align-items:center;padding:48px 80px;gap:24px;">
   <!-- header -->
-  <div style="display:flex; align-items:center; gap:24px;">
-    <div style="font-size:22px; color:var(--pink); letter-spacing:4px; border:1px solid var(--pink); padding:6px 20px; border-radius:2px; box-shadow:0 0 12px rgba(255,0,170,0.3);">GHOST RECORD</div>
-    <div style="font-size:22px; color:#666;">— 挑戦するゴースト</div>
+  <div style="display:flex;align-items:center;gap:24px;width:100%;">
+    <div class="milky-title" style="font-size:36px;flex:1;">ミルキー★タイピング</div>
+    <div class="px2" style="font-size:12px;color:var(--border);letter-spacing:3px;">GHOST BATTLE</div>
   </div>
-  <!-- opponent card -->
-  <div style="display:flex; gap:48px; align-items:center;">
-    <!-- avatar placeholder -->
-    <div style="width:160px; height:160px; border:3px solid var(--pink); border-radius:4px; display:flex; align-items:center; justify-content:center; box-shadow:0 0 20px rgba(255,0,170,0.4);">
-      <div style="font-size:80px; color:var(--pink);">👤</div>
+  <div style="height:1px;background:var(--border);width:100%;"></div>
+  <!-- gauges row -->
+  <div style="display:flex;align-items:center;justify-content:center;gap:60px;flex:1;width:100%;">
+    <!-- you gauge block -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:20px;">
+      <div class="px2" style="font-size:12px;color:var(--cyan);letter-spacing:4px;">YOU</div>
+      <div data-gauge="7.2" style="transform:scale(1.0);transform-origin:center;"></div>
+      <div style="display:flex;gap:32px;">
+        <div style="text-align:center;">
+          <div class="px2 glow-green" style="font-size:22px;">97.3%</div>
+          <div class="px2" style="font-size:9px;color:#666;margin-top:8px;">精度</div>
+        </div>
+        <div style="text-align:center;">
+          <div class="px2 glow-yellow" style="font-size:22px;">×42</div>
+          <div class="px2" style="font-size:9px;color:#666;margin-top:8px;">COMBO</div>
+        </div>
+      </div>
     </div>
-    <!-- info -->
-    <div style="flex:1;">
-      <div style="font-size:64px; margin-bottom:8px;" class="glow-pink">player_X</div>
-      <div style="font-size:22px; color:#666; margin-bottom:28px;">登録日: 2024-11-03 &nbsp;｜&nbsp; 総対戦: 142回</div>
-      <div style="display:flex; gap:48px;">
+
+    <!-- VS -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div class="px2" style="font-size:48px;color:var(--yellow);text-shadow:0 0 20px var(--yellow),0 0 60px var(--yellow);">VS</div>
+    </div>
+
+    <!-- ghost gauge block -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:20px;">
+      <div class="px2" style="font-size:12px;color:var(--purple);letter-spacing:4px;">GHOST</div>
+      <!-- ghost gauge: show only ghost arc (playerKps=0 so no player arc, ghost=9.1) -->
+      <div data-gauge="0,9.1" style="transform:scale(1.0);transform-origin:center;"></div>
+      <div style="display:flex;gap:32px;">
         <div style="text-align:center;">
-          <div style="font-size:56px;" class="glow-pink">284</div>
-          <div style="font-size:18px; color:#666; margin-top:4px;">WPM</div>
+          <div class="px2 glow-green" style="font-size:22px;">98.7%</div>
+          <div class="px2" style="font-size:9px;color:#666;margin-top:8px;">精度</div>
         </div>
         <div style="text-align:center;">
-          <div style="font-size:56px; color:var(--green);">98.7%</div>
-          <div style="font-size:18px; color:#666; margin-top:4px;">精度</div>
-        </div>
-        <div style="text-align:center;">
-          <div style="font-size:56px;" class="glow-yellow">×58</div>
-          <div style="font-size:18px; color:#666; margin-top:4px;">最高コンボ</div>
-        </div>
-        <div style="text-align:center;">
-          <div style="font-size:56px; color:var(--orange);">2:14</div>
-          <div style="font-size:18px; color:#666; margin-top:4px;">クリア時間</div>
+          <div class="px2 glow-yellow" style="font-size:22px;">×58</div>
+          <div class="px2" style="font-size:9px;color:#666;margin-top:8px;">COMBO</div>
         </div>
       </div>
     </div>
   </div>
-  <!-- challenge button hint -->
-  <div style="font-size:24px; color:var(--border); letter-spacing:4px;">▸ このゴーストに挑戦する</div>
-</div>
-</div>
-</div>
+</div></div></div>
 
-<!-- BATTLE-3: グラフ風の対戦サマリー -->
-<div class="ogp-label">BATTLE-3: WPM推移グラフ＋対戦結果</div>
-<div class="ogp-frame">
-<div class="ogp-canvas">
-<div class="ogp" style="display:flex; flex-direction:column; padding:52px 72px; gap:32px;">
-  <!-- header bar -->
-  <div style="display:flex; justify-content:space-between; align-items:center;">
-    <div style="font-size:32px;" class="glow-cyan">BATTLE RESULT</div>
-    <div style="font-size:22px; color:#666;">2025-03-14 &nbsp; NORMAL MODE</div>
+<!-- BATTLE-3: ゴーストサマリーカード（名前なし） -->
+<div class="ogp-label">BATTLE-3: ゴーストレコードカード（名前なし・記録フォーカス）</div>
+<div class="ogp-frame"><div class="ogp-canvas"><div class="ogp"
+  style="padding:56px 80px;display:flex;flex-direction:column;justify-content:center;gap:36px;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 75% 50%,rgba(204,0,204,0.1) 0%,transparent 60%);"></div>
+  <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,var(--purple),transparent,var(--purple));"></div>
+
+  <!-- header -->
+  <div style="display:flex;align-items:center;gap:32px;">
+    <div class="milky-title" style="font-size:40px;">ミルキー★タイピング</div>
+    <div style="height:28px;width:1px;background:var(--border);"></div>
+    <div class="px2" style="font-size:12px;color:var(--purple);letter-spacing:3px;border:1px solid var(--purple);padding:8px 20px;box-shadow:0 0 12px rgba(204,0,204,0.3);">GHOST RECORD</div>
   </div>
-  <!-- main content -->
-  <div style="display:flex; gap:48px; flex:1;">
-    <!-- fake WPM graph -->
-    <div style="flex:1; position:relative;" class="panel" style="padding:20px;">
-      <div style="font-size:18px; color:#666; margin-bottom:12px; padding:16px 20px 0;">WPM タイムライン</div>
-      <svg viewBox="0 0 500 200" style="width:100%; height:160px; padding:0 16px 16px;" role="img" aria-labelledby="wpm-chart-title">
-        <title id="wpm-chart-title">WPM タイムライン グラフ</title>
-        <!-- grid -->
-        <line x1="0" y1="50" x2="500" y2="50" stroke="#333" stroke-width="1"/>
-        <line x1="0" y1="100" x2="500" y2="100" stroke="#333" stroke-width="1"/>
-        <line x1="0" y1="150" x2="500" y2="150" stroke="#333" stroke-width="1"/>
-        <!-- player line (cyan) -->
-        <polyline points="0,160 60,130 120,100 180,80 240,70 300,60 360,55 420,50 500,45" fill="none" stroke="#00ffff" stroke-width="3"/>
-        <!-- ghost line (pink) -->
-        <polyline points="0,140 60,110 120,85 180,65 240,50 300,42 360,38 420,35 500,30" fill="none" stroke="#ff00aa" stroke-width="3"/>
-        <!-- labels -->
-        <text x="510" y="50" fill="#00ffff" font-size="16">YOU</text>
-        <text x="510" y="34" fill="#ff00aa" font-size="16">GHOST</text>
-      </svg>
-    </div>
-    <!-- result stats -->
-    <div style="width:340px; display:flex; flex-direction:column; gap:16px;">
-      <div class="panel panel-pink" style="padding:24px; flex:1;">
-        <div style="font-size:18px; color:#666; margin-bottom:4px;">対戦相手</div>
-        <div style="font-size:36px; margin-bottom:16px;" class="glow-pink">player_X</div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-          <div>
-            <div style="font-size:16px; color:#666;">WPM</div>
-            <div style="font-size:32px;" class="glow-pink">284</div>
-          </div>
-          <div>
-            <div style="font-size:16px; color:#666;">精度</div>
-            <div style="font-size:32px; color:var(--green);">98.7%</div>
-          </div>
-          <div>
-            <div style="font-size:16px; color:#666;">コンボ</div>
-            <div style="font-size:32px;" class="glow-yellow">×58</div>
-          </div>
-          <div>
-            <div style="font-size:16px; color:#666;">HP残</div>
-            <div style="font-size:32px; color:var(--orange);">91%</div>
-          </div>
-        </div>
+
+  <!-- stats grid -->
+  <div style="display:flex;gap:48px;align-items:center;">
+    <!-- gauge -->
+    <div data-gauge="0,9.1" style="transform:scale(1.1);transform-origin:center left;flex-shrink:0;margin-right:30px;"></div>
+    <!-- stats -->
+    <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:28px 48px;">
+      <div class="panel panel-purple" style="padding:24px 32px;">
+        <div style="font-size:16px;color:#666;margin-bottom:8px;" class="px2">打/秒</div>
+        <div class="px2 glow-purple" style="font-size:52px;">9.1</div>
       </div>
-      <div style="font-size:28px; color:var(--red); text-align:center; border:1px solid var(--red); padding:16px; border-radius:4px; box-shadow:0 0 16px rgba(255,34,68,0.3);">
-        ⚠ DEFEATED
+      <div class="panel" style="padding:24px 32px;">
+        <div style="font-size:16px;color:#666;margin-bottom:8px;" class="px2">精度</div>
+        <div class="px2 glow-green" style="font-size:52px;">98.7%</div>
+      </div>
+      <div class="panel" style="padding:24px 32px;">
+        <div style="font-size:16px;color:#666;margin-bottom:8px;" class="px2">最大コンボ</div>
+        <div class="px2 glow-yellow" style="font-size:52px;">×58</div>
+      </div>
+      <div class="panel" style="padding:24px 32px;">
+        <div style="font-size:16px;color:#666;margin-bottom:8px;" class="px2">クリア時間</div>
+        <div class="px2" style="font-size:52px;color:var(--orange);">2:14</div>
       </div>
     </div>
   </div>
-</div>
-</div>
-</div>
+</div></div></div>
 
-<!-- BATTLE-4: ミニマル・スコア比較 -->
-<div class="ogp-label">BATTLE-4: スコアカード比較（シンプル）</div>
-<div class="ogp-frame">
-<div class="ogp-canvas">
-<div class="ogp" style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 100px; gap:40px;">
-  <div style="position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg, var(--cyan), var(--pink));"></div>
-  <div style="position:absolute; bottom:0; left:0; right:0; height:4px; background:linear-gradient(90deg, var(--pink), var(--cyan));"></div>
+<!-- BATTLE-4: スコア比較テーブル（シンプル） -->
+<div class="ogp-label">BATTLE-4: スコア比較テーブル</div>
+<div class="ogp-frame"><div class="ogp-canvas"><div class="ogp"
+  style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:52px 120px;gap:32px;">
+  <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--purple));"></div>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--purple),var(--cyan));"></div>
 
-  <div style="font-size:26px; color:#666; letter-spacing:6px;">TYPE ARENA — GHOST BATTLE</div>
+  <div class="milky-title" style="font-size:40px;text-align:center;">ミルキー★タイピング</div>
+  <div class="px2" style="font-size:12px;color:#555;letter-spacing:4px;">GHOST BATTLE</div>
 
-  <!-- comparison table -->
-  <div style="width:100%; display:grid; grid-template-columns:1fr auto 1fr; gap:0; align-items:center;">
-    <!-- YOU header -->
-    <div style="font-size:22px; color:var(--cyan); letter-spacing:3px; text-align:left;">YOU</div>
+  <div style="width:100%;display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:center;">
+    <div class="px2" style="font-size:14px;color:var(--cyan);letter-spacing:3px;">YOU</div>
     <div></div>
-    <div style="font-size:22px; color:var(--pink); letter-spacing:3px; text-align:right;">GHOST</div>
+    <div class="px2" style="font-size:14px;color:var(--purple);letter-spacing:3px;text-align:right;">GHOST</div>
 
-    <!-- divider -->
-    <div style="grid-column:1/-1; height:1px; background:var(--border); margin:12px 0;"></div>
+    <div style="grid-column:1/-1;height:1px;background:var(--border);margin:14px 0;"></div>
 
-    <!-- WPM row -->
-    <div style="font-size:72px; text-align:left;" class="glow-cyan">248</div>
-    <div style="font-size:22px; color:#555; text-align:center; padding:0 32px;">WPM</div>
-    <div style="font-size:72px; text-align:right;" class="glow-pink">284</div>
+    <div class="px2 glow-cyan" style="font-size:72px;">7.2</div>
+    <div class="px2" style="font-size:14px;color:#555;text-align:center;padding:0 36px;">打/秒</div>
+    <div class="px2 glow-purple" style="font-size:72px;text-align:right;">9.1</div>
 
-    <!-- ACC row -->
-    <div style="font-size:48px; color:var(--green); text-align:left;">97.3%</div>
-    <div style="font-size:20px; color:#555; text-align:center; padding:0 32px;">精度</div>
-    <div style="font-size:48px; color:var(--green); text-align:right;">98.7%</div>
+    <div class="px2 glow-green" style="font-size:44px;">97.3%</div>
+    <div class="px2" style="font-size:12px;color:#555;text-align:center;padding:0 36px;">精度</div>
+    <div class="px2 glow-green" style="font-size:44px;text-align:right;">98.7%</div>
 
-    <!-- COMBO row -->
-    <div style="font-size:48px; text-align:left;" class="glow-yellow">×42</div>
-    <div style="font-size:20px; color:#555; text-align:center; padding:0 32px;">MAX COMBO</div>
-    <div style="font-size:48px; text-align:right;" class="glow-yellow">×58</div>
+    <div class="px2 glow-yellow" style="font-size:44px;">×42</div>
+    <div class="px2" style="font-size:11px;color:#555;text-align:center;padding:0 36px;">MAX<br>COMBO</div>
+    <div class="px2 glow-yellow" style="font-size:44px;text-align:right;">×58</div>
   </div>
-</div>
-</div>
-</div>
+</div></div></div>
 
-<!-- BATTLE-5: シネマティック（名前大写し） -->
-<div class="ogp-label">BATTLE-5: シネマティック / 名前大写し対決</div>
-<div class="ogp-frame">
-<div class="ogp-canvas">
-<div class="ogp" style="display:flex; align-items:center; justify-content:center; overflow:hidden;">
-  <!-- background glow -->
-  <div style="position:absolute; left:0; top:0; width:50%; height:100%; background:radial-gradient(ellipse at 30% 50%, rgba(0,255,255,0.1) 0%, transparent 70%);"></div>
-  <div style="position:absolute; right:0; top:0; width:50%; height:100%; background:radial-gradient(ellipse at 70% 50%, rgba(255,0,170,0.1) 0%, transparent 70%);"></div>
-  <!-- center divider -->
-  <div style="position:absolute; left:50%; top:0; bottom:0; width:2px; background:linear-gradient(to bottom, transparent, var(--yellow), transparent); transform:translateX(-50%);"></div>
-
-  <!-- player left -->
-  <div style="flex:1; display:flex; flex-direction:column; align-items:flex-start; padding:60px 64px; gap:20px;">
-    <div style="font-size:20px; color:var(--cyan); letter-spacing:4px; border-bottom:1px solid rgba(0,255,255,0.3); padding-bottom:12px; width:100%;">CHALLENGER</div>
-    <div style="font-size:80px; line-height:1; font-weight:bold;" class="glow-cyan">typist_A</div>
-    <div style="font-size:28px; color:var(--cyan);">WPM: <span style="font-size:44px;">248</span></div>
-    <div style="font-size:26px; color:var(--green);">精度: 97.3%</div>
-    <div style="font-size:26px;" class="glow-yellow">コンボ: ×42</div>
-    <!-- HP bar -->
-    <div style="width:100%;">
-      <div class="bar-bg" style="height:12px;">
-        <div class="bar-fill" style="width:68%; background:linear-gradient(90deg, var(--red), var(--orange));"></div>
+<!-- BATTLE-5: ゲーム中断面（ゲージ使用・ゴースト比較） -->
+<div class="ogp-label">BATTLE-5: バトル中のゲーム断面（ゲージ on 画面）</div>
+<div class="ogp-frame"><div class="ogp-canvas"><div class="ogp"
+  style="display:flex;flex-direction:column;padding:48px 72px;gap:24px;">
+  <!-- top bar -->
+  <div style="display:flex;align-items:center;justify-content:space-between;">
+    <div class="milky-title" style="font-size:32px;">ミルキー★タイピング</div>
+    <div class="px2" style="font-size:10px;color:var(--purple);letter-spacing:3px;border:1px solid var(--purple);padding:6px 16px;">GHOST BATTLE</div>
+  </div>
+  <!-- HP bars -->
+  <div style="display:flex;flex-direction:column;gap:10px;">
+    <div style="display:flex;align-items:center;gap:16px;">
+      <span class="px2" style="font-size:9px;color:var(--cyan);width:60px;">YOU</span>
+      <div class="bar-bg" style="flex:1;height:12px;">
+        <div style="width:61%;height:100%;background:linear-gradient(90deg,var(--red),var(--orange));border-radius:2px;"></div>
       </div>
-      <div style="font-size:16px; color:#666; margin-top:4px;">HP 68%</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <span class="px2" style="font-size:9px;color:var(--purple);width:60px;">GHOST</span>
+      <div class="bar-bg" style="flex:1;height:12px;">
+        <div style="width:87%;height:100%;background:linear-gradient(90deg,rgba(204,0,204,0.8),var(--purple));border-radius:2px;"></div>
+      </div>
     </div>
   </div>
-
-  <!-- VS center -->
-  <div style="width:120px; display:flex; flex-direction:column; align-items:center; gap:8px; flex-shrink:0;">
-    <div class="vs-badge" style="font-size:56px;">VS</div>
-  </div>
-
-  <!-- ghost right -->
-  <div style="flex:1; display:flex; flex-direction:column; align-items:flex-end; padding:60px 64px; gap:20px;">
-    <div style="font-size:20px; color:var(--pink); letter-spacing:4px; border-bottom:1px solid rgba(255,0,170,0.3); padding-bottom:12px; width:100%; text-align:right;">GHOST</div>
-    <div style="font-size:80px; line-height:1; font-weight:bold; text-align:right;" class="glow-pink">player_X</div>
-    <div style="font-size:28px; color:var(--pink); text-align:right;">WPM: <span style="font-size:44px;">284</span></div>
-    <div style="font-size:26px; color:var(--green); text-align:right;">精度: 98.7%</div>
-    <div style="font-size:26px; text-align:right;" class="glow-yellow">コンボ: ×58</div>
-    <!-- HP bar (right-aligned fill) -->
-    <div style="width:100%;">
-      <div class="bar-bg" style="height:12px;">
-        <div style="height:100%; background:linear-gradient(90deg, var(--orange), var(--red)); width:91%; border-radius:2px; margin-left:auto;"></div>
+  <!-- main area -->
+  <div style="display:flex;gap:40px;align-items:center;flex:1;">
+    <!-- sentence -->
+    <div style="flex:1;display:flex;flex-direction:column;gap:18px;">
+      <div style="padding:28px 32px;background:rgba(0,255,255,0.04);border:1px solid rgba(0,255,255,0.15);border-radius:3px;">
+        <div style="font-size:30px;margin-bottom:10px;">星空を見上げると宇宙の広さを感じる</div>
+        <div style="font-size:20px;color:#555;margin-bottom:12px;">ほしぞらをみあげると</div>
+        <div style="font-size:20px;">
+          <span style="color:var(--green);">hoshizora</span><span class="glow-cyan">wo</span><span style="border-left:2px solid var(--cyan);"></span><span style="color:#2a2a2a;">miageruto</span>
+        </div>
       </div>
-      <div style="font-size:16px; color:#666; margin-top:4px; text-align:right;">HP 91%</div>
+      <!-- combo row -->
+      <div style="display:flex;gap:20px;">
+        <div class="panel panel-cyan" style="padding:14px 28px;flex:1;text-align:center;">
+          <div class="px2 glow-yellow" style="font-size:36px;">×28</div>
+          <div class="px2" style="font-size:9px;color:#666;margin-top:8px;">COMBO</div>
+        </div>
+        <!-- ghost speed label -->
+        <div class="panel panel-purple" style="padding:14px 28px;flex:1;text-align:center;">
+          <div class="px2 glow-purple" style="font-size:36px;">9.1</div>
+          <div class="px2" style="font-size:9px;color:#666;margin-top:8px;">GHOST 打/秒</div>
+        </div>
+      </div>
     </div>
+    <!-- gauge with ghost -->
+    <div data-gauge="7.2,9.1" style="transform:scale(1.25);transform-origin:center;flex-shrink:0;"></div>
   </div>
-</div>
-</div>
-</div>
+</div></div></div>
 
 </body>
 </html>
