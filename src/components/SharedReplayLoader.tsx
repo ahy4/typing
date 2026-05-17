@@ -90,7 +90,15 @@ export function SharedReplayLoader({ startGame }: Props) {
 	return (
 		<ReplayPlayer
 			replay={replay}
-			onClose={() => navigate(from === "gameover" ? "/gameover" : "/")}
+			onClose={() =>
+					navigate(
+						from === "gameover"
+							? "/gameover"
+							: from === "stats"
+								? "/stats"
+								: "/",
+					)
+				}
 			onStartWithGhost={() => startGame(replay.id)}
 		/>
 	);
