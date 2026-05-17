@@ -19323,186 +19323,6 @@ jp = "兄が新しい仕事を始めた"
 kana = "あにがあたらしいしごとをはじめた"
 
 [[sentences]]
-jp = "犬"
-kana = "いぬ"
-
-[[sentences]]
-jp = "猫"
-kana = "ねこ"
-
-[[sentences]]
-jp = "風"
-kana = "かぜ"
-
-[[sentences]]
-jp = "紐"
-kana = "ひも"
-
-[[sentences]]
-jp = "雨"
-kana = "あめ"
-
-[[sentences]]
-jp = "山"
-kana = "やま"
-
-[[sentences]]
-jp = "川"
-kana = "かわ"
-
-[[sentences]]
-jp = "火"
-kana = "ひ"
-
-[[sentences]]
-jp = "水"
-kana = "みず"
-
-[[sentences]]
-jp = "木"
-kana = "き"
-
-[[sentences]]
-jp = "星"
-kana = "ほし"
-
-[[sentences]]
-jp = "月"
-kana = "つき"
-
-[[sentences]]
-jp = "雲"
-kana = "くも"
-
-[[sentences]]
-jp = "雪"
-kana = "ゆき"
-
-[[sentences]]
-jp = "鳥"
-kana = "とり"
-
-[[sentences]]
-jp = "魚"
-kana = "さかな"
-
-[[sentences]]
-jp = "花"
-kana = "はな"
-
-[[sentences]]
-jp = "草"
-kana = "くさ"
-
-[[sentences]]
-jp = "石"
-kana = "いし"
-
-[[sentences]]
-jp = "砂"
-kana = "すな"
-
-[[sentences]]
-jp = "波"
-kana = "なみ"
-
-[[sentences]]
-jp = "米"
-kana = "こめ"
-
-[[sentences]]
-jp = "塩"
-kana = "しお"
-
-[[sentences]]
-jp = "油"
-kana = "あぶら"
-
-[[sentences]]
-jp = "茶"
-kana = "ちゃ"
-
-[[sentences]]
-jp = "葉"
-kana = "は"
-
-[[sentences]]
-jp = "根"
-kana = "ね"
-
-[[sentences]]
-jp = "土"
-kana = "つち"
-
-[[sentences]]
-jp = "泥"
-kana = "どろ"
-
-[[sentences]]
-jp = "犬"
-kana = "いぬ"
-
-[[sentences]]
-jp = "猫"
-kana = "ねこ"
-
-[[sentences]]
-jp = "風"
-kana = "かぜ"
-
-[[sentences]]
-jp = "紐"
-kana = "ひも"
-
-[[sentences]]
-jp = "雨"
-kana = "あめ"
-
-[[sentences]]
-jp = "山"
-kana = "やま"
-
-[[sentences]]
-jp = "海"
-kana = "うみ"
-
-[[sentences]]
-jp = "花"
-kana = "はな"
-
-[[sentences]]
-jp = "木"
-kana = "き"
-
-[[sentences]]
-jp = "火"
-kana = "ひ"
-
-[[sentences]]
-jp = "水"
-kana = "みず"
-
-[[sentences]]
-jp = "土"
-kana = "つち"
-
-[[sentences]]
-jp = "金"
-kana = "きん"
-
-[[sentences]]
-jp = "星"
-kana = "ほし"
-
-[[sentences]]
-jp = "月"
-kana = "つき"
-
-[[sentences]]
-jp = "太陽"
-kana = "たいよう"
-
-[[sentences]]
 jp = "昔"
 kana = "むかし"
 
@@ -19511,296 +19331,12 @@ jp = "今"
 kana = "いま"
 
 [[sentences]]
-jp = "門"
-kana = "もん"
-
-[[sentences]]
-jp = "窓"
-kana = "まど"
-
-[[sentences]]
-jp = "本"
-kana = "ほん"
-
-[[sentences]]
-jp = "手"
-kana = "て"
-
-[[sentences]]
-jp = "足"
-kana = "あし"
-
-[[sentences]]
-jp = "目"
-kana = "め"
-
-[[sentences]]
-jp = "耳"
-kana = "みみ"
-
-[[sentences]]
-jp = "鼻"
-kana = "はな"
-
-[[sentences]]
-jp = "口"
-kana = "くち"
-
-[[sentences]]
-jp = "歯"
-kana = "は"
-
-[[sentences]]
-jp = "髪"
-kana = "かみ"
-
-[[sentences]]
-jp = "風"
-kana = "かぜ"
-
-[[sentences]]
-jp = "雨"
-kana = "あめ"
-
-[[sentences]]
-jp = "猫"
-kana = "ねこ"
-
-[[sentences]]
-jp = "犬"
-kana = "いぬ"
-
-[[sentences]]
-jp = "山"
-kana = "やま"
-
-[[sentences]]
-jp = "海"
-kana = "うみ"
-
-[[sentences]]
-jp = "火"
-kana = "ひ"
-
-[[sentences]]
-jp = "木"
-kana = "き"
-
-[[sentences]]
-jp = "水"
-kana = "みず"
-
-[[sentences]]
-jp = "花"
-kana = "はな"
-
-[[sentences]]
-jp = "星"
-kana = "ほし"
-
-[[sentences]]
-jp = "月"
-kana = "つき"
-
-[[sentences]]
-jp = "雪"
-kana = "ゆき"
-
-[[sentences]]
-jp = "太陽"
-kana = "たいよう"
-
-[[sentences]]
-jp = "朝"
-kana = "あさ"
-
-[[sentences]]
-jp = "昼"
-kana = "ひる"
-
-[[sentences]]
-jp = "夜"
-kana = "よる"
-
-[[sentences]]
-jp = "春"
-kana = "はる"
-
-[[sentences]]
-jp = "夏"
-kana = "なつ"
-
-[[sentences]]
-jp = "秋"
-kana = "あき"
-
-[[sentences]]
-jp = "冬"
-kana = "ふゆ"
-
-[[sentences]]
-jp = "本"
-kana = "ほん"
-
-[[sentences]]
 jp = "筆"
 kana = "ふで"
 
 [[sentences]]
-jp = "紙"
-kana = "かみ"
-
-[[sentences]]
-jp = "机"
-kana = "つくえ"
-
-[[sentences]]
-jp = "靴"
-kana = "くつ"
-
-[[sentences]]
-jp = "帽子"
-kana = "ぼうし"
-
-[[sentences]]
-jp = "手"
-kana = "て"
-
-[[sentences]]
-jp = "足"
-kana = "あし"
-
-[[sentences]]
-jp = "猫"
-kana = "ねこ"
-
-[[sentences]]
-jp = "犬"
-kana = "いぬ"
-
-[[sentences]]
-jp = "風"
-kana = "かぜ"
-
-[[sentences]]
-jp = "雨"
-kana = "あめ"
-
-[[sentences]]
-jp = "山"
-kana = "やま"
-
-[[sentences]]
-jp = "海"
-kana = "うみ"
-
-[[sentences]]
-jp = "火"
-kana = "ひ"
-
-[[sentences]]
-jp = "水"
-kana = "みず"
-
-[[sentences]]
-jp = "木"
-kana = "き"
-
-[[sentences]]
-jp = "土"
-kana = "つち"
-
-[[sentences]]
-jp = "金"
-kana = "きん"
-
-[[sentences]]
-jp = "星"
-kana = "ほし"
-
-[[sentences]]
-jp = "月"
-kana = "つき"
-
-[[sentences]]
-jp = "太陽"
-kana = "たいよう"
-
-[[sentences]]
-jp = "雲"
-kana = "くも"
-
-[[sentences]]
-jp = "雪"
-kana = "ゆき"
-
-[[sentences]]
-jp = "花"
-kana = "はな"
-
-[[sentences]]
-jp = "草"
-kana = "くさ"
-
-[[sentences]]
-jp = "木"
-kana = "き"
-
-[[sentences]]
-jp = "根"
-kana = "ね"
-
-[[sentences]]
-jp = "葉"
-kana = "は"
-
-[[sentences]]
-jp = "実"
-kana = "み"
-
-[[sentences]]
-jp = "種"
-kana = "たね"
-
-[[sentences]]
-jp = "鳥"
-kana = "とり"
-
-[[sentences]]
-jp = "魚"
-kana = "さかな"
-
-[[sentences]]
-jp = "虫"
-kana = "むし"
-
-[[sentences]]
-jp = "蜂"
-kana = "はち"
-
-[[sentences]]
-jp = "蝶"
-kana = "ちょう"
-
-[[sentences]]
-jp = "蛙"
-kana = "かえる"
-
-[[sentences]]
-jp = "朝ごはんを食べる"
-kana = "あさごはんをたべる"
-
-[[sentences]]
-jp = "猫が寝ている"
-kana = "ねこがねている"
-
-[[sentences]]
 jp = "雨の日は嫌だ"
 kana = "あめのひはいやだ"
-
-[[sentences]]
-jp = "友達と遊ぶ予定"
-kana = "ともだちとあそぶよてい"
 
 [[sentences]]
 jp = "本を一冊読んだ"
@@ -19831,10 +19367,6 @@ jp = "映画を見て感動した"
 kana = "えいがをみてかんどうした"
 
 [[sentences]]
-jp = "風が強く吹いている"
-kana = "かぜがつよくふいている"
-
-[[sentences]]
 jp = "桜がきれいに咲いた"
 kana = "さくらがきれいにさいた"
 
@@ -19855,16 +19387,8 @@ jp = "火加減に気をつける"
 kana = "ひかげんにきをつける"
 
 [[sentences]]
-jp = "部屋を掃除した"
-kana = "へやをそうじした"
-
-[[sentences]]
 jp = "駅で友人と会う"
 kana = "えきでゆうじんとあう"
-
-[[sentences]]
-jp = "木漏れ日が美しい"
-kana = "こもれびがうつくしい"
 
 [[sentences]]
 jp = "体調が良好である"
@@ -19895,14 +19419,6 @@ jp = "鳥の声を聞く"
 kana = "とりのこえをきく"
 
 [[sentences]]
-jp = "値段が上がった"
-kana = "ねだんがあがった"
-
-[[sentences]]
-jp = "砂浜を歩く"
-kana = "すなはまをあるく"
-
-[[sentences]]
 jp = "祭りに参加する"
 kana = "まつりにさんかする"
 
@@ -19911,20 +19427,8 @@ jp = "朝ご飯を食べる"
 kana = "あさごはんをたべる"
 
 [[sentences]]
-jp = "雨の日は気分が重い"
-kana = "あめのひはきぶんがおもい"
-
-[[sentences]]
-jp = "猫が窓辺で寝ている"
-kana = "ねこがまどべでねている"
-
-[[sentences]]
 jp = "スマホのアプリを更新"
 kana = "すまほのあぷりをこうしん"
-
-[[sentences]]
-jp = "試験に合格してうれしい"
-kana = "しけんにごうかくしてうれしい"
 
 [[sentences]]
 jp = "週末に映画を見に行く"
@@ -19943,10 +19447,6 @@ jp = "野菜をていねいに洗う"
 kana = "やさいをていねいにあらう"
 
 [[sentences]]
-jp = "風が強く吹いている"
-kana = "かぜがつよくふいている"
-
-[[sentences]]
 jp = "図書館で本を借りる"
 kana = "としょかんでほんをかりる"
 
@@ -19957,10 +19457,6 @@ kana = "こーひーのかおりがすき"
 [[sentences]]
 jp = "新しい服を買ったばかり"
 kana = "あたらしいふくをかったばかり"
-
-[[sentences]]
-jp = "毎日三十分運動する"
-kana = "まいにちさんじゅっぷんうんどうする"
 
 [[sentences]]
 jp = "海へ泳ぎに行きたい"
@@ -19989,10 +19485,6 @@ kana = "こどもたちがこうていであそんで"
 [[sentences]]
 jp = "夜空に星が輝いている"
 kana = "よぞらにほしがかがやいている"
-
-[[sentences]]
-jp = "スポーツ大会で優勝した"
-kana = "すぽーつたいかいでゆうしょうした"
 
 [[sentences]]
 jp = "レストランで食事を楽しむ"
@@ -20029,10 +19521,6 @@ kana = "のどがかわいてみずをのむ"
 [[sentences]]
 jp = "猫が気持ちよく寝ている"
 kana = "ねこがきもちよくねている"
-
-[[sentences]]
-jp = "雨の日は傘を持つ"
-kana = "あめのひはかさをもつ"
 
 [[sentences]]
 jp = "梅干しは塩辛い味だ"
@@ -20075,10 +19563,6 @@ jp = "紙飛行機を飛ばす"
 kana = "かみひこうきをとばす"
 
 [[sentences]]
-jp = "台風が接近している"
-kana = "たいふうがせっきんしている"
-
-[[sentences]]
 jp = "本を読むことが好きです"
 kana = "ほんをよむことがすきです"
 
@@ -20109,10 +19593,6 @@ kana = "つりにいったけいけんはあるか"
 [[sentences]]
 jp = "海辺で貝殻を拾った"
 kana = "うみべでかいがらをひろった"
-
-[[sentences]]
-jp = "音楽を聴きながら歩く"
-kana = "おんがくをききながらあるく"
 
 [[sentences]]
 jp = "部屋の片隅に座った"
@@ -20149,10 +19629,6 @@ kana = "ぶたいのうえできんちょうしている"
 [[sentences]]
 jp = "消防車のサイレンが鳴る"
 kana = "しょうぼうしゃのさいれんがなる"
-
-[[sentences]]
-jp = "祖父の話を聞いていた"
-kana = "そふのはなしをきいていた"
 
 [[sentences]]
 jp = "塩辛いスナック菓子は好物"
@@ -20215,16 +19691,8 @@ jp = "新しいスマートフォンを買いたい"
 kana = "あたらしいすまーとふぉんをかいたい"
 
 [[sentences]]
-jp = "図書館で借りた本が面白かった"
-kana = "としょかんでかりたほんがおもしろかった"
-
-[[sentences]]
 jp = "毎日コーヒーを飲むのが習慣です"
 kana = "まいにちこーひーをのむのがしゅうかんです"
-
-[[sentences]]
-jp = "会社の会議は三時間も続いた"
-kana = "かいしゃのかいぎはさんじかんもつづいた"
 
 [[sentences]]
 jp = "子供の頃は毎日外で遊んでいた"
@@ -20257,10 +19725,6 @@ kana = "けーきをふたつにきりわけた"
 [[sentences]]
 jp = "冬の雪景色は本当に美しい"
 kana = "ふゆのゆきけしきはほんとうにうつくしい"
-
-[[sentences]]
-jp = "パスポートを紛失してしまった"
-kana = "ぱすぽーとをふんしつしてしまった"
 
 [[sentences]]
 jp = "医者に風邪だと診断されました"
@@ -20329,10 +19793,6 @@ kana = "にがてなやさいでもたべるようになった"
 [[sentences]]
 jp = "星空がきれいな夜はロマンティック"
 kana = "ほしぞらがきれいなよるはろまんてぃっく"
-
-[[sentences]]
-jp = "台風が近づいているらしい"
-kana = "たいふうがちかづいているらしい"
 
 [[sentences]]
 jp = "ランチにカレーを食べるつもりです"
