@@ -95,7 +95,10 @@ export function SharedReplayLoader({ startGame }: Props) {
 					from === "gameover" ? "/gameover" : from === "stats" ? "/stats" : "/",
 				)
 			}
-			onStartWithGhost={() => startGame(replay.id)}
+			onStartWithGhost={() => {
+				startGame(replay.id);
+				navigate("/play");
+			}}
 		/>
 	);
 }
