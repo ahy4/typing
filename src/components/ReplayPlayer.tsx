@@ -231,7 +231,12 @@ export function ReplayPlayer({ replay, onClose, onStartWithGhost }: Props) {
 	async function handleShare() {
 		const encoded = await encodeReplay(replay);
 		const url = `${window.location.origin}${window.location.pathname}#/replay?r=${encoded}`;
-		await navigator.clipboard.writeText(url);
+		const res = await fetch(
+			`https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`,
+		);
+		if (!res.ok) throw new Error("TinyURL failed");
+		const shortUrl = await res.text();
+		await navigator.clipboard.writeText(shortUrl);
 		setCopied(true);
 		setTimeout(() => setCopied(false), 2000);
 	}
