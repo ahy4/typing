@@ -248,6 +248,8 @@ export function useGameEngine(config: GameConfig) {
 		cancelAnimationFrame(rafRef.current);
 		if (ghostReplayId !== undefined) {
 			userSelectedGhostIdRef.current = ghostReplayId;
+		} else {
+			userSelectedGhostIdRef.current = null;
 		}
 		kpsWindowRef.current.reset();
 		streakRef.current = 0;
