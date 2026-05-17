@@ -14,6 +14,7 @@
  *   --max-islands N          Output at most top-N islands sorted by similarity (default: 60)
  *
  * Output: JSON array of islands sorted by similarity score ascending (most similar first).
+ *   Score = mean normalized Levenshtein distance (dist / max_kana_len) across edges.
  *   Each island is an array of { index, jp, kana } objects. Only islands with 2+ members.
  *   Written to --output file if specified, otherwise to stdout.
  * Exit codes: 0 — always (no similar pairs outputs [])
@@ -88,18 +89,25 @@ for (let i = 0; i < sentences.length; i++) {
 		const d = levenshtein(sentences[i].kana, sentences[j].kana, THRESHOLD);
 		if (d <= THRESHOLD) {
 			union(i, j);
-			edgePairs.push({ i, j, dist: d });
+			// Normalize by max kana length so long near-identical sentences score
+			// lower (more similar) than short sentences with the same raw distance.
+			const maxLen = Math.max(
+				sentences[i].kana.length,
+				sentences[j].kana.length,
+			);
+			const normDist = maxLen > 0 ? d / maxLen : 0;
+			edgePairs.push({ i, j, normDist });
 		}
 	}
 }
 
-// Compute per-island similarity score (mean edge distance; lower = more similar)
+// Compute per-island similarity score (mean normalized edge distance; lower = more similar)
 const islandScore = new Map(); // root -> { sum, count }
-for (const { i, dist } of edgePairs) {
+for (const { i, normDist } of edgePairs) {
 	const r = find(i);
 	if (!islandScore.has(r)) islandScore.set(r, { sum: 0, count: 0 });
 	const s = islandScore.get(r);
-	s.sum += dist;
+	s.sum += normDist;
 	s.count += 1;
 }
 
@@ -119,7 +127,7 @@ for (const [r, entries] of groups) {
 	if (entries.length < 2) continue;
 	if (entries.length > MAX_ISLAND_ENTRIES) continue;
 	const sc = islandScore.get(r);
-	const score = sc ? sc.sum / sc.count : THRESHOLD;
+	const score = sc ? sc.sum / sc.count : 1.0;
 	islands.push({ score, entries });
 }
 
