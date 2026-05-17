@@ -16,6 +16,8 @@ interface Props {
 	lastWrong: boolean;
 	showKeyboard: boolean;
 	onToggleKeyboard: () => void;
+	/** When provided (replay seek), overrides the internally-managed barBaseHealId. */
+	barBaseHealId?: number;
 	/** Optional header above the main area (e.g. replay banner). */
 	header?: ReactNode;
 	/** Replaces the right ghost HP bar (e.g. replay time bar). */
@@ -62,6 +64,7 @@ export function GameScreen({
 	lastWrong,
 	showKeyboard,
 	onToggleKeyboard,
+	barBaseHealId: barBaseHealIdProp,
 	header,
 	rightPanel,
 	footer,
@@ -127,7 +130,7 @@ export function GameScreen({
 
 	// Multi-lap combo bars: track heals completed in the current unbroken combo run
 	const MAX_COMBO_BARS = 16;
-	const [barBaseHealId, setBarBaseHealId] = useState(0);
+	const [internalBarBaseHealId, setBarBaseHealId] = useState(0);
 	const prevComboForBarsRef = useRef(player.combo);
 	useEffect(() => {
 		if (player.combo === 0 && prevComboForBarsRef.current > 0) {
@@ -135,6 +138,7 @@ export function GameScreen({
 		}
 		prevComboForBarsRef.current = player.combo;
 	}, [player.combo, lastHealId]);
+	const barBaseHealId = barBaseHealIdProp ?? internalBarBaseHealId;
 	const currentRunLaps = lastHealId - barBaseHealId;
 	const comboPct = progressToHeal * 100;
 
