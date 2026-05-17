@@ -232,9 +232,9 @@ export function ReplayPlayer({ replay, onClose, onStartWithGhost }: Props) {
 		const encoded = await encodeReplay(replay);
 		const url = `${window.location.origin}${window.location.pathname}#/replay?r=${encoded}`;
 		const res = await fetch(
-			`https://is.gd/create.php?format=simple&url=${encodeURIComponent(url)}`,
+			`https://tinyurl.com/api-create.php?url=${encodeURIComponent(url)}`,
 		);
-		if (!res.ok) throw new Error("is.gd failed");
+		if (!res.ok) throw new Error("TinyURL failed");
 		const shortUrl = await res.text();
 		await navigator.clipboard.writeText(shortUrl);
 		setCopied(true);
